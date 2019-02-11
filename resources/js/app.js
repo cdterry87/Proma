@@ -6,9 +6,10 @@ Vue.use(VueRouter)
 import Vuetify from 'vuetify'
 Vue.use(Vuetify)
 
-import Login from './views/Login'
-import Register from './views/Register'
-import Home from './views/Home'
+import App from './components/App'
+import Login from './components/Login'
+import Register from './components/Register'
+import Home from './components/Home'
 
 const router = new VueRouter({
     mode: 'history',
@@ -33,5 +34,6 @@ const router = new VueRouter({
 
 const app = new Vue({
     el: '#app',
+    components: { App },
     router,
 });

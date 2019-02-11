@@ -1,5 +1,3 @@
-import 'vuetify/dist/vuetify.min.css'
-
 window._ = require('lodash');
 
 /**
