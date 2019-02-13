@@ -1,25 +1,34 @@
 <template>
     <v-app>
-        <v-toolbar app color="indigo darken-3" text-color="white" id="toolbar">
-            <router-link :to="'/'"><v-toolbar-title v-text="title"></v-toolbar-title></router-link>
-        </v-toolbar>
-        <v-content>
-            <v-container fluid>
-                <router-view/>
+        <Login v-if="!loggedIn" />
+        <div v-else>
+            <v-toolbar app dark color="primary" text-color="white" id="toolbar">
+                <router-link :to="'/'"><v-toolbar-title v-text="title"></v-toolbar-title></router-link>
+            </v-toolbar>
+            <v-content>
+                <v-container fluid>
+                    <router-view/>
 
-                <div id="copyright">Chase Terry &copy; 2019</div>
-            </v-container>
-        </v-content>
+                    <div id="copyright">Chase Terry &copy; 2019</div>
+                </v-container>
+            </v-content>
+        </div>
     </v-app>
 </template>
 
 <script>
+import Login from './Login';
+
 export default {
     name: 'App',
     data () {
         return {
-            title: 'Proma'
+            title: 'Proma',
+            loggedIn: true,
         }
+    },
+    components: {
+        Login
     }
 }
 </script>
