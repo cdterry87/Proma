@@ -120,7 +120,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       title: 'Proma',
-      loggedIn: true
+      loggedIn: false
     };
   },
   components: {
@@ -174,13 +174,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'Login',
   data: function data() {
     return {
-      drawer: null
+      email: "",
+      password: ""
     };
   },
-  props: {
-    source: String
+  methods: {
+    login: function login(e) {
+      var _this = this;
+
+      e.preventDefault();
+
+      if (this.password.length > 0) {
+        axios.post('api/login', {
+          email: this.email,
+          password: this.password
+        }).then(function (response) {
+          localStorage.setItem('user', response.data.success.name);
+          localStorage.setItem('jwt', response.data.success.token);
+
+          if (localStorage.getItem('jwt') != null) {
+            _this.$router.go('/board');
+          }
+        }).catch(function (error) {
+          console.error(error);
+        });
+      }
+    }
+  },
+  beforeRouteEnter: function beforeRouteEnter(to, from, next) {
+    if (localStorage.getItem('jwt')) {
+      return next('board');
+    }
+
+    next();
   }
 });
 
@@ -1402,7 +1431,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-app",
-    { attrs: { id: "inspire" } },
     [
       _c(
         "v-content",
@@ -1426,7 +1454,7 @@ var render = function() {
                           _c(
                             "v-toolbar",
                             { attrs: { dark: "", color: "primary" } },
-                            [_c("v-toolbar-title", [_vm._v("Login")])],
+                            [_c("v-toolbar-title", [_vm._v("Proma - Login")])],
                             1
                           ),
                           _vm._v(" "),
@@ -1435,12 +1463,13 @@ var render = function() {
                             [
                               _c(
                                 "v-form",
+                                { attrs: { action: "/login", method: "POST" } },
                                 [
                                   _c("v-text-field", {
                                     attrs: {
-                                      "prepend-icon": "person",
-                                      name: "username",
-                                      label: "Username",
+                                      "prepend-icon": "email",
+                                      name: "email",
+                                      label: "Email address",
                                       type: "text"
                                     }
                                   }),

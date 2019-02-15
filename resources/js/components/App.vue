@@ -24,7 +24,7 @@ export default {
     data () {
         return {
             title: 'Proma',
-            loggedIn: true,
+            loggedIn: false,
         }
     },
     components: {

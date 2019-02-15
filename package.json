@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "css-loader": "^2.1.0",
+        "material-icons": "^0.3.0",
         "vue-router": "^3.0.2",
         "vuetify": "^1.5.0"
     }
