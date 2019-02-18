@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProjectsCategoriesTasksTable extends Migration
+class CreateUsersProjectsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateProjectsCategoriesTasksTable extends Migration
      */
     public function up()
     {
-        Schema::create('projects_categories_tasks', function (Blueprint $table) {
+        Schema::create('users_projects', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('project_category_id');
-            $table->unsignedInteger('task_order')->index();
-            $table->string('name', 100)->index();
-            $table->text('description')->nullable();
+            $table->unsignedInteger('user_id')->index();
+            $table->unsignedInteger('project_id')->index();
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateProjectsCategoriesTasksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('projects_categories_tasks');
+        Schema::dropIfExists('users_projects');
     }
 }
