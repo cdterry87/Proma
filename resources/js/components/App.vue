@@ -1,34 +1,24 @@
 <template>
     <v-app>
-        <Login v-if="!loggedIn" />
-        <div v-else>
-            <v-toolbar app dark color="primary" text-color="white" id="toolbar">
-                <router-link :to="'/'"><v-toolbar-title v-text="title"></v-toolbar-title></router-link>
-            </v-toolbar>
-            <v-content>
-                <v-container fluid>
-                    <router-view/>
-
-                    <div id="copyright">Chase Terry &copy; 2019</div>
-                </v-container>
-            </v-content>
-        </div>
+        <Home v-if="loggedIn" />
+        <Login v-else />
     </v-app>
 </template>
 
 <script>
 import Login from './Login';
+import Home from './Home';
 
 export default {
     name: 'App',
     data () {
         return {
-            title: 'Proma',
-            loggedIn: false,
+            loggedIn: true,
         }
     },
     components: {
-        Login
+        Login,
+        Home
     }
 }
 </script>
