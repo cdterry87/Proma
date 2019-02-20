@@ -10,6 +10,9 @@ import App from './components/App'
 import Login from './components/Login'
 import Register from './components/Register'
 import Home from './components/Home'
+import Team from './components/Team'
+import Client from './components/Client'
+import Project from './components/Project'
 
 const router = new VueRouter({
     mode: 'history',
@@ -28,6 +31,21 @@ const router = new VueRouter({
             path: '/register',
             name: 'register',
             component: Register,
+        },
+        {
+            path: '/project',
+            name: 'project',
+            component: Project,
+        },
+        {
+            path: '/team',
+            name: 'team',
+            component: Team,
+        },
+        {
+            path: '/client',
+            name: 'client',
+            component: Client,
         },
     ],
 });
