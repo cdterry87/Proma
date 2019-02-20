@@ -231,6 +231,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Home",
   data: function data() {
@@ -238,54 +241,20 @@ __webpack_require__.r(__webpack_exports__);
       dialog: false,
       drawer: null,
       items: [{
-        icon: "contacts",
-        text: "Contacts"
+        icon: "person",
+        text: "Clients"
       }, {
-        icon: "history",
-        text: "Frequently contacted"
+        icon: "people",
+        text: "Team"
       }, {
-        icon: "content_copy",
-        text: "Duplicates"
-      }, {
-        icon: "keyboard_arrow_up",
-        "icon-alt": "keyboard_arrow_down",
-        text: "Labels",
-        model: true,
-        children: [{
-          icon: "add",
-          text: "Create label"
-        }]
-      }, {
-        icon: "keyboard_arrow_up",
-        "icon-alt": "keyboard_arrow_down",
-        text: "More",
-        model: false,
-        children: [{
-          text: "Import"
-        }, {
-          text: "Export"
-        }, {
-          text: "Print"
-        }, {
-          text: "Undo changes"
-        }, {
-          text: "Other contacts"
-        }]
+        icon: "view_week",
+        text: "Projects"
       }, {
         icon: "settings",
         text: "Settings"
       }, {
-        icon: "chat_bubble",
-        text: "Send feedback"
-      }, {
         icon: "help",
         text: "Help"
-      }, {
-        icon: "phonelink",
-        text: "App downloads"
-      }, {
-        icon: "keyboard",
-        text: "Go to the old version"
       }]
     };
   },
@@ -1750,6 +1719,13 @@ var render = function() {
             "v-btn",
             { attrs: { icon: "" } },
             [_c("v-icon", [_vm._v("notifications")])],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            { attrs: { icon: "" } },
+            [_c("v-icon", [_vm._v("account_circle")])],
             1
           )
         ],
