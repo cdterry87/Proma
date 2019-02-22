@@ -13,6 +13,7 @@ import Home from './components/Home'
 import Team from './components/Team'
 import Client from './components/Client'
 import Project from './components/Project'
+import Projects from './components/Projects'
 
 const router = new VueRouter({
     mode: 'history',
@@ -20,7 +21,7 @@ const router = new VueRouter({
         {
             path: '/',
             name: 'home',
-            component: Home
+            component: Projects
         },
         {
             path: '/login',

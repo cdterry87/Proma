@@ -1,17 +1,13 @@
 <template>
-    <v-app>
-        <v-content>
-            <v-container fluid fill-height>
-                <v-layout justify-center align-center>
-                    Welcome to the Team Page
-                </v-layout>
-            </v-container>
-        </v-content>
-    </v-app>
+    <v-container fluid fill-height>
+        <v-layout justify-center align-center>
+            Welcome to the Teams Page
+        </v-layout>
+    </v-container>
 </template>
 
 <script>
 export default {
-    name: 'Team'
+    name: 'Teams'
 }
 </script>
