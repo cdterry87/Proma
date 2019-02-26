@@ -17,7 +17,6 @@
                 <v-btn flat @click="dialog = false">Save</v-btn>
                 <v-btn flat color="primary" @click="dialog = false">Cancel</v-btn>
                 <v-spacer></v-spacer>
-
             </v-card-actions>
         </v-card>
     </v-dialog>

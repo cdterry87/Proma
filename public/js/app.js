@@ -154,7 +154,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ClientCreate',
   props: ['dialog']
@@ -171,6 +170,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Client_Create__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Client/Create */ "./resources/js/components/Client/Create.vue");
 //
 //
 //
@@ -179,8 +179,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'Clients'
+  name: 'Clients',
+  components: {
+    ClientCreate: _Client_Create__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      dialog: false
+    };
+  }
 });
 
 /***/ }),
@@ -195,8 +211,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Navigation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Navigation */ "./resources/js/components/Navigation.vue");
-/* harmony import */ var _Team_Create__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Team/Create */ "./resources/js/components/Team/Create.vue");
-/* harmony import */ var _Client_Create__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Client/Create */ "./resources/js/components/Client/Create.vue");
 //
 //
 //
@@ -206,23 +220,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Home",
   components: {
-    Navigation: _Navigation__WEBPACK_IMPORTED_MODULE_0__["default"],
-    TeamCreate: _Team_Create__WEBPACK_IMPORTED_MODULE_1__["default"],
-    ClientCreate: _Client_Create__WEBPACK_IMPORTED_MODULE_2__["default"]
+    Navigation: _Navigation__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   data: function data() {
-    return {
-      dialogTeamCreate: false,
-      dialogClientCreate: false
-    };
+    return {};
   },
   props: {
     source: String
@@ -433,7 +438,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ClientCreate',
   props: ['dialog']
@@ -450,6 +454,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Team_Create__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Team/Create */ "./resources/js/components/Team/Create.vue");
 //
 //
 //
@@ -458,8 +463,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'Teams'
+  name: 'Teams',
+  components: {
+    TeamCreate: _Team_Create__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      dialog: false
+    };
+  }
 });
 
 /***/ }),
@@ -1793,9 +1814,32 @@ var render = function() {
     "v-container",
     { attrs: { fluid: "", "fill-height": "" } },
     [
-      _c("v-layout", { attrs: { "justify-center": "", "align-center": "" } }, [
-        _vm._v("\n        Welcome to the Clients Page\n    ")
-      ])
+      _c(
+        "v-layout",
+        { attrs: { "justify-center": "", "align-center": "" } },
+        [
+          _vm._v("\n        Welcome to the Clients Page\n\n        "),
+          _c(
+            "v-btn",
+            {
+              attrs: { color: "info" },
+              on: {
+                click: function($event) {
+                  _vm.dialog = true
+                }
+              }
+            },
+            [
+              _c("v-icon", { attrs: { left: "", dark: "" } }, [_vm._v("add")]),
+              _vm._v("\n            Add a client\n        ")
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("ClientCreate", { attrs: { dialog: _vm.dialog } })
     ],
     1
   )
@@ -1825,15 +1869,7 @@ var render = function() {
   return _c(
     "v-app",
     { attrs: { id: "inspire" } },
-    [
-      _c("Navigation"),
-      _vm._v(" "),
-      _c("v-content", [_c("router-view")], 1),
-      _vm._v(" "),
-      _c("TeamCreate", { attrs: { dialog: _vm.dialogTeamCreate } }),
-      _vm._v(" "),
-      _c("ClientCreate", { attrs: { dialog: _vm.dialogClientCreate } })
-    ],
+    [_c("Navigation"), _vm._v(" "), _c("v-content", [_c("router-view")], 1)],
     1
   )
 }
@@ -2274,9 +2310,32 @@ var render = function() {
     "v-container",
     { attrs: { fluid: "", "fill-height": "" } },
     [
-      _c("v-layout", { attrs: { "justify-center": "", "align-center": "" } }, [
-        _vm._v("\n        Welcome to the Teams Page\n    ")
-      ])
+      _c(
+        "v-layout",
+        { attrs: { "justify-center": "", "align-center": "" } },
+        [
+          _vm._v("\n        Welcome to the Teams Page\n\n        "),
+          _c(
+            "v-btn",
+            {
+              attrs: { color: "info" },
+              on: {
+                click: function($event) {
+                  _vm.dialog = true
+                }
+              }
+            },
+            [
+              _c("v-icon", { attrs: { left: "", dark: "" } }, [_vm._v("add")]),
+              _vm._v("\n            Create a team\n        ")
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("TeamCreate", { attrs: { dialog: _vm.dialog } })
     ],
     1
   )
