@@ -171,8 +171,26 @@ __webpack_require__.r(__webpack_exports__);
     return {
       dialog: false,
       name: '',
-      description: ''
+      description: '',
+      clients: []
     };
+  },
+  methods: {
+    create: function create() {
+      var _this = this;
+
+      var user_id = 1;
+      var name = this.name;
+      var description = this.description;
+      axios.post('api/clients', {
+        user_id: user_id,
+        name: name,
+        description: description
+      }).then(function (response) {
+        _this.clients.push(response.data.data);
+      });
+      this.dialog = false;
+    }
   }
 });
 
@@ -1750,14 +1768,7 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-btn",
-                    {
-                      attrs: { flat: "" },
-                      on: {
-                        click: function($event) {
-                          _vm.dialog = false
-                        }
-                      }
-                    },
+                    { attrs: { flat: "" }, on: { click: _vm.create } },
                     [_vm._v("Save")]
                   ),
                   _vm._v(" "),

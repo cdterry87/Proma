@@ -24,7 +24,7 @@
                 </v-container>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn flat @click="dialog = false">Save</v-btn>
+                    <v-btn flat @click="create">Save</v-btn>
                     <v-btn flat color="primary" @click="dialog = false">Cancel</v-btn>
                     <v-spacer></v-spacer>
                 </v-card-actions>
@@ -40,7 +40,22 @@ export default {
         return {
             dialog: false,
             name: '',
-            description: ''
+            description: '',
+            clients: []
+        }
+    },
+    methods: {
+        create() {
+            let user_id = 1;
+            let name = this.name;
+            let description = this.description;
+
+            axios.post('api/clients', { user_id, name, description } )
+            .then(response => {
+                this.clients.push(response.data.data)
+            })
+
+            this.dialog = false;
         }
     }
 }
