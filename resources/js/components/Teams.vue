@@ -8,19 +8,33 @@
                 Create a team
             </v-btn>
         </v-layout>
-
-        <TeamCreate :dialog="dialog" />
+        <v-dialog v-model="dialog" width="500">
+            <v-card>
+                <v-card-title class="grey lighten-4 py-4 title">Create Team</v-card-title>
+                <v-container grid-list-sm class="pa-4">
+                    <v-layout row wrap>
+                        <v-flex xs12>
+                            <v-text-field prepend-icon="people" label="Team Name"></v-text-field>
+                        </v-flex>
+                        <v-flex xs12>
+                            <v-textarea prepend-icon="notes" label="Description"></v-textarea>
+                        </v-flex>
+                    </v-layout>
+                </v-container>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn flat @click="dialog = false">Save</v-btn>
+                    <v-btn flat color="primary" @click="dialog = false">Cancel</v-btn>
+                    <v-spacer></v-spacer>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-container>
 </template>
 
 <script>
-import TeamCreate from './Team/Create';
-
 export default {
     name: 'Teams',
-    components: {
-        TeamCreate
-    },
     data() {
         return {
             dialog: false,
