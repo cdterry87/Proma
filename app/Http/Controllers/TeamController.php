@@ -14,17 +14,7 @@ class TeamController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json(Team::all()->toArray());
     }
 
     /**
@@ -35,7 +25,17 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $team = Team::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'user_id' => $request->user_id,
+        ]);
+
+        return response()->json([
+            'status' => (bool)$team,
+            'data' => $team,
+            'message' => $team ? 'Team created successfully!' : 'Error adding team!'
+        ]);
     }
 
     /**
@@ -46,18 +46,7 @@ class TeamController extends Controller
      */
     public function show(Team $team)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Team  $team
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Team $team)
-    {
-        //
+        return response()->json($team);
     }
 
     /**
@@ -69,7 +58,14 @@ class TeamController extends Controller
      */
     public function update(Request $request, Team $team)
     {
-        //
+        $status = $team->update(
+            $request->only(['name', 'description', 'user_id'])
+        );
+
+        return response()->json([
+            'status' => $status,
+            'message' => $status ? 'Team updated successfully!' : 'Error updating team!'
+        ]);
     }
 
     /**
@@ -80,6 +76,11 @@ class TeamController extends Controller
      */
     public function destroy(Team $team)
     {
-        //
+        $status = $team->delete();
+
+        return response()->json([
+            'status' => $status,
+            'message' => $status ? 'Team deleted successfully!' : 'Error deleting team!'
+        ]);
     }
 }

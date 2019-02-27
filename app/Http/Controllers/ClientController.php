@@ -14,17 +14,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json(Client::all()->toArray());
     }
 
     /**
@@ -35,7 +25,17 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $client = Client::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'user_id' => $request->user_id,
+        ]);
+
+        return response()->json([
+            'status' => (bool)$client,
+            'data' => $client,
+            'message' => $client ? 'Client created successfully!' : 'Error adding client!'
+        ]);
     }
 
     /**
@@ -46,18 +46,7 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Client  $client
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Client $client)
-    {
-        //
+        return response()->json($client);
     }
 
     /**
@@ -69,7 +58,14 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $client)
     {
-        //
+        $status = $client->update(
+            $request->only(['name', 'description', 'user_id'])
+        );
+
+        return response()->json([
+            'status' => $status,
+            'message' => $status ? 'Client updated successfully!' : 'Error updating client!'
+        ]);
     }
 
     /**
@@ -80,6 +76,11 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        //
+        $status = $client->delete();
+
+        return response()->json([
+            'status' => $status,
+            'message' => $status ? 'Client deleted successfully!' : 'Error deleting task!'
+        ]);
     }
 }

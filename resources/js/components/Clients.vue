@@ -15,10 +15,10 @@
                 <v-container grid-list-sm class="pa-4">
                     <v-layout row wrap>
                         <v-flex xs12>
-                            <v-text-field prepend-icon="business" label="Client Name"></v-text-field>
+                            <v-text-field prepend-icon="business" label="Client Name" v-model="name"></v-text-field>
                         </v-flex>
                         <v-flex xs12>
-                            <v-textarea prepend-icon="notes" label="Description"></v-textarea>
+                            <v-textarea prepend-icon="notes" label="Description" v-model="description"></v-textarea>
                         </v-flex>
                     </v-layout>
                 </v-container>
@@ -39,6 +39,8 @@ export default {
     data() {
         return {
             dialog: false,
+            name: '',
+            description: ''
         }
     }
 }

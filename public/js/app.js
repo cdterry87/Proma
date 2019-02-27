@@ -169,7 +169,9 @@ __webpack_require__.r(__webpack_exports__);
   name: 'Clients',
   data: function data() {
     return {
-      dialog: false
+      dialog: false,
+      name: '',
+      description: ''
     };
   }
 });
@@ -1701,6 +1703,13 @@ var render = function() {
                             attrs: {
                               "prepend-icon": "business",
                               label: "Client Name"
+                            },
+                            model: {
+                              value: _vm.name,
+                              callback: function($$v) {
+                                _vm.name = $$v
+                              },
+                              expression: "name"
                             }
                           })
                         ],
@@ -1715,6 +1724,13 @@ var render = function() {
                             attrs: {
                               "prepend-icon": "notes",
                               label: "Description"
+                            },
+                            model: {
+                              value: _vm.description,
+                              callback: function($$v) {
+                                _vm.description = $$v
+                              },
+                              expression: "description"
                             }
                           })
                         ],

@@ -14,17 +14,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json(Project::all()->toArray());
     }
 
     /**
@@ -35,7 +25,18 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $project = Project::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'client_id' => $request->client_id,
+            'team_id' => $request->team_id,
+        ]);
+
+        return response()->json([
+            'status' => (bool)$project,
+            'data' => $project,
+            'message' => $project ? 'Project created successfully!' : 'Error adding project!'
+        ]);
     }
 
     /**
@@ -46,18 +47,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Project  $project
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Project $project)
-    {
-        //
+        return response()->json($project);
     }
 
     /**
@@ -69,7 +59,14 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        $status = $project->update(
+            $request->only(['name', 'description', 'client_id', 'team_id'])
+        );
+
+        return response()->json([
+            'status' => $status,
+            'message' => $status ? 'Project updated successfully!' : 'Error updating project!'
+        ]);
     }
 
     /**
@@ -80,6 +77,11 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $status = $project->delete();
+
+        return response()->json([
+            'status' => $status,
+            'message' => $status ? 'Project deleted successfully!' : 'Error deleting project!'
+        ]);
     }
 }
