@@ -69,18 +69,14 @@ export default {
     }),
     methods : {
         login(e) {
-            console.log('logging in...');
             e.preventDefault();
-
-            console.log('checking password length');
             if (this.password.length > 0) {
-                console.log('password length good');
+                // Need to install laravel passport and setup User model
                 axios.post('api/login', {
                     email: this.email,
                     password: this.password
                 })
                 .then(response => {
-                    console.log('receiving a response!');
                     localStorage.setItem('user',response.data.success.name)
                     localStorage.setItem('jwt',response.data.success.token)
 
@@ -92,7 +88,6 @@ export default {
                     console.error(error);
                 });
             }
-            console.log('finished logging in');
         },
         register(e) {
             e.preventDefault()
@@ -101,7 +96,6 @@ export default {
                     name: this.name,
                     email: this.email,
                     password: this.password,
-                    c_password : this.password_confirmation
                 })
                 .then(response => {
                     localStorage.setItem('user',response.data.success.name)
@@ -116,7 +110,7 @@ export default {
                 });
             } else {
                 this.password = ""
-                this.passwordConfirm = ""
+                this.password_confirmation = ""
 
                 return alert('Passwords do not match')
             }

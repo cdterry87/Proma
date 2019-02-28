@@ -1981,17 +1981,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     login: function login(e) {
-      console.log('logging in...');
       e.preventDefault();
-      console.log('checking password length');
 
       if (this.password.length > 0) {
-        console.log('password length good');
+        // Need to install laravel passport and setup User model
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('api/login', {
           email: this.email,
           password: this.password
         }).then(function (response) {
-          console.log('receiving a response!');
           localStorage.setItem('user', response.data.success.name);
           localStorage.setItem('jwt', response.data.success.token);
 
@@ -2001,8 +1998,6 @@ __webpack_require__.r(__webpack_exports__);
           console.error(error);
         });
       }
-
-      console.log('finished logging in');
     },
     register: function register(e) {
       e.preventDefault();
@@ -2011,8 +2006,7 @@ __webpack_require__.r(__webpack_exports__);
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('api/register', {
           name: this.name,
           email: this.email,
-          password: this.password,
-          c_password: this.password_confirmation
+          password: this.password
         }).then(function (response) {
           localStorage.setItem('user', response.data.success.name);
           localStorage.setItem('jwt', response.data.success.token);
@@ -2024,7 +2018,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else {
         this.password = "";
-        this.passwordConfirm = "";
+        this.password_confirmation = "";
         return alert('Passwords do not match');
       }
     }
@@ -44698,6 +44692,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     component: _components_Clients__WEBPACK_IMPORTED_MODULE_5__["default"]
   }]
 });
+var eventBus = new vue__WEBPACK_IMPORTED_MODULE_0___default.a();
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   components: {
