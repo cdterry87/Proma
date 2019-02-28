@@ -268,12 +268,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'Login',
   data: function data() {
     return {
-      email: "",
-      password: ""
+      tabs: 'tab-login',
+      name: '',
+      email: '',
+      password: '',
+      password_confirmation: ''
     };
   },
   methods: {
@@ -297,7 +329,8 @@ __webpack_require__.r(__webpack_exports__);
           console.error(error);
         });
       }
-    }
+    },
+    register: function register(e) {}
   },
   beforeRouteEnter: function beforeRouteEnter(to, from, next) {
     if (localStorage.getItem('jwt')) {
@@ -1866,59 +1899,217 @@ var render = function() {
                 [
                   _c(
                     "v-flex",
-                    { attrs: { xs12: "", sm8: "", md4: "" } },
+                    { attrs: { xs12: "", sm8: "", md5: "" } },
                     [
                       _c(
                         "v-card",
-                        { staticClass: "elevation-12" },
                         [
                           _c(
                             "v-toolbar",
-                            { attrs: { dark: "", color: "primary" } },
-                            [_c("v-toolbar-title", [_vm._v("Proma - Login")])],
+                            { attrs: { color: "primary", dark: "" } },
+                            [_c("v-toolbar-title", [_vm._v("Proma")])],
                             1
                           ),
                           _vm._v(" "),
                           _c(
-                            "v-card-text",
+                            "v-tabs",
+                            {
+                              attrs: {
+                                "fixed-tabs": "",
+                                centered: "",
+                                "slider-color": "primary"
+                              },
+                              model: {
+                                value: _vm.tabs,
+                                callback: function($$v) {
+                                  _vm.tabs = $$v
+                                },
+                                expression: "tabs"
+                              }
+                            },
                             [
+                              _c("v-tab", { attrs: { href: "#tab-login" } }, [
+                                _vm._v("Login")
+                              ]),
+                              _vm._v(" "),
                               _c(
-                                "v-form",
-                                { attrs: { action: "/login", method: "POST" } },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      "prepend-icon": "email",
-                                      name: "email",
-                                      label: "Email address",
-                                      type: "text"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      id: "password",
-                                      "prepend-icon": "lock",
-                                      name: "password",
-                                      label: "Password",
-                                      type: "password"
-                                    }
-                                  })
-                                ],
-                                1
+                                "v-tab",
+                                { attrs: { href: "#tab-register" } },
+                                [_vm._v("Register")]
                               )
                             ],
                             1
                           ),
                           _vm._v(" "),
                           _c(
-                            "v-card-actions",
+                            "v-tabs-items",
+                            {
+                              model: {
+                                value: _vm.tabs,
+                                callback: function($$v) {
+                                  _vm.tabs = $$v
+                                },
+                                expression: "tabs"
+                              }
+                            },
                             [
-                              _c("v-spacer"),
+                              _c(
+                                "v-tab-item",
+                                { attrs: { value: "tab-login" } },
+                                [
+                                  _c(
+                                    "v-card",
+                                    { attrs: { flat: "" } },
+                                    [
+                                      _c(
+                                        "v-card-text",
+                                        [
+                                          _c(
+                                            "v-form",
+                                            {
+                                              attrs: {
+                                                action: "/login",
+                                                method: "POST"
+                                              }
+                                            },
+                                            [
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  "prepend-icon": "email",
+                                                  name: "email",
+                                                  label: "Email address",
+                                                  type: "text"
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  id: "password",
+                                                  "prepend-icon": "lock",
+                                                  name: "password",
+                                                  label: "Password",
+                                                  type: "password"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-card-actions",
+                                        [
+                                          _c("v-spacer"),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-btn",
+                                            { attrs: { color: "primary" } },
+                                            [_vm._v("Login")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("v-spacer")
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
                               _vm._v(" "),
-                              _c("v-btn", { attrs: { color: "primary" } }, [
-                                _vm._v("Login")
-                              ])
+                              _c(
+                                "v-tab-item",
+                                { attrs: { value: "tab-register" } },
+                                [
+                                  _c(
+                                    "v-card",
+                                    { attrs: { flat: "" } },
+                                    [
+                                      _c(
+                                        "v-card-text",
+                                        [
+                                          _c(
+                                            "v-card-text",
+                                            [
+                                              _c(
+                                                "v-form",
+                                                {
+                                                  attrs: {
+                                                    action: "/login",
+                                                    method: "POST"
+                                                  }
+                                                },
+                                                [
+                                                  _c("v-text-field", {
+                                                    attrs: {
+                                                      "prepend-icon": "person",
+                                                      name: "name",
+                                                      label: "Full Name",
+                                                      type: "text"
+                                                    }
+                                                  }),
+                                                  _vm._v(" "),
+                                                  _c("v-text-field", {
+                                                    attrs: {
+                                                      "prepend-icon": "email",
+                                                      name: "email",
+                                                      label: "Email address",
+                                                      type: "text"
+                                                    }
+                                                  }),
+                                                  _vm._v(" "),
+                                                  _c("v-text-field", {
+                                                    attrs: {
+                                                      "prepend-icon": "lock",
+                                                      name: "password",
+                                                      label: "Password",
+                                                      type: "password"
+                                                    }
+                                                  }),
+                                                  _vm._v(" "),
+                                                  _c("v-text-field", {
+                                                    attrs: {
+                                                      "prepend-icon": "lock",
+                                                      name:
+                                                        "password_confirmation",
+                                                      label: "Confirm Password",
+                                                      type: "password"
+                                                    }
+                                                  })
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-card-actions",
+                                            [
+                                              _c("v-spacer"),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-btn",
+                                                { attrs: { color: "primary" } },
+                                                [_vm._v("Register")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("v-spacer")
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
                             ],
                             1
                           )
