@@ -110,7 +110,7 @@ __webpack_require__.r(__webpack_exports__);
   name: 'App',
   data: function data() {
     return {
-      loggedIn: true
+      loggedIn: false
     };
   },
   components: {
@@ -291,7 +291,7 @@ __webpack_require__.r(__webpack_exports__);
           localStorage.setItem('jwt', response.data.success.token);
 
           if (localStorage.getItem('jwt') != null) {
-            _this.$router.go('/board');
+            _this.$router.go('home');
           }
         }).catch(function (error) {
           console.error(error);
@@ -301,7 +301,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   beforeRouteEnter: function beforeRouteEnter(to, from, next) {
     if (localStorage.getItem('jwt')) {
-      return next('board');
+      return next('home');
     }
 
     next();

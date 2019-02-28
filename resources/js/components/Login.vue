@@ -49,7 +49,7 @@ export default {
                     localStorage.setItem('jwt',response.data.success.token)
 
                     if (localStorage.getItem('jwt') != null){
-                        this.$router.go('/board')
+                        this.$router.go('home')
                     }
                 })
                 .catch(function (error) {
@@ -60,7 +60,7 @@ export default {
     },
     beforeRouteEnter (to, from, next) {
         if (localStorage.getItem('jwt')) {
-            return next('board');
+            return next('home');
         }
         next();
     }

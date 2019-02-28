@@ -13,7 +13,7 @@ export default {
     name: 'App',
     data () {
         return {
-            loggedIn: true,
+            loggedIn: false,
         }
     },
     components: {
