@@ -17,13 +17,13 @@
                                     <v-card flat>
                                         <v-card-text>
                                             <v-form action="/login" method="POST">
-                                                <v-text-field prepend-icon="email" name="email" label="Email address" type="text"></v-text-field>
-                                                <v-text-field id="password" prepend-icon="lock" name="password" label="Password" type="password" ></v-text-field>
+                                                <v-text-field prepend-icon="email" v-model="email" name="email" label="Email address" type="text"></v-text-field>
+                                                <v-text-field prepend-icon="lock" v-model="password" name="password" label="Password" type="password" ></v-text-field>
                                             </v-form>
                                         </v-card-text>
                                         <v-card-actions>
                                             <v-spacer></v-spacer>
-                                            <v-btn color="primary">Login</v-btn>
+                                            <v-btn color="primary" @click="login">Login</v-btn>
                                             <v-spacer></v-spacer>
                                         </v-card-actions>
                                     </v-card>
@@ -33,15 +33,15 @@
                                         <v-card-text>
                                             <v-card-text>
                                                 <v-form action="/login" method="POST">
-                                                    <v-text-field prepend-icon="person" name="name" label="Full Name" type="text"></v-text-field>
-                                                    <v-text-field prepend-icon="email" name="email" label="Email address" type="text"></v-text-field>
-                                                    <v-text-field prepend-icon="lock" name="password" label="Password" type="password" ></v-text-field>
-                                                    <v-text-field prepend-icon="lock" name="password_confirmation" label="Confirm Password" type="password" ></v-text-field>
+                                                    <v-text-field prepend-icon="person" v-model="name" name="name" label="Full Name" type="text"></v-text-field>
+                                                    <v-text-field prepend-icon="email" v-model="email" name="email" label="Email address" type="text"></v-text-field>
+                                                    <v-text-field prepend-icon="lock" v-model="password" name="password" label="Password" type="password" ></v-text-field>
+                                                    <v-text-field prepend-icon="lock" v-model="password_confirmation" name="password_confirmation" label="Confirm Password" type="password" ></v-text-field>
                                                 </v-form>
                                             </v-card-text>
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
-                                                <v-btn color="primary">Register</v-btn>
+                                                <v-btn color="primary"  @click="register">Register</v-btn>
                                                 <v-spacer></v-spacer>
                                             </v-card-actions>
                                         </v-card-text>
@@ -57,6 +57,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     data: () => ({
         tabs: 'tab-login',
@@ -67,33 +69,62 @@ export default {
     }),
     methods : {
         login(e) {
+            console.log('logging in...');
             e.preventDefault();
 
+            console.log('checking password length');
             if (this.password.length > 0) {
+                console.log('password length good');
                 axios.post('api/login', {
                     email: this.email,
                     password: this.password
                 })
                 .then(response => {
+                    console.log('receiving a response!');
                     localStorage.setItem('user',response.data.success.name)
                     localStorage.setItem('jwt',response.data.success.token)
 
                     if (localStorage.getItem('jwt') != null){
-                        this.$router.go('home')
+                        // emit event to set loggedIn = true
                     }
                 })
                 .catch(function (error) {
                     console.error(error);
                 });
             }
+            console.log('finished logging in');
         },
         register(e) {
+            e.preventDefault()
+            if (this.password === this.password_confirmation && this.password.length > 0) {
+                axios.post('api/register', {
+                    name: this.name,
+                    email: this.email,
+                    password: this.password,
+                    c_password : this.password_confirmation
+                })
+                .then(response => {
+                    localStorage.setItem('user',response.data.success.name)
+                    localStorage.setItem('jwt',response.data.success.token)
 
+                    if (localStorage.getItem('jwt') != null){
+                        // emit an event to set loggedIn = true
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            } else {
+                this.password = ""
+                this.passwordConfirm = ""
+
+                return alert('Passwords do not match')
+            }
         }
     },
     beforeRouteEnter (to, from, next) {
         if (localStorage.getItem('jwt')) {
-            return next('home');
+            // emit event to set loggedIn = true
         }
         next();
     }
