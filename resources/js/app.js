@@ -32,8 +32,6 @@ const router = new VueRouter({
     ],
 });
 
-const eventBus = new Vue();
-
 const app = new Vue({
     el: '#app',
     components: { App },

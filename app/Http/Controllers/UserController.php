@@ -34,7 +34,9 @@ class UserController extends Controller
         ]);
 
         if ($validate->fails()) {
-            return response()->json(['error' => $validate->errors()], 401);
+            $errorString = implode("<br>", $validate->messages()->all());
+
+            return response()->json(['error' => $errorString], 401);
         }
 
         $data = $request->all();

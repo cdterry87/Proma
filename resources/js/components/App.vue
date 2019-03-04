@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import eventBus from './../events';
 import Login from './Login';
 import Home from './Home';
 
@@ -19,6 +20,16 @@ export default {
     components: {
         Login,
         Home
+    },
+    mounted() {
+        eventBus.$on('login', userData => {
+            console.log('login event accepted');
+            this.loggedIn = false;
+            if (!_.isEmpty(userData.jwt)) {
+                this.loggedIn = true;
+            }
+            console.log('loggedIn: ' + this.loggedIn);
+        })
     }
 }
 </script>

@@ -16,6 +16,8 @@
                                 <v-tab-item :value="'tab-login'">
                                     <v-card flat>
                                         <v-card-text>
+                                            <v-alert :value="loginErrors.length > 0" v-html="loginErrors" type="error"></v-alert>
+                                            <br>
                                             <v-form action="/login" method="POST">
                                                 <v-text-field prepend-icon="email" v-model="email" name="email" label="Email address" type="text"></v-text-field>
                                                 <v-text-field prepend-icon="lock" v-model="password" name="password" label="Password" type="password" ></v-text-field>
@@ -32,6 +34,8 @@
                                     <v-card flat>
                                         <v-card-text>
                                             <v-card-text>
+                                                <v-alert :value="registerErrors.length > 0" v-html="registerErrors" type="error"></v-alert>
+                                                <br>
                                                 <v-form action="/login" method="POST">
                                                     <v-text-field prepend-icon="person" v-model="name" name="name" label="Full Name" type="text"></v-text-field>
                                                     <v-text-field prepend-icon="email" v-model="email" name="email" label="Email address" type="text"></v-text-field>
@@ -57,6 +61,7 @@
 </template>
 
 <script>
+import eventBus from './../events';
 import axios from 'axios';
 
 export default {
@@ -65,54 +70,65 @@ export default {
         name: '',
         email: '',
         password: '',
-        password_confirmation: ''
+        password_confirmation: '',
+        loginErrors: '',
+        registerErrors: '',
     }),
     methods : {
         login(e) {
             e.preventDefault();
             if (this.password.length > 0) {
-                // Need to install laravel passport and setup User model
+                var self = this;
                 axios.post('api/login', {
                     email: this.email,
                     password: this.password
                 })
                 .then(response => {
-                    localStorage.setItem('user',response.data.success.name)
                     localStorage.setItem('jwt',response.data.success.token)
 
+                    let userData = {
+                        jwt: response.data.success.token,
+                    }
+
                     if (localStorage.getItem('jwt') != null){
-                        // emit event to set loggedIn = true
+                        eventBus.$emit('login', userData);
                     }
                 })
                 .catch(function (error) {
-                    console.error(error);
+                    console.log(error);
+                    self.loginErrors = error.response.data.error;
                 });
             }
         },
         register(e) {
             e.preventDefault()
             if (this.password === this.password_confirmation && this.password.length > 0) {
+                var self = this;
                 axios.post('api/register', {
                     name: this.name,
                     email: this.email,
                     password: this.password,
                 })
                 .then(response => {
-                    localStorage.setItem('user',response.data.success.name)
                     localStorage.setItem('jwt',response.data.success.token)
 
+                    let userData = {
+                        jwt: response.data.success.token,
+                    }
+
                     if (localStorage.getItem('jwt') != null){
-                        // emit an event to set loggedIn = true
+                        eventBus.$emit('login', userData);
                     }
                 })
                 .catch(error => {
-                    console.error(error);
+                    console.log(error);
+                    self.registerErrors = error.response.data.error;
                 });
             } else {
                 this.password = ""
                 this.password_confirmation = ""
 
-                return alert('Passwords do not match')
+                this.registerErrors = 'Passwords do not match!';
             }
         }
     },
