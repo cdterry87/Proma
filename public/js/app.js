@@ -1791,14 +1791,11 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     _events__WEBPACK_IMPORTED_MODULE_0__["default"].$on('login', function (userData) {
-      console.log('login event accepted');
       _this.loggedIn = false;
 
       if (!_.isEmpty(userData.jwt)) {
         _this.loggedIn = true;
       }
-
-      console.log('loggedIn: ' + _this.loggedIn);
     });
   }
 });
@@ -1987,8 +1984,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2004,10 +1999,13 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    formSubmit: function formSubmit() {
+      console.log('form submit');
+    },
     login: function login(e) {
       e.preventDefault();
 
-      if (this.password.length > 0) {
+      if (this.email.length > 0 && this.password.length > 0) {
         var self = this;
         axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('api/login', {
           email: this.email,
@@ -2025,12 +2023,14 @@ __webpack_require__.r(__webpack_exports__);
           console.log(error);
           self.loginErrors = error.response.data.error;
         });
+      } else {
+        this.loginErrors = 'You must enter a username and password.';
       }
     },
     register: function register(e) {
       e.preventDefault();
 
-      if (this.password === this.password_confirmation && this.password.length > 0) {
+      if (this.password.length > 0 && this.password === this.password_confirmation && this.password.length > 0) {
         var self = this;
         axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('api/register', {
           name: this.name,
@@ -3713,33 +3713,43 @@ var render = function() {
                                 { attrs: { value: "tab-login" } },
                                 [
                                   _c(
-                                    "v-card",
-                                    { attrs: { flat: "" } },
+                                    "v-form",
+                                    {
+                                      attrs: {
+                                        action: "/login",
+                                        method: "POST",
+                                        id: "loginForm"
+                                      },
+                                      on: {
+                                        submit: function($event) {
+                                          $event.preventDefault()
+                                          return _vm.formSubmit($event)
+                                        }
+                                      }
+                                    },
                                     [
                                       _c(
-                                        "v-card-text",
+                                        "v-card",
+                                        { attrs: { flat: "" } },
                                         [
-                                          _c("v-alert", {
-                                            attrs: {
-                                              value: _vm.loginErrors.length > 0,
-                                              type: "error"
-                                            },
-                                            domProps: {
-                                              innerHTML: _vm._s(_vm.loginErrors)
-                                            }
-                                          }),
-                                          _vm._v(" "),
-                                          _c("br"),
-                                          _vm._v(" "),
                                           _c(
-                                            "v-form",
-                                            {
-                                              attrs: {
-                                                action: "/login",
-                                                method: "POST"
-                                              }
-                                            },
+                                            "v-card-text",
                                             [
+                                              _c("v-alert", {
+                                                attrs: {
+                                                  value:
+                                                    _vm.loginErrors.length > 0,
+                                                  type: "error"
+                                                },
+                                                domProps: {
+                                                  innerHTML: _vm._s(
+                                                    _vm.loginErrors
+                                                  )
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("br"),
+                                              _vm._v(" "),
                                               _c("v-text-field", {
                                                 attrs: {
                                                   "prepend-icon": "email",
@@ -3773,26 +3783,30 @@ var render = function() {
                                               })
                                             ],
                                             1
-                                          )
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-card-actions",
-                                        [
-                                          _c("v-spacer"),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-btn",
-                                            {
-                                              attrs: { color: "primary" },
-                                              on: { click: _vm.login }
-                                            },
-                                            [_vm._v("Login")]
                                           ),
                                           _vm._v(" "),
-                                          _c("v-spacer")
+                                          _c(
+                                            "v-card-actions",
+                                            [
+                                              _c("v-spacer"),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-btn",
+                                                {
+                                                  attrs: {
+                                                    type: "submit",
+                                                    color: "primary",
+                                                    form: "loginForm"
+                                                  },
+                                                  on: { click: _vm.login }
+                                                },
+                                                [_vm._v("Login")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("v-spacer")
+                                            ],
+                                            1
+                                          )
                                         ],
                                         1
                                       )
@@ -3808,11 +3822,24 @@ var render = function() {
                                 { attrs: { value: "tab-register" } },
                                 [
                                   _c(
-                                    "v-card",
-                                    { attrs: { flat: "" } },
+                                    "v-form",
+                                    {
+                                      attrs: {
+                                        action: "/register",
+                                        method: "POST",
+                                        id: "registerForm"
+                                      },
+                                      on: {
+                                        submit: function($event) {
+                                          $event.preventDefault()
+                                          return _vm.formSubmit($event)
+                                        }
+                                      }
+                                    },
                                     [
                                       _c(
-                                        "v-card-text",
+                                        "v-card",
+                                        { attrs: { flat: "" } },
                                         [
                                           _c(
                                             "v-card-text",
@@ -3833,84 +3860,71 @@ var render = function() {
                                               _vm._v(" "),
                                               _c("br"),
                                               _vm._v(" "),
-                                              _c(
-                                                "v-form",
-                                                {
-                                                  attrs: {
-                                                    action: "/login",
-                                                    method: "POST"
-                                                  }
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  "prepend-icon": "person",
+                                                  name: "name",
+                                                  label: "Full Name",
+                                                  type: "text"
                                                 },
-                                                [
-                                                  _c("v-text-field", {
-                                                    attrs: {
-                                                      "prepend-icon": "person",
-                                                      name: "name",
-                                                      label: "Full Name",
-                                                      type: "text"
-                                                    },
-                                                    model: {
-                                                      value: _vm.name,
-                                                      callback: function($$v) {
-                                                        _vm.name = $$v
-                                                      },
-                                                      expression: "name"
-                                                    }
-                                                  }),
-                                                  _vm._v(" "),
-                                                  _c("v-text-field", {
-                                                    attrs: {
-                                                      "prepend-icon": "email",
-                                                      name: "email",
-                                                      label: "Email address",
-                                                      type: "text"
-                                                    },
-                                                    model: {
-                                                      value: _vm.email,
-                                                      callback: function($$v) {
-                                                        _vm.email = $$v
-                                                      },
-                                                      expression: "email"
-                                                    }
-                                                  }),
-                                                  _vm._v(" "),
-                                                  _c("v-text-field", {
-                                                    attrs: {
-                                                      "prepend-icon": "lock",
-                                                      name: "password",
-                                                      label: "Password",
-                                                      type: "password"
-                                                    },
-                                                    model: {
-                                                      value: _vm.password,
-                                                      callback: function($$v) {
-                                                        _vm.password = $$v
-                                                      },
-                                                      expression: "password"
-                                                    }
-                                                  }),
-                                                  _vm._v(" "),
-                                                  _c("v-text-field", {
-                                                    attrs: {
-                                                      "prepend-icon": "lock",
-                                                      name:
-                                                        "password_confirmation",
-                                                      label: "Confirm Password",
-                                                      type: "password"
-                                                    },
-                                                    model: {
-                                                      value:
-                                                        _vm.password_confirmation,
-                                                      callback: function($$v) {
-                                                        _vm.password_confirmation = $$v
-                                                      },
-                                                      expression:
-                                                        "password_confirmation"
-                                                    }
-                                                  })
-                                                ],
-                                                1
-                                              )
+                                                model: {
+                                                  value: _vm.name,
+                                                  callback: function($$v) {
+                                                    _vm.name = $$v
+                                                  },
+                                                  expression: "name"
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  "prepend-icon": "email",
+                                                  name: "email",
+                                                  label: "Email address",
+                                                  type: "text"
+                                                },
+                                                model: {
+                                                  value: _vm.email,
+                                                  callback: function($$v) {
+                                                    _vm.email = $$v
+                                                  },
+                                                  expression: "email"
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  "prepend-icon": "lock",
+                                                  name: "password",
+                                                  label: "Password",
+                                                  type: "password"
+                                                },
+                                                model: {
+                                                  value: _vm.password,
+                                                  callback: function($$v) {
+                                                    _vm.password = $$v
+                                                  },
+                                                  expression: "password"
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  "prepend-icon": "lock",
+                                                  name: "password_confirmation",
+                                                  label: "Confirm Password",
+                                                  type: "password"
+                                                },
+                                                model: {
+                                                  value:
+                                                    _vm.password_confirmation,
+                                                  callback: function($$v) {
+                                                    _vm.password_confirmation = $$v
+                                                  },
+                                                  expression:
+                                                    "password_confirmation"
+                                                }
+                                              })
                                             ],
                                             1
                                           ),
@@ -3923,7 +3937,11 @@ var render = function() {
                                               _c(
                                                 "v-btn",
                                                 {
-                                                  attrs: { color: "primary" },
+                                                  attrs: {
+                                                    type: "submit",
+                                                    color: "primary",
+                                                    form: "registerForm"
+                                                  },
                                                   on: { click: _vm.register }
                                                 },
                                                 [_vm._v("Register")]

@@ -23,12 +23,10 @@ export default {
     },
     mounted() {
         eventBus.$on('login', userData => {
-            console.log('login event accepted');
             this.loggedIn = false;
             if (!_.isEmpty(userData.jwt)) {
                 this.loggedIn = true;
             }
-            console.log('loggedIn: ' + this.loggedIn);
         })
     }
 }

@@ -14,42 +14,40 @@
                             </v-tabs>
                             <v-tabs-items v-model="tabs">
                                 <v-tab-item :value="'tab-login'">
-                                    <v-card flat>
-                                        <v-card-text>
-                                            <v-alert :value="loginErrors.length > 0" v-html="loginErrors" type="error"></v-alert>
-                                            <br>
-                                            <v-form action="/login" method="POST">
+                                    <v-form action="/login" method="POST" id="loginForm" @submit.prevent="formSubmit">
+                                        <v-card flat>
+                                            <v-card-text>
+                                                <v-alert :value="loginErrors.length > 0" v-html="loginErrors" type="error"></v-alert>
+                                                <br>
                                                 <v-text-field prepend-icon="email" v-model="email" name="email" label="Email address" type="text"></v-text-field>
                                                 <v-text-field prepend-icon="lock" v-model="password" name="password" label="Password" type="password" ></v-text-field>
-                                            </v-form>
-                                        </v-card-text>
-                                        <v-card-actions>
-                                            <v-spacer></v-spacer>
-                                            <v-btn color="primary" @click="login">Login</v-btn>
-                                            <v-spacer></v-spacer>
-                                        </v-card-actions>
-                                    </v-card>
-                                </v-tab-item>
-                                <v-tab-item :value="'tab-register'">
-                                    <v-card flat>
-                                        <v-card-text>
-                                            <v-card-text>
-                                                <v-alert :value="registerErrors.length > 0" v-html="registerErrors" type="error"></v-alert>
-                                                <br>
-                                                <v-form action="/login" method="POST">
-                                                    <v-text-field prepend-icon="person" v-model="name" name="name" label="Full Name" type="text"></v-text-field>
-                                                    <v-text-field prepend-icon="email" v-model="email" name="email" label="Email address" type="text"></v-text-field>
-                                                    <v-text-field prepend-icon="lock" v-model="password" name="password" label="Password" type="password" ></v-text-field>
-                                                    <v-text-field prepend-icon="lock" v-model="password_confirmation" name="password_confirmation" label="Confirm Password" type="password" ></v-text-field>
-                                                </v-form>
                                             </v-card-text>
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
-                                                <v-btn color="primary"  @click="register">Register</v-btn>
+                                                <v-btn type="submit" color="primary" form="loginForm" @click="login">Login</v-btn>
                                                 <v-spacer></v-spacer>
                                             </v-card-actions>
-                                        </v-card-text>
-                                    </v-card>
+                                        </v-card>
+                                    </v-form>
+                                </v-tab-item>
+                                <v-tab-item :value="'tab-register'">
+                                    <v-form action="/register" method="POST" id="registerForm" @submit.prevent="formSubmit">
+                                        <v-card flat>
+                                            <v-card-text>
+                                                <v-alert :value="registerErrors.length > 0" v-html="registerErrors" type="error"></v-alert>
+                                                <br>
+                                                <v-text-field prepend-icon="person" v-model="name" name="name" label="Full Name" type="text"></v-text-field>
+                                                <v-text-field prepend-icon="email" v-model="email" name="email" label="Email address" type="text"></v-text-field>
+                                                <v-text-field prepend-icon="lock" v-model="password" name="password" label="Password" type="password" ></v-text-field>
+                                                <v-text-field prepend-icon="lock" v-model="password_confirmation" name="password_confirmation" label="Confirm Password" type="password" ></v-text-field>
+                                            </v-card-text>
+                                            <v-card-actions>
+                                                <v-spacer></v-spacer>
+                                                <v-btn type="submit" color="primary" form="registerForm" @click="register">Register</v-btn>
+                                                <v-spacer></v-spacer>
+                                            </v-card-actions>
+                                        </v-card>
+                                    </v-form>
                                 </v-tab-item>
                             </v-tabs-items>
                         </v-card>
@@ -75,9 +73,12 @@ export default {
         registerErrors: '',
     }),
     methods : {
+        formSubmit() {
+            console.log('form submit');
+        },
         login(e) {
             e.preventDefault();
-            if (this.password.length > 0) {
+            if (this.email.length > 0 && this.password.length > 0) {
                 var self = this;
                 axios.post('api/login', {
                     email: this.email,
@@ -98,11 +99,13 @@ export default {
                     console.log(error);
                     self.loginErrors = error.response.data.error;
                 });
+            } else {
+                this.loginErrors = 'You must enter a username and password.';
             }
         },
         register(e) {
             e.preventDefault()
-            if (this.password === this.password_confirmation && this.password.length > 0) {
+            if (this.password.length > 0 && this.password === this.password_confirmation && this.password.length > 0) {
                 var self = this;
                 axios.post('api/register', {
                     name: this.name,
