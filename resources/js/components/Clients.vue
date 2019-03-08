@@ -1,24 +1,24 @@
 <template>
-    <v-container fluid fill-height>
-        <v-layout justify-center align-center>
-            <v-btn color="info" @click="dialog = true">
-                <v-icon left dark>add</v-icon>
-                Add a Client
-            </v-btn>
-
-            <v-container fluid>
-                <v-layout row>
-                    <v-flex xs12 md6 lg3 v-for="client in clients" :key="client.id">
-                        <v-card>
-                            <v-card-title>{{ client.name }}</v-card-title>
-                            <v-card-text>
-                                {{ client.description }}
-                            </v-card-text>
-                        </v-card>
-                    </v-flex>
-                </v-layout>
+    <v-container fluid grid-list-md text-xs-center>
+        <v-layout row>
+            <v-container>
+                <v-btn color="info" @click="dialog = true">
+                    <v-icon left dark>add</v-icon>
+                    Add a Client
+                </v-btn>
             </v-container>
         </v-layout>
+        <v-layout row wrap>
+            <v-flex xs12 md6 lg4 v-for="client in clients" :key="client.id">
+                <v-card>
+                    <v-card-title>{{ client.name }}</v-card-title>
+                    <v-card-text>
+                        {{ client.description }}
+                    </v-card-text>
+                </v-card>
+            </v-flex>
+        </v-layout>
+
 
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="clientForm" @submit.prevent="formSubmit">

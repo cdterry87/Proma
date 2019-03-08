@@ -3472,66 +3472,67 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-container",
-    { attrs: { fluid: "", "fill-height": "" } },
+    { attrs: { fluid: "", "grid-list-md": "", "text-xs-center": "" } },
     [
       _c(
         "v-layout",
-        { attrs: { "justify-center": "", "align-center": "" } },
+        { attrs: { row: "" } },
         [
           _c(
-            "v-btn",
-            {
-              attrs: { color: "info" },
-              on: {
-                click: function($event) {
-                  _vm.dialog = true
-                }
-              }
-            },
-            [
-              _c("v-icon", { attrs: { left: "", dark: "" } }, [_vm._v("add")]),
-              _vm._v("\n            Add a Client\n        ")
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
             "v-container",
-            { attrs: { fluid: "" } },
             [
               _c(
-                "v-layout",
-                { attrs: { row: "" } },
-                _vm._l(_vm.clients, function(client) {
-                  return _c(
-                    "v-flex",
-                    { key: client.id, attrs: { xs12: "", md6: "", lg3: "" } },
-                    [
-                      _c(
-                        "v-card",
-                        [
-                          _c("v-card-title", [_vm._v(_vm._s(client.name))]),
-                          _vm._v(" "),
-                          _c("v-card-text", [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(client.description) +
-                                "\n                        "
-                            )
-                          ])
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                }),
+                "v-btn",
+                {
+                  attrs: { color: "info" },
+                  on: {
+                    click: function($event) {
+                      _vm.dialog = true
+                    }
+                  }
+                },
+                [
+                  _c("v-icon", { attrs: { left: "", dark: "" } }, [
+                    _vm._v("add")
+                  ]),
+                  _vm._v("\n                Add a Client\n            ")
+                ],
                 1
               )
             ],
             1
           )
         ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-layout",
+        { attrs: { row: "", wrap: "" } },
+        _vm._l(_vm.clients, function(client) {
+          return _c(
+            "v-flex",
+            { key: client.id, attrs: { xs12: "", md6: "", lg4: "" } },
+            [
+              _c(
+                "v-card",
+                [
+                  _c("v-card-title", [_vm._v(_vm._s(client.name))]),
+                  _vm._v(" "),
+                  _c("v-card-text", [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(client.description) +
+                        "\n                "
+                    )
+                  ])
+                ],
+                1
+              )
+            ],
+            1
+          )
+        }),
         1
       ),
       _vm._v(" "),
