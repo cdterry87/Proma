@@ -82,13 +82,16 @@ export default {
                     password: this.password
                 })
                 .then(response => {
-                    localStorage.setItem('jwt',response.data.success.token)
-
                     let userData = {
+                        id: response.data.success.id,
+                        name: response.data.success.name,
+                        email: response.data.success.email,
                         jwt: response.data.success.token,
                     }
 
-                    if (localStorage.getItem('jwt') != null){
+                    localStorage.setItem('userData', JSON.stringify(userData))
+
+                    if (localStorage.getItem('userData') != null){
                         eventBus.$emit('login', userData);
                     }
                 })
@@ -110,13 +113,16 @@ export default {
                     password: this.password,
                 })
                 .then(response => {
-                    localStorage.setItem('jwt',response.data.success.token)
-
                     let userData = {
+                        id: response.data.success.id,
+                        name: response.data.success.name,
+                        email: response.data.success.email,
                         jwt: response.data.success.token,
                     }
 
-                    if (localStorage.getItem('jwt') != null){
+                    localStorage.setItem('userData', JSON.stringify(userData))
+
+                    if (localStorage.getItem('userData') != null){
                         eventBus.$emit('login', userData);
                     }
                 })
@@ -133,12 +139,9 @@ export default {
         }
     },
     mounted() {
-        let userData = {
-            jwt: localStorage.getItem('jwt')
-        }
+        let userData = JSON.parse(localStorage.getItem('userData'));
 
         if (userData.jwt) {
-            console.log('emitting login event');
             eventBus.$emit('login', userData);
         }
     }

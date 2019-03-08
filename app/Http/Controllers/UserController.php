@@ -17,6 +17,9 @@ class UserController extends Controller
         ];
 
         if (Auth::attempt($credentials)) {
+            $success['id'] = Auth::user()->id;
+            $success['name'] = Auth::user()->name;
+            $success['email'] = Auth::user()->email;
             $success['token'] = Auth::user()->createToken('promaToken')->accessToken;
 
             return response()->json(['success' => $success]);
