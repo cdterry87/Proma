@@ -1787,7 +1787,7 @@ __webpack_require__.r(__webpack_exports__);
     Login: _Login__WEBPACK_IMPORTED_MODULE_1__["default"],
     Home: _Home__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
-  mounted: function mounted() {
+  created: function created() {
     var _this = this;
 
     _events__WEBPACK_IMPORTED_MODULE_0__["default"].$on('login', function (userData) {
@@ -1846,6 +1846,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Clients',
   data: function data() {
@@ -1857,8 +1870,17 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    create: function create() {
+    getClients: function getClients() {
       var _this = this;
+
+      axios.get('api/clients', {
+        user_id: 1
+      }).then(function (response) {
+        _this.clients = response.data;
+      });
+    },
+    createClient: function createClient() {
+      var _this2 = this;
 
       var user_id = 1;
       var name = this.name;
@@ -1868,10 +1890,13 @@ __webpack_require__.r(__webpack_exports__);
         name: name,
         description: description
       }).then(function (response) {
-        _this.clients.push(response.data.data);
+        _this2.clients.push(response.data.data);
       });
       this.dialog = false;
     }
+  },
+  mounted: function mounted() {
+    this.getClients();
   }
 });
 
@@ -1999,9 +2024,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    formSubmit: function formSubmit() {
-      console.log('form submit');
-    },
     login: function login(e) {
       e.preventDefault();
 
@@ -2056,11 +2078,15 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
   },
-  beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-    if (localStorage.getItem('jwt')) {// emit event to set loggedIn = true
-    }
+  mounted: function mounted() {
+    var userData = {
+      jwt: localStorage.getItem('jwt')
+    };
 
-    next();
+    if (userData.jwt) {
+      console.log('emitting login event');
+      _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('login', userData);
+    }
   }
 });
 
@@ -3452,7 +3478,6 @@ var render = function() {
         "v-layout",
         { attrs: { "justify-center": "", "align-center": "" } },
         [
-          _vm._v("\n        Welcome to the Clients Page\n\n        "),
           _c(
             "v-btn",
             {
@@ -3465,7 +3490,44 @@ var render = function() {
             },
             [
               _c("v-icon", { attrs: { left: "", dark: "" } }, [_vm._v("add")]),
-              _vm._v("\n            Add a client\n        ")
+              _vm._v("\n            Add a Client\n        ")
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-container",
+            { attrs: { fluid: "" } },
+            [
+              _c(
+                "v-layout",
+                { attrs: { row: "" } },
+                _vm._l(_vm.clients, function(client) {
+                  return _c(
+                    "v-flex",
+                    { key: client.id, attrs: { xs12: "", md6: "", lg3: "" } },
+                    [
+                      _c(
+                        "v-card",
+                        [
+                          _c("v-card-title", [_vm._v(_vm._s(client.name))]),
+                          _vm._v(" "),
+                          _c("v-card-text", [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(client.description) +
+                                "\n                        "
+                            )
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                }),
+                1
+              )
             ],
             1
           )
@@ -3487,93 +3549,117 @@ var render = function() {
         },
         [
           _c(
-            "v-card",
+            "v-form",
+            {
+              attrs: { method: "POST", id: "clientForm" },
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.formSubmit($event)
+                }
+              }
+            },
             [
-              _c("v-card-title", { staticClass: "grey lighten-4 py-4 title" }, [
-                _vm._v("Create Client")
-              ]),
-              _vm._v(" "),
               _c(
-                "v-container",
-                { staticClass: "pa-4", attrs: { "grid-list-sm": "" } },
+                "v-card",
                 [
                   _c(
-                    "v-layout",
-                    { attrs: { row: "", wrap: "" } },
+                    "v-card-title",
+                    { staticClass: "grey lighten-4 py-4 title" },
+                    [_vm._v("Create Client")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-container",
+                    { staticClass: "pa-4", attrs: { "grid-list-sm": "" } },
                     [
                       _c(
-                        "v-flex",
-                        { attrs: { xs12: "" } },
+                        "v-layout",
+                        { attrs: { row: "", wrap: "" } },
                         [
-                          _c("v-text-field", {
-                            attrs: {
-                              "prepend-icon": "business",
-                              label: "Client Name"
-                            },
-                            model: {
-                              value: _vm.name,
-                              callback: function($$v) {
-                                _vm.name = $$v
-                              },
-                              expression: "name"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-flex",
-                        { attrs: { xs12: "" } },
-                        [
-                          _c("v-textarea", {
-                            attrs: {
-                              "prepend-icon": "notes",
-                              label: "Description"
-                            },
-                            model: {
-                              value: _vm.description,
-                              callback: function($$v) {
-                                _vm.description = $$v
-                              },
-                              expression: "description"
-                            }
-                          })
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  "prepend-icon": "business",
+                                  label: "Client Name"
+                                },
+                                model: {
+                                  value: _vm.name,
+                                  callback: function($$v) {
+                                    _vm.name = $$v
+                                  },
+                                  expression: "name"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "" } },
+                            [
+                              _c("v-textarea", {
+                                attrs: {
+                                  "prepend-icon": "notes",
+                                  label: "Description"
+                                },
+                                model: {
+                                  value: _vm.description,
+                                  callback: function($$v) {
+                                    _vm.description = $$v
+                                  },
+                                  expression: "description"
+                                }
+                              })
+                            ],
+                            1
+                          )
                         ],
                         1
                       )
                     ],
                     1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { type: "submit", flat: "" },
+                          on: { click: _vm.createClient }
+                        },
+                        [_vm._v("Save")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            flat: "",
+                            color: "primary",
+                            form: "clientForm"
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.dialog = false
+                            }
+                          }
+                        },
+                        [_vm._v("Cancel")]
+                      ),
+                      _vm._v(" "),
+                      _c("v-spacer")
+                    ],
+                    1
                   )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-card-actions",
-                [
-                  _c("v-spacer"),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    { attrs: { flat: "" }, on: { click: _vm.create } },
-                    [_vm._v("Save")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { flat: "", color: "primary" },
-                      on: {
-                        click: function($event) {
-                          _vm.dialog = false
-                        }
-                      }
-                    },
-                    [_vm._v("Cancel")]
-                  ),
-                  _vm._v(" "),
-                  _c("v-spacer")
                 ],
                 1
               )

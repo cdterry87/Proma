@@ -17,7 +17,7 @@ const router = new VueRouter({
         {
             path: '/',
             name: 'home',
-            component: Projects
+            component: Projects,
         },
         {
             path: '/teams',

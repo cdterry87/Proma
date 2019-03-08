@@ -1,34 +1,47 @@
 <template>
     <v-container fluid fill-height>
         <v-layout justify-center align-center>
-            Welcome to the Clients Page
-
             <v-btn color="info" @click="dialog = true">
                 <v-icon left dark>add</v-icon>
-                Add a client
+                Add a Client
             </v-btn>
+
+            <v-container fluid>
+                <v-layout row>
+                    <v-flex xs12 md6 lg3 v-for="client in clients" :key="client.id">
+                        <v-card>
+                            <v-card-title>{{ client.name }}</v-card-title>
+                            <v-card-text>
+                                {{ client.description }}
+                            </v-card-text>
+                        </v-card>
+                    </v-flex>
+                </v-layout>
+            </v-container>
         </v-layout>
 
         <v-dialog v-model="dialog" width="500">
-            <v-card>
-                <v-card-title class="grey lighten-4 py-4 title">Create Client</v-card-title>
-                <v-container grid-list-sm class="pa-4">
-                    <v-layout row wrap>
-                        <v-flex xs12>
-                            <v-text-field prepend-icon="business" label="Client Name" v-model="name"></v-text-field>
-                        </v-flex>
-                        <v-flex xs12>
-                            <v-textarea prepend-icon="notes" label="Description" v-model="description"></v-textarea>
-                        </v-flex>
-                    </v-layout>
-                </v-container>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn flat @click="create">Save</v-btn>
-                    <v-btn flat color="primary" @click="dialog = false">Cancel</v-btn>
-                    <v-spacer></v-spacer>
-                </v-card-actions>
-            </v-card>
+            <v-form method="POST" id="clientForm" @submit.prevent="formSubmit">
+                <v-card>
+                    <v-card-title class="grey lighten-4 py-4 title">Create Client</v-card-title>
+                    <v-container grid-list-sm class="pa-4">
+                        <v-layout row wrap>
+                            <v-flex xs12>
+                                <v-text-field prepend-icon="business" label="Client Name" v-model="name"></v-text-field>
+                            </v-flex>
+                            <v-flex xs12>
+                                <v-textarea prepend-icon="notes" label="Description" v-model="description"></v-textarea>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn type="submit" flat @click="createClient">Save</v-btn>
+                        <v-btn flat color="primary" form="clientForm" @click="dialog = false">Cancel</v-btn>
+                        <v-spacer></v-spacer>
+                    </v-card-actions>
+                </v-card>
+            </v-form>
         </v-dialog>
     </v-container>
 </template>
@@ -45,18 +58,28 @@ export default {
         }
     },
     methods: {
-        create() {
+        getClients() {
+            axios.get('api/clients', { user_id: 1 })
+            .then(response => {
+                this.clients = response.data
+            })
+        },
+        createClient() {
             let user_id = 1;
             let name = this.name;
             let description = this.description;
 
-            axios.post('api/clients', { user_id, name, description } )
+            axios.post('api/clients', { user_id, name, description })
             .then(response => {
                 this.clients.push(response.data.data)
             })
 
             this.dialog = false;
-        }
+        },
+    },
+    mounted() {
+        this.getClients()
     }
+
 }
 </script>

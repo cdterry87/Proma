@@ -21,7 +21,7 @@ export default {
         Login,
         Home
     },
-    mounted() {
+    created() {
         eventBus.$on('login', userData => {
             this.loggedIn = false;
             if (!_.isEmpty(userData.jwt)) {

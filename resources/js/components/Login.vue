@@ -73,9 +73,6 @@ export default {
         registerErrors: '',
     }),
     methods : {
-        formSubmit() {
-            console.log('form submit');
-        },
         login(e) {
             e.preventDefault();
             if (this.email.length > 0 && this.password.length > 0) {
@@ -135,11 +132,15 @@ export default {
             }
         }
     },
-    beforeRouteEnter (to, from, next) {
-        if (localStorage.getItem('jwt')) {
-            // emit event to set loggedIn = true
+    mounted() {
+        let userData = {
+            jwt: localStorage.getItem('jwt')
         }
-        next();
+
+        if (userData.jwt) {
+            console.log('emitting login event');
+            eventBus.$emit('login', userData);
+        }
     }
 }
 </script>
