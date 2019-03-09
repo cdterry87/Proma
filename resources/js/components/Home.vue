@@ -12,14 +12,15 @@ import Navigation from './Navigation';
 
 export default {
     name: "Home",
+    props: {
+        source: String,
+        userData: Object
+    },
     components: {
         Navigation,
     },
     data: () => ({
 
     }),
-    props: {
-        source: String
-    }
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <Home v-if="loggedIn" />
+        <Home v-if="loggedIn" :userData="userData" />
         <Login v-else />
     </v-app>
 </template>
@@ -15,6 +15,7 @@ export default {
     data () {
         return {
             loggedIn: false,
+            userData: null
         }
     },
     components: {
@@ -26,6 +27,7 @@ export default {
             this.loggedIn = false;
             if (!_.isEmpty(userData.jwt)) {
                 this.loggedIn = true;
+                this.userData = userData;
             }
         })
     }

@@ -1780,7 +1780,8 @@ __webpack_require__.r(__webpack_exports__);
   name: 'App',
   data: function data() {
     return {
-      loggedIn: false
+      loggedIn: false,
+      userData: null
     };
   },
   components: {
@@ -1795,6 +1796,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (!_.isEmpty(userData.jwt)) {
         _this.loggedIn = true;
+        _this.userData = userData;
       }
     });
   }
@@ -1870,15 +1872,20 @@ __webpack_require__.r(__webpack_exports__);
       dialog: false,
       name: '',
       description: '',
+      userData: null,
       clients: []
     };
   },
   methods: {
+    getUserData: function getUserData() {
+      this.userData = JSON.parse(localStorage.getItem('userData'));
+    },
     getClients: function getClients() {
       var _this = this;
 
+      var user_id = this.userData.id;
       axios.get('api/clients', {
-        user_id: 1
+        user_id: user_id
       }).then(function (response) {
         _this.clients = response.data;
       });
@@ -1886,7 +1893,7 @@ __webpack_require__.r(__webpack_exports__);
     createClient: function createClient() {
       var _this2 = this;
 
-      var user_id = 1;
+      var user_id = this.userData.id;
       var name = this.name;
       var description = this.description;
       axios.post('api/clients', {
@@ -1896,8 +1903,16 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this2.clients.push(response.data.data);
       });
+      this.reset();
+    },
+    reset: function reset() {
       this.dialog = false;
+      this.name = '';
+      this.description = '';
     }
+  },
+  created: function created() {
+    this.getUserData();
   },
   mounted: function mounted() {
     this.getClients();
@@ -1928,14 +1943,15 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Home",
+  props: {
+    source: String,
+    userData: Object
+  },
   components: {
     Navigation: _Navigation__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   data: function data() {
     return {};
-  },
-  props: {
-    source: String
   }
 });
 
@@ -3498,7 +3514,15 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("v-app", [_vm.loggedIn ? _c("Home") : _c("Login")], 1)
+  return _c(
+    "v-app",
+    [
+      _vm.loggedIn
+        ? _c("Home", { attrs: { userData: _vm.userData } })
+        : _c("Login")
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -3617,7 +3641,7 @@ var render = function() {
               on: {
                 submit: function($event) {
                   $event.preventDefault()
-                  return _vm.formSubmit($event)
+                  return _vm.createClient($event)
                 }
               }
             },
@@ -3692,14 +3716,9 @@ var render = function() {
                     [
                       _c("v-spacer"),
                       _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { type: "submit", flat: "" },
-                          on: { click: _vm.createClient }
-                        },
-                        [_vm._v("Save")]
-                      ),
+                      _c("v-btn", { attrs: { type: "submit", flat: "" } }, [
+                        _vm._v("Save")
+                      ]),
                       _vm._v(" "),
                       _c(
                         "v-btn",

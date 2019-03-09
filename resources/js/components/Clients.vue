@@ -25,7 +25,7 @@
 
 
         <v-dialog v-model="dialog" width="500">
-            <v-form method="POST" id="clientForm" @submit.prevent="formSubmit">
+            <v-form method="POST" id="clientForm" @submit.prevent="createClient">
                 <v-card>
                     <v-card-title class="grey lighten-4 py-4 title">Create Client</v-card-title>
                     <v-container grid-list-sm class="pa-4">
@@ -40,7 +40,7 @@
                     </v-container>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn type="submit" flat @click="createClient">Save</v-btn>
+                        <v-btn type="submit" flat>Save</v-btn>
                         <v-btn flat color="primary" form="clientForm" @click="dialog = false">Cancel</v-btn>
                         <v-spacer></v-spacer>
                     </v-card-actions>
@@ -58,28 +58,42 @@ export default {
             dialog: false,
             name: '',
             description: '',
+            userData: null,
             clients: []
         }
     },
     methods: {
+        getUserData() {
+            this.userData = JSON.parse(localStorage.getItem('userData'))
+        },
         getClients() {
-            axios.get('api/clients', { user_id: 1 })
+            let user_id = this.userData.id
+
+            axios.get('api/clients', { user_id })
             .then(response => {
                 this.clients = response.data
             })
         },
         createClient() {
-            let user_id = 1;
-            let name = this.name;
-            let description = this.description;
+            let user_id = this.userData.id
+            let name = this.name
+            let description = this.description
 
             axios.post('api/clients', { user_id, name, description })
             .then(response => {
                 this.clients.push(response.data.data)
             })
 
-            this.dialog = false;
+            this.reset()
         },
+        reset() {
+            this.dialog = false
+            this.name = ''
+            this.description = ''
+        }
+    },
+    created() {
+        this.getUserData()
     },
     mounted() {
         this.getClients()
