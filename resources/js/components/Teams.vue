@@ -1,33 +1,51 @@
 <template>
-    <v-container fluid fill-height>
-        <v-layout justify-center align-center>
-            Welcome to the Teams Page
-
-            <v-btn color="info" @click="dialog = true">
-                <v-icon left dark>add</v-icon>
-                Create a team
-            </v-btn>
+    <v-container fluid grid-list-md>
+        <v-layout row>
+            <v-container text-xs-center>
+                <v-btn color="info" @click="dialog = true">
+                    <v-icon left dark>add</v-icon>
+                    Create a Team
+                </v-btn>
+            </v-container>
         </v-layout>
+        <v-layout row wrap>
+            <v-flex xs12 md6 lg4 v-for="team in teams" :key="team.id">
+                <v-card>
+                    <v-card-title primary-title>
+                        <div class="headline">
+                            {{ team.name }}
+                        </div>
+                    </v-card-title>
+                    <v-card-text>
+                        {{ team.description }}
+                    </v-card-text>
+                </v-card>
+            </v-flex>
+        </v-layout>
+
+
         <v-dialog v-model="dialog" width="500">
-            <v-card>
-                <v-card-title class="grey lighten-4 py-4 title">Create Team</v-card-title>
-                <v-container grid-list-sm class="pa-4">
-                    <v-layout row wrap>
-                        <v-flex xs12>
-                            <v-text-field prepend-icon="people" label="Team Name"></v-text-field>
-                        </v-flex>
-                        <v-flex xs12>
-                            <v-textarea prepend-icon="notes" label="Description"></v-textarea>
-                        </v-flex>
-                    </v-layout>
-                </v-container>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn flat @click="dialog = false">Save</v-btn>
-                    <v-btn flat color="primary" @click="dialog = false">Cancel</v-btn>
-                    <v-spacer></v-spacer>
-                </v-card-actions>
-            </v-card>
+            <v-form method="POST" id="teamForm" @submit.prevent="createTeam">
+                <v-card>
+                    <v-card-title class="grey lighten-4 py-4 title">Create Team</v-card-title>
+                    <v-container grid-list-sm class="pa-4">
+                        <v-layout row wrap>
+                            <v-flex xs12>
+                                <v-text-field prepend-icon="people" label="Team Name" v-model="name"></v-text-field>
+                            </v-flex>
+                            <v-flex xs12>
+                                <v-textarea prepend-icon="notes" label="Description" v-model="description"></v-textarea>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn type="submit" flat>Save</v-btn>
+                        <v-btn flat color="primary" form="teamForm" @click="dialog = false">Cancel</v-btn>
+                        <v-spacer></v-spacer>
+                    </v-card-actions>
+                </v-card>
+            </v-form>
         </v-dialog>
     </v-container>
 </template>
@@ -38,7 +56,55 @@ export default {
     data() {
         return {
             dialog: false,
+            name: '',
+            description: '',
+            userData: null,
+            teams: []
         }
+    },
+    methods: {
+        getUserData() {
+            this.userData = JSON.parse(localStorage.getItem('userData'))
+        },
+        getTeams() {
+            let user_id = this.userData.id
+
+            axios.get('api/teams', { user_id })
+            .then(response => {
+                this.teams = response.data
+            })
+        },
+        createTeam() {
+            let user_id = this.userData.id;
+            let name = this.name;
+            let description = this.description;
+
+            axios.post('api/teams', { user_id, name, description })
+            .then(response => {
+                this.teams.push(response.data.data)
+            })
+
+            this.reset()
+        },
+        reset() {
+            this.dialog = false
+            this.name = ''
+            this.description = ''
+        }
+    },
+    created() {
+        this.getUserData()
+    },
+    mounted() {
+        this.getTeams()
     }
+
 }
 </script>
+
+<style scoped>
+.container {
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+}
+</style>
