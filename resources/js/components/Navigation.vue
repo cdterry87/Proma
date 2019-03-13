@@ -25,10 +25,35 @@
             <v-btn icon>
                 <v-icon>notifications</v-icon>
             </v-btn>
-            <v-btn icon>
+            <v-btn icon @click="dialog = true">
                 <v-icon>account_circle</v-icon>
             </v-btn>
         </v-toolbar>
+
+        <v-dialog v-model="dialog" width="500">
+            <v-form method="POST" id="userForm" @submit.prevent="updateUser">
+                <v-card>
+                    <v-card-title class="grey lighten-4 py-4 title">My Account</v-card-title>
+                    <v-container grid-list-sm class="pa-4">
+                        <v-layout row wrap>
+                            <v-flex xs12>
+                                <v-text-field prepend-icon="person" label="Name" v-model="name"></v-text-field>
+                            </v-flex>
+                            <v-flex xs12>
+                                <v-text-field prepend-icon="email" label="Email" v-model="email"></v-text-field>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn type="submit" flat>Save</v-btn>
+                        <v-btn flat color="primary" form="clientForm" @click="dialog = false">Cancel</v-btn>
+                        <v-btn flat color="red" form="clientForm" @click="logout">Cancel</v-btn>
+                        <v-spacer></v-spacer>
+                    </v-card-actions>
+                </v-card>
+            </v-form>
+        </v-dialog>
     </div>
 </template>
 
@@ -38,6 +63,9 @@ export default {
     data() {
         return {
             drawer: null,
+            dialog: false,
+            name: '',
+            email: '',
             items: [
                 { icon: 'home', text: 'Home', route: 'home' },
                 { icon: 'person', text: 'Clients', route: 'clients' },
@@ -45,6 +73,11 @@ export default {
             ]
         }
     },
+    methods: {
+        logout() {
+
+        }
+    }
 }
 </script>
 
