@@ -13,11 +13,11 @@
                 <v-card>
                     <v-card-title primary-title>
                         <div class="headline">
-                            {{ team.name }}
+                            {{ team.name | truncate(25) }}
                         </div>
                     </v-card-title>
                     <v-card-text>
-                        {{ team.description }}
+                        {{ team.description | truncate(80) }}
                     </v-card-text>
                 </v-card>
             </v-flex>

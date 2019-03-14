@@ -13,11 +13,11 @@
                 <v-card>
                     <v-card-title primary-title>
                         <div class="headline">
-                            {{ project.name }}
+                            {{ project.name | truncate(25) }}
                         </div>
                     </v-card-title>
                     <v-card-text>
-                        {{ project.description }}
+                        {{ project.description | truncate(80) }}
                     </v-card-text>
                 </v-card>
             </v-flex>
@@ -143,7 +143,7 @@ export default {
         this.getProjects()
         this.getClients()
         this.getTeams()
-    }
+    },
 
 }
 </script>

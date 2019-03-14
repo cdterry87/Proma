@@ -2192,8 +2192,8 @@ __webpack_require__.r(__webpack_exports__);
       name: '',
       email: '',
       items: [{
-        icon: 'home',
-        text: 'Home',
+        icon: 'view_week',
+        text: 'Projects',
         route: 'home'
       }, {
         icon: 'person',
@@ -3928,7 +3928,7 @@ var render = function() {
                     _c("div", { staticClass: "headline" }, [
                       _vm._v(
                         "\n                        " +
-                          _vm._s(client.name) +
+                          _vm._s(_vm._f("truncate")(client.name, 25)) +
                           "\n                    "
                       )
                     ])
@@ -3937,7 +3937,7 @@ var render = function() {
                   _c("v-card-text", [
                     _vm._v(
                       "\n                    " +
-                        _vm._s(client.description) +
+                        _vm._s(_vm._f("truncate")(client.description, 80)) +
                         "\n                "
                     )
                   ])
@@ -4844,7 +4844,7 @@ var render = function() {
                     _c("div", { staticClass: "headline" }, [
                       _vm._v(
                         "\n                        " +
-                          _vm._s(project.name) +
+                          _vm._s(_vm._f("truncate")(project.name, 25)) +
                           "\n                    "
                       )
                     ])
@@ -4853,7 +4853,7 @@ var render = function() {
                   _c("v-card-text", [
                     _vm._v(
                       "\n                    " +
-                        _vm._s(project.description) +
+                        _vm._s(_vm._f("truncate")(project.description, 80)) +
                         "\n                "
                     )
                   ])
@@ -5122,7 +5122,7 @@ var render = function() {
                     _c("div", { staticClass: "headline" }, [
                       _vm._v(
                         "\n                        " +
-                          _vm._s(team.name) +
+                          _vm._s(_vm._f("truncate")(team.name, 25)) +
                           "\n                    "
                       )
                     ])
@@ -5131,7 +5131,7 @@ var render = function() {
                   _c("v-card-text", [
                     _vm._v(
                       "\n                    " +
-                        _vm._s(team.description) +
+                        _vm._s(_vm._f("truncate")(team.description, 80)) +
                         "\n                "
                     )
                   ])
@@ -45730,6 +45730,13 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     name: 'clients',
     component: _components_Clients__WEBPACK_IMPORTED_MODULE_5__["default"]
   }]
+});
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.filter('truncate', function (string, length) {
+  if (!string) return '';
+  string = string.toString();
+  return _.truncate(string, {
+    length: length
+  });
 });
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',

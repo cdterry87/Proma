@@ -32,6 +32,12 @@ const router = new VueRouter({
     ],
 });
 
+Vue.filter('truncate', function (string, length) {
+    if (!string) return ''
+    string = string.toString()
+    return _.truncate(string, { length })
+})
+
 const app = new Vue({
     el: '#app',
     components: { App },
