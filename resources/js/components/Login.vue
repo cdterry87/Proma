@@ -75,6 +75,7 @@ export default {
     methods : {
         login(e) {
             e.preventDefault();
+            this.loginErrors = ''
             if (this.email.length > 0 && this.password.length > 0) {
                 var self = this;
                 axios.post('api/login', {
@@ -105,6 +106,7 @@ export default {
         },
         register(e) {
             e.preventDefault()
+            this.registerErrors = ''
             if (this.password.length > 0 && this.password === this.password_confirmation && this.password.length > 0) {
                 var self = this;
                 axios.post('api/register', {
@@ -141,7 +143,7 @@ export default {
     mounted() {
         let userData = JSON.parse(localStorage.getItem('userData'));
 
-        if (userData.jwt) {
+        if (userData != null && userData.jwt) {
             eventBus.$emit('login', userData);
         }
     }
