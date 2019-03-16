@@ -9,4 +9,9 @@ class Client extends Model
     protected $fillable = [
         'name', 'description', 'user_id'
     ];
+
+    public function user()
+    {
+        return $this->belongsToMany('App\User', 'users_clients')->withTimestamps();
+    }
 }

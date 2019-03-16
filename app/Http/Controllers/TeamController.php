@@ -31,6 +31,8 @@ class TeamController extends Controller
             'user_id' => $request->user_id,
         ]);
 
+        $team->user()->attach($request->user_id);
+
         return response()->json([
             'status' => (bool)$team,
             'data' => $team,

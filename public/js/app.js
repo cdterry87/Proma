@@ -2046,6 +2046,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     login: function login(e) {
       e.preventDefault();
+      this.loginErrors = '';
 
       if (this.email.length > 0 && this.password.length > 0) {
         var self = this;
@@ -2074,6 +2075,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     register: function register(e) {
       e.preventDefault();
+      this.registerErrors = '';
 
       if (this.password.length > 0 && this.password === this.password_confirmation && this.password.length > 0) {
         var self = this;
@@ -2107,7 +2109,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var userData = JSON.parse(localStorage.getItem('userData'));
 
-    if (userData.jwt) {
+    if (userData != null && userData.jwt) {
       _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('login', userData);
     }
   }

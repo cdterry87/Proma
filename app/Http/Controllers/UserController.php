@@ -46,10 +46,22 @@ class UserController extends Controller
         $data['password'] = bcrypt($data['password']);
 
         $user = User::create($data);
-        $success['token'] = $user->createToken('promaToken')->accessToken;
-        $success['name'] = $user->name;
 
-        return response()->json(['success' => $success]);
+        $credentials = [
+            'email' => request('email'),
+            'password' => request('password')
+        ];
+
+        if (Auth::attempt($credentials)) {
+            $success['id'] = Auth::user()->id;
+            $success['name'] = Auth::user()->name;
+            $success['email'] = Auth::user()->email;
+            $success['token'] = Auth::user()->createToken('promaToken')->accessToken;
+
+            return response()->json(['success' => $success]);
+        }
+
+        return response()->json(['error' => 'Failed to generate user data.'], 500);
     }
 
     public function getUserInfo()

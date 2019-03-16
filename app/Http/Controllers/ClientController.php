@@ -31,6 +31,8 @@ class ClientController extends Controller
             'user_id' => $request->user_id,
         ]);
 
+        $client->user()->attach($request->user_id);
+
         return response()->json([
             'status' => (bool)$client,
             'data' => $client,
