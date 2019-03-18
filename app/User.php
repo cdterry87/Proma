@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
+use App\Project;
 
 class User extends Authenticatable
 {
@@ -39,6 +40,6 @@ class User extends Authenticatable
 
     public function projects()
     {
-        return $this->belongsToMany('App\Projects')->withTimestamps();
+        return $this->hasMany('App\Project');
     }
 }
