@@ -96,6 +96,9 @@ export default {
         this.getUserData()
     },
     mounted() {
+        axios.defaults.headers.common['Content-Type'] = 'application/json'
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt
+
         this.getClients()
     }
 
