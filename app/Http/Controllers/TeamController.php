@@ -15,8 +15,7 @@ class TeamController extends Controller
      */
     public function index()
     {
-        // return response()->json(Auth::user()->teams());
-        return response()->json(Team::all()->toArray());
+        return response()->json(Auth::user()->teams()->get());
     }
 
     /**

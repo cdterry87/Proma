@@ -12,8 +12,6 @@ class Team extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User', 'users_teams');
-        // return $this->belongsToMany('App\User', 'users_teams')->withTimestamps();
+        return $this->belongsToMany('App\User', 'users_teams')->withTimestamps();
     }
-
 }

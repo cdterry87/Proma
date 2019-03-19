@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
@@ -14,7 +15,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return response()->json(Client::all()->toArray());
+        return response()->json(Auth::user()->clients()->get());
     }
 
     /**

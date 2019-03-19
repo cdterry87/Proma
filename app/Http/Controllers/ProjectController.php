@@ -15,7 +15,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return response()->json(Auth::user()->projects());
+        return response()->json(Auth::user()->projects()->get());
     }
 
     /**
