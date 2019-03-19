@@ -1915,6 +1915,8 @@ __webpack_require__.r(__webpack_exports__);
     this.getUserData();
   },
   mounted: function mounted() {
+    axios.defaults.headers.common['Content-Type'] = 'application/json';
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt;
     this.getClients();
   }
 });
@@ -2380,6 +2382,8 @@ __webpack_require__.r(__webpack_exports__);
     this.getUserData();
   },
   mounted: function mounted() {
+    axios.defaults.headers.common['Content-Type'] = 'application/json';
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt;
     this.getProjects();
     this.getClients();
     this.getTeams();
@@ -2499,6 +2503,8 @@ __webpack_require__.r(__webpack_exports__);
     this.getUserData();
   },
   mounted: function mounted() {
+    axios.defaults.headers.common['Content-Type'] = 'application/json';
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt;
     this.getTeams();
   }
 });

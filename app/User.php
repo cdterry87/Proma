@@ -42,4 +42,14 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Project');
     }
+
+    public function teams()
+    {
+        return $this->hasMany('App\Team');
+    }
+
+    public function clients()
+    {
+        return $this->hasMany('App\Client');
+    }
 }
