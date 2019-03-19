@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TeamController extends Controller
 {
@@ -14,6 +15,7 @@ class TeamController extends Controller
      */
     public function index()
     {
+        // return response()->json(Auth::user()->teams());
         return response()->json(Team::all()->toArray());
     }
 

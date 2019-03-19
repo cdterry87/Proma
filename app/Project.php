@@ -12,6 +12,7 @@ class Project extends Model
 
     public function user()
     {
-        return $this->belongsToMany('App\User', 'users_projects')->withTimestamps();
+        return $this->belongsTo('App\User', 'users_projects');
+        // return $this->belongsToMany('App\User', 'users_projects')->withTimestamps();
     }
 }
