@@ -2209,7 +2209,11 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    logout: function logout() {}
+    logout: function logout() {
+      localStorage.clear();
+      this.dialog = false;
+      location.reload();
+    }
   }
 });
 
@@ -4725,9 +4729,13 @@ var render = function() {
                     [
                       _c("v-spacer"),
                       _vm._v(" "),
-                      _c("v-btn", { attrs: { type: "submit", flat: "" } }, [
-                        _vm._v("Save")
-                      ]),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { flat: "", color: "primary", type: "submit" }
+                        },
+                        [_vm._v("Save")]
+                      ),
                       _vm._v(" "),
                       _c(
                         "v-btn",
@@ -4752,7 +4760,7 @@ var render = function() {
                           attrs: { flat: "", color: "red", form: "clientForm" },
                           on: { click: _vm.logout }
                         },
-                        [_vm._v("Cancel")]
+                        [_vm._v("Sign Out")]
                       ),
                       _vm._v(" "),
                       _c("v-spacer")

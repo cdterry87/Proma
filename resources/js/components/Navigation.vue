@@ -46,9 +46,9 @@
                     </v-container>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn type="submit" flat>Save</v-btn>
+                        <v-btn flat color="primary" type="submit">Save</v-btn>
                         <v-btn flat color="primary" form="clientForm" @click="dialog = false">Cancel</v-btn>
-                        <v-btn flat color="red" form="clientForm" @click="logout">Cancel</v-btn>
+                        <v-btn flat color="red" form="clientForm" @click="logout">Sign Out</v-btn>
                         <v-spacer></v-spacer>
                     </v-card-actions>
                 </v-card>
@@ -75,7 +75,9 @@ export default {
     },
     methods: {
         logout() {
-
+            localStorage.clear();
+            this.dialog = false;
+            location.reload();
         }
     }
 }
