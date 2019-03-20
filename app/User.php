@@ -40,16 +40,16 @@ class User extends Authenticatable
 
     public function projects()
     {
-        return $this->hasMany('App\Project');
+        return $this->belongsToMany('App\Project', 'users_projects');
     }
 
     public function teams()
     {
-        return $this->hasMany('App\Team');
+        return $this->belongsToMany('App\Team', 'users_teams');
     }
 
     public function clients()
     {
-        return $this->hasMany('App\Client');
+        return $this->belongsToMany('App\Client', 'users_clients');
     }
 }
