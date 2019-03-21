@@ -8,6 +8,7 @@ Vue.use(Vuetify)
 
 import App from './components/App'
 import Teams from './components/Teams'
+import EditTeam from './components/EditTeam'
 import Clients from './components/Clients'
 import Projects from './components/Projects'
 
@@ -23,6 +24,12 @@ const router = new VueRouter({
             path: '/teams',
             name: 'teams',
             component: Teams,
+        },
+        {
+            path: '/team/:id',
+            name: 'team',
+            component: EditTeam,
+            props: true
         },
         {
             path: '/clients',

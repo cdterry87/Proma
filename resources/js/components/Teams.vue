@@ -8,21 +8,27 @@
                 </v-btn>
             </v-container>
         </v-layout>
+        <v-layout row text-xs-center>
+            <v-container v-if="teams.length == 0">
+                You do not currently have any teams.
+            </v-container>
+        </v-layout>
         <v-layout row wrap>
             <v-flex xs12 md6 lg4 v-for="team in teams" :key="team.id">
-                <v-card>
-                    <v-card-title primary-title>
-                        <div class="headline">
-                            {{ team.name | truncate(25) }}
-                        </div>
-                    </v-card-title>
-                    <v-card-text>
-                        {{ team.description | truncate(80) }}
-                    </v-card-text>
-                </v-card>
+                <router-link :to="'/team/' + team.id">
+                    <v-card class="editCard">
+                        <v-card-title primary-title>
+                            <div class="headline">
+                                {{ team.name | truncate(25) }}
+                            </div>
+                        </v-card-title>
+                        <v-card-text>
+                            {{ team.description | truncate(80) }}
+                        </v-card-text>
+                    </v-card>
+                </router-link>
             </v-flex>
         </v-layout>
-
 
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="teamForm" @submit.prevent="createTeam">
@@ -51,6 +57,7 @@
 </template>
 
 <script>
+
 export default {
     name: 'Teams',
     data() {
@@ -109,5 +116,9 @@ export default {
 .container {
     padding-top: 6px !important;
     padding-bottom: 6px !important;
+}
+
+.editCard {
+    cursor: pointer;
 }
 </style>

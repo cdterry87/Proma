@@ -8,6 +8,11 @@
                 </v-btn>
             </v-container>
         </v-layout>
+        <v-layout row text-xs-center>
+            <v-container v-if="clients.length == 0">
+                You do not currently have any clients.
+            </v-container>
+        </v-layout>
         <v-layout row wrap>
             <v-flex xs12 md6 lg4 v-for="client in clients" :key="client.id">
                 <v-card>
