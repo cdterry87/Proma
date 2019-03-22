@@ -29,7 +29,6 @@ class TeamController extends Controller
         $team = Team::create([
             'name' => $request->name,
             'description' => $request->description,
-            'user_id' => $request->user_id,
         ]);
 
         $team->user()->attach($request->user_id);

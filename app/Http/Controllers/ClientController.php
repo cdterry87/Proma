@@ -29,7 +29,6 @@ class ClientController extends Controller
         $client = Client::create([
             'name' => $request->name,
             'description' => $request->description,
-            'user_id' => $request->user_id,
         ]);
 
         $client->user()->attach($request->user_id);

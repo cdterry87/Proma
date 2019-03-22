@@ -15,16 +15,18 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex xs12 md6 lg4 v-for="project in projects" :key="project.id">
-                <v-card>
-                    <v-card-title primary-title>
-                        <div class="headline">
-                            {{ project.name | truncate(25) }}
-                        </div>
-                    </v-card-title>
-                    <v-card-text>
-                        {{ project.description | truncate(80) }}
-                    </v-card-text>
-                </v-card>
+                <router-link :to="'/project/' + project.id">
+                    <v-card class="editCard">
+                        <v-card-title primary-title>
+                            <div class="headline">
+                                {{ project.name | truncate(25) }}
+                            </div>
+                        </v-card-title>
+                        <v-card-text>
+                            {{ project.description | truncate(80) }}
+                        </v-card-text>
+                    </v-card>
+                </router-link>
             </v-flex>
         </v-layout>
 
@@ -86,9 +88,9 @@ export default {
             team_id: '',
             client_id: '',
             userData: null,
-            projects: null,
-            teams: null,
-            clients: null,
+            projects: [],
+            teams: [],
+            clients: [],
         }
     },
     methods: {
@@ -118,8 +120,9 @@ export default {
             let description = this.description
             let client_id = this.client_id
             let team_id = this.team_id
+            let user_id = this.userData.id
 
-            axios.post('api/projects', { name, description, client_id, team_id })
+            axios.post('api/projects', { name, description, client_id, team_id, user_id })
             .then(response => {
                 this.projects.push(response.data.data)
             })

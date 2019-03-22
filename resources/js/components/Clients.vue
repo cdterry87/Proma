@@ -82,8 +82,9 @@ export default {
         createClient() {
             let name = this.name
             let description = this.description
+            let user_id = this.userData.id
 
-            axios.post('api/clients', { name, description })
+            axios.post('api/clients', { name, description, user_id })
             .then(response => {
                 this.clients.push(response.data.data)
             })
@@ -110,8 +111,5 @@ export default {
 </script>
 
 <style scoped>
-.container {
-    padding-top: 6px !important;
-    padding-bottom: 6px !important;
-}
+
 </style>

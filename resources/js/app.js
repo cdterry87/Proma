@@ -12,6 +12,7 @@ import EditTeam from './components/EditTeam'
 import Clients from './components/Clients'
 import EditClient from './components/EditClient'
 import Projects from './components/Projects'
+import EditProject from './components/EditProject'
 
 const router = new VueRouter({
     mode: 'history',
@@ -41,6 +42,12 @@ const router = new VueRouter({
             path: '/client/:id',
             name: 'client',
             component: EditClient,
+            props: true
+        },
+        {
+            path: '/project/:id',
+            name: 'project',
+            component: EditProject,
             props: true
         },
     ],
