@@ -40,6 +40,10 @@ a {
     text-decoration: none;
 }
 
+.editCard {
+    cursor: pointer;
+}
+
 #copyright {
     text-align: center;
 }

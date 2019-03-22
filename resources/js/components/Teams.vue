@@ -114,8 +114,4 @@ export default {
     padding-top: 6px !important;
     padding-bottom: 6px !important;
 }
-
-.editCard {
-    cursor: pointer;
-}
 </style>

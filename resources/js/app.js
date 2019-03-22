@@ -10,6 +10,7 @@ import App from './components/App'
 import Teams from './components/Teams'
 import EditTeam from './components/EditTeam'
 import Clients from './components/Clients'
+import EditClient from './components/EditClient'
 import Projects from './components/Projects'
 
 const router = new VueRouter({
@@ -35,6 +36,12 @@ const router = new VueRouter({
             path: '/clients',
             name: 'clients',
             component: Clients,
+        },
+        {
+            path: '/client/:id',
+            name: 'client',
+            component: EditClient,
+            props: true
         },
     ],
 });

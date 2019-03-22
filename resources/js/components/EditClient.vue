@@ -1,15 +1,15 @@
 <template>
     <v-container fluid grid-list-md>
-        <h2>Edit Team</h2>
-        <v-form method="POST" id="editTeamForm" @submit.prevent="updateTeam">
+        <h2>Edit Client</h2>
+        <v-form method="POST" id="editClientForm" @submit.prevent="updateClient">
             <v-layout row>
                 <v-flex xs12>
-                    <v-text-field prepend-icon="people" label="Team Name" v-model="team.name"></v-text-field>
+                    <v-text-field prepend-icon="person" label="Client Name" v-model="client.name"></v-text-field>
                 </v-flex>
             </v-layout>
             <v-layout row>
                 <v-flex xs12>
-                    <v-textarea prepend-icon="notes" label="Description" v-model="team.description"></v-textarea>
+                    <v-textarea prepend-icon="notes" label="Description" v-model="client.description"></v-textarea>
                 </v-flex>
             </v-layout>
             <v-layout row>
@@ -23,30 +23,30 @@
 
 <script>
     export default {
-        name: 'EditTeam',
+        name: 'EditClient',
         props: ['id'],
         data() {
             return {
-                team: ''
+                client: ''
             }
         },
         methods: {
             getUserData() {
                 this.userData = JSON.parse(localStorage.getItem('userData'))
             },
-            getTeam() {
-                axios.get('/api/teams/' + this.id)
+            getClient() {
+                axios.get('/api/clients/' + this.id)
                 .then(response => {
-                    this.team = response.data
+                    this.client = response.data
                 })
             },
-            updateTeam() {
-                let name = this.team.name;
-                let description = this.team.description;
+            updateClient() {
+                let name = this.client.name;
+                let description = this.client.description;
 
-                axios.put('/api/teams/' + this.id, { name, description })
+                axios.put('/api/clients/' + this.id, { name, description })
                 .then(response => {
-                    this.team = response.data.data
+                    this.client = response.data.data
                 })
             },
         },
@@ -57,7 +57,7 @@
             axios.defaults.headers.common['Content-Type'] = 'application/json'
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt
 
-            this.getTeam()
+            this.getClient()
         }
     }
 </script>
