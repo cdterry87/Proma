@@ -74,19 +74,16 @@ export default {
             this.userData = JSON.parse(localStorage.getItem('userData'))
         },
         getTeams() {
-            let user_id = this.userData.id
-
-            axios.get('api/teams', { user_id })
+            axios.get('api/teams')
             .then(response => {
                 this.teams = response.data
             })
         },
         createTeam() {
-            let user_id = this.userData.id;
             let name = this.name;
             let description = this.description;
 
-            axios.post('api/teams', { user_id, name, description })
+            axios.post('api/teams', { name, description })
             .then(response => {
                 this.teams.push(response.data.data)
             })

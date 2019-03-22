@@ -72,19 +72,16 @@ export default {
             this.userData = JSON.parse(localStorage.getItem('userData'))
         },
         getClients() {
-            let user_id = this.userData.id
-
-            axios.get('api/clients', { user_id })
+            axios.get('api/clients')
             .then(response => {
                 this.clients = response.data
             })
         },
         createClient() {
-            let user_id = this.userData.id
             let name = this.name
             let description = this.description
 
-            axios.post('api/clients', { user_id, name, description })
+            axios.post('api/clients', { name, description })
             .then(response => {
                 this.clients.push(response.data.data)
             })

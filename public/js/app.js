@@ -1888,21 +1888,16 @@ __webpack_require__.r(__webpack_exports__);
     getClients: function getClients() {
       var _this = this;
 
-      var user_id = this.userData.id;
-      axios.get('api/clients', {
-        user_id: user_id
-      }).then(function (response) {
+      axios.get('api/clients').then(function (response) {
         _this.clients = response.data;
       });
     },
     createClient: function createClient() {
       var _this2 = this;
 
-      var user_id = this.userData.id;
       var name = this.name;
       var description = this.description;
       axios.post('api/clients', {
-        user_id: user_id,
         name: name,
         description: description
       }).then(function (response) {
@@ -1965,12 +1960,42 @@ __webpack_require__.r(__webpack_exports__);
   props: ['id'],
   data: function data() {
     return {
-      name: '',
-      description: ''
+      team: ''
     };
   },
   methods: {
-    editTeam: function editTeam() {}
+    getUserData: function getUserData() {
+      this.userData = JSON.parse(localStorage.getItem('userData'));
+    },
+    getTeam: function getTeam() {
+      var _this = this;
+
+      axios.get('/api/teams/' + this.id).then(function (response) {
+        _this.team = response.data;
+      });
+    },
+    editTeam: function editTeam() {
+      var _this2 = this;
+
+      var team_id = this.team.team_id;
+      var name = this.team.name;
+      var description = this.team.description;
+      axios.put('/api/teams/' + this.id, {
+        team_id: team_id,
+        name: name,
+        description: description
+      }).then(function (response) {
+        _this2.team = response.data.data;
+      });
+    }
+  },
+  created: function created() {
+    this.getUserData();
+  },
+  mounted: function mounted() {
+    axios.defaults.headers.common['Content-Type'] = 'application/json';
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt;
+    this.getTeam();
   }
 });
 
@@ -2382,43 +2407,32 @@ __webpack_require__.r(__webpack_exports__);
     getProjects: function getProjects() {
       var _this = this;
 
-      var user_id = this.userData.id;
-      axios.get('api/projects', {
-        user_id: user_id
-      }).then(function (response) {
+      axios.get('api/projects').then(function (response) {
         _this.projects = response.data;
       });
     },
     getClients: function getClients() {
       var _this2 = this;
 
-      var user_id = this.userData.id;
-      axios.get('api/clients', {
-        user_id: user_id
-      }).then(function (response) {
+      axios.get('api/clients').then(function (response) {
         _this2.clients = response.data;
       });
     },
     getTeams: function getTeams() {
       var _this3 = this;
 
-      var user_id = this.userData.id;
-      axios.get('api/teams', {
-        user_id: user_id
-      }).then(function (response) {
+      axios.get('api/teams').then(function (response) {
         _this3.teams = response.data;
       });
     },
     createProject: function createProject() {
       var _this4 = this;
 
-      var user_id = this.userData.id;
       var name = this.name;
       var description = this.description;
       var client_id = this.client_id;
       var team_id = this.team_id;
       axios.post('api/projects', {
-        user_id: user_id,
         name: name,
         description: description,
         client_id: client_id,
@@ -2535,21 +2549,16 @@ __webpack_require__.r(__webpack_exports__);
     getTeams: function getTeams() {
       var _this = this;
 
-      var user_id = this.userData.id;
-      axios.get('api/teams', {
-        user_id: user_id
-      }).then(function (response) {
+      axios.get('api/teams').then(function (response) {
         _this.teams = response.data;
       });
     },
     createTeam: function createTeam() {
       var _this2 = this;
 
-      var user_id = this.userData.id;
       var name = this.name;
       var description = this.description;
       axios.post('api/teams', {
-        user_id: user_id,
         name: name,
         description: description
       }).then(function (response) {
@@ -4201,6 +4210,8 @@ var render = function() {
     "v-container",
     { attrs: { fluid: "", "grid-list-md": "" } },
     [
+      _c("h2", [_vm._v("Edit Team")]),
+      _vm._v(" "),
       _c(
         "v-form",
         {
@@ -4224,11 +4235,11 @@ var render = function() {
                   _c("v-text-field", {
                     attrs: { "prepend-icon": "people", label: "Team Name" },
                     model: {
-                      value: _vm.name,
+                      value: _vm.team.name,
                       callback: function($$v) {
-                        _vm.name = $$v
+                        _vm.$set(_vm.team, "name", $$v)
                       },
-                      expression: "name"
+                      expression: "team.name"
                     }
                   })
                 ],
@@ -4249,11 +4260,11 @@ var render = function() {
                   _c("v-textarea", {
                     attrs: { "prepend-icon": "notes", label: "Description" },
                     model: {
-                      value: _vm.description,
+                      value: _vm.team.description,
                       callback: function($$v) {
-                        _vm.description = $$v
+                        _vm.$set(_vm.team, "description", $$v)
                       },
-                      expression: "description"
+                      expression: "team.description"
                     }
                   })
                 ],
@@ -4272,19 +4283,6 @@ var render = function() {
               _c("v-btn", { attrs: { type: "submit", flat: "" } }, [
                 _vm._v("Save")
               ]),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  attrs: { flat: "", color: "primary", form: "teamForm" },
-                  on: {
-                    click: function($event) {
-                      _vm.dialog = false
-                    }
-                  }
-                },
-                [_vm._v("Cancel")]
-              ),
               _vm._v(" "),
               _c("v-spacer")
             ],

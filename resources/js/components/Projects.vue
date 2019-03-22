@@ -96,37 +96,30 @@ export default {
             this.userData = JSON.parse(localStorage.getItem('userData'))
         },
         getProjects() {
-            let user_id = this.userData.id
-
-            axios.get('api/projects', { user_id })
+            axios.get('api/projects')
             .then(response => {
                 this.projects = response.data
             })
         },
         getClients() {
-            let user_id = this.userData.id
-
-            axios.get('api/clients', { user_id })
+            axios.get('api/clients')
             .then(response => {
                 this.clients = response.data
             })
         },
         getTeams() {
-            let user_id = this.userData.id
-
-            axios.get('api/teams', { user_id })
+            axios.get('api/teams')
             .then(response => {
                 this.teams = response.data
             })
         },
         createProject() {
-            let user_id = this.userData.id
             let name = this.name
             let description = this.description
             let client_id = this.client_id
             let team_id = this.team_id
 
-            axios.post('api/projects', { user_id, name, description, client_id, team_id })
+            axios.post('api/projects', { name, description, client_id, team_id })
             .then(response => {
                 this.projects.push(response.data.data)
             })
