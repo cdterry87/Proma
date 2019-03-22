@@ -1957,6 +1957,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'EditClient',
   props: ['id'],
@@ -2010,6 +2014,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4294,81 +4304,99 @@ var render = function() {
     "v-container",
     { attrs: { fluid: "", "grid-list-md": "" } },
     [
-      _c("h2", [_vm._v("Edit Client")]),
-      _vm._v(" "),
       _c(
-        "v-form",
-        {
-          attrs: { method: "POST", id: "editClientForm" },
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-              return _vm.updateClient($event)
-            }
-          }
-        },
+        "v-card",
         [
           _c(
-            "v-layout",
-            { attrs: { row: "" } },
+            "v-container",
             [
+              _c("h2", [_vm._v("Edit Client")]),
+              _vm._v(" "),
               _c(
-                "v-flex",
-                { attrs: { xs12: "" } },
-                [
-                  _c("v-text-field", {
-                    attrs: { "prepend-icon": "person", label: "Client Name" },
-                    model: {
-                      value: _vm.client.name,
-                      callback: function($$v) {
-                        _vm.$set(_vm.client, "name", $$v)
-                      },
-                      expression: "client.name"
+                "v-form",
+                {
+                  attrs: { method: "POST", id: "editClientForm" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.updateClient($event)
                     }
-                  })
+                  }
+                },
+                [
+                  _c(
+                    "v-layout",
+                    { attrs: { row: "" } },
+                    [
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              "prepend-icon": "person",
+                              label: "Client Name"
+                            },
+                            model: {
+                              value: _vm.client.name,
+                              callback: function($$v) {
+                                _vm.$set(_vm.client, "name", $$v)
+                              },
+                              expression: "client.name"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-layout",
+                    { attrs: { row: "" } },
+                    [
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "" } },
+                        [
+                          _c("v-textarea", {
+                            attrs: {
+                              "prepend-icon": "notes",
+                              label: "Description"
+                            },
+                            model: {
+                              value: _vm.client.description,
+                              callback: function($$v) {
+                                _vm.$set(_vm.client, "description", $$v)
+                              },
+                              expression: "client.description"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-layout",
+                    { attrs: { row: "" } },
+                    [
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c("v-btn", { attrs: { type: "submit", flat: "" } }, [
+                        _vm._v("Save")
+                      ]),
+                      _vm._v(" "),
+                      _c("v-spacer")
+                    ],
+                    1
+                  )
                 ],
                 1
               )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-layout",
-            { attrs: { row: "" } },
-            [
-              _c(
-                "v-flex",
-                { attrs: { xs12: "" } },
-                [
-                  _c("v-textarea", {
-                    attrs: { "prepend-icon": "notes", label: "Description" },
-                    model: {
-                      value: _vm.client.description,
-                      callback: function($$v) {
-                        _vm.$set(_vm.client, "description", $$v)
-                      },
-                      expression: "client.description"
-                    }
-                  })
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-layout",
-            { attrs: { row: "" } },
-            [
-              _c("v-spacer"),
-              _vm._v(" "),
-              _c("v-btn", { attrs: { type: "submit", flat: "" } }, [
-                _vm._v("Save")
-              ]),
-              _vm._v(" "),
-              _c("v-spacer")
             ],
             1
           )
@@ -4405,81 +4433,99 @@ var render = function() {
     "v-container",
     { attrs: { fluid: "", "grid-list-md": "" } },
     [
-      _c("h2", [_vm._v("Edit Team")]),
-      _vm._v(" "),
       _c(
-        "v-form",
-        {
-          attrs: { method: "POST", id: "editTeamForm" },
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-              return _vm.updateTeam($event)
-            }
-          }
-        },
+        "v-card",
         [
           _c(
-            "v-layout",
-            { attrs: { row: "" } },
+            "v-container",
             [
+              _c("h2", [_vm._v("Edit Team")]),
+              _vm._v(" "),
               _c(
-                "v-flex",
-                { attrs: { xs12: "" } },
-                [
-                  _c("v-text-field", {
-                    attrs: { "prepend-icon": "people", label: "Team Name" },
-                    model: {
-                      value: _vm.team.name,
-                      callback: function($$v) {
-                        _vm.$set(_vm.team, "name", $$v)
-                      },
-                      expression: "team.name"
+                "v-form",
+                {
+                  attrs: { method: "POST", id: "editTeamForm" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.updateTeam($event)
                     }
-                  })
+                  }
+                },
+                [
+                  _c(
+                    "v-layout",
+                    { attrs: { row: "" } },
+                    [
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              "prepend-icon": "people",
+                              label: "Team Name"
+                            },
+                            model: {
+                              value: _vm.team.name,
+                              callback: function($$v) {
+                                _vm.$set(_vm.team, "name", $$v)
+                              },
+                              expression: "team.name"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-layout",
+                    { attrs: { row: "" } },
+                    [
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "" } },
+                        [
+                          _c("v-textarea", {
+                            attrs: {
+                              "prepend-icon": "notes",
+                              label: "Description"
+                            },
+                            model: {
+                              value: _vm.team.description,
+                              callback: function($$v) {
+                                _vm.$set(_vm.team, "description", $$v)
+                              },
+                              expression: "team.description"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-layout",
+                    { attrs: { row: "" } },
+                    [
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c("v-btn", { attrs: { type: "submit", flat: "" } }, [
+                        _vm._v("Save")
+                      ]),
+                      _vm._v(" "),
+                      _c("v-spacer")
+                    ],
+                    1
+                  )
                 ],
                 1
               )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-layout",
-            { attrs: { row: "" } },
-            [
-              _c(
-                "v-flex",
-                { attrs: { xs12: "" } },
-                [
-                  _c("v-textarea", {
-                    attrs: { "prepend-icon": "notes", label: "Description" },
-                    model: {
-                      value: _vm.team.description,
-                      callback: function($$v) {
-                        _vm.$set(_vm.team, "description", $$v)
-                      },
-                      expression: "team.description"
-                    }
-                  })
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-layout",
-            { attrs: { row: "" } },
-            [
-              _c("v-spacer"),
-              _vm._v(" "),
-              _c("v-btn", { attrs: { type: "submit", flat: "" } }, [
-                _vm._v("Save")
-              ]),
-              _vm._v(" "),
-              _c("v-spacer")
             ],
             1
           )
