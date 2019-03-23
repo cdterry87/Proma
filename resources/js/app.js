@@ -8,11 +8,11 @@ Vue.use(Vuetify)
 
 import App from './components/App'
 import Teams from './components/Teams'
-import EditTeam from './components/EditTeam'
+import Team from './components/Team'
 import Clients from './components/Clients'
-import EditClient from './components/EditClient'
+import Client from './components/Client'
 import Projects from './components/Projects'
-import EditProject from './components/EditProject'
+import Project from './components/Project'
 
 const router = new VueRouter({
     mode: 'history',
@@ -30,7 +30,7 @@ const router = new VueRouter({
         {
             path: '/team/:id',
             name: 'team',
-            component: EditTeam,
+            component: Team,
             props: true
         },
         {
@@ -41,13 +41,13 @@ const router = new VueRouter({
         {
             path: '/client/:id',
             name: 'client',
-            component: EditClient,
+            component: Client,
             props: true
         },
         {
             path: '/project/:id',
             name: 'project',
-            component: EditProject,
+            component: Project,
             props: true
         },
     ],

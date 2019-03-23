@@ -1,6 +1,12 @@
 <template>
     <v-container fluid grid-list-md>
         <v-card>
+            <v-container text-xs-right>
+                <v-btn color="info" @click="viewTeam">
+                    <v-icon left dark>remove_red_eye</v-icon>
+                    View Team
+                </v-btn>
+            </v-container>
             <v-container>
                 <h2>Edit Team</h2>
                 <v-form method="POST" id="editTeamForm" @submit.prevent="updateTeam">
@@ -23,47 +29,20 @@
             </v-container>
 
         </v-card>
-
     </v-container>
 </template>
 
 <script>
+    import eventBus from './../events';
+
     export default {
         name: 'EditTeam',
-        props: ['id'],
-        data() {
-            return {
-                team: ''
-            }
-        },
+        props: ['team'],
         methods: {
-            getUserData() {
-                this.userData = JSON.parse(localStorage.getItem('userData'))
-            },
-            getTeam() {
-                axios.get('/api/teams/' + this.id)
-                .then(response => {
-                    this.team = response.data
-                })
-            },
-            updateTeam() {
-                let name = this.team.name;
-                let description = this.team.description;
-
-                axios.put('/api/teams/' + this.id, { name, description })
-                .then(response => {
-                    this.team = response.data.data
-                })
-            },
-        },
-        created() {
-            this.getUserData()
-        },
-        mounted() {
-            axios.defaults.headers.common['Content-Type'] = 'application/json'
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt
-
-            this.getTeam()
+            viewTeam() {
+                let editTeam = false
+                eventBus.$emit('editTeam', editTeam);
+            }
         }
     }
 </script>
