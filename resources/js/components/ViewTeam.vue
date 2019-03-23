@@ -9,8 +9,8 @@
             </v-container>
             <v-container>
                 <v-layout row>
-                    <v-flex xs12>
-                        <h2>{{ team.name }}</h2>
+                    <v-flex xs12 class="headline">
+                        {{ team.name }}
                     </v-flex>
                 </v-layout>
                 <v-layout row>

@@ -6490,9 +6490,17 @@ var render = function() {
                 "v-layout",
                 { attrs: { row: "" } },
                 [
-                  _c("v-flex", { attrs: { xs12: "" } }, [
-                    _c("h2", [_vm._v(_vm._s(_vm.client.name))])
-                  ])
+                  _c(
+                    "v-flex",
+                    { staticClass: "headline", attrs: { xs12: "" } },
+                    [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(_vm.client.name) +
+                          "\n                "
+                      )
+                    ]
+                  )
                 ],
                 1
               ),
@@ -6576,9 +6584,17 @@ var render = function() {
                 "v-layout",
                 { attrs: { row: "" } },
                 [
-                  _c("v-flex", { attrs: { xs12: "" } }, [
-                    _c("h2", [_vm._v(_vm._s(_vm.project.name))])
-                  ])
+                  _c(
+                    "v-flex",
+                    { staticClass: "headline", attrs: { xs12: "" } },
+                    [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(_vm.project.name) +
+                          "\n                "
+                      )
+                    ]
+                  )
                 ],
                 1
               ),
@@ -6662,9 +6678,17 @@ var render = function() {
                 "v-layout",
                 { attrs: { row: "" } },
                 [
-                  _c("v-flex", { attrs: { xs12: "" } }, [
-                    _c("h2", [_vm._v(_vm._s(_vm.team.name))])
-                  ])
+                  _c(
+                    "v-flex",
+                    { staticClass: "headline", attrs: { xs12: "" } },
+                    [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(_vm.team.name) +
+                          "\n                "
+                      )
+                    ]
+                  )
                 ],
                 1
               ),
