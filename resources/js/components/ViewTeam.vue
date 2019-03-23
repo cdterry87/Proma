@@ -28,11 +28,16 @@
 
     export default {
         name: 'ViewTeam',
-        props: ['team'],
+        props: ['teamInfo'],
         methods: {
             editTeam() {
                 let editTeam = true
                 eventBus.$emit('editTeam', editTeam);
+            }
+        },
+        computed: {
+            team() {
+                return this.teamInfo
             }
         }
     }

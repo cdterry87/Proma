@@ -1,7 +1,7 @@
 <template>
     <div>
-        <EditTeam v-if="editTeam" :team="team" />
-        <ViewTeam v-else :team="team" />
+        <EditTeam v-if="editTeam" :teamInfo="team" />
+        <ViewTeam v-else :teamInfo="team" />
     </div>
 </template>
 
@@ -33,21 +33,11 @@
                     this.team = response.data
                 })
             },
-            updateTeam() {
-                let name = this.team.name;
-                let description = this.team.description;
-
-                axios.put('/api/teams/' + this.id, { name, description })
-                .then(response => {
-                    this.team = response.data.data
-                })
-            },
         },
         created() {
             this.getUserData()
 
             eventBus.$on('editTeam', editTeam => {
-                console.log('editTeam', editTeam)
                 this.editTeam = editTeam
             })
         },

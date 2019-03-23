@@ -8,7 +8,6 @@
                 </v-btn>
             </v-container>
             <v-container>
-                <h2>Edit Team</h2>
                 <v-form method="POST" id="editTeamForm" @submit.prevent="updateTeam">
                     <v-layout row>
                         <v-flex xs12>
@@ -37,12 +36,41 @@
 
     export default {
         name: 'EditTeam',
-        props: ['team'],
+        props: ['teamInfo'],
         methods: {
+            getUserData() {
+                this.userData = JSON.parse(localStorage.getItem('userData'))
+            },
             viewTeam() {
                 let editTeam = false
                 eventBus.$emit('editTeam', editTeam);
+            },
+            updateTeam() {
+                let name = this.team.name;
+                let description = this.team.description;
+
+                axios.put('/api/teams/' + this.team.id, { name, description })
+                .then(response => {
+                    this.team = response.data.data
+                })
+            },
+        },
+        created() {
+            this.getUserData()
+        },
+        computed: {
+            team: {
+                get() {
+                    return this.teamInfo
+                },
+                set(value) {
+                    return value;
+                }
             }
+        },
+        mounted() {
+            axios.defaults.headers.common['Content-Type'] = 'application/json'
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt
         }
     }
 </script>

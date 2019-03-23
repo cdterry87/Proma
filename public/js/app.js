@@ -1970,16 +1970,47 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'EditTeam',
-  props: ['team'],
+  props: ['teamInfo'],
   methods: {
+    getUserData: function getUserData() {
+      this.userData = JSON.parse(localStorage.getItem('userData'));
+    },
     viewTeam: function viewTeam() {
       var editTeam = false;
       _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('editTeam', editTeam);
+    },
+    updateTeam: function updateTeam() {
+      var _this = this;
+
+      var name = this.team.name;
+      var description = this.team.description;
+      axios.put('/api/teams/' + this.team.id, {
+        name: name,
+        description: description
+      }).then(function (response) {
+        _this.team = response.data.data;
+      });
     }
+  },
+  created: function created() {
+    this.getUserData();
+  },
+  computed: {
+    team: {
+      get: function get() {
+        return this.teamInfo;
+      },
+      set: function set(value) {
+        return value;
+      }
+    }
+  },
+  mounted: function mounted() {
+    axios.defaults.headers.common['Content-Type'] = 'application/json';
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt;
   }
 });
 
@@ -2497,27 +2528,14 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/api/teams/' + this.id).then(function (response) {
         _this.team = response.data;
       });
-    },
-    updateTeam: function updateTeam() {
-      var _this2 = this;
-
-      var name = this.team.name;
-      var description = this.team.description;
-      axios.put('/api/teams/' + this.id, {
-        name: name,
-        description: description
-      }).then(function (response) {
-        _this2.team = response.data.data;
-      });
     }
   },
   created: function created() {
-    var _this3 = this;
+    var _this2 = this;
 
     this.getUserData();
     _events__WEBPACK_IMPORTED_MODULE_0__["default"].$on('editTeam', function (editTeam) {
-      console.log('editTeam', editTeam);
-      _this3.editTeam = editTeam;
+      _this2.editTeam = editTeam;
     });
   },
   mounted: function mounted() {
@@ -2689,11 +2707,16 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ViewTeam',
-  props: ['team'],
+  props: ['teamInfo'],
   methods: {
     editTeam: function editTeam() {
       var editTeam = true;
       _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('editTeam', editTeam);
+    }
+  },
+  computed: {
+    team: function team() {
+      return this.teamInfo;
     }
   }
 });
@@ -4269,8 +4292,6 @@ var render = function() {
           _c(
             "v-container",
             [
-              _c("h2", [_vm._v("Edit Team")]),
-              _vm._v(" "),
               _c(
                 "v-form",
                 {
@@ -5385,8 +5406,8 @@ var render = function() {
     "div",
     [
       _vm.editTeam
-        ? _c("EditTeam", { attrs: { team: _vm.team } })
-        : _c("ViewTeam", { attrs: { team: _vm.team } })
+        ? _c("EditTeam", { attrs: { teamInfo: _vm.team } })
+        : _c("ViewTeam", { attrs: { teamInfo: _vm.team } })
     ],
     1
   )
