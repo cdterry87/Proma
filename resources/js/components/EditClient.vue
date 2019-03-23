@@ -1,8 +1,13 @@
 <template>
     <v-container fluid grid-list-md>
         <v-card>
+            <v-container text-xs-right>
+                <v-btn color="info" @click="viewClient">
+                    <v-icon left dark>remove_red_eye</v-icon>
+                    View Client
+                </v-btn>
+            </v-container>
             <v-container>
-                <h2>Edit Client</h2>
                 <v-form method="POST" id="editClientForm" @submit.prevent="updateClient">
                     <v-layout row>
                         <v-flex xs12>
@@ -21,34 +26,30 @@
                     </v-layout>
                 </v-form>
             </v-container>
+
         </v-card>
     </v-container>
 </template>
 
 <script>
+    import eventBus from './../events';
+
     export default {
         name: 'EditClient',
-        props: ['id'],
-        data() {
-            return {
-                client: ''
-            }
-        },
+        props: ['clientInfo'],
         methods: {
             getUserData() {
                 this.userData = JSON.parse(localStorage.getItem('userData'))
             },
-            getClient() {
-                axios.get('/api/clients/' + this.id)
-                .then(response => {
-                    this.client = response.data
-                })
+            viewClient() {
+                let editClient = false
+                eventBus.$emit('editClient', editClient);
             },
             updateClient() {
                 let name = this.client.name;
                 let description = this.client.description;
 
-                axios.put('/api/clients/' + this.id, { name, description })
+                axios.put('/api/clients/' + this.client.id, { name, description })
                 .then(response => {
                     this.client = response.data.data
                 })
@@ -57,11 +58,19 @@
         created() {
             this.getUserData()
         },
+        computed: {
+            client: {
+                get() {
+                    return this.clientInfo
+                },
+                set(value) {
+                    return value;
+                }
+            }
+        },
         mounted() {
             axios.defaults.headers.common['Content-Type'] = 'application/json'
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt
-
-            this.getClient()
         }
     }
 </script>
