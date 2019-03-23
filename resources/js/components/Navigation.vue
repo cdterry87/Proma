@@ -67,7 +67,7 @@ export default {
             name: '',
             email: '',
             items: [
-                { icon: 'view_week', text: 'Projects', route: 'home' },
+                { icon: 'work', text: 'Projects', route: 'home' },
                 { icon: 'person', text: 'Clients', route: 'clients' },
                 { icon: 'people', text: 'Teams', route: 'teams' },
             ]
