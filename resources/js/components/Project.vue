@@ -2,6 +2,7 @@
     <div>
         <EditProject v-if="editProject" :projectInfo="project" />
         <ViewProject v-else :projectInfo="project" />
+        <ProjectTasks />
     </div>
 </template>
 
@@ -9,13 +10,15 @@
     import eventBus from './../events';
     import EditProject from './EditProject'
     import ViewProject from './ViewProject'
+    import ProjectTasks from './ProjectTasks'
 
     export default {
         name: 'Project',
         props: ['id'],
         components: {
             EditProject,
-            ViewProject
+            ViewProject,
+            ProjectTasks
         },
         data() {
             return {

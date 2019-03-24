@@ -17,12 +17,10 @@
             <v-flex xs12 md6 lg4 v-for="client in clients" :key="client.id">
                 <router-link :to="'/client/' + client.id">
                     <v-card class="editCard">
-                        <v-card-title primary-title>
+                        <v-card-text>
                             <div class="headline">
                                 {{ client.name | truncate(25) }}
                             </div>
-                        </v-card-title>
-                        <v-card-text>
                             {{ client.description | truncate(80) }}
                         </v-card-text>
                     </v-card>

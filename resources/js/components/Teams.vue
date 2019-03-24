@@ -17,12 +17,10 @@
             <v-flex xs12 md6 lg4 v-for="team in teams" :key="team.id">
                 <router-link :to="'/team/' + team.id">
                     <v-card class="editCard">
-                        <v-card-title primary-title>
+                        <v-card-text>
                             <div class="headline">
                                 {{ team.name | truncate(25) }}
                             </div>
-                        </v-card-title>
-                        <v-card-text>
                             {{ team.description | truncate(80) }}
                         </v-card-text>
                     </v-card>

@@ -17,12 +17,10 @@
             <v-flex xs12 md6 lg4 v-for="project in projects" :key="project.id">
                 <router-link :to="'/project/' + project.id">
                     <v-card class="editCard">
-                        <v-card-title primary-title>
+                        <v-card-text>
                             <div class="headline">
                                 {{ project.name | truncate(25) }}
                             </div>
-                        </v-card-title>
-                        <v-card-text>
                             {{ project.description | truncate(80) }}
                         </v-card-text>
                     </v-card>
