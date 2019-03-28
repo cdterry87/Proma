@@ -61,7 +61,7 @@ class TeamController extends Controller
     public function update(Request $request, Team $team)
     {
         $status = $team->update(
-            $request->only(['name', 'description', 'user_id'])
+            $request->only(['name', 'description'])
         );
 
         return response()->json([

@@ -49,6 +49,10 @@ a {
     cursor: pointer;
 }
 
+.v-card {
+    padding-bottom: 20px;
+}
+
 #copyright {
     text-align: center;
 }

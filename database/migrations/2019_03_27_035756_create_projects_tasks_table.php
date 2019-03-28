@@ -19,7 +19,7 @@ class CreateProjectsTasksTable extends Migration
             $table->text('description');
             $table->date('start_date')->nullable();
             $table->date('due_date')->nullable();
-            $table->string('status');
+            $table->boolean('complete')->default(false);
             $table->timestamps();
         });
     }

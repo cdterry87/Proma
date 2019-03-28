@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Client;
+use App\Project;
+use App\ProjectTask;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class ClientController extends Controller
+class ProjectTaskController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return response()->json(Auth::user()->clients()->get());
+        return response()->json(Project::user()->tasks()->get());
     }
 
     /**
@@ -26,63 +26,61 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        $client = Client::create([
-            'name' => $request->name,
+        $task = ProjectTask::create([
             'description' => $request->description,
+            'project_id' => $request->project_id,
         ]);
 
-        $client->user()->attach($request->user_id);
-
         return response()->json([
-            'status' => (bool)$client,
-            'data' => $client,
-            'message' => $client ? 'Client created successfully!' : 'Error adding client!'
+            'status' => (bool)$task,
+            'data' => $task,
+            'message' => $task ? 'Task created successfully!' : 'Error adding task!'
         ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Client  $client
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Client $client)
+    public function show(ProjectTask $task)
     {
-        return response()->json($client);
+        return response()->json($task);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Client  $client
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Client $client)
+    public function update(Request $request, ProjectTask $task)
     {
-        $status = $client->update(
-            $request->only(['name', 'description'])
+        $status = $task->update(
+            $request->only(['description'])
         );
 
         return response()->json([
             'status' => $status,
-            'message' => $status ? 'Client updated successfully!' : 'Error updating client!'
+            'message' => $status ? 'Task updated successfully!' : 'Error updating task!'
         ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Client  $client
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Client $client)
+    public function destroy(ProjectTask $task)
     {
-        $status = $client->delete();
+        $status = $task->delete();
 
         return response()->json([
             'status' => $status,
-            'message' => $status ? 'Client deleted successfully!' : 'Error deleting task!'
+            'message' => $status ? 'Team deleted successfully!' : 'Error deleting team!'
         ]);
     }
 }

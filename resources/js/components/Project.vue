@@ -2,7 +2,7 @@
     <div>
         <EditProject v-if="editProject" :projectInfo="project" />
         <ViewProject v-else :projectInfo="project" />
-        <ProjectTasks />
+        <ProjectTasks :projectInfo="project" />
     </div>
 </template>
 
