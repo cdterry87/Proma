@@ -17,32 +17,39 @@
                 </v-layout>
             </v-container>
             <v-container fluid grid-list-md>
-                <v-flex xs12 md6 lg4>
-                    <v-card>
-                        <v-alert :value="true" type="success">
-                            This is just a test.
-                        </v-alert>
-                        <v-card-text>
-                            This is a proper description if I ever saw one.
-                            This is a proper description if I ever saw one.
-                        </v-card-text>
-                        <v-card-actions>
-                            <v-flex xs6><i class="material-icons">date_range</i> Start:</v-flex>
-                            <v-flex xs6><i class="material-icons">date_range</i> Due:</v-flex>
-                        </v-card-actions>
-                        <v-card-actions>
-                            <v-flex xs4 mr-1 ml-1>
-                                <v-btn color="success" block small><i class="material-icons">check</i> Complete</v-btn>
-                            </v-flex>
-                            <v-flex xs4 mr-1 ml-1>
-                                <v-btn color="info" block small><i class="material-icons">edit</i> Edit</v-btn>
-                            </v-flex>
-                            <v-flex xs4 mr-1 ml-1>
-                                <v-btn color="red" dark block small><i class="material-icons">delete</i> Delete</v-btn>
-                            </v-flex>
-                        </v-card-actions>
-                    </v-card>
-                </v-flex>
+                <v-layout row wrap>
+                    <v-flex xs12 md6 v-for="task in projectTasks" :key="task.id">
+                        <v-card>
+                            <v-alert :value="true" v-if="task.complete" type="success">
+                                Task is complete.
+                            </v-alert>
+                            <v-alert :value="true" v-if="!task.complete" type="warning">
+                                Task is incomplete.
+                            </v-alert>
+                            <v-alert :value="true" v-if="!task.complete" type="error">
+                                Task is overdue.
+                            </v-alert>
+                            <v-card-text>
+                                {{ task.description }}
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-flex xs6><i class="material-icons">date_range</i> Start:</v-flex>
+                                <v-flex xs6><i class="material-icons">date_range</i> Due:</v-flex>
+                            </v-card-actions>
+                            <v-card-actions>
+                                <v-flex xs4 mr-1 ml-1>
+                                    <v-btn color="success" block small><i class="material-icons">check</i> Complete</v-btn>
+                                </v-flex>
+                                <v-flex xs4 mr-1 ml-1>
+                                    <v-btn color="info" block small><i class="material-icons">edit</i> Edit</v-btn>
+                                </v-flex>
+                                <v-flex xs4 mr-1 ml-1>
+                                    <v-btn color="red" dark block small><i class="material-icons">delete</i> Delete</v-btn>
+                                </v-flex>
+                            </v-card-actions>
+                        </v-card>
+                    </v-flex>
+                </v-layout>
             </v-container>
         </v-card>
 
@@ -70,9 +77,11 @@
 </template>
 
 <script>
+    import eventBus from './../events';
+
     export default {
         name: 'ProjectTasks',
-        props: ['projectInfo'],
+        props: ['projectInfo', 'projectTasks'],
         data() {
             return {
                 dialog: false,
@@ -87,20 +96,17 @@
             getUserData() {
                 this.userData = JSON.parse(localStorage.getItem('userData'))
             },
-            getTasks() {
-                axios.get('/api/tasks')
-                .then(response => {
-                    this.tasks = response.data
-                    console.log('tasks', this.tasks);
-                })
-            },
             createTask() {
-                let description = this.description;
+                let description = this.description
                 let project_id = this.projectInfo.id
 
                 axios.post('/api/tasks', { description, project_id })
                 .then(response => {
                     this.tasks.push(response.data.data)
+
+                    let tasks = this.tasks;
+
+                    eventBus.$emit('createTask', tasks);
                 })
 
                 this.reset()
@@ -117,7 +123,6 @@
             axios.defaults.headers.common['Content-Type'] = 'application/json'
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt
 
-            this.getTasks()
-        }
+        },
     }
 </script>

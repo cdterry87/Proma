@@ -7,5 +7,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::resource('/clients', 'ClientController');
     Route::resource('/teams', 'TeamController');
     Route::resource('/projects', 'ProjectController');
+
+    Route::get('/tasks/{project}', 'ProjectTaskController@index');
     Route::resource('/tasks', 'ProjectTaskController');
 });

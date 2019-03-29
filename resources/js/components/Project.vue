@@ -2,7 +2,7 @@
     <div>
         <EditProject v-if="editProject" :projectInfo="project" />
         <ViewProject v-else :projectInfo="project" />
-        <ProjectTasks :projectInfo="project" />
+        <ProjectTasks :projectInfo="project" :projectTasks="tasks" />
     </div>
 </template>
 
@@ -23,7 +23,8 @@
         data() {
             return {
                 editProject: false,
-                project: ''
+                project: '',
+                tasks: '',
             }
         },
         methods: {
@@ -34,6 +35,14 @@
                 axios.get('/api/projects/' + this.id)
                 .then(response => {
                     this.project = response.data
+
+                    this.getProjectTasks(this.id);
+                })
+            },
+            getProjectTasks(project_id) {
+                axios.get('/api/tasks/' + project_id)
+                .then(response => {
+                    this.tasks = response.data
                 })
             },
         },
@@ -42,6 +51,10 @@
 
             eventBus.$on('editProject', editProject => {
                 this.editProject = editProject
+            })
+
+            eventBus.$on('createTask', tasks => {
+                this.tasks.push(...tasks)
             })
         },
         mounted() {

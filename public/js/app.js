@@ -2567,6 +2567,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _EditProject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditProject */ "./resources/js/components/EditProject.vue");
 /* harmony import */ var _ViewProject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ViewProject */ "./resources/js/components/ViewProject.vue");
 /* harmony import */ var _ProjectTasks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ProjectTasks */ "./resources/js/components/ProjectTasks.vue");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 //
 //
 //
@@ -2590,7 +2598,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       editProject: false,
-      project: ''
+      project: '',
+      tasks: ''
     };
   },
   methods: {
@@ -2602,15 +2611,29 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/api/projects/' + this.id).then(function (response) {
         _this.project = response.data;
+
+        _this.getProjectTasks(_this.id);
+      });
+    },
+    getProjectTasks: function getProjectTasks(project_id) {
+      var _this2 = this;
+
+      axios.get('/api/tasks/' + project_id).then(function (response) {
+        _this2.tasks = response.data;
       });
     }
   },
   created: function created() {
-    var _this2 = this;
+    var _this3 = this;
 
     this.getUserData();
     _events__WEBPACK_IMPORTED_MODULE_0__["default"].$on('editProject', function (editProject) {
-      _this2.editProject = editProject;
+      _this3.editProject = editProject;
+    });
+    _events__WEBPACK_IMPORTED_MODULE_0__["default"].$on('createTask', function (tasks) {
+      var _this3$tasks;
+
+      (_this3$tasks = _this3.tasks).push.apply(_this3$tasks, _toConsumableArray(tasks));
     });
   },
   mounted: function mounted() {
@@ -2631,6 +2654,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../events */ "./resources/js/events.js");
 //
 //
 //
@@ -2702,9 +2726,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ProjectTasks',
-  props: ['projectInfo'],
+  props: ['projectInfo', 'projectTasks'],
   data: function data() {
     return {
       dialog: false,
@@ -2719,16 +2751,8 @@ __webpack_require__.r(__webpack_exports__);
     getUserData: function getUserData() {
       this.userData = JSON.parse(localStorage.getItem('userData'));
     },
-    getTasks: function getTasks() {
-      var _this = this;
-
-      axios.get('/api/tasks').then(function (response) {
-        _this.tasks = response.data;
-        console.log('tasks', _this.tasks);
-      });
-    },
     createTask: function createTask() {
-      var _this2 = this;
+      var _this = this;
 
       var description = this.description;
       var project_id = this.projectInfo.id;
@@ -2736,7 +2760,10 @@ __webpack_require__.r(__webpack_exports__);
         description: description,
         project_id: project_id
       }).then(function (response) {
-        _this2.tasks.push(response.data.data);
+        _this.tasks.push(response.data.data);
+
+        var tasks = _this.tasks;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('createTask', tasks);
       });
       this.reset();
     },
@@ -2751,7 +2778,6 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     axios.defaults.headers.common['Content-Type'] = 'application/json';
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt;
-    this.getTasks();
   }
 });
 
@@ -5974,7 +6000,9 @@ var render = function() {
         ? _c("EditProject", { attrs: { projectInfo: _vm.project } })
         : _c("ViewProject", { attrs: { projectInfo: _vm.project } }),
       _vm._v(" "),
-      _c("ProjectTasks", { attrs: { projectInfo: _vm.project } })
+      _c("ProjectTasks", {
+        attrs: { projectInfo: _vm.project, projectTasks: _vm.tasks }
+      })
     ],
     1
   )
@@ -6066,115 +6094,160 @@ var render = function() {
             { attrs: { fluid: "", "grid-list-md": "" } },
             [
               _c(
-                "v-flex",
-                { attrs: { xs12: "", md6: "", lg4: "" } },
-                [
-                  _c(
-                    "v-card",
+                "v-layout",
+                { attrs: { row: "", wrap: "" } },
+                _vm._l(_vm.projectTasks, function(task) {
+                  return _c(
+                    "v-flex",
+                    { key: task.id, attrs: { xs12: "", md6: "" } },
                     [
                       _c(
-                        "v-alert",
-                        { attrs: { value: true, type: "success" } },
+                        "v-card",
                         [
-                          _vm._v(
-                            "\n                        This is just a test.\n                    "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("v-card-text", [
-                        _vm._v(
-                          "\n                        This is a proper description if I ever saw one.\n                        This is a proper description if I ever saw one.\n                    "
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "v-card-actions",
-                        [
-                          _c("v-flex", { attrs: { xs6: "" } }, [
-                            _c("i", { staticClass: "material-icons" }, [
-                              _vm._v("date_range")
-                            ]),
-                            _vm._v(" Start:")
+                          task.complete
+                            ? _c(
+                                "v-alert",
+                                { attrs: { value: true, type: "success" } },
+                                [
+                                  _vm._v(
+                                    "\n                            Task is complete.\n                        "
+                                  )
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          !task.complete
+                            ? _c(
+                                "v-alert",
+                                { attrs: { value: true, type: "warning" } },
+                                [
+                                  _vm._v(
+                                    "\n                            Task is incomplete.\n                        "
+                                  )
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          !task.complete
+                            ? _c(
+                                "v-alert",
+                                { attrs: { value: true, type: "error" } },
+                                [
+                                  _vm._v(
+                                    "\n                            Task is overdue.\n                        "
+                                  )
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c("v-card-text", [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(task.description) +
+                                "\n                        "
+                            )
                           ]),
                           _vm._v(" "),
-                          _c("v-flex", { attrs: { xs6: "" } }, [
-                            _c("i", { staticClass: "material-icons" }, [
-                              _vm._v("date_range")
-                            ]),
-                            _vm._v(" Due:")
-                          ])
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-card-actions",
-                        [
                           _c(
-                            "v-flex",
-                            { attrs: { xs4: "", "mr-1": "", "ml-1": "" } },
+                            "v-card-actions",
                             [
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: {
-                                    color: "success",
-                                    block: "",
-                                    small: ""
-                                  }
-                                },
-                                [
-                                  _c("i", { staticClass: "material-icons" }, [
-                                    _vm._v("check")
-                                  ]),
-                                  _vm._v(" Complete")
-                                ]
-                              )
+                              _c("v-flex", { attrs: { xs6: "" } }, [
+                                _c("i", { staticClass: "material-icons" }, [
+                                  _vm._v("date_range")
+                                ]),
+                                _vm._v(" Start:")
+                              ]),
+                              _vm._v(" "),
+                              _c("v-flex", { attrs: { xs6: "" } }, [
+                                _c("i", { staticClass: "material-icons" }, [
+                                  _vm._v("date_range")
+                                ]),
+                                _vm._v(" Due:")
+                              ])
                             ],
                             1
                           ),
                           _vm._v(" "),
                           _c(
-                            "v-flex",
-                            { attrs: { xs4: "", "mr-1": "", "ml-1": "" } },
+                            "v-card-actions",
                             [
                               _c(
-                                "v-btn",
-                                {
-                                  attrs: { color: "info", block: "", small: "" }
-                                },
+                                "v-flex",
+                                { attrs: { xs4: "", "mr-1": "", "ml-1": "" } },
                                 [
-                                  _c("i", { staticClass: "material-icons" }, [
-                                    _vm._v("edit")
-                                  ]),
-                                  _vm._v(" Edit")
-                                ]
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            { attrs: { xs4: "", "mr-1": "", "ml-1": "" } },
-                            [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        color: "success",
+                                        block: "",
+                                        small: ""
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "i",
+                                        { staticClass: "material-icons" },
+                                        [_vm._v("check")]
+                                      ),
+                                      _vm._v(" Complete")
+                                    ]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
                               _c(
-                                "v-btn",
-                                {
-                                  attrs: {
-                                    color: "red",
-                                    dark: "",
-                                    block: "",
-                                    small: ""
-                                  }
-                                },
+                                "v-flex",
+                                { attrs: { xs4: "", "mr-1": "", "ml-1": "" } },
                                 [
-                                  _c("i", { staticClass: "material-icons" }, [
-                                    _vm._v("delete")
-                                  ]),
-                                  _vm._v(" Delete")
-                                ]
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        color: "info",
+                                        block: "",
+                                        small: ""
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "i",
+                                        { staticClass: "material-icons" },
+                                        [_vm._v("edit")]
+                                      ),
+                                      _vm._v(" Edit")
+                                    ]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-flex",
+                                { attrs: { xs4: "", "mr-1": "", "ml-1": "" } },
+                                [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        color: "red",
+                                        dark: "",
+                                        block: "",
+                                        small: ""
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "i",
+                                        { staticClass: "material-icons" },
+                                        [_vm._v("delete")]
+                                      ),
+                                      _vm._v(" Delete")
+                                    ]
+                                  )
+                                ],
+                                1
                               )
                             ],
                             1
@@ -6185,7 +6258,7 @@ var render = function() {
                     ],
                     1
                   )
-                ],
+                }),
                 1
               )
             ],

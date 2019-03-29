@@ -13,9 +13,9 @@ class ProjectTaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Project $project)
     {
-        return response()->json(Project::tasks()->get());
+        return response()->json($project->tasks()->get());
     }
 
     /**
