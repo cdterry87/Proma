@@ -2695,6 +2695,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ProjectTasks',
   props: ['projectInfo'],
@@ -2717,6 +2724,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/api/tasks').then(function (response) {
         _this.tasks = response.data;
+        console.log('tasks', _this.tasks);
       });
     },
     createTask: function createTask() {
@@ -6002,15 +6010,26 @@ var render = function() {
         [
           _c(
             "v-container",
-            { attrs: { fluid: "", "grid-list-md": "" } },
             [
               _c(
                 "v-layout",
-                { attrs: { row: "" } },
+                { attrs: { "align-baseline": "" } },
                 [
+                  _c("v-flex", { attrs: { xs6: "" } }, [
+                    _c(
+                      "span",
+                      { staticClass: "headline" },
+                      [
+                        _c("v-icon", [_vm._v("list")]),
+                        _vm._v(" Tasks\n                    ")
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
                   _c(
-                    "v-container",
-                    { attrs: { "text-xs-right": "" } },
+                    "v-flex",
+                    { attrs: { xs6: "", "text-xs-right": "" } },
                     [
                       _c(
                         "v-btn",
@@ -6037,11 +6056,18 @@ var render = function() {
                   )
                 ],
                 1
-              ),
-              _vm._v(" "),
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-container",
+            { attrs: { fluid: "", "grid-list-md": "" } },
+            [
               _c(
                 "v-flex",
-                { attrs: { xs12: "", md6: "" } },
+                { attrs: { xs12: "", md6: "", lg4: "" } },
                 [
                   _c(
                     "v-card",
@@ -6091,7 +6117,13 @@ var render = function() {
                             [
                               _c(
                                 "v-btn",
-                                { attrs: { color: "success", block: "" } },
+                                {
+                                  attrs: {
+                                    color: "success",
+                                    block: "",
+                                    small: ""
+                                  }
+                                },
                                 [
                                   _c("i", { staticClass: "material-icons" }, [
                                     _vm._v("check")
@@ -6109,7 +6141,9 @@ var render = function() {
                             [
                               _c(
                                 "v-btn",
-                                { attrs: { color: "info", block: "" } },
+                                {
+                                  attrs: { color: "info", block: "", small: "" }
+                                },
                                 [
                                   _c("i", { staticClass: "material-icons" }, [
                                     _vm._v("edit")
@@ -6128,7 +6162,12 @@ var render = function() {
                               _c(
                                 "v-btn",
                                 {
-                                  attrs: { color: "red", dark: "", block: "" }
+                                  attrs: {
+                                    color: "red",
+                                    dark: "",
+                                    block: "",
+                                    small: ""
+                                  }
                                 },
                                 [
                                   _c("i", { staticClass: "material-icons" }, [

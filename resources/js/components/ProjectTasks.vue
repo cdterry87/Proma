@@ -1,16 +1,23 @@
 <template>
     <v-container fluid grid-list-md>
         <v-card>
-            <v-container fluid grid-list-md>
-                <v-layout row>
-                    <v-container text-xs-right>
+            <v-container>
+                <v-layout align-baseline>
+                    <v-flex xs6>
+                        <span class="headline">
+                            <v-icon>list</v-icon> Tasks
+                        </span>
+                    </v-flex>
+                    <v-flex xs6 text-xs-right>
                         <v-btn color="info" @click="dialog = true">
                             <v-icon left dark>add</v-icon>
                             Add Task
                         </v-btn>
-                    </v-container>
+                    </v-flex>
                 </v-layout>
-                <v-flex xs12 md6>
+            </v-container>
+            <v-container fluid grid-list-md>
+                <v-flex xs12 md6 lg4>
                     <v-card>
                         <v-alert :value="true" type="success">
                             This is just a test.
@@ -25,13 +32,13 @@
                         </v-card-actions>
                         <v-card-actions>
                             <v-flex xs4 mr-1 ml-1>
-                                <v-btn color="success" block><i class="material-icons">check</i> Complete</v-btn>
+                                <v-btn color="success" block small><i class="material-icons">check</i> Complete</v-btn>
                             </v-flex>
                             <v-flex xs4 mr-1 ml-1>
-                                <v-btn color="info" block><i class="material-icons">edit</i> Edit</v-btn>
+                                <v-btn color="info" block small><i class="material-icons">edit</i> Edit</v-btn>
                             </v-flex>
                             <v-flex xs4 mr-1 ml-1>
-                                <v-btn color="red" dark block><i class="material-icons">delete</i> Delete</v-btn>
+                                <v-btn color="red" dark block small><i class="material-icons">delete</i> Delete</v-btn>
                             </v-flex>
                         </v-card-actions>
                     </v-card>
@@ -84,6 +91,7 @@
                 axios.get('/api/tasks')
                 .then(response => {
                     this.tasks = response.data
+                    console.log('tasks', this.tasks);
                 })
             },
             createTask() {

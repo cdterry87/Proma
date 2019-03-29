@@ -15,7 +15,7 @@ class ProjectTaskController extends Controller
      */
     public function index()
     {
-        return response()->json(Project::user()->tasks()->get());
+        return response()->json(Project::tasks()->get());
     }
 
     /**
