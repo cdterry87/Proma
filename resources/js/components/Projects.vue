@@ -28,7 +28,6 @@
             </v-flex>
         </v-layout>
 
-
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="teamForm" @submit.prevent="createProject">
                 <v-card>
@@ -96,6 +95,7 @@ export default {
             this.userData = JSON.parse(localStorage.getItem('userData'))
         },
         getProjects() {
+            console.log('getting projects');
             axios.get('api/projects')
             .then(response => {
                 this.projects = response.data

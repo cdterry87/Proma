@@ -50,7 +50,7 @@ a {
 }
 
 .v-card {
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 }
 
 #copyright {

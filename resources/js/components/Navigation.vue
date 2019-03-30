@@ -75,9 +75,11 @@ export default {
     },
     methods: {
         logout() {
-            localStorage.clear();
-            this.dialog = false;
-            location.reload();
+            localStorage.clear()
+            this.dialog = false
+            this.$router.push({ path: '/' })
+            location.reload()
+
         }
     }
 }

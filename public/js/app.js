@@ -2547,6 +2547,9 @@ __webpack_require__.r(__webpack_exports__);
     logout: function logout() {
       localStorage.clear();
       this.dialog = false;
+      this.$router.push({
+        path: '/'
+      });
       location.reload();
     }
   }
@@ -2567,14 +2570,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _EditProject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditProject */ "./resources/js/components/EditProject.vue");
 /* harmony import */ var _ViewProject__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ViewProject */ "./resources/js/components/ViewProject.vue");
 /* harmony import */ var _ProjectTasks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ProjectTasks */ "./resources/js/components/ProjectTasks.vue");
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
 //
 //
 //
@@ -2631,9 +2626,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       _this3.editProject = editProject;
     });
     _events__WEBPACK_IMPORTED_MODULE_0__["default"].$on('createTask', function (tasks) {
-      var _this3$tasks;
-
-      (_this3$tasks = _this3.tasks).push.apply(_this3$tasks, _toConsumableArray(tasks));
+      _this3.tasks = tasks;
     });
   },
   mounted: function mounted() {
@@ -2655,6 +2648,20 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../events */ "./resources/js/events.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2760,6 +2767,8 @@ __webpack_require__.r(__webpack_exports__);
         description: description,
         project_id: project_id
       }).then(function (response) {
+        _this.tasks = _this.projectTasks;
+
         _this.tasks.push(response.data.data);
 
         var tasks = _this.tasks;
@@ -2868,7 +2877,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Teams',
   data: function data() {
@@ -2891,6 +2899,7 @@ __webpack_require__.r(__webpack_exports__);
     getProjects: function getProjects() {
       var _this = this;
 
+      console.log('getting projects');
       axios.get('api/projects').then(function (response) {
         _this.projects = response.data;
       });
@@ -3223,6 +3232,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ViewProject',
@@ -3305,7 +3320,7 @@ __webpack_require__.r(__webpack_exports__);
 
 exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, "\na {\n    color: inherit !important;\n    text-decoration: none;\n}\n.container {\n    padding-top: 6px !important;\n    padding-bottom: 6px !important;\n}\n.editCard {\n    cursor: pointer;\n}\n.v-card {\n    padding-bottom: 20px;\n}\n#copyright {\n    text-align: center;\n}\n", ""]);
+exports.push([module.i, "\na {\n    color: inherit !important;\n    text-decoration: none;\n}\n.container {\n    padding-top: 6px !important;\n    padding-bottom: 6px !important;\n}\n.editCard {\n    cursor: pointer;\n}\n.v-card {\n    padding-bottom: 10px;\n}\n#copyright {\n    text-align: center;\n}\n", ""]);
 
 
 
@@ -4878,7 +4893,10 @@ var render = function() {
             [
               _c(
                 "v-btn",
-                { attrs: { color: "info" }, on: { click: _vm.viewClient } },
+                {
+                  attrs: { color: "info", small: "" },
+                  on: { click: _vm.viewClient }
+                },
                 [
                   _c("v-icon", { attrs: { left: "", dark: "" } }, [
                     _vm._v("remove_red_eye")
@@ -5024,7 +5042,10 @@ var render = function() {
             [
               _c(
                 "v-btn",
-                { attrs: { color: "info" }, on: { click: _vm.viewProject } },
+                {
+                  attrs: { color: "info", small: "" },
+                  on: { click: _vm.viewProject }
+                },
                 [
                   _c("v-icon", { attrs: { left: "", dark: "" } }, [
                     _vm._v("remove_red_eye")
@@ -5170,7 +5191,10 @@ var render = function() {
             [
               _c(
                 "v-btn",
-                { attrs: { color: "info" }, on: { click: _vm.viewTeam } },
+                {
+                  attrs: { color: "info", small: "" },
+                  on: { click: _vm.viewTeam }
+                },
                 [
                   _c("v-icon", { attrs: { left: "", dark: "" } }, [
                     _vm._v("remove_red_eye")
@@ -6062,7 +6086,7 @@ var render = function() {
                       _c(
                         "v-btn",
                         {
-                          attrs: { color: "info" },
+                          attrs: { color: "info", small: "" },
                           on: {
                             click: function($event) {
                               _vm.dialog = true
@@ -6089,162 +6113,186 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c(
-            "v-container",
-            { attrs: { fluid: "", "grid-list-md": "" } },
-            [
-              _c(
-                "v-layout",
-                { attrs: { row: "", wrap: "" } },
-                _vm._l(_vm.projectTasks, function(task) {
-                  return _c(
-                    "v-flex",
-                    { key: task.id, attrs: { xs12: "", md6: "" } },
-                    [
-                      _c(
-                        "v-card",
+          _vm.projectTasks.length == 0
+            ? _c(
+                "v-container",
+                [
+                  _c("v-layout", { attrs: { row: "" } }, [
+                    _vm._v(
+                      "\n                There are currently no tasks for this project.\n            "
+                    )
+                  ])
+                ],
+                1
+              )
+            : _c(
+                "v-container",
+                { attrs: { fluid: "", "grid-list-md": "" } },
+                [
+                  _c(
+                    "v-layout",
+                    { attrs: { row: "", wrap: "" } },
+                    _vm._l(_vm.projectTasks, function(task) {
+                      return _c(
+                        "v-flex",
+                        { key: task.id, attrs: { xs12: "", md4: "" } },
                         [
-                          task.complete
-                            ? _c(
-                                "v-alert",
-                                { attrs: { value: true, type: "success" } },
-                                [
-                                  _vm._v(
-                                    "\n                            Task is complete.\n                        "
-                                  )
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          !task.complete
-                            ? _c(
-                                "v-alert",
-                                { attrs: { value: true, type: "warning" } },
-                                [
-                                  _vm._v(
-                                    "\n                            Task is incomplete.\n                        "
-                                  )
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          !task.complete
-                            ? _c(
-                                "v-alert",
-                                { attrs: { value: true, type: "error" } },
-                                [
-                                  _vm._v(
-                                    "\n                            Task is overdue.\n                        "
-                                  )
-                                ]
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c("v-card-text", [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(task.description) +
-                                "\n                        "
-                            )
-                          ]),
-                          _vm._v(" "),
                           _c(
-                            "v-card-actions",
+                            "v-card",
                             [
-                              _c("v-flex", { attrs: { xs6: "" } }, [
-                                _c("i", { staticClass: "material-icons" }, [
-                                  _vm._v("date_range")
-                                ]),
-                                _vm._v(" Start:")
-                              ]),
+                              task.complete
+                                ? _c(
+                                    "v-alert",
+                                    { attrs: { value: true, type: "success" } },
+                                    [
+                                      _vm._v(
+                                        "\n                            Task is complete.\n                        "
+                                      )
+                                    ]
+                                  )
+                                : _vm._e(),
                               _vm._v(" "),
-                              _c("v-flex", { attrs: { xs6: "" } }, [
-                                _c("i", { staticClass: "material-icons" }, [
-                                  _vm._v("date_range")
-                                ]),
-                                _vm._v(" Due:")
-                              ])
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-card-actions",
-                            [
+                              !task.complete
+                                ? _c(
+                                    "v-alert",
+                                    { attrs: { value: true, type: "warning" } },
+                                    [
+                                      _vm._v(
+                                        "\n                            Task is incomplete.\n                        "
+                                      )
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
                               _c(
-                                "v-flex",
-                                { attrs: { xs4: "", "mr-1": "", "ml-1": "" } },
+                                "v-card-text",
                                 [
                                   _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        color: "success",
-                                        block: "",
-                                        small: ""
-                                      }
-                                    },
+                                    "v-layout",
                                     [
-                                      _c(
-                                        "i",
-                                        { staticClass: "material-icons" },
-                                        [_vm._v("check")]
-                                      ),
-                                      _vm._v(" Complete")
-                                    ]
+                                      _c("v-flex", [
+                                        _vm._v(
+                                          "\n                                    " +
+                                            _vm._s(task.description) +
+                                            "\n                                "
+                                        )
+                                      ])
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-layout",
+                                    { attrs: { row: "" } },
+                                    [
+                                      _c("v-flex", { attrs: { xs6: "" } }, [
+                                        _c("div", { staticClass: "caption" }, [
+                                          _vm._v(
+                                            "\n                                        Start Date:\n                                    "
+                                          )
+                                        ])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("v-flex", { attrs: { xs6: "" } }, [
+                                        _c("div", { staticClass: "caption" }, [
+                                          _vm._v(
+                                            "\n                                        Due Date:\n                                    "
+                                          )
+                                        ])
+                                      ])
+                                    ],
+                                    1
                                   )
                                 ],
                                 1
                               ),
                               _vm._v(" "),
                               _c(
-                                "v-flex",
-                                { attrs: { xs4: "", "mr-1": "", "ml-1": "" } },
+                                "v-card-actions",
                                 [
                                   _c(
-                                    "v-btn",
+                                    "v-flex",
                                     {
-                                      attrs: {
-                                        color: "info",
-                                        block: "",
-                                        small: ""
-                                      }
+                                      attrs: { xs4: "", "mr-1": "", "ml-1": "" }
                                     },
                                     [
                                       _c(
-                                        "i",
-                                        { staticClass: "material-icons" },
-                                        [_vm._v("edit")]
-                                      ),
-                                      _vm._v(" Edit")
-                                    ]
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-flex",
-                                { attrs: { xs4: "", "mr-1": "", "ml-1": "" } },
-                                [
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            color: "success",
+                                            block: "",
+                                            small: ""
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "i",
+                                            { staticClass: "material-icons" },
+                                            [_vm._v("check")]
+                                          ),
+                                          _vm._v(" Complete")
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
                                   _c(
-                                    "v-btn",
+                                    "v-flex",
                                     {
-                                      attrs: {
-                                        color: "red",
-                                        dark: "",
-                                        block: "",
-                                        small: ""
-                                      }
+                                      attrs: { xs4: "", "mr-1": "", "ml-1": "" }
                                     },
                                     [
                                       _c(
-                                        "i",
-                                        { staticClass: "material-icons" },
-                                        [_vm._v("delete")]
-                                      ),
-                                      _vm._v(" Delete")
-                                    ]
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            color: "info",
+                                            block: "",
+                                            small: ""
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "i",
+                                            { staticClass: "material-icons" },
+                                            [_vm._v("edit")]
+                                          ),
+                                          _vm._v(" Edit")
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      attrs: { xs4: "", "mr-1": "", "ml-1": "" }
+                                    },
+                                    [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            color: "red",
+                                            dark: "",
+                                            block: "",
+                                            small: ""
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "i",
+                                            { staticClass: "material-icons" },
+                                            [_vm._v("delete")]
+                                          ),
+                                          _vm._v(" Delete")
+                                        ]
+                                      )
+                                    ],
+                                    1
                                   )
                                 ],
                                 1
@@ -6255,15 +6303,12 @@ var render = function() {
                         ],
                         1
                       )
-                    ],
+                    }),
                     1
                   )
-                }),
+                ],
                 1
               )
-            ],
-            1
-          )
         ],
         1
       ),
@@ -6997,7 +7042,10 @@ var render = function() {
             [
               _c(
                 "v-btn",
-                { attrs: { color: "info" }, on: { click: _vm.editClient } },
+                {
+                  attrs: { color: "info", small: "" },
+                  on: { click: _vm.editClient }
+                },
                 [
                   _c("v-icon", { attrs: { left: "", dark: "" } }, [
                     _vm._v("edit")
@@ -7087,16 +7135,50 @@ var render = function() {
         [
           _c(
             "v-container",
-            { attrs: { "text-xs-right": "" } },
             [
               _c(
-                "v-btn",
-                { attrs: { color: "info" }, on: { click: _vm.editProject } },
+                "v-layout",
+                { attrs: { "align-baseline": "" } },
                 [
-                  _c("v-icon", { attrs: { left: "", dark: "" } }, [
-                    _vm._v("edit")
+                  _c("v-flex", { attrs: { xs6: "" } }, [
+                    _c(
+                      "span",
+                      { staticClass: "headline" },
+                      [
+                        _c("v-icon", [_vm._v("work")]),
+                        _vm._v(
+                          " " +
+                            _vm._s(_vm.project.name) +
+                            "\n                    "
+                        )
+                      ],
+                      1
+                    )
                   ]),
-                  _vm._v("\n                Edit Project\n            ")
+                  _vm._v(" "),
+                  _c(
+                    "v-flex",
+                    { attrs: { xs6: "", "text-xs-right": "" } },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { color: "info", small: "" },
+                          on: { click: _vm.editProject }
+                        },
+                        [
+                          _c("v-icon", { attrs: { left: "", dark: "" } }, [
+                            _vm._v("edit")
+                          ]),
+                          _vm._v(
+                            "\n                        Edit Project\n                    "
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
                 ],
                 1
               )
@@ -7107,24 +7189,7 @@ var render = function() {
           _c(
             "v-container",
             [
-              _c(
-                "v-layout",
-                { attrs: { row: "" } },
-                [
-                  _c(
-                    "v-flex",
-                    { staticClass: "headline", attrs: { xs12: "" } },
-                    [
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(_vm.project.name) +
-                          "\n                "
-                      )
-                    ]
-                  )
-                ],
-                1
-              ),
+              _c("v-layout", { attrs: { row: "" } }),
               _vm._v(" "),
               _c(
                 "v-layout",
@@ -7185,7 +7250,10 @@ var render = function() {
             [
               _c(
                 "v-btn",
-                { attrs: { color: "info" }, on: { click: _vm.editTeam } },
+                {
+                  attrs: { color: "info", small: "" },
+                  on: { click: _vm.editTeam }
+                },
                 [
                   _c("v-icon", { attrs: { left: "", dark: "" } }, [
                     _vm._v("edit")

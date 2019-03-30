@@ -54,7 +54,7 @@
             })
 
             eventBus.$on('createTask', tasks => {
-                this.tasks.push(...tasks)
+                this.tasks = tasks
             })
         },
         mounted() {

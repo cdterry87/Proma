@@ -2,7 +2,7 @@
     <v-container fluid grid-list-md>
         <v-card>
             <v-container text-xs-right>
-                <v-btn color="info" @click="editClient">
+                <v-btn color="info" @click="editClient" small>
                     <v-icon left dark>edit</v-icon>
                     Edit Client
                 </v-btn>

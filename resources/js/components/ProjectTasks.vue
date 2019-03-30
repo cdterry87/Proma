@@ -9,16 +9,21 @@
                         </span>
                     </v-flex>
                     <v-flex xs6 text-xs-right>
-                        <v-btn color="info" @click="dialog = true">
+                        <v-btn color="info" @click="dialog = true" small>
                             <v-icon left dark>add</v-icon>
                             Add Task
                         </v-btn>
                     </v-flex>
                 </v-layout>
             </v-container>
-            <v-container fluid grid-list-md>
+            <v-container v-if="projectTasks.length == 0">
+                <v-layout row>
+                    There are currently no tasks for this project.
+                </v-layout>
+            </v-container>
+            <v-container v-else fluid grid-list-md>
                 <v-layout row wrap>
-                    <v-flex xs12 md6 v-for="task in projectTasks" :key="task.id">
+                    <v-flex xs12 md4 v-for="task in projectTasks" :key="task.id">
                         <v-card>
                             <v-alert :value="true" v-if="task.complete" type="success">
                                 Task is complete.
@@ -26,16 +31,25 @@
                             <v-alert :value="true" v-if="!task.complete" type="warning">
                                 Task is incomplete.
                             </v-alert>
-                            <v-alert :value="true" v-if="!task.complete" type="error">
-                                Task is overdue.
-                            </v-alert>
                             <v-card-text>
-                                {{ task.description }}
+                                <v-layout>
+                                    <v-flex>
+                                        {{ task.description }}
+                                    </v-flex>
+                                </v-layout>
+                                <v-layout row>
+                                    <v-flex xs6>
+                                        <div class="caption">
+                                            Start Date:
+                                        </div>
+                                    </v-flex>
+                                    <v-flex xs6>
+                                        <div class="caption">
+                                            Due Date:
+                                        </div>
+                                    </v-flex>
+                                </v-layout>
                             </v-card-text>
-                            <v-card-actions>
-                                <v-flex xs6><i class="material-icons">date_range</i> Start:</v-flex>
-                                <v-flex xs6><i class="material-icons">date_range</i> Due:</v-flex>
-                            </v-card-actions>
                             <v-card-actions>
                                 <v-flex xs4 mr-1 ml-1>
                                     <v-btn color="success" block small><i class="material-icons">check</i> Complete</v-btn>
@@ -102,6 +116,7 @@
 
                 axios.post('/api/tasks', { description, project_id })
                 .then(response => {
+                    this.tasks = this.projectTasks
                     this.tasks.push(response.data.data)
 
                     let tasks = this.tasks;

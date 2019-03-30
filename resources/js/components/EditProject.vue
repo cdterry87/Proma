@@ -2,7 +2,7 @@
     <v-container fluid grid-list-md>
         <v-card>
             <v-container text-xs-right>
-                <v-btn color="info" @click="viewProject">
+                <v-btn color="info" @click="viewProject" small>
                     <v-icon left dark>remove_red_eye</v-icon>
                     View Project
                 </v-btn>
