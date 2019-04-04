@@ -9,5 +9,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::resource('/projects', 'ProjectController');
 
     Route::get('/tasks/{project}', 'ProjectTaskController@index');
+    Route::post('/tasks/{project}/complete/{task}', 'ProjectTaskController@complete');
     Route::resource('/tasks', 'ProjectTaskController');
 });

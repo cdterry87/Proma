@@ -2628,6 +2628,9 @@ __webpack_require__.r(__webpack_exports__);
     _events__WEBPACK_IMPORTED_MODULE_0__["default"].$on('createTask', function (tasks) {
       _this3.tasks = tasks;
     });
+    _events__WEBPACK_IMPORTED_MODULE_0__["default"].$on('loadTasks', function (project_id) {
+      _this3.getProjectTasks(project_id);
+    });
   },
   mounted: function mounted() {
     axios.defaults.headers.common['Content-Type'] = 'application/json';
@@ -2738,8 +2741,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ProjectTasks',
@@ -2750,8 +2751,7 @@ __webpack_require__.r(__webpack_exports__);
       description: '',
       start_date: '',
       due_date: '',
-      userData: null,
-      tasks: []
+      userData: null
     };
   },
   methods: {
@@ -2775,6 +2775,11 @@ __webpack_require__.r(__webpack_exports__);
         _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('createTask', tasks);
       });
       this.reset();
+    },
+    completeTask: function completeTask(project_id, task_id) {
+      axios.post('/api/tasks/' + project_id + '/complete/' + task_id).then(function (response) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadTasks', project_id);
+      });
     },
     reset: function reset() {
       this.dialog = false;
@@ -6135,7 +6140,7 @@ var render = function() {
                     _vm._l(_vm.projectTasks, function(task) {
                       return _c(
                         "v-flex",
-                        { key: task.id, attrs: { xs12: "", md4: "" } },
+                        { key: task.id, attrs: { xs12: "", md6: "", lg4: "" } },
                         [
                           _c(
                             "v-card",
@@ -6213,7 +6218,7 @@ var render = function() {
                                   _c(
                                     "v-flex",
                                     {
-                                      attrs: { xs4: "", "mr-1": "", "ml-1": "" }
+                                      attrs: { xs6: "", "mr-1": "", "ml-1": "" }
                                     },
                                     [
                                       _c(
@@ -6223,6 +6228,14 @@ var render = function() {
                                             color: "success",
                                             block: "",
                                             small: ""
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.completeTask(
+                                                task.project_id,
+                                                task.id
+                                              )
+                                            }
                                           }
                                         },
                                         [
@@ -6241,7 +6254,7 @@ var render = function() {
                                   _c(
                                     "v-flex",
                                     {
-                                      attrs: { xs4: "", "mr-1": "", "ml-1": "" }
+                                      attrs: { xs6: "", "mr-1": "", "ml-1": "" }
                                     },
                                     [
                                       _c(
@@ -6260,35 +6273,6 @@ var render = function() {
                                             [_vm._v("edit")]
                                           ),
                                           _vm._v(" Edit")
-                                        ]
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-flex",
-                                    {
-                                      attrs: { xs4: "", "mr-1": "", "ml-1": "" }
-                                    },
-                                    [
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          attrs: {
-                                            color: "red",
-                                            dark: "",
-                                            block: "",
-                                            small: ""
-                                          }
-                                        },
-                                        [
-                                          _c(
-                                            "i",
-                                            { staticClass: "material-icons" },
-                                            [_vm._v("delete")]
-                                          ),
-                                          _vm._v(" Delete")
                                         ]
                                       )
                                     ],

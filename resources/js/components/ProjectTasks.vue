@@ -23,7 +23,7 @@
             </v-container>
             <v-container v-else fluid grid-list-md>
                 <v-layout row wrap>
-                    <v-flex xs12 md4 v-for="task in projectTasks" :key="task.id">
+                    <v-flex xs12 md6 lg4 v-for="task in projectTasks" :key="task.id">
                         <v-card>
                             <v-alert :value="true" v-if="task.complete" type="success">
                                 Task is complete.
@@ -51,15 +51,13 @@
                                 </v-layout>
                             </v-card-text>
                             <v-card-actions>
-                                <v-flex xs4 mr-1 ml-1>
-                                    <v-btn color="success" block small><i class="material-icons">check</i> Complete</v-btn>
+                                <v-flex xs6 mr-1 ml-1>
+                                    <v-btn color="success" block small @click="completeTask(task.project_id, task.id)"><i class="material-icons">check</i> Complete</v-btn>
                                 </v-flex>
-                                <v-flex xs4 mr-1 ml-1>
+                                <v-flex xs6 mr-1 ml-1>
                                     <v-btn color="info" block small><i class="material-icons">edit</i> Edit</v-btn>
                                 </v-flex>
-                                <v-flex xs4 mr-1 ml-1>
-                                    <v-btn color="red" dark block small><i class="material-icons">delete</i> Delete</v-btn>
-                                </v-flex>
+
                             </v-card-actions>
                         </v-card>
                     </v-flex>
@@ -103,7 +101,6 @@
                 start_date: '',
                 due_date: '',
                 userData: null,
-                tasks: []
             }
         },
         methods: {
@@ -119,12 +116,18 @@
                     this.tasks = this.projectTasks
                     this.tasks.push(response.data.data)
 
-                    let tasks = this.tasks;
+                    let tasks = this.tasks
 
-                    eventBus.$emit('createTask', tasks);
+                    eventBus.$emit('createTask', tasks)
                 })
 
                 this.reset()
+            },
+            completeTask(project_id, task_id) {
+                axios.post('/api/tasks/' + project_id + '/complete/' + task_id)
+                .then(response => {
+                    eventBus.$emit('loadTasks', project_id)
+                })
             },
             reset() {
                 this.dialog = false

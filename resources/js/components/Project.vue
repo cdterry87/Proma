@@ -56,6 +56,10 @@
             eventBus.$on('createTask', tasks => {
                 this.tasks = tasks
             })
+
+            eventBus.$on('loadTasks', project_id => {
+                this.getProjectTasks(project_id)
+            })
         },
         mounted() {
             axios.defaults.headers.common['Content-Type'] = 'application/json'

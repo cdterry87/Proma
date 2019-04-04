@@ -80,7 +80,29 @@ class ProjectTaskController extends Controller
 
         return response()->json([
             'status' => $status,
-            'message' => $status ? 'Team deleted successfully!' : 'Error deleting team!'
+            'message' => $status ? 'Task deleted successfully!' : 'Error deleting tasl!'
+        ]);
+    }
+
+    /**
+     * Set a project as complete.
+     *
+     * @param  int  $project_id
+     * @param  int  $task_id
+     * @return \Illuminate\Http\Response
+     */
+    public function complete(Project $project, ProjectTask $task)
+    {
+        // $status = $task->update(
+        //     array('complete' => 1)
+        // );
+
+        $task->complete = 1;
+        $status = $task->save();
+
+        return response()->json([
+            'status' => $status,
+            'message' => $status ? 'Task is now complete!' : 'Task could not be completed!'
         ]);
     }
 }
