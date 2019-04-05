@@ -93,16 +93,30 @@ class ProjectTaskController extends Controller
      */
     public function complete(Project $project, ProjectTask $task)
     {
-        // $status = $task->update(
-        //     array('complete' => 1)
-        // );
-
         $task->complete = 1;
         $status = $task->save();
 
         return response()->json([
             'status' => $status,
             'message' => $status ? 'Task is now complete!' : 'Task could not be completed!'
+        ]);
+    }
+
+    /**
+     * Set a project as complete.
+     *
+     * @param  int  $project_id
+     * @param  int  $task_id
+     * @return \Illuminate\Http\Response
+     */
+    public function incomplete(Project $project, ProjectTask $task)
+    {
+        $task->complete = 0;
+        $status = $task->save();
+
+        return response()->json([
+            'status' => $status,
+            'message' => $status ? 'Task is now incomplete!' : 'Task could not be marked as incomplete!'
         ]);
     }
 }

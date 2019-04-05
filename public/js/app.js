@@ -2741,6 +2741,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ProjectTasks',
@@ -2778,6 +2781,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     completeTask: function completeTask(project_id, task_id) {
       axios.post('/api/tasks/' + project_id + '/complete/' + task_id).then(function (response) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadTasks', project_id);
+      });
+    },
+    incompleteTask: function incompleteTask(project_id, task_id) {
+      axios.post('/api/tasks/' + project_id + '/incomplete/' + task_id).then(function (response) {
         _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadTasks', project_id);
       });
     },
@@ -6215,41 +6223,89 @@ var render = function() {
                               _c(
                                 "v-card-actions",
                                 [
-                                  _c(
-                                    "v-flex",
-                                    {
-                                      attrs: { xs6: "", "mr-1": "", "ml-1": "" }
-                                    },
-                                    [
-                                      _c(
-                                        "v-btn",
+                                  !task.complete
+                                    ? _c(
+                                        "v-flex",
                                         {
                                           attrs: {
-                                            color: "success",
-                                            block: "",
-                                            small: ""
-                                          },
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.completeTask(
-                                                task.project_id,
-                                                task.id
-                                              )
-                                            }
+                                            xs6: "",
+                                            "mr-1": "",
+                                            "ml-1": ""
                                           }
                                         },
                                         [
                                           _c(
-                                            "i",
-                                            { staticClass: "material-icons" },
-                                            [_vm._v("check")]
-                                          ),
-                                          _vm._v(" Complete")
-                                        ]
+                                            "v-btn",
+                                            {
+                                              attrs: {
+                                                color: "success",
+                                                block: "",
+                                                small: ""
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.completeTask(
+                                                    task.project_id,
+                                                    task.id
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "i",
+                                                {
+                                                  staticClass: "material-icons"
+                                                },
+                                                [_vm._v("check")]
+                                              ),
+                                              _vm._v(" Complete")
+                                            ]
+                                          )
+                                        ],
+                                        1
                                       )
-                                    ],
-                                    1
-                                  ),
+                                    : _c(
+                                        "v-flex",
+                                        {
+                                          attrs: {
+                                            xs6: "",
+                                            "mr-1": "",
+                                            "ml-1": ""
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              attrs: {
+                                                color: "warning",
+                                                block: "",
+                                                small: ""
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.incompleteTask(
+                                                    task.project_id,
+                                                    task.id
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "i",
+                                                {
+                                                  staticClass: "material-icons"
+                                                },
+                                                [_vm._v("warning")]
+                                              ),
+                                              _vm._v(" Incomplete")
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      ),
                                   _vm._v(" "),
                                   _c(
                                     "v-flex",

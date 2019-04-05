@@ -51,8 +51,11 @@
                                 </v-layout>
                             </v-card-text>
                             <v-card-actions>
-                                <v-flex xs6 mr-1 ml-1>
+                                <v-flex xs6 mr-1 ml-1 v-if="!task.complete">
                                     <v-btn color="success" block small @click="completeTask(task.project_id, task.id)"><i class="material-icons">check</i> Complete</v-btn>
+                                </v-flex>
+                                <v-flex xs6 mr-1 ml-1 v-else>
+                                    <v-btn color="warning" block small @click="incompleteTask(task.project_id, task.id)"><i class="material-icons">warning</i> Incomplete</v-btn>
                                 </v-flex>
                                 <v-flex xs6 mr-1 ml-1>
                                     <v-btn color="info" block small><i class="material-icons">edit</i> Edit</v-btn>
@@ -125,6 +128,12 @@
             },
             completeTask(project_id, task_id) {
                 axios.post('/api/tasks/' + project_id + '/complete/' + task_id)
+                .then(response => {
+                    eventBus.$emit('loadTasks', project_id)
+                })
+            },
+            incompleteTask(project_id, task_id) {
+                axios.post('/api/tasks/' + project_id + '/incomplete/' + task_id)
                 .then(response => {
                     eventBus.$emit('loadTasks', project_id)
                 })
