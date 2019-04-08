@@ -2,6 +2,7 @@
     <div>
         <EditClient v-if="editClient" :clientInfo="client" />
         <ViewClient v-else :clientInfo="client" />
+        <ClientContacts :clientInfo="client" :clientContacts="contacts" />
     </div>
 </template>
 
@@ -9,18 +10,21 @@
     import eventBus from './../events';
     import EditClient from './EditClient'
     import ViewClient from './ViewClient'
+    import ClientContacts from './ClientContacts'
 
     export default {
         name: 'Client',
         props: ['id'],
         components: {
             EditClient,
-            ViewClient
+            ViewClient,
+            ClientContacts
         },
         data() {
             return {
                 editClient: false,
-                client: ''
+                client: '',
+                contacts: ''
             }
         },
         methods: {
@@ -31,6 +35,14 @@
                 axios.get('/api/clients/' + this.id)
                 .then(response => {
                     this.client = response.data
+
+                    this.getClientContacts(this.id);
+                })
+            },
+            getClientContacts(client_id) {
+                axios.get('/api/contacts/' + client_id)
+                .then(response => {
+                    this.contacts = response.data
                 })
             },
         },
@@ -39,6 +51,14 @@
 
             eventBus.$on('editClient', editClient => {
                 this.editClient = editClient
+            })
+
+            eventBus.$on('createContact', contacts => {
+                this.contacts = contacts
+            })
+
+            eventBus.$on('loadContacts', client_id => {
+                this.getClientContacts(client_id)
             })
         },
         mounted() {

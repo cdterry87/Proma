@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Client;
 use App\ClientContact;
 use Illuminate\Http\Request;
 
@@ -12,19 +13,9 @@ class ClientContactController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Client $client)
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json($client->contacts()->get());
     }
 
     /**
@@ -35,51 +26,64 @@ class ClientContactController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $contact = ClientContact::create([
+            'name' => $request->name,
+            'title' => $request->title,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'client_id' => $request->client_id,
+        ]);
+
+        return response()->json([
+            'status' => (bool)$contact,
+            'data' => $contact,
+            'message' => $contact ? 'Contact created successfully!' : 'Error adding contact!'
+        ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\ClientContact  $clientContact
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(ClientContact $clientContact)
+    public function show(ClientContact $contact)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\ClientContact  $clientContact
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ClientContact $clientContact)
-    {
-        //
+        return response()->json($contact);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ClientContact  $clientContact
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ClientContact $clientContact)
+    public function update(Request $request, ClientContact $contact)
     {
-        //
+        $status = $contact->update(
+            $request->only(['name', 'title', 'email', 'phone'])
+        );
+
+        return response()->json([
+            'status' => $status,
+            'message' => $status ? 'Contact updated successfully!' : 'Error updating contact!'
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ClientContact  $clientContact
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ClientContact $clientContact)
+    public function destroy(ClientContact $contact)
     {
-        //
+        $status = $contact->delete();
+
+        return response()->json([
+            'status' => $status,
+            'message' => $status ? 'Contact deleted successfully!' : 'Error deleting contact!'
+        ]);
     }
 }

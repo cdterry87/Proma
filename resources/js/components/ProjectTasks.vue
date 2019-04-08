@@ -60,7 +60,6 @@
                                 <v-flex xs6 mr-1 ml-1>
                                     <v-btn color="info" block small><i class="material-icons">edit</i> Edit</v-btn>
                                 </v-flex>
-
                             </v-card-actions>
                         </v-card>
                     </v-flex>

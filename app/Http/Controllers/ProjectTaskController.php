@@ -80,7 +80,7 @@ class ProjectTaskController extends Controller
 
         return response()->json([
             'status' => $status,
-            'message' => $status ? 'Task deleted successfully!' : 'Error deleting tasl!'
+            'message' => $status ? 'Task deleted successfully!' : 'Error deleting task!'
         ]);
     }
 

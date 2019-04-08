@@ -14,4 +14,9 @@ class Client extends Model
     {
         return $this->belongsToMany('App\User', 'users_clients')->withTimestamps();
     }
+
+    public function contacts()
+    {
+        return $this->hasMany('App\ClientContact');
+    }
 }
