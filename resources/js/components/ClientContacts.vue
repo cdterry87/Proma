@@ -11,7 +11,7 @@
                     <v-flex xs6 text-xs-right>
                         <v-btn color="info" @click="dialog = true" small>
                             <v-icon left dark>add</v-icon>
-                            Add Client
+                            Add Contact
                         </v-btn>
                     </v-flex>
                 </v-layout>

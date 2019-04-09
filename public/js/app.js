@@ -4865,7 +4865,7 @@ var render = function() {
                             _vm._v("add")
                           ]),
                           _vm._v(
-                            "\n                        Add Client\n                    "
+                            "\n                        Add Contact\n                    "
                           )
                         ],
                         1

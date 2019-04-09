@@ -12,5 +12,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/tasks/{project}/complete/{task}', 'ProjectTaskController@complete');
     Route::post('/tasks/{project}/incomplete/{task}', 'ProjectTaskController@incomplete');
     Route::resource('/tasks', 'ProjectTaskController');
+
+    Route::get('/contacts/{client}', 'ClientContactController@index');
     Route::resource('/contacts', 'ClientContactController');
 });
