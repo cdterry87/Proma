@@ -1975,6 +1975,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ClientContacts',
@@ -4913,15 +4918,41 @@ var render = function() {
                               _c(
                                 "v-card-text",
                                 [
+                                  _c("div", [
+                                    _c("div", { staticClass: "headline" }, [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm._f("truncate")(contact.name, 25)
+                                        )
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("span", { staticClass: "grey--text" }, [
+                                      _vm._v(_vm._s(contact.title))
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
                                   _c(
                                     "v-layout",
                                     [
                                       _c("v-flex", [
-                                        _vm._v(
-                                          "\n                                    " +
-                                            _vm._s(contact.name) +
-                                            "\n                                "
-                                        )
+                                        _c("div", [
+                                          _c(
+                                            "i",
+                                            { staticClass: "material-icons" },
+                                            [_vm._v("mail")]
+                                          ),
+                                          _vm._v(" " + _vm._s(contact.email))
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("div", [
+                                          _c(
+                                            "i",
+                                            { staticClass: "material-icons" },
+                                            [_vm._v("phone")]
+                                          ),
+                                          _vm._v(" " + _vm._s(contact.phone))
+                                        ])
                                       ])
                                     ],
                                     1
@@ -4935,9 +4966,7 @@ var render = function() {
                                 [
                                   _c(
                                     "v-flex",
-                                    {
-                                      attrs: { xs6: "", "mr-1": "", "ml-1": "" }
-                                    },
+                                    { attrs: { xs6: "", "offset-xs3": "" } },
                                     [
                                       _c(
                                         "v-btn",

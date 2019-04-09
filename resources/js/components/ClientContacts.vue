@@ -26,14 +26,19 @@
                     <v-flex xs12 md6 lg4 v-for="contact in clientContacts" :key="contact.id">
                         <v-card>
                             <v-card-text>
+                                <div>
+                                    <div class="headline">{{ contact.name | truncate(25) }}</div>
+                                    <span class="grey--text">{{ contact.title }}</span>
+                                </div>
                                 <v-layout>
                                     <v-flex>
-                                        {{ contact.name }}
+                                        <div><i class="material-icons">mail</i> {{ contact.email }}</div>
+                                        <div><i class="material-icons">phone</i> {{ contact.phone }}</div>
                                     </v-flex>
                                 </v-layout>
                             </v-card-text>
                             <v-card-actions>
-                                <v-flex xs6 mr-1 ml-1>
+                                <v-flex xs6 offset-xs3>
                                     <v-btn color="info" block small><i class="material-icons">edit</i> Edit</v-btn>
                                 </v-flex>
                             </v-card-actions>
