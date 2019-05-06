@@ -145,9 +145,78 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      name: '',
+      email: '',
+      logout: '',
+      tabs: '',
       dialog: false,
       drawer: null,
       items: [{
@@ -703,13 +772,57 @@ var render = function() {
           _c(
             "v-toolbar",
             {
-              attrs: {
-                app: "",
-                fixed: "",
-                "clipped-left": "",
-                dark: "",
-                color: "blue darken-3"
-              }
+              attrs: { color: "blue darken-3", dark: "", tabs: "" },
+              scopedSlots: _vm._u([
+                {
+                  key: "extension",
+                  fn: function() {
+                    return [
+                      _c(
+                        "v-tabs",
+                        {
+                          attrs: {
+                            "fixed-tabs": "",
+                            color: "blue darken-3",
+                            "slider-color": "white",
+                            dark: ""
+                          }
+                        },
+                        [
+                          _c(
+                            "v-tab",
+                            [
+                              _c("v-icon", [_vm._v("work")]),
+                              _vm._v(" Projects\n            ")
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-tab",
+                            [
+                              _c("v-icon", [_vm._v("person")]),
+                              _vm._v(" Clients\n            ")
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-tab",
+                            [
+                              _c("v-icon", [_vm._v("people")]),
+                              _vm._v(" Teams\n            ")
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ]
+                  },
+                  proxy: true
+                }
+              ])
             },
             [
               _c("v-toolbar-title", [_vm._v("Proma")]),
@@ -754,172 +867,24 @@ var render = function() {
           ),
           _vm._v(" "),
           _c(
-            "v-dialog",
-            {
-              attrs: { width: "500" },
-              model: {
-                value: _vm.dialog,
-                callback: function($$v) {
-                  _vm.dialog = $$v
-                },
-                expression: "dialog"
-              }
-            },
-            [
-              _c(
-                "v-form",
-                {
-                  attrs: { method: "POST", id: "userForm" },
-                  on: {
-                    submit: function($event) {
-                      $event.preventDefault()
-                      return _vm.updateUser($event)
-                    }
-                  }
-                },
+            "v-tabs-items",
+            _vm._l(3, function(i) {
+              return _c(
+                "v-tab-item",
+                { key: i, attrs: { value: "tab-" + i } },
                 [
                   _c(
                     "v-card",
+                    { attrs: { flat: "" } },
                     [
-                      _c(
-                        "v-card-title",
-                        { staticClass: "grey lighten-4 py-4 title" },
-                        [_vm._v("My Account")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-container",
-                        { staticClass: "pa-4", attrs: { "grid-list-sm": "" } },
-                        [
-                          _c(
-                            "v-layout",
-                            { attrs: { row: "", wrap: "" } },
-                            [
-                              _c(
-                                "v-flex",
-                                { attrs: { xs12: "" } },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      "prepend-icon": "person",
-                                      label: "Name"
-                                    },
-                                    model: {
-                                      value: _vm.name,
-                                      callback: function($$v) {
-                                        _vm.name = $$v
-                                      },
-                                      expression: "name"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-flex",
-                                { attrs: { xs12: "" } },
-                                [
-                                  _c("v-text-field", {
-                                    attrs: {
-                                      "prepend-icon": "email",
-                                      label: "Email"
-                                    },
-                                    model: {
-                                      value: _vm.email,
-                                      callback: function($$v) {
-                                        _vm.email = $$v
-                                      },
-                                      expression: "email"
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-card-actions",
-                        [
-                          _c("v-spacer"),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: {
-                                flat: "",
-                                color: "primary",
-                                type: "submit"
-                              }
-                            },
-                            [_vm._v("Save")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: {
-                                flat: "",
-                                color: "primary",
-                                form: "clientForm"
-                              },
-                              on: {
-                                click: function($event) {
-                                  _vm.dialog = false
-                                }
-                              }
-                            },
-                            [_vm._v("Cancel")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: {
-                                flat: "",
-                                color: "red",
-                                form: "clientForm"
-                              },
-                              on: { click: _vm.logout }
-                            },
-                            [_vm._v("Sign Out")]
-                          ),
-                          _vm._v(" "),
-                          _c("v-spacer")
-                        ],
-                        1
-                      )
+                      _c("v-card-text", [_vm._v("\n          Testing\n      ")])
                     ],
                     1
                   )
                 ],
                 1
               )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-content",
-            [
-              _c(
-                "v-container",
-                { attrs: { fluid: "", "fill-height": "" } },
-                [
-                  _c(
-                    "v-layout",
-                    { attrs: { "justify-center": "", "align-center": "" } },
-                    [_vm._v("\n                    Test\n                ")]
-                  )
-                ],
-                1
-              )
-            ],
+            }),
             1
           )
         ],
