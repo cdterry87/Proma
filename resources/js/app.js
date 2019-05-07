@@ -1,33 +1,34 @@
-
+// Vue import
 import Vue from 'vue'
 
-import VueRouter from 'vue-router'
-Vue.use(VueRouter)
-
+// Vuetify settings
 import Vuetify from 'vuetify'
 Vue.use(Vuetify)
 
-import App from './components/App'
+// Router settings
+import VueRouter from 'vue-router'
+import routes from './routes'
 
-// const router = new VueRouter({
-//     mode: 'history',
-//     routes: [
-//         {
-//             path: '/',
-//             name: 'home',
-//             component: Projects,
-//         },
-//     ],
-// });
+Vue.use(VueRouter)
 
+const router = new VueRouter({
+    mode: 'history',
+    routes,
+})
+
+// Filter settings
 Vue.filter('truncate', function (string, length) {
     if (!string) return ''
     string = string.toString()
     return _.truncate(string, { length })
 })
 
+// Primary components
+import App from './components/App'
+
+// App declaration
 const app = new Vue({
     el: '#app',
     components: { App },
-    // router,
+    router,
 });

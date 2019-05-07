@@ -17,22 +17,22 @@
 
                 <template v-slot:extension>
                     <v-tabs v-model="tabs" centered color="blue darken-3" slider-color="white" fixed-tabs grow >
-                        <v-tab :href="`#projects`" >
+                        <v-tab to="/projects" >
                             <v-icon>work</v-icon>
                             <span class="tab-title">Projects</span>
                         </v-tab>
-                        <v-tab :href="`#clients`" >
+                        <v-tab to="/clients" >
                             <v-icon>person</v-icon>
                             <span class="tab-title">Clients</span>
                         </v-tab>
-                        <v-tab :href="`#teams`" >
+                        <v-tab to="/teams" >
                             <v-icon>people</v-icon>
                             <span class="tab-title">Teams</span>
                         </v-tab>
                     </v-tabs>
                 </template>
             </v-toolbar>
-            <v-tabs-items v-model="tabs">
+            <!-- <v-tabs-items v-model="tabs">
                 <v-tab-item :value="`projects`">
                     <h2>These are my Projects</h2>
                 </v-tab-item>
@@ -42,7 +42,8 @@
                 <v-tab-item :value="`teams`">
                     <h2>These are my Teams</h2>
                 </v-tab-item>
-            </v-tabs-items>
+            </v-tabs-items> -->
+            <router-view></router-view>
         </v-app>
     </div>
 </template>
@@ -59,9 +60,12 @@ export default {
 </script>
 
 <style>
+a {
+    text-decoration: none !important;
+}
+
 nav.v-toolbar a{
     color: inherit;
-    text-decoration: none;
 }
 
 span.tab-title {
