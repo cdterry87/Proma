@@ -60,7 +60,6 @@
                 dialog: false,
                 name: '',
                 description: '',
-                userData: null,
                 clients: []
             }
         },
@@ -74,9 +73,8 @@
             createClient() {
                 let name = this.name
                 let description = this.description
-                let user_id = this.userData.id
 
-                axios.post('/clients', { name, description, user_id })
+                axios.post('/clients', { name, description })
                 .then(response => {
                     this.clients.push(response.data.data)
                 })

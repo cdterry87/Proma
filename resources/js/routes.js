@@ -4,7 +4,7 @@ import Teams from './components/Teams'
 
 export default [
     {
-        path: '/projects',
+        path: '/',
         component: Projects
     },
     {

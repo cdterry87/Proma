@@ -226,7 +226,6 @@ __webpack_require__.r(__webpack_exports__);
       dialog: false,
       name: '',
       description: '',
-      userData: null,
       clients: []
     };
   },
@@ -243,11 +242,9 @@ __webpack_require__.r(__webpack_exports__);
 
       var name = this.name;
       var description = this.description;
-      var user_id = this.userData.id;
       axios.post('/clients', {
         name: name,
-        description: description,
-        user_id: user_id
+        description: description
       }).then(function (response) {
         _this2.clients.push(response.data.data);
       });
@@ -43357,7 +43354,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ([{
-  path: '/projects',
+  path: '/',
   component: _components_Projects__WEBPACK_IMPORTED_MODULE_0__["default"]
 }, {
   path: '/clients',
