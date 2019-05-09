@@ -21,5 +21,12 @@
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",
         "vue": "^2.5.17"
+    },
+    "dependencies": {
+        "css-loader": "^2.1.1",
+        "material-icons": "^0.3.1",
+        "vue-loader": "^15.7.0",
+        "vue-router": "^3.0.6",
+        "vuetify": "^1.5.14"
     }
 }
