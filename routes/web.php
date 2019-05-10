@@ -14,5 +14,12 @@
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/', 'HomeController@index')->name('home');
+    Route::prefix('api')->group(function () {
+        Route::resource('/clients', 'ClientController');
+        Route::resource('/teams', 'TeamController');
+        Route::resource('/projects', 'ProjectController');
+    });
+
+    // Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/{any}', 'HomeController@index')->where('any', '.*');
 });

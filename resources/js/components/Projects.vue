@@ -29,7 +29,7 @@
         </v-layout>
 
         <v-dialog v-model="dialog" width="500">
-            <v-form method="POST" id="teamForm" @submit.prevent="createProject">
+            <v-form method="POST" id="projectForm" @submit.prevent="createProject">
                 <v-card>
                     <v-card-title class="grey lighten-4 py-4 title">Create Project</v-card-title>
                     <v-container grid-list-sm class="pa-4">
@@ -65,7 +65,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn type="submit" flat>Save</v-btn>
-                        <v-btn flat color="primary" form="teamForm" @click="dialog = false">Cancel</v-btn>
+                        <v-btn flat color="primary" form="projectForm" @click="dialog = false">Cancel</v-btn>
                         <v-spacer></v-spacer>
                     </v-card-actions>
                 </v-card>
@@ -84,31 +84,26 @@ export default {
             description: '',
             team_id: '',
             client_id: '',
-            userData: null,
             projects: [],
             teams: [],
             clients: [],
         }
     },
     methods: {
-        getUserData() {
-            this.userData = JSON.parse(localStorage.getItem('userData'))
-        },
         getProjects() {
-            console.log('getting projects');
-            axios.get('api/projects')
+            axios.get('/api/projects')
             .then(response => {
                 this.projects = response.data
             })
         },
         getClients() {
-            axios.get('api/clients')
+            axios.get('/api/clients')
             .then(response => {
                 this.clients = response.data
             })
         },
         getTeams() {
-            axios.get('api/teams')
+            axios.get('/api/teams')
             .then(response => {
                 this.teams = response.data
             })
@@ -118,9 +113,8 @@ export default {
             let description = this.description
             let client_id = this.client_id
             let team_id = this.team_id
-            let user_id = this.userData.id
 
-            axios.post('api/projects', { name, description, client_id, team_id, user_id })
+            axios.post('/api/projects', { name, description, client_id, team_id })
             .then(response => {
                 this.projects.push(response.data.data)
             })
@@ -135,13 +129,7 @@ export default {
             this.description = ''
         }
     },
-    created() {
-        this.getUserData()
-    },
     mounted() {
-        axios.defaults.headers.common['Content-Type'] = 'application/json'
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt
-
         this.getProjects()
         this.getClients()
         this.getTeams()
@@ -149,10 +137,3 @@ export default {
 
 }
 </script>
-
-<style scoped>
-.container {
-    padding-top: 6px !important;
-    padding-bottom: 6px !important;
-}
-</style>

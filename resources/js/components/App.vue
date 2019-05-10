@@ -16,7 +16,7 @@
                 </v-btn>
                 <template v-slot:extension>
                     <v-tabs v-model="tabs" centered color="blue darken-3" slider-color="white" fixed-tabs grow >
-                        <v-tab to="/projects" >
+                        <v-tab to="/" >
                             <v-icon>work</v-icon>
                             <span class="tab-title">Projects</span>
                         </v-tab>
@@ -31,6 +31,10 @@
                     </v-tabs>
                 </template>
             </v-toolbar>
+
+            <v-content>
+                <router-view></router-view>
+            </v-content>
 
             <v-dialog v-model="dialog" width="500">
                 <v-form method="POST" id="userForm" @submit.prevent="updateUser">
@@ -73,10 +77,10 @@ export default {
     },
     methods: {
         logout() {
-            localStorage.clear()
-            this.dialog = false
-            this.$router.push({ path: '/' })
-            location.reload()
+            axios.post('logout')
+            .then(response => {
+                location.reload()
+            })
         }
     }
 }
