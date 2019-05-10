@@ -91,13 +91,9 @@
                 title: '',
                 email: '',
                 phone: '',
-                userData: null,
             }
         },
         methods: {
-            getUserData() {
-                this.userData = JSON.parse(localStorage.getItem('userData'))
-            },
             createContact() {
                 let name = this.name
                 let title = this.title
@@ -112,7 +108,7 @@
 
                     let contacts = this.contacts
 
-                    eventBus.$emit('createContact', contacts)
+                    EventBus.$emit('createContact', contacts)
                 })
 
                 this.reset()
@@ -124,13 +120,6 @@
                 this.email = ''
                 this.phone = ''
             }
-        },
-        created() {
-            this.getUserData()
-        },
-        mounted() {
-            axios.defaults.headers.common['Content-Type'] = 'application/json'
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt
         },
     }
 </script>

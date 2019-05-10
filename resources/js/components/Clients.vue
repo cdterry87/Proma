@@ -63,16 +63,12 @@ export default {
             dialog: false,
             name: '',
             description: '',
-            userData: null,
             clients: []
         }
     },
     methods: {
-        getUserData() {
-            this.userData = JSON.parse(localStorage.getItem('userData'))
-        },
         getClients() {
-            axios.get('api/clients')
+            axios.get('/api/clients')
             .then(response => {
                 this.clients = response.data
             })
@@ -80,9 +76,8 @@ export default {
         createClient() {
             let name = this.name
             let description = this.description
-            let user_id = this.userData.id
 
-            axios.post('api/clients', { name, description, user_id })
+            axios.post('/api/clients', { name, description })
             .then(response => {
                 this.clients.push(response.data.data)
             })
@@ -95,13 +90,7 @@ export default {
             this.description = ''
         }
     },
-    created() {
-        this.getUserData()
-    },
     mounted() {
-        axios.defaults.headers.common['Content-Type'] = 'application/json'
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt
-
         this.getClients()
     }
 

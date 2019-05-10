@@ -32,7 +32,7 @@
         methods: {
             editTeam() {
                 let editTeam = true
-                eventBus.$emit('editTeam', editTeam);
+                EventBus.$emit('editTeam', editTeam);
             }
         },
         computed: {

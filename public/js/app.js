@@ -223,9 +223,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    getUserData: function getUserData() {
-      this.userData = JSON.parse(localStorage.getItem('userData'));
-    },
     getClient: function getClient() {
       var _this = this;
 
@@ -246,20 +243,17 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this3 = this;
 
-    this.getUserData();
-    eventBus.$on('editClient', function (editClient) {
+    _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('editClient', function (editClient) {
       _this3.editClient = editClient;
     });
-    eventBus.$on('createContact', function (contacts) {
+    _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('createContact', function (contacts) {
       _this3.contacts = contacts;
     });
-    eventBus.$on('loadContacts', function (client_id) {
+    _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('loadContacts', function (client_id) {
       _this3.getClientContacts(client_id);
     });
   },
   mounted: function mounted() {
-    axios.defaults.headers.common['Content-Type'] = 'application/json';
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt;
     this.getClient();
   }
 });
@@ -366,14 +360,10 @@ __webpack_require__.r(__webpack_exports__);
       name: '',
       title: '',
       email: '',
-      phone: '',
-      userData: null
+      phone: ''
     };
   },
   methods: {
-    getUserData: function getUserData() {
-      this.userData = JSON.parse(localStorage.getItem('userData'));
-    },
     createContact: function createContact() {
       var _this = this;
 
@@ -394,7 +384,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.contacts.push(response.data.data);
 
         var contacts = _this.contacts;
-        eventBus.$emit('createContact', contacts);
+        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('createContact', contacts);
       });
       this.reset();
     },
@@ -405,13 +395,6 @@ __webpack_require__.r(__webpack_exports__);
       this.email = '';
       this.phone = '';
     }
-  },
-  created: function created() {
-    this.getUserData();
-  },
-  mounted: function mounted() {
-    axios.defaults.headers.common['Content-Type'] = 'application/json';
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt;
   }
 });
 
@@ -490,18 +473,14 @@ __webpack_require__.r(__webpack_exports__);
       dialog: false,
       name: '',
       description: '',
-      userData: null,
       clients: []
     };
   },
   methods: {
-    getUserData: function getUserData() {
-      this.userData = JSON.parse(localStorage.getItem('userData'));
-    },
     getClients: function getClients() {
       var _this = this;
 
-      axios.get('api/clients').then(function (response) {
+      axios.get('/api/clients').then(function (response) {
         _this.clients = response.data;
       });
     },
@@ -510,11 +489,9 @@ __webpack_require__.r(__webpack_exports__);
 
       var name = this.name;
       var description = this.description;
-      var user_id = this.userData.id;
-      axios.post('api/clients', {
+      axios.post('/api/clients', {
         name: name,
-        description: description,
-        user_id: user_id
+        description: description
       }).then(function (response) {
         _this2.clients.push(response.data.data);
       });
@@ -526,12 +503,7 @@ __webpack_require__.r(__webpack_exports__);
       this.description = '';
     }
   },
-  created: function created() {
-    this.getUserData();
-  },
   mounted: function mounted() {
-    axios.defaults.headers.common['Content-Type'] = 'application/json';
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt;
     this.getClients();
   }
 });
@@ -586,12 +558,9 @@ __webpack_require__.r(__webpack_exports__);
   name: 'EditClient',
   props: ['clientInfo'],
   methods: {
-    getUserData: function getUserData() {
-      this.userData = JSON.parse(localStorage.getItem('userData'));
-    },
     viewClient: function viewClient() {
       var editClient = false;
-      eventBus.$emit('editClient', editClient);
+      _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('editClient', editClient);
     },
     updateClient: function updateClient() {
       var _this = this;
@@ -606,9 +575,6 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  created: function created() {
-    this.getUserData();
-  },
   computed: {
     client: {
       get: function get() {
@@ -618,10 +584,6 @@ __webpack_require__.r(__webpack_exports__);
         return value;
       }
     }
-  },
-  mounted: function mounted() {
-    axios.defaults.headers.common['Content-Type'] = 'application/json';
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt;
   }
 });
 
@@ -675,12 +637,9 @@ __webpack_require__.r(__webpack_exports__);
   name: 'EditProject',
   props: ['projectInfo'],
   methods: {
-    getUserData: function getUserData() {
-      this.userData = JSON.parse(localStorage.getItem('userData'));
-    },
     viewProject: function viewProject() {
       var editProject = false;
-      eventBus.$emit('editProject', editProject);
+      _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('editProject', editProject);
     },
     updateProject: function updateProject() {
       var _this = this;
@@ -695,9 +654,6 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  created: function created() {
-    this.getUserData();
-  },
   computed: {
     project: {
       get: function get() {
@@ -707,10 +663,6 @@ __webpack_require__.r(__webpack_exports__);
         return value;
       }
     }
-  },
-  mounted: function mounted() {
-    axios.defaults.headers.common['Content-Type'] = 'application/json';
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt;
   }
 });
 
@@ -764,12 +716,9 @@ __webpack_require__.r(__webpack_exports__);
   name: 'EditTeam',
   props: ['teamInfo'],
   methods: {
-    getUserData: function getUserData() {
-      this.userData = JSON.parse(localStorage.getItem('userData'));
-    },
     viewTeam: function viewTeam() {
       var editTeam = false;
-      eventBus.$emit('editTeam', editTeam);
+      _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('editTeam', editTeam);
     },
     updateTeam: function updateTeam() {
       var _this = this;
@@ -784,9 +733,6 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  created: function created() {
-    this.getUserData();
-  },
   computed: {
     team: {
       get: function get() {
@@ -796,10 +742,6 @@ __webpack_require__.r(__webpack_exports__);
         return value;
       }
     }
-  },
-  mounted: function mounted() {
-    axios.defaults.headers.common['Content-Type'] = 'application/json';
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt;
   }
 });
 
@@ -846,9 +788,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    getUserData: function getUserData() {
-      this.userData = JSON.parse(localStorage.getItem('userData'));
-    },
     getProject: function getProject() {
       var _this = this;
 
@@ -869,20 +808,17 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this3 = this;
 
-    this.getUserData();
-    eventBus.$on('editProject', function (editProject) {
+    _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('editProject', function (editProject) {
       _this3.editProject = editProject;
     });
-    eventBus.$on('createTask', function (tasks) {
+    _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('createTask', function (tasks) {
       _this3.tasks = tasks;
     });
-    eventBus.$on('loadTasks', function (project_id) {
+    _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('loadTasks', function (project_id) {
       _this3.getProjectTasks(project_id);
     });
   },
   mounted: function mounted() {
-    axios.defaults.headers.common['Content-Type'] = 'application/json';
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt;
     this.getProject();
   }
 });
@@ -1000,14 +936,10 @@ __webpack_require__.r(__webpack_exports__);
       dialog: false,
       description: '',
       start_date: '',
-      due_date: '',
-      userData: null
+      due_date: ''
     };
   },
   methods: {
-    getUserData: function getUserData() {
-      this.userData = JSON.parse(localStorage.getItem('userData'));
-    },
     createTask: function createTask() {
       var _this = this;
 
@@ -1022,31 +954,24 @@ __webpack_require__.r(__webpack_exports__);
         _this.tasks.push(response.data.data);
 
         var tasks = _this.tasks;
-        eventBus.$emit('createTask', tasks);
+        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('createTask', tasks);
       });
       this.reset();
     },
     completeTask: function completeTask(project_id, task_id) {
       axios.post('/api/tasks/' + project_id + '/complete/' + task_id).then(function (response) {
-        eventBus.$emit('loadTasks', project_id);
+        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadTasks', project_id);
       });
     },
     incompleteTask: function incompleteTask(project_id, task_id) {
       axios.post('/api/tasks/' + project_id + '/incomplete/' + task_id).then(function (response) {
-        eventBus.$emit('loadTasks', project_id);
+        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadTasks', project_id);
       });
     },
     reset: function reset() {
       this.dialog = false;
       this.description = '';
     }
-  },
-  created: function created() {
-    this.getUserData();
-  },
-  mounted: function mounted() {
-    axios.defaults.headers.common['Content-Type'] = 'application/json';
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt;
   }
 });
 
@@ -1243,9 +1168,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    getUserData: function getUserData() {
-      this.userData = JSON.parse(localStorage.getItem('userData'));
-    },
     getTeam: function getTeam() {
       var _this = this;
 
@@ -1257,14 +1179,11 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this2 = this;
 
-    this.getUserData();
-    eventBus.$on('editTeam', function (editTeam) {
+    _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('editTeam', function (editTeam) {
       _this2.editTeam = editTeam;
     });
   },
   mounted: function mounted() {
-    axios.defaults.headers.common['Content-Type'] = 'application/json';
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt;
     this.getTeam();
   }
 });
@@ -1343,18 +1262,14 @@ __webpack_require__.r(__webpack_exports__);
       dialog: false,
       name: '',
       description: '',
-      userData: null,
       teams: []
     };
   },
   methods: {
-    getUserData: function getUserData() {
-      this.userData = JSON.parse(localStorage.getItem('userData'));
-    },
     getTeams: function getTeams() {
       var _this = this;
 
-      axios.get('api/teams').then(function (response) {
+      axios.get('/api/teams').then(function (response) {
         _this.teams = response.data;
       });
     },
@@ -1363,11 +1278,9 @@ __webpack_require__.r(__webpack_exports__);
 
       var name = this.name;
       var description = this.description;
-      var user_id = this.userData.id;
-      axios.post('api/teams', {
+      axios.post('/api/teams', {
         name: name,
-        description: description,
-        user_id: user_id
+        description: description
       }).then(function (response) {
         _this2.teams.push(response.data.data);
       });
@@ -1379,12 +1292,7 @@ __webpack_require__.r(__webpack_exports__);
       this.description = '';
     }
   },
-  created: function created() {
-    this.getUserData();
-  },
   mounted: function mounted() {
-    axios.defaults.headers.common['Content-Type'] = 'application/json';
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt;
     this.getTeams();
   }
 });
@@ -1439,7 +1347,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     editClient: function editClient() {
       var editClient = true;
-      eventBus.$emit('editClient', editClient);
+      _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('editClient', editClient);
     }
   },
   computed: {
@@ -1499,7 +1407,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     editProject: function editProject() {
       var editProject = true;
-      eventBus.$emit('editProject', editProject);
+      _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('editProject', editProject);
     }
   },
   computed: {
@@ -1553,7 +1461,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     editTeam: function editTeam() {
       var editTeam = true;
-      eventBus.$emit('editTeam', editTeam);
+      _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('editTeam', editTeam);
     }
   },
   computed: {

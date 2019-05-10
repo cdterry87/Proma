@@ -28,9 +28,6 @@
             }
         },
         methods: {
-            getUserData() {
-                this.userData = JSON.parse(localStorage.getItem('userData'))
-            },
             getClient() {
                 axios.get('/api/clients/' + this.id)
                 .then(response => {
@@ -47,24 +44,19 @@
             },
         },
         created() {
-            this.getUserData()
-
-            eventBus.$on('editClient', editClient => {
+            EventBus.$on('editClient', editClient => {
                 this.editClient = editClient
             })
 
-            eventBus.$on('createContact', contacts => {
+            EventBus.$on('createContact', contacts => {
                 this.contacts = contacts
             })
 
-            eventBus.$on('loadContacts', client_id => {
+            EventBus.$on('loadContacts', client_id => {
                 this.getClientContacts(client_id)
             })
         },
         mounted() {
-            axios.defaults.headers.common['Content-Type'] = 'application/json'
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt
-
             this.getClient()
         }
     }

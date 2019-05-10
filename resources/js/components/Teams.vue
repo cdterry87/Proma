@@ -63,16 +63,12 @@ export default {
             dialog: false,
             name: '',
             description: '',
-            userData: null,
             teams: []
         }
     },
     methods: {
-        getUserData() {
-            this.userData = JSON.parse(localStorage.getItem('userData'))
-        },
         getTeams() {
-            axios.get('api/teams')
+            axios.get('/api/teams')
             .then(response => {
                 this.teams = response.data
             })
@@ -80,9 +76,8 @@ export default {
         createTeam() {
             let name = this.name;
             let description = this.description;
-            let user_id = this.userData.id
 
-            axios.post('api/teams', { name, description, user_id })
+            axios.post('/api/teams', { name, description })
             .then(response => {
                 this.teams.push(response.data.data)
             })
@@ -95,13 +90,7 @@ export default {
             this.description = ''
         }
     },
-    created() {
-        this.getUserData()
-    },
     mounted() {
-        axios.defaults.headers.common['Content-Type'] = 'application/json'
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt
-
         this.getTeams()
     }
 

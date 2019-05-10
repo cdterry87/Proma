@@ -38,12 +38,9 @@
         name: 'EditTeam',
         props: ['teamInfo'],
         methods: {
-            getUserData() {
-                this.userData = JSON.parse(localStorage.getItem('userData'))
-            },
             viewTeam() {
                 let editTeam = false
-                eventBus.$emit('editTeam', editTeam);
+                EventBus.$emit('editTeam', editTeam);
             },
             updateTeam() {
                 let name = this.team.name;
@@ -55,9 +52,6 @@
                 })
             },
         },
-        created() {
-            this.getUserData()
-        },
         computed: {
             team: {
                 get() {
@@ -67,10 +61,6 @@
                     return value;
                 }
             }
-        },
-        mounted() {
-            axios.defaults.headers.common['Content-Type'] = 'application/json'
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt
         }
     }
 </script>

@@ -38,7 +38,7 @@
         methods: {
             editProject() {
                 let editProject = true
-                eventBus.$emit('editProject', editProject);
+                EventBus.$emit('editProject', editProject);
             }
         },
         computed: {

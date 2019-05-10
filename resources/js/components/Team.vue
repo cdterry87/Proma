@@ -24,9 +24,6 @@
             }
         },
         methods: {
-            getUserData() {
-                this.userData = JSON.parse(localStorage.getItem('userData'))
-            },
             getTeam() {
                 axios.get('/api/teams/' + this.id)
                 .then(response => {
@@ -35,16 +32,11 @@
             },
         },
         created() {
-            this.getUserData()
-
-            eventBus.$on('editTeam', editTeam => {
+            EventBus.$on('editTeam', editTeam => {
                 this.editTeam = editTeam
             })
         },
         mounted() {
-            axios.defaults.headers.common['Content-Type'] = 'application/json'
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt
-
             this.getTeam()
         }
     }

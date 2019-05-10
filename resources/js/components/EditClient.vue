@@ -38,12 +38,9 @@
         name: 'EditClient',
         props: ['clientInfo'],
         methods: {
-            getUserData() {
-                this.userData = JSON.parse(localStorage.getItem('userData'))
-            },
             viewClient() {
                 let editClient = false
-                eventBus.$emit('editClient', editClient);
+                EventBus.$emit('editClient', editClient);
             },
             updateClient() {
                 let name = this.client.name;
@@ -55,9 +52,6 @@
                 })
             },
         },
-        created() {
-            this.getUserData()
-        },
         computed: {
             client: {
                 get() {
@@ -68,10 +62,6 @@
                 }
             }
         },
-        mounted() {
-            axios.defaults.headers.common['Content-Type'] = 'application/json'
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt
-        }
     }
 </script>
 

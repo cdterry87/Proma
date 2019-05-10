@@ -28,9 +28,6 @@
             }
         },
         methods: {
-            getUserData() {
-                this.userData = JSON.parse(localStorage.getItem('userData'))
-            },
             getProject() {
                 axios.get('/api/projects/' + this.id)
                 .then(response => {
@@ -47,24 +44,19 @@
             },
         },
         created() {
-            this.getUserData()
-
-            eventBus.$on('editProject', editProject => {
+            EventBus.$on('editProject', editProject => {
                 this.editProject = editProject
             })
 
-            eventBus.$on('createTask', tasks => {
+            EventBus.$on('createTask', tasks => {
                 this.tasks = tasks
             })
 
-            eventBus.$on('loadTasks', project_id => {
+            EventBus.$on('loadTasks', project_id => {
                 this.getProjectTasks(project_id)
             })
         },
         mounted() {
-            axios.defaults.headers.common['Content-Type'] = 'application/json'
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt
-
             this.getProject()
         }
     }

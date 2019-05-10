@@ -102,13 +102,9 @@
                 description: '',
                 start_date: '',
                 due_date: '',
-                userData: null,
             }
         },
         methods: {
-            getUserData() {
-                this.userData = JSON.parse(localStorage.getItem('userData'))
-            },
             createTask() {
                 let description = this.description
                 let project_id = this.projectInfo.id
@@ -120,7 +116,7 @@
 
                     let tasks = this.tasks
 
-                    eventBus.$emit('createTask', tasks)
+                    EventBus.$emit('createTask', tasks)
                 })
 
                 this.reset()
@@ -128,27 +124,19 @@
             completeTask(project_id, task_id) {
                 axios.post('/api/tasks/' + project_id + '/complete/' + task_id)
                 .then(response => {
-                    eventBus.$emit('loadTasks', project_id)
+                    EventBus.$emit('loadTasks', project_id)
                 })
             },
             incompleteTask(project_id, task_id) {
                 axios.post('/api/tasks/' + project_id + '/incomplete/' + task_id)
                 .then(response => {
-                    eventBus.$emit('loadTasks', project_id)
+                    EventBus.$emit('loadTasks', project_id)
                 })
             },
             reset() {
                 this.dialog = false
                 this.description = ''
             }
-        },
-        created() {
-            this.getUserData()
-        },
-        mounted() {
-            axios.defaults.headers.common['Content-Type'] = 'application/json'
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt
-
         },
     }
 </script>

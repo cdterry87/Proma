@@ -38,7 +38,7 @@
         methods: {
             editClient() {
                 let editClient = true
-                eventBus.$emit('editClient', editClient);
+                EventBus.$emit('editClient', editClient);
             }
         },
         computed: {

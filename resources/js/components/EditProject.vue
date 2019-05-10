@@ -38,12 +38,9 @@
         name: 'EditProject',
         props: ['projectInfo'],
         methods: {
-            getUserData() {
-                this.userData = JSON.parse(localStorage.getItem('userData'))
-            },
             viewProject() {
                 let editProject = false
-                eventBus.$emit('editProject', editProject);
+                EventBus.$emit('editProject', editProject);
             },
             updateProject() {
                 let name = this.project.name;
@@ -55,9 +52,6 @@
                 })
             },
         },
-        created() {
-            this.getUserData()
-        },
         computed: {
             project: {
                 get() {
@@ -68,10 +62,6 @@
                 }
             }
         },
-        mounted() {
-            axios.defaults.headers.common['Content-Type'] = 'application/json'
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt
-        }
     }
 </script>
 
