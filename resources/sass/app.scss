@@ -1,8 +1,7 @@
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import '~vuetify/dist/vuetify.min.css';
+@import '~material-icons/iconfont/material-icons.css';
 
-// Variables
-@import 'variables';
-
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+a {
+    text-decoration: none !important;
+    color: inherit !important;
+}
