@@ -33,7 +33,7 @@ class ProjectController extends Controller
             'team_id' => $request->team_id,
         ]);
 
-        $project->user()->attach($request->user_id);
+        $project->user()->attach(Auth::user()->id);
 
         return response()->json([
             'status' => (bool)$project,
