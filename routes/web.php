@@ -18,8 +18,18 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('/clients', 'ClientController');
         Route::resource('/teams', 'TeamController');
         Route::resource('/projects', 'ProjectController');
+
+        Route::get('/tasks/{project}', 'ProjectTaskController@index');
+        Route::post('/tasks/{project}/complete/{task}', 'ProjectTaskController@complete');
+        Route::post('/tasks/{project}/incomplete/{task}', 'ProjectTaskController@incomplete');
+        Route::resource('/tasks', 'ProjectTaskController');
+
+        Route::get('/contacts/{client}', 'ClientContactController@index');
+        Route::resource('/contacts', 'ClientContactController');
+
+        Route::get('/members/{team}', 'TeamMemberController@index');
+        Route::resource('/members', 'TeamMemberController');
     });
 
-    // Route::get('/', 'HomeController@index')->name('home');
     Route::get('/{any}', 'HomeController@index')->where('any', '.*');
 });
