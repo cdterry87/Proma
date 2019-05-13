@@ -4,7 +4,7 @@
             <v-layout align-baseline>
                 <v-flex xs6>
                     <span class="headline">
-                        <v-icon>list</v-icon> Contacts
+                        <v-icon>contacts</v-icon> Contacts
                     </span>
                 </v-flex>
                 <v-flex xs6 text-xs-right>
@@ -53,16 +53,16 @@
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
-                                <v-text-field prepend-icon="person" label="Contact Name" v-model="name"></v-text-field>
+                                <v-text-field prepend-icon="person" label="Contact Name" v-model="name" maxlength="100"></v-text-field>
                             </v-flex>
                             <v-flex xs12>
-                                <v-text-field prepend-icon="work" label="Contact Title" v-model="title"></v-text-field>
+                                <v-text-field prepend-icon="work" label="Contact Title" v-model="title" maxlength="100"></v-text-field>
                             </v-flex>
                             <v-flex xs12>
-                                <v-text-field prepend-icon="mail" label="Contact Email" v-model="email"></v-text-field>
+                                <v-text-field prepend-icon="mail" label="Contact Email" v-model="email" maxlength="100"></v-text-field>
                             </v-flex>
                             <v-flex xs12>
-                                <v-text-field prepend-icon="phone" label="Contact Phone" v-model="phone"></v-text-field>
+                                <v-text-field prepend-icon="phone" label="Contact Phone" v-model="phone" maxlength="30"></v-text-field>
                             </v-flex>
                         </v-layout>
                     </v-container>

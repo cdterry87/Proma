@@ -11,7 +11,7 @@
                 <v-form method="POST" id="editTeamForm" @submit.prevent="updateTeam">
                     <v-layout row>
                         <v-flex xs12>
-                            <v-text-field prepend-icon="people" label="Team Name" v-model="team.name"></v-text-field>
+                            <v-text-field prepend-icon="people" label="Team Name" v-model="team.name" maxlength="100"></v-text-field>
                         </v-flex>
                     </v-layout>
                     <v-layout row>

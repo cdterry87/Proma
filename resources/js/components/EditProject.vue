@@ -11,7 +11,7 @@
                 <v-form method="POST" id="editProjectForm" @submit.prevent="updateProject">
                     <v-layout row>
                         <v-flex xs12>
-                            <v-text-field prepend-icon="work" label="Project Name" v-model="project.name"></v-text-field>
+                            <v-text-field prepend-icon="work" label="Project Name" v-model="project.name" maxlength="100"></v-text-field>
                         </v-flex>
                     </v-layout>
                     <v-layout row>

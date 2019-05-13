@@ -11,7 +11,7 @@
                 <v-form method="POST" id="editClientForm" @submit.prevent="updateClient">
                     <v-layout row>
                         <v-flex xs12>
-                            <v-text-field prepend-icon="person" label="Client Name" v-model="client.name"></v-text-field>
+                            <v-text-field prepend-icon="person" label="Client Name" v-model="client.name" maxlength="100"></v-text-field>
                         </v-flex>
                     </v-layout>
                     <v-layout row>

@@ -31,11 +31,11 @@
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="projectForm" @submit.prevent="createProject">
                 <v-card>
-                    <v-card-title class="grey lighten-4 py-4 title">Create Project</v-card-title>
+                    <v-card-title class="blue darken-3 white--text py-4 title">Create Project</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
-                                <v-text-field prepend-icon="work" label="Project Name" v-model="name"></v-text-field>
+                                <v-text-field prepend-icon="work" label="Project Name" v-model="name" maxlength="100"></v-text-field>
                             </v-flex>
                             <v-flex xs12>
                                 <v-autocomplete

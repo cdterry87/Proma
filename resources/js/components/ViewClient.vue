@@ -3,15 +3,15 @@
         <v-card>
             <v-container>
                 <v-layout align-baseline>
-                    <v-flex xs6>
+                    <v-flex xs10>
                         <span class="headline">
                             {{ client.name }}
                         </span>
                     </v-flex>
-                    <v-flex xs6 text-xs-right>
+                    <v-flex xs2 text-xs-right>
                         <v-btn color="info" @click="editClient" small>
                             <v-icon left dark>edit</v-icon>
-                            Edit Client
+                            Edit
                         </v-btn>
                     </v-flex>
                 </v-layout>

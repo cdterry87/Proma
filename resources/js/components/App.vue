@@ -85,3 +85,9 @@ export default {
     }
 }
 </script>
+
+<style>
+.editCard {
+    height: 100px;
+}
+</style>
