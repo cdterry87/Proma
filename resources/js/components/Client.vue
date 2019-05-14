@@ -7,7 +7,7 @@
 </template>
 
 <script>
-    import EventBus from './../eventbus';
+    import EventBus from './../eventbus'
     import EditClient from './EditClient'
     import ViewClient from './ViewClient'
     import ClientContacts from './ClientContacts'

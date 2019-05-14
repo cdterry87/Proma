@@ -350,6 +350,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ClientContacts',
@@ -1144,6 +1147,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _eventbus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../eventbus */ "./resources/js/eventbus.js");
 /* harmony import */ var _EditTeam__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EditTeam */ "./resources/js/components/EditTeam.vue");
 /* harmony import */ var _ViewTeam__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ViewTeam */ "./resources/js/components/ViewTeam.vue");
+/* harmony import */ var _TeamMembers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TeamMembers */ "./resources/js/components/TeamMembers.vue");
 //
 //
 //
@@ -1151,6 +1155,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 
 
@@ -1159,12 +1165,14 @@ __webpack_require__.r(__webpack_exports__);
   props: ['id'],
   components: {
     EditTeam: _EditTeam__WEBPACK_IMPORTED_MODULE_1__["default"],
-    ViewTeam: _ViewTeam__WEBPACK_IMPORTED_MODULE_2__["default"]
+    ViewTeam: _ViewTeam__WEBPACK_IMPORTED_MODULE_2__["default"],
+    TeamMembers: _TeamMembers__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   data: function data() {
     return {
       editTeam: false,
-      team: ''
+      team: '',
+      members: ''
     };
   },
   methods: {
@@ -1174,17 +1182,152 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/api/teams/' + this.id).then(function (response) {
         _this.team = response.data;
       });
+    },
+    getTeamMembers: function getTeamMembers(team_id) {
+      var _this2 = this;
+
+      axios.get('/api/members/' + team_id).then(function (response) {
+        _this2.members = response.data;
+      });
     }
   },
   created: function created() {
-    var _this2 = this;
+    var _this3 = this;
 
     _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('editTeam', function (editTeam) {
-      _this2.editTeam = editTeam;
+      _this3.editTeam = editTeam;
+    });
+    _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('addMember', function (members) {
+      _this3.members = members;
+    });
+    _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('loadMembers', function (team_id) {
+      _this3.getTeamMembers(team_id);
     });
   },
   mounted: function mounted() {
     this.getTeam();
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TeamMembers.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TeamMembers.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _eventbus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../eventbus */ "./resources/js/eventbus.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'TeamMembers',
+  props: ['teamInfo', 'teamMembers'],
+  data: function data() {
+    return {
+      dialog: false,
+      user_id: '',
+      users: []
+    };
+  },
+  methods: {
+    addMember: function addMember() {
+      var _this = this;
+
+      var user_id = this.user_id;
+      var team_id = this.teamInfo.id;
+      axios.post('/api/members', {
+        user_id: user_id,
+        team_id: team_id
+      }).then(function (response) {
+        _this.members = _this.teamMembers;
+
+        _this.members.push(response.data.data);
+
+        var members = _this.members;
+        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('addMember', members);
+      });
+      this.reset();
+    },
+    reset: function reset() {
+      this.dialog = false;
+    }
   }
 });
 
@@ -1336,10 +1479,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ViewClient',
@@ -1454,6 +1593,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ViewTeam',
@@ -1482,7 +1623,7 @@ __webpack_require__.r(__webpack_exports__);
 
 exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, "\n.container {\n    padding-top: 6px !important;\n    padding-bottom: 6px !important;\n}\n.editCard {\n    cursor: pointer;\n    height: 100px;\n}\n.v-card {\n    padding-bottom: 10px;\n}\n", ""]);
+exports.push([module.i, "\n.container {\n    padding-top: 6px !important;\n    padding-bottom: 6px !important;\n}\n.editCard {\n    cursor: pointer;\n    height: 100px;\n}\n.dataCard {\n    height: 250px;\n    overflow-x: scroll;\n}\n.v-card {\n    padding-bottom: 10px;\n}\n", ""]);
 
 
 
@@ -2966,7 +3107,7 @@ var render = function() {
                   "span",
                   { staticClass: "headline" },
                   [
-                    _c("v-icon", [_vm._v("contacts")]),
+                    _c("v-icon", [_vm._v("phone")]),
                     _vm._v(" Contacts\n                ")
                   ],
                   1
@@ -3002,106 +3143,111 @@ var render = function() {
               )
             ],
             1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _vm.clientContacts.length == 0
-        ? _c(
-            "v-container",
-            [
-              _c("v-layout", { attrs: { row: "" } }, [
-                _vm._v(
-                  "\n            There are currently no contacts for this client.\n        "
-                )
-              ])
-            ],
-            1
-          )
-        : _c(
-            "v-container",
-            { attrs: { fluid: "", "grid-list-md": "" } },
-            [
-              _c(
-                "v-layout",
-                { attrs: { row: "", wrap: "" } },
-                _vm._l(_vm.clientContacts, function(contact) {
-                  return _c(
-                    "v-flex",
-                    { key: contact.id, attrs: { xs12: "", md6: "", lg4: "" } },
-                    [
-                      _c(
-                        "v-card",
+          ),
+          _vm._v(" "),
+          _vm.clientContacts.length == 0
+            ? _c(
+                "v-container",
+                [
+                  _c("v-layout", { attrs: { row: "" } }, [
+                    _vm._v(
+                      "\n                There are currently no contacts for this client.\n            "
+                    )
+                  ])
+                ],
+                1
+              )
+            : _c(
+                "v-container",
+                { attrs: { fluid: "", "grid-list-md": "" } },
+                [
+                  _c(
+                    "v-layout",
+                    { attrs: { row: "", wrap: "" } },
+                    _vm._l(_vm.clientContacts, function(contact) {
+                      return _c(
+                        "v-flex",
+                        {
+                          key: contact.id,
+                          attrs: { xs12: "", md6: "", lg4: "" }
+                        },
                         [
                           _c(
-                            "v-card-text",
-                            [
-                              _c("div", [
-                                _c("div", { staticClass: "headline" }, [
-                                  _vm._v(
-                                    _vm._s(_vm._f("truncate")(contact.name, 25))
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("span", { staticClass: "grey--text" }, [
-                                  _vm._v(_vm._s(contact.title))
-                                ])
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "v-layout",
-                                [
-                                  _c("v-flex", [
-                                    _c("div", [
-                                      _c(
-                                        "i",
-                                        { staticClass: "material-icons" },
-                                        [_vm._v("mail")]
-                                      ),
-                                      _vm._v(" " + _vm._s(contact.email))
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("div", [
-                                      _c(
-                                        "i",
-                                        { staticClass: "material-icons" },
-                                        [_vm._v("phone")]
-                                      ),
-                                      _vm._v(" " + _vm._s(contact.phone))
-                                    ])
-                                  ])
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-card-actions",
+                            "v-card",
+                            { staticClass: "dataCard" },
                             [
                               _c(
-                                "v-flex",
-                                { attrs: { xs6: "", "offset-xs3": "" } },
+                                "v-card-actions",
                                 [
                                   _c(
-                                    "v-btn",
+                                    "v-layout",
                                     {
                                       attrs: {
-                                        color: "info",
-                                        block: "",
-                                        small: ""
+                                        "align-right": "",
+                                        "justify-end": ""
                                       }
                                     },
                                     [
                                       _c(
-                                        "i",
-                                        { staticClass: "material-icons" },
-                                        [_vm._v("edit")]
-                                      ),
-                                      _vm._v(" Edit")
-                                    ]
+                                        "v-btn",
+                                        { attrs: { color: "info", small: "" } },
+                                        [
+                                          _c(
+                                            "i",
+                                            { staticClass: "material-icons" },
+                                            [_vm._v("edit")]
+                                          ),
+                                          _vm._v(" Edit")
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-card-text",
+                                [
+                                  _c("div", [
+                                    _c("div", { staticClass: "headline" }, [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm._f("truncate")(contact.name, 20)
+                                        )
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("span", { staticClass: "grey--text" }, [
+                                      _vm._v(_vm._s(contact.title))
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-layout",
+                                    [
+                                      _c("v-flex", [
+                                        _c("div", [
+                                          _c(
+                                            "i",
+                                            { staticClass: "material-icons" },
+                                            [_vm._v("mail")]
+                                          ),
+                                          _vm._v(" " + _vm._s(contact.email))
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("div", [
+                                          _c(
+                                            "i",
+                                            { staticClass: "material-icons" },
+                                            [_vm._v("phone")]
+                                          ),
+                                          _vm._v(" " + _vm._s(contact.phone))
+                                        ])
+                                      ])
+                                    ],
+                                    1
                                   )
                                 ],
                                 1
@@ -3112,15 +3258,15 @@ var render = function() {
                         ],
                         1
                       )
-                    ],
+                    }),
                     1
                   )
-                }),
+                ],
                 1
               )
-            ],
-            1
-          ),
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "v-dialog",
@@ -4787,7 +4933,281 @@ var render = function() {
     [
       _vm.editTeam
         ? _c("EditTeam", { attrs: { teamInfo: _vm.team } })
-        : _c("ViewTeam", { attrs: { teamInfo: _vm.team } })
+        : _c("ViewTeam", { attrs: { teamInfo: _vm.team } }),
+      _vm._v(" "),
+      _c("TeamMembers", {
+        attrs: { teamInfo: _vm.team, teamMembers: _vm.members }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TeamMembers.vue?vue&type=template&id=1bc4c8e1&":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TeamMembers.vue?vue&type=template&id=1bc4c8e1& ***!
+  \**************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-container",
+    { attrs: { fluid: "", "grid-list-md": "" } },
+    [
+      _c(
+        "v-container",
+        [
+          _c(
+            "v-layout",
+            { attrs: { "align-baseline": "" } },
+            [
+              _c("v-flex", { attrs: { xs6: "" } }, [
+                _c(
+                  "span",
+                  { staticClass: "headline" },
+                  [
+                    _c("v-icon", [_vm._v("people")]),
+                    _vm._v(" Members\n                ")
+                  ],
+                  1
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { attrs: { xs6: "", "text-xs-right": "" } },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "info", small: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.dialog = true
+                        }
+                      }
+                    },
+                    [
+                      _c("v-icon", { attrs: { left: "", dark: "" } }, [
+                        _vm._v("add")
+                      ]),
+                      _vm._v(
+                        "\n                    Add Member\n                "
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _vm.teamMembers.length == 0
+            ? _c(
+                "v-container",
+                [
+                  _c("v-layout", { attrs: { row: "" } }, [
+                    _vm._v(
+                      "\n                There are currently no members on this team.\n            "
+                    )
+                  ])
+                ],
+                1
+              )
+            : _c(
+                "v-container",
+                { attrs: { fluid: "", "grid-list-md": "" } },
+                [
+                  _c(
+                    "v-layout",
+                    { attrs: { row: "", wrap: "" } },
+                    _vm._l(_vm.teamMembers, function(member) {
+                      return _c(
+                        "v-flex",
+                        {
+                          key: member.id,
+                          attrs: { xs12: "", md6: "", lg4: "" }
+                        },
+                        [
+                          _c(
+                            "v-card",
+                            { staticClass: "dataCard" },
+                            [
+                              _c(
+                                "v-card-actions",
+                                [
+                                  _c(
+                                    "v-layout",
+                                    {
+                                      attrs: {
+                                        "align-right": "",
+                                        "justify-end": ""
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "v-btn",
+                                        { attrs: { color: "info", small: "" } },
+                                        [
+                                          _c(
+                                            "i",
+                                            { staticClass: "material-icons" },
+                                            [_vm._v("edit")]
+                                          ),
+                                          _vm._v(" Edit")
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("v-card-text", [_c("div")])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    }),
+                    1
+                  )
+                ],
+                1
+              )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { width: "500" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _c(
+            "v-form",
+            {
+              attrs: { method: "POST", id: "memberForm" },
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.addMember($event)
+                }
+              }
+            },
+            [
+              _c(
+                "v-card",
+                [
+                  _c(
+                    "v-card-title",
+                    { staticClass: "grey lighten-4 py-4 title" },
+                    [_vm._v("Add Member")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-container",
+                    { staticClass: "pa-4", attrs: { "grid-list-sm": "" } },
+                    [
+                      _c(
+                        "v-layout",
+                        { attrs: { row: "", wrap: "" } },
+                        [
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "" } },
+                            [
+                              _c("v-autocomplete", {
+                                attrs: {
+                                  items: _vm.users,
+                                  "item-text": "user",
+                                  "item-value": "id",
+                                  label: "Select a user",
+                                  "prepend-icon": "person"
+                                },
+                                model: {
+                                  value: _vm.user_id,
+                                  callback: function($$v) {
+                                    _vm.user_id = $$v
+                                  },
+                                  expression: "user_id"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c("v-btn", { attrs: { type: "submit", flat: "" } }, [
+                        _vm._v("Save")
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            flat: "",
+                            color: "primary",
+                            form: "taskForm"
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.dialog = false
+                            }
+                          }
+                        },
+                        [_vm._v("Cancel")]
+                      ),
+                      _vm._v(" "),
+                      _c("v-spacer")
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
     ],
     1
   )
@@ -5070,45 +5490,37 @@ var render = function() {
     { attrs: { fluid: "", "grid-list-md": "" } },
     [
       _c(
-        "v-card",
+        "v-container",
         [
           _c(
-            "v-container",
+            "v-layout",
+            { attrs: { "align-baseline": "" } },
             [
+              _c("v-flex", { attrs: { xs10: "" } }, [
+                _c("span", { staticClass: "headline" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.client.name) +
+                      "\n                "
+                  )
+                ])
+              ]),
+              _vm._v(" "),
               _c(
-                "v-layout",
-                { attrs: { "align-baseline": "" } },
+                "v-flex",
+                { attrs: { xs2: "", "text-xs-right": "" } },
                 [
-                  _c("v-flex", { attrs: { xs10: "" } }, [
-                    _c("span", { staticClass: "headline" }, [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(_vm.client.name) +
-                          "\n                    "
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
                   _c(
-                    "v-flex",
-                    { attrs: { xs2: "", "text-xs-right": "" } },
+                    "v-btn",
+                    {
+                      attrs: { color: "info", small: "" },
+                      on: { click: _vm.editClient }
+                    },
                     [
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { color: "info", small: "" },
-                          on: { click: _vm.editClient }
-                        },
-                        [
-                          _c("v-icon", { attrs: { left: "", dark: "" } }, [
-                            _vm._v("edit")
-                          ]),
-                          _vm._v(
-                            "\n                        Edit\n                    "
-                          )
-                        ],
-                        1
-                      )
+                      _c("v-icon", { attrs: { left: "", dark: "" } }, [
+                        _vm._v("edit")
+                      ]),
+                      _vm._v("\n                    Edit\n                ")
                     ],
                     1
                   )
@@ -5117,27 +5529,25 @@ var render = function() {
               )
             ],
             1
-          ),
-          _vm._v(" "),
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-container",
+        [
           _c(
-            "v-container",
+            "v-layout",
+            { attrs: { row: "" } },
             [
-              _c("v-layout", { attrs: { row: "" } }),
-              _vm._v(" "),
-              _c(
-                "v-layout",
-                { attrs: { row: "" } },
-                [
-                  _c("v-flex", { attrs: { xs12: "" } }, [
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(_vm.client.description) +
-                        "\n                "
-                    )
-                  ])
-                ],
-                1
-              )
+              _c("v-flex", { attrs: { xs12: "" } }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.client.description) +
+                    "\n            "
+                )
+              ])
             ],
             1
           )
@@ -5286,66 +5696,64 @@ var render = function() {
     { attrs: { fluid: "", "grid-list-md": "" } },
     [
       _c(
-        "v-card",
+        "v-container",
         [
           _c(
-            "v-container",
-            { attrs: { "text-xs-right": "" } },
+            "v-layout",
+            { attrs: { "align-baseline": "" } },
             [
+              _c("v-flex", { attrs: { xs10: "" } }, [
+                _c("span", { staticClass: "headline" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.team.name) +
+                      "\n                "
+                  )
+                ])
+              ]),
+              _vm._v(" "),
               _c(
-                "v-btn",
-                {
-                  attrs: { color: "info", small: "" },
-                  on: { click: _vm.editTeam }
-                },
+                "v-flex",
+                { attrs: { xs2: "", "text-xs-right": "" } },
                 [
-                  _c("v-icon", { attrs: { left: "", dark: "" } }, [
-                    _vm._v("edit")
-                  ]),
-                  _vm._v("\n                Edit Team\n            ")
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "info", small: "" },
+                      on: { click: _vm.editTeam }
+                    },
+                    [
+                      _c("v-icon", { attrs: { left: "", dark: "" } }, [
+                        _vm._v("edit")
+                      ]),
+                      _vm._v("\n                    Edit\n                ")
+                    ],
+                    1
+                  )
                 ],
                 1
               )
             ],
             1
-          ),
-          _vm._v(" "),
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-container",
+        [
           _c(
-            "v-container",
+            "v-layout",
+            { attrs: { row: "" } },
             [
-              _c(
-                "v-layout",
-                { attrs: { row: "" } },
-                [
-                  _c(
-                    "v-flex",
-                    { staticClass: "headline", attrs: { xs12: "" } },
-                    [
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(_vm.team.name) +
-                          "\n                "
-                      )
-                    ]
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-layout",
-                { attrs: { row: "" } },
-                [
-                  _c("v-flex", { attrs: { xs12: "" } }, [
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(_vm.team.description) +
-                        "\n                "
-                    )
-                  ])
-                ],
-                1
-              )
+              _c("v-flex", { attrs: { xs12: "" } }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.team.description) +
+                    "\n            "
+                )
+              ])
             ],
             1
           )
@@ -46951,6 +47359,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Team_vue_vue_type_template_id_402b42c8_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Team_vue_vue_type_template_id_402b42c8_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/TeamMembers.vue":
+/*!*************************************************!*\
+  !*** ./resources/js/components/TeamMembers.vue ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TeamMembers_vue_vue_type_template_id_1bc4c8e1___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TeamMembers.vue?vue&type=template&id=1bc4c8e1& */ "./resources/js/components/TeamMembers.vue?vue&type=template&id=1bc4c8e1&");
+/* harmony import */ var _TeamMembers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TeamMembers.vue?vue&type=script&lang=js& */ "./resources/js/components/TeamMembers.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _TeamMembers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TeamMembers_vue_vue_type_template_id_1bc4c8e1___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _TeamMembers_vue_vue_type_template_id_1bc4c8e1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/TeamMembers.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/TeamMembers.vue?vue&type=script&lang=js&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/components/TeamMembers.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TeamMembers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./TeamMembers.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TeamMembers.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TeamMembers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/TeamMembers.vue?vue&type=template&id=1bc4c8e1&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/TeamMembers.vue?vue&type=template&id=1bc4c8e1& ***!
+  \********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TeamMembers_vue_vue_type_template_id_1bc4c8e1___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./TeamMembers.vue?vue&type=template&id=1bc4c8e1& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TeamMembers.vue?vue&type=template&id=1bc4c8e1&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TeamMembers_vue_vue_type_template_id_1bc4c8e1___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TeamMembers_vue_vue_type_template_id_1bc4c8e1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

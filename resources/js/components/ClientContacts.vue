@@ -4,7 +4,7 @@
             <v-layout align-baseline>
                 <v-flex xs6>
                     <span class="headline">
-                        <v-icon>contacts</v-icon> Contacts
+                        <v-icon>phone</v-icon> Contacts
                     </span>
                 </v-flex>
                 <v-flex xs6 text-xs-right>
@@ -14,37 +14,40 @@
                     </v-btn>
                 </v-flex>
             </v-layout>
+
+            <v-container v-if="clientContacts.length == 0">
+                <v-layout row>
+                    There are currently no contacts for this client.
+                </v-layout>
+            </v-container>
+            <v-container v-else fluid grid-list-md>
+                <v-layout row wrap>
+                    <v-flex xs12 md6 lg4 v-for="contact in clientContacts" :key="contact.id">
+                        <v-card class="dataCard">
+                            <v-card-actions>
+                                <v-layout align-right justify-end>
+                                    <v-btn color="info" small><i class="material-icons">edit</i> Edit</v-btn>
+                                </v-layout>
+                            </v-card-actions>
+                            <v-card-text>
+                                <div>
+                                    <div class="headline">{{ contact.name | truncate(20) }}</div>
+                                    <span class="grey--text">{{ contact.title }}</span>
+                                </div>
+                                <v-layout>
+                                    <v-flex>
+                                        <div><i class="material-icons">mail</i> {{ contact.email }}</div>
+                                        <div><i class="material-icons">phone</i> {{ contact.phone }}</div>
+                                    </v-flex>
+                                </v-layout>
+                            </v-card-text>
+
+                        </v-card>
+                    </v-flex>
+                </v-layout>
+            </v-container>
         </v-container>
-        <v-container v-if="clientContacts.length == 0">
-            <v-layout row>
-                There are currently no contacts for this client.
-            </v-layout>
-        </v-container>
-        <v-container v-else fluid grid-list-md>
-            <v-layout row wrap>
-                <v-flex xs12 md6 lg4 v-for="contact in clientContacts" :key="contact.id">
-                    <v-card>
-                        <v-card-text>
-                            <div>
-                                <div class="headline">{{ contact.name | truncate(25) }}</div>
-                                <span class="grey--text">{{ contact.title }}</span>
-                            </div>
-                            <v-layout>
-                                <v-flex>
-                                    <div><i class="material-icons">mail</i> {{ contact.email }}</div>
-                                    <div><i class="material-icons">phone</i> {{ contact.phone }}</div>
-                                </v-flex>
-                            </v-layout>
-                        </v-card-text>
-                        <v-card-actions>
-                            <v-flex xs6 offset-xs3>
-                                <v-btn color="info" block small><i class="material-icons">edit</i> Edit</v-btn>
-                            </v-flex>
-                        </v-card-actions>
-                    </v-card>
-                </v-flex>
-            </v-layout>
-        </v-container>
+
 
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="contactForm" @submit.prevent="createContact">
@@ -79,7 +82,7 @@
 </template>
 
 <script>
-    import EventBus from './../eventbus';
+    import EventBus from './../eventbus'
 
     export default {
         name: 'ClientContacts',

@@ -97,6 +97,11 @@ export default {
     height: 100px;
 }
 
+.dataCard {
+    height: 250px;
+    overflow-x: scroll;
+}
+
 .v-card {
     padding-bottom: 10px;
 }

@@ -1,25 +1,27 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-card>
-            <v-container text-xs-right>
-                <v-btn color="info" @click="editTeam" small>
-                    <v-icon left dark>edit</v-icon>
-                    Edit Team
-                </v-btn>
-            </v-container>
-            <v-container>
-                <v-layout row>
-                    <v-flex xs12 class="headline">
+        <v-container>
+            <v-layout align-baseline>
+                <v-flex xs10>
+                    <span class="headline">
                         {{ team.name }}
-                    </v-flex>
-                </v-layout>
-                <v-layout row>
-                    <v-flex xs12>
-                        {{ team.description }}
-                    </v-flex>
-                </v-layout>
-            </v-container>
-        </v-card>
+                    </span>
+                </v-flex>
+                <v-flex xs2 text-xs-right>
+                    <v-btn color="info" @click="editTeam" small>
+                        <v-icon left dark>edit</v-icon>
+                        Edit
+                    </v-btn>
+                </v-flex>
+            </v-layout>
+        </v-container>
+        <v-container>
+            <v-layout row>
+                <v-flex xs12>
+                    {{ team.description }}
+                </v-flex>
+            </v-layout>
+        </v-container>
     </v-container>
 </template>
 

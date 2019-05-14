@@ -2,25 +2,30 @@
     <div>
         <EditTeam v-if="editTeam" :teamInfo="team" />
         <ViewTeam v-else :teamInfo="team" />
+        <TeamMembers :teamInfo="team" :teamMembers="members" />
     </div>
 </template>
 
 <script>
-    import EventBus from './../eventbus';
+    import EventBus from './../eventbus'
     import EditTeam from './EditTeam'
     import ViewTeam from './ViewTeam'
+    import TeamMembers from './TeamMembers'
+
 
     export default {
         name: 'Team',
         props: ['id'],
         components: {
             EditTeam,
-            ViewTeam
+            ViewTeam,
+            TeamMembers
         },
         data() {
             return {
                 editTeam: false,
-                team: ''
+                team: '',
+                members: ''
             }
         },
         methods: {
@@ -30,10 +35,24 @@
                     this.team = response.data
                 })
             },
+            getTeamMembers(team_id) {
+                axios.get('/api/members/' + team_id)
+                .then(response => {
+                    this.members = response.data
+                })
+            },
         },
         created() {
             EventBus.$on('editTeam', editTeam => {
                 this.editTeam = editTeam
+            })
+
+            EventBus.$on('addMember', members => {
+                this.members = members
+            })
+
+            EventBus.$on('loadMembers', team_id => {
+                this.getTeamMembers(team_id)
             })
         },
         mounted() {
