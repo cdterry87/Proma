@@ -173,7 +173,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     logout: function logout() {
-      axios.post('logout').then(function (response) {
+      axios.post('logout')["finally"](function () {
         location.reload();
       });
     }
@@ -1482,7 +1482,7 @@ __webpack_require__.r(__webpack_exports__);
 
 exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, "\n.editCard {\n    height: 100px;\n}\n", ""]);
+exports.push([module.i, "\n.container {\n    padding-top: 6px !important;\n    padding-bottom: 6px !important;\n}\n.editCard {\n    cursor: pointer;\n    height: 100px;\n}\n.v-card {\n    padding-bottom: 10px;\n}\n", ""]);
 
 
 

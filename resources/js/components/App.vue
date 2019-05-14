@@ -78,16 +78,26 @@ export default {
     methods: {
         logout() {
             axios.post('logout')
-            .then(response => {
+            .finally(function () {
                 location.reload()
-            })
+            });
         }
     }
 }
 </script>
 
 <style>
+.container {
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+}
+
 .editCard {
+    cursor: pointer;
     height: 100px;
+}
+
+.v-card {
+    padding-bottom: 10px;
 }
 </style>
