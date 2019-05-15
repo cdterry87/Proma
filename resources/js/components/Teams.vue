@@ -16,12 +16,12 @@
         <v-layout row wrap>
             <v-flex xs12 md6 lg4 v-for="team in teams" :key="team.id">
                 <router-link :to="'/team/' + team.id">
-                    <v-card class="editCard">
+                    <v-card class="data-card">
                         <v-card-text>
                             <div class="headline">
                                 {{ team.name | truncate(25) }}
                             </div>
-                            {{ team.description | truncate(80) }}
+                            {{ team.description | truncate(150) }}
                         </v-card-text>
                     </v-card>
                 </router-link>

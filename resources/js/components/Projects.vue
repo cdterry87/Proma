@@ -16,7 +16,7 @@
         <v-layout row wrap>
             <v-flex xs12 md6 lg4 v-for="project in projects" :key="project.id">
                 <router-link :to="'/project/' + project.id">
-                    <v-card class="editCard">
+                    <v-card class="data-card">
                         <v-card-text>
                             <div class="headline">
                                 {{ project.name | truncate(25) }}

@@ -23,12 +23,7 @@
             <v-container v-else fluid grid-list-md>
                 <v-layout row wrap>
                     <v-flex xs12 md6 lg4 v-for="member in teamMembers" :key="member.id">
-                        <v-card class="dataCard">
-                            <v-card-actions>
-                                <v-layout align-right justify-end>
-                                    <v-btn color="info" small><i class="material-icons">edit</i> Edit</v-btn>
-                                </v-layout>
-                            </v-card-actions>
+                        <v-card class="data-card">
                             <v-card-text>
                                 <div>
                                     <div class="headline">{{ member.user.name | truncate(20) }}</div>

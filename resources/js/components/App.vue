@@ -92,14 +92,9 @@ export default {
     padding-bottom: 6px !important;
 }
 
-.editCard {
+.data-card {
     cursor: pointer;
-    height: 100px;
-}
-
-.dataCard {
-    height: 250px;
-    overflow-x: scroll;
+    height: 150px;
 }
 
 .v-card {

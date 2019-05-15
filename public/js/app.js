@@ -346,13 +346,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ClientContacts',
@@ -1291,11 +1284,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'TeamMembers',
@@ -1629,7 +1617,7 @@ __webpack_require__.r(__webpack_exports__);
 
 exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, "\n.container {\n    padding-top: 6px !important;\n    padding-bottom: 6px !important;\n}\n.editCard {\n    cursor: pointer;\n    height: 100px;\n}\n.dataCard {\n    height: 250px;\n    overflow-x: scroll;\n}\n.v-card {\n    padding-bottom: 10px;\n}\n", ""]);
+exports.push([module.i, "\n.container {\n    padding-top: 6px !important;\n    padding-bottom: 6px !important;\n}\n.data-card {\n    cursor: pointer;\n    height: 150px;\n}\n.v-card {\n    padding-bottom: 10px;\n}\n", ""]);
 
 
 
@@ -3180,39 +3168,8 @@ var render = function() {
                         [
                           _c(
                             "v-card",
-                            { staticClass: "dataCard" },
+                            { staticClass: "data-card" },
                             [
-                              _c(
-                                "v-card-actions",
-                                [
-                                  _c(
-                                    "v-layout",
-                                    {
-                                      attrs: {
-                                        "align-right": "",
-                                        "justify-end": ""
-                                      }
-                                    },
-                                    [
-                                      _c(
-                                        "v-btn",
-                                        { attrs: { color: "info", small: "" } },
-                                        [
-                                          _c(
-                                            "i",
-                                            { staticClass: "material-icons" },
-                                            [_vm._v("edit")]
-                                          ),
-                                          _vm._v(" Edit")
-                                        ]
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
                               _c(
                                 "v-card-text",
                                 [
@@ -3226,7 +3183,11 @@ var render = function() {
                                     ]),
                                     _vm._v(" "),
                                     _c("span", { staticClass: "grey--text" }, [
-                                      _vm._v(_vm._s(contact.title))
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm._f("truncate")(contact.title, 30)
+                                        )
+                                      )
                                     ])
                                   ]),
                                   _vm._v(" "),
@@ -3240,7 +3201,15 @@ var render = function() {
                                             { staticClass: "material-icons" },
                                             [_vm._v("mail")]
                                           ),
-                                          _vm._v(" " + _vm._s(contact.email))
+                                          _vm._v(
+                                            " " +
+                                              _vm._s(
+                                                _vm._f("truncate")(
+                                                  contact.email,
+                                                  30
+                                                )
+                                              )
+                                          )
                                         ]),
                                         _vm._v(" "),
                                         _c("div", [
@@ -3541,7 +3510,7 @@ var render = function() {
                 [
                   _c(
                     "v-card",
-                    { staticClass: "editCard" },
+                    { staticClass: "data-card" },
                     [
                       _c("v-card-text", [
                         _c("div", { staticClass: "headline" }, [
@@ -3553,7 +3522,9 @@ var render = function() {
                         ]),
                         _vm._v(
                           "\n                        " +
-                            _vm._s(_vm._f("truncate")(client.description, 80)) +
+                            _vm._s(
+                              _vm._f("truncate")(client.description, 150)
+                            ) +
                             "\n                    "
                         )
                       ])
@@ -4699,7 +4670,7 @@ var render = function() {
                 [
                   _c(
                     "v-card",
-                    { staticClass: "editCard" },
+                    { staticClass: "data-card" },
                     [
                       _c("v-card-text", [
                         _c("div", { staticClass: "headline" }, [
@@ -5049,39 +5020,8 @@ var render = function() {
                         [
                           _c(
                             "v-card",
-                            { staticClass: "dataCard" },
+                            { staticClass: "data-card" },
                             [
-                              _c(
-                                "v-card-actions",
-                                [
-                                  _c(
-                                    "v-layout",
-                                    {
-                                      attrs: {
-                                        "align-right": "",
-                                        "justify-end": ""
-                                      }
-                                    },
-                                    [
-                                      _c(
-                                        "v-btn",
-                                        { attrs: { color: "info", small: "" } },
-                                        [
-                                          _c(
-                                            "i",
-                                            { staticClass: "material-icons" },
-                                            [_vm._v("edit")]
-                                          ),
-                                          _vm._v(" Edit")
-                                        ]
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
                               _c("v-card-text", [
                                 _c("div", [
                                   _c("div", { staticClass: "headline" }, [
@@ -5316,7 +5256,7 @@ var render = function() {
                 [
                   _c(
                     "v-card",
-                    { staticClass: "editCard" },
+                    { staticClass: "data-card" },
                     [
                       _c("v-card-text", [
                         _c("div", { staticClass: "headline" }, [
@@ -5328,7 +5268,7 @@ var render = function() {
                         ]),
                         _vm._v(
                           "\n                        " +
-                            _vm._s(_vm._f("truncate")(team.description, 80)) +
+                            _vm._s(_vm._f("truncate")(team.description, 150)) +
                             "\n                    "
                         )
                       ])

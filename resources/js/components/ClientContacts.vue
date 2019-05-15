@@ -23,31 +23,24 @@
             <v-container v-else fluid grid-list-md>
                 <v-layout row wrap>
                     <v-flex xs12 md6 lg4 v-for="contact in clientContacts" :key="contact.id">
-                        <v-card class="dataCard">
-                            <v-card-actions>
-                                <v-layout align-right justify-end>
-                                    <v-btn color="info" small><i class="material-icons">edit</i> Edit</v-btn>
-                                </v-layout>
-                            </v-card-actions>
+                        <v-card class="data-card">
                             <v-card-text>
                                 <div>
                                     <div class="headline">{{ contact.name | truncate(20) }}</div>
-                                    <span class="grey--text">{{ contact.title }}</span>
+                                    <span class="grey--text">{{ contact.title | truncate(30)}}</span>
                                 </div>
                                 <v-layout>
                                     <v-flex>
-                                        <div><i class="material-icons">mail</i> {{ contact.email }}</div>
+                                        <div><i class="material-icons">mail</i> {{ contact.email | truncate(30) }}</div>
                                         <div><i class="material-icons">phone</i> {{ contact.phone }}</div>
                                     </v-flex>
                                 </v-layout>
                             </v-card-text>
-
                         </v-card>
                     </v-flex>
                 </v-layout>
             </v-container>
         </v-container>
-
 
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="contactForm" @submit.prevent="createContact">

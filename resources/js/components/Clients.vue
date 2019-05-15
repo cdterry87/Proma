@@ -16,12 +16,12 @@
         <v-layout row wrap>
             <v-flex xs12 md6 lg4 v-for="client in clients" :key="client.id">
                 <router-link :to="'/client/' + client.id">
-                    <v-card class="editCard">
+                    <v-card class="data-card">
                         <v-card-text>
                             <div class="headline">
                                 {{ client.name | truncate(25) }}
                             </div>
-                            {{ client.description | truncate(80) }}
+                            {{ client.description | truncate(150) }}
                         </v-card-text>
                     </v-card>
                 </router-link>
