@@ -7,11 +7,6 @@ html, body {
     background-color: #f1f5f8;
 }
 
-a {
-    text-decoration: none !important;
-    color: inherit !important;
-}
-
 body{display: flex; min-height: 100vh; flex-direction: column;}
 #app {
     margin-top: 2rem;

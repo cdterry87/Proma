@@ -12,7 +12,6 @@
     import ViewTeam from './ViewTeam'
     import TeamMembers from './TeamMembers'
 
-
     export default {
         name: 'Team',
         props: ['id'],
@@ -49,6 +48,7 @@
 
             EventBus.$on('addMember', members => {
                 this.members = members
+                console.log('members', members)
             })
 
             EventBus.$on('loadMembers', team_id => {

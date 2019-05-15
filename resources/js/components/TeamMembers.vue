@@ -8,7 +8,7 @@
                     </span>
                 </v-flex>
                 <v-flex xs6 text-xs-right>
-                    <v-btn color="info" @click="dialog = true" small>
+                    <v-btn color="info" @click="openDialog" small>
                         <v-icon left dark>add</v-icon>
                         Add Member
                     </v-btn>
@@ -41,7 +41,6 @@
             </v-container>
         </v-container>
 
-
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="memberForm" @submit.prevent="addMember">
                 <v-card>
@@ -51,7 +50,7 @@
                            <v-flex xs12>
                                  <v-autocomplete
                                     :items="users"
-                                    item-text="user"
+                                    item-text="name"
                                     item-value="id"
                                     label="Select a user"
                                     prepend-icon="person"
@@ -86,6 +85,16 @@
             }
         },
         methods: {
+            openDialog() {
+                this.dialog = true;
+                this.getUsers();
+            },
+            getUsers() {
+                axios.get('/api/users')
+                .then(response => {
+                    this.users = response.data
+                })
+            },
             addMember() {
                 let user_id = this.user_id
                 let team_id = this.teamInfo.id
@@ -104,6 +113,7 @@
             },
             reset() {
                 this.dialog = false
+                this.user_id = ''
             }
         },
     }

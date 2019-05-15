@@ -1199,6 +1199,7 @@ __webpack_require__.r(__webpack_exports__);
     });
     _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('addMember', function (members) {
       _this3.members = members;
+      console.log('members', members);
     });
     _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('loadMembers', function (team_id) {
       _this3.getTeamMembers(team_id);
@@ -1294,7 +1295,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'TeamMembers',
@@ -1307,8 +1307,19 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    addMember: function addMember() {
+    openDialog: function openDialog() {
+      this.dialog = true;
+      this.getUsers();
+    },
+    getUsers: function getUsers() {
       var _this = this;
+
+      axios.get('/api/users').then(function (response) {
+        _this.users = response.data;
+      });
+    },
+    addMember: function addMember() {
+      var _this2 = this;
 
       var user_id = this.user_id;
       var team_id = this.teamInfo.id;
@@ -1316,17 +1327,18 @@ __webpack_require__.r(__webpack_exports__);
         user_id: user_id,
         team_id: team_id
       }).then(function (response) {
-        _this.members = _this.teamMembers;
+        _this2.members = _this2.teamMembers;
 
-        _this.members.push(response.data.data);
+        _this2.members.push(response.data.data);
 
-        var members = _this.members;
+        var members = _this2.members;
         _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('addMember', members);
       });
       this.reset();
     },
     reset: function reset() {
       this.dialog = false;
+      this.user_id = '';
     }
   }
 });
@@ -4995,11 +5007,7 @@ var render = function() {
                     "v-btn",
                     {
                       attrs: { color: "info", small: "" },
-                      on: {
-                        click: function($event) {
-                          _vm.dialog = true
-                        }
-                      }
+                      on: { click: _vm.openDialog }
                     },
                     [
                       _c("v-icon", { attrs: { left: "", dark: "" } }, [
@@ -5146,7 +5154,7 @@ var render = function() {
                               _c("v-autocomplete", {
                                 attrs: {
                                   items: _vm.users,
-                                  "item-text": "user",
+                                  "item-text": "name",
                                   "item-value": "id",
                                   label: "Select a user",
                                   "prepend-icon": "person"

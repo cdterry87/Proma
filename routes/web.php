@@ -29,6 +29,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/members/{team}', 'TeamMemberController@index');
         Route::resource('/members', 'TeamMemberController');
+
+        Route::get('/users', 'UserController@index');
     });
 
     Route::get('/{any}', 'HomeController@index')->where('any', '.*');

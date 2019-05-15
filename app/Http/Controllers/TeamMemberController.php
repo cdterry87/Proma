@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Team;
+use App\TeamMember;
 use Illuminate\Http\Request;
 
 class TeamMemberController extends Controller
@@ -21,7 +22,7 @@ class TeamMemberController extends Controller
     public function store(Request $request)
     {
         $member = TeamMember::create([
-            'team_id' => $request->client_id,
+            'team_id' => $request->team_id,
             'user_id' => $request->user_id,
         ]);
 

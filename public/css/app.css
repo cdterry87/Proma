@@ -33,5 +33,8 @@
   -webkit-font-feature-settings: 'liga';
           font-feature-settings: 'liga';
 }
-
+a {
+  text-decoration: none !important;
+  color: inherit !important;
+}
 
