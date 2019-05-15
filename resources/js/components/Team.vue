@@ -32,6 +32,8 @@
                 axios.get('/api/teams/' + this.id)
                 .then(response => {
                     this.team = response.data
+
+                    this.getTeamMembers(this.id);
                 })
             },
             getTeamMembers(team_id) {
@@ -46,9 +48,8 @@
                 this.editTeam = editTeam
             })
 
-            EventBus.$on('addMember', members => {
-                this.members = members
-                console.log('members', members)
+            EventBus.$on('addMember', () => {
+                this.getTeamMembers(this.id)
             })
 
             EventBus.$on('loadMembers', team_id => {

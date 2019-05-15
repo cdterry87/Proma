@@ -1181,6 +1181,8 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/api/teams/' + this.id).then(function (response) {
         _this.team = response.data;
+
+        _this.getTeamMembers(_this.id);
       });
     },
     getTeamMembers: function getTeamMembers(team_id) {
@@ -1197,9 +1199,8 @@ __webpack_require__.r(__webpack_exports__);
     _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('editTeam', function (editTeam) {
       _this3.editTeam = editTeam;
     });
-    _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('addMember', function (members) {
-      _this3.members = members;
-      console.log('members', members);
+    _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('addMember', function () {
+      _this3.getTeamMembers(_this3.id);
     });
     _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('loadMembers', function (team_id) {
       _this3.getTeamMembers(team_id);
@@ -1319,20 +1320,13 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     addMember: function addMember() {
-      var _this2 = this;
-
       var user_id = this.user_id;
       var team_id = this.teamInfo.id;
       axios.post('/api/members', {
         user_id: user_id,
         team_id: team_id
       }).then(function (response) {
-        _this2.members = _this2.teamMembers;
-
-        _this2.members.push(response.data.data);
-
-        var members = _this2.members;
-        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('addMember', members);
+        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('addMember');
       });
       this.reset();
     },
@@ -5088,7 +5082,21 @@ var render = function() {
                                 1
                               ),
                               _vm._v(" "),
-                              _c("v-card-text", [_c("div")])
+                              _c("v-card-text", [
+                                _c("div", [
+                                  _c("div", { staticClass: "headline" }, [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm._f("truncate")(member.user.name, 20)
+                                      )
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("span", { staticClass: "grey--text" }, [
+                                    _vm._v(_vm._s(member.user.email))
+                                  ])
+                                ])
+                              ])
                             ],
                             1
                           )

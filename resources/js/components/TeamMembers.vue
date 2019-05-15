@@ -31,8 +31,8 @@
                             </v-card-actions>
                             <v-card-text>
                                 <div>
-                                    <!-- <div class="headline">{{ member.name | truncate(20) }}</div> -->
-                                    <!-- <span class="grey--text">{{ contact.title }}</span> -->
+                                    <div class="headline">{{ member.user.name | truncate(20) }}</div>
+                                    <span class="grey--text">{{ member.user.email }}</span>
                                 </div>
                             </v-card-text>
                         </v-card>
@@ -101,12 +101,7 @@
 
                 axios.post('/api/members', { user_id, team_id })
                 .then(response => {
-                    this.members = this.teamMembers
-                    this.members.push(response.data.data)
-
-                    let members = this.members
-
-                    EventBus.$emit('addMember', members)
+                    EventBus.$emit('addMember')
                 })
 
                 this.reset()
