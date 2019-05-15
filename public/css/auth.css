@@ -1,6 +1,20 @@
+html, body {
+    height: 100%;
+}
+
+#main {
+    min-height: 100%;
+    background-color: #f1f5f8;
+}
+
+a {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
 body{display: flex; min-height: 100vh; flex-direction: column;}
 #app {
-    margin-top: 3.5rem;
+    margin-top: 2rem;
 }
 main{flex: 1 0 auto;}
 hr{margin: 15px 0; border: 0; border-top: 1px solid #eee;}

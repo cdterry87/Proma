@@ -9,10 +9,12 @@
     <link href="/materialize/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>
-    <div id="app" class="container">
-        <div class="row">
-            <div class="col m6 offset-m3">
-                @yield('content')
+    <div id="main">
+        <div id="app" class="container">
+            <div class="row">
+                <div class="col m6 offset-m3">
+                    @yield('content')
+                </div>
             </div>
         </div>
     </div>
