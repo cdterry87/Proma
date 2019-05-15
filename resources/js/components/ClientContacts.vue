@@ -43,9 +43,9 @@
         </v-container>
 
         <v-dialog v-model="dialog" width="500">
-            <v-form method="POST" id="contactForm" @submit.prevent="createContact">
+            <v-form method="POST" id="contactForm" @submit.prevent="addContact">
                 <v-card>
-                    <v-card-title class="grey lighten-4 py-4 title">Create Contact</v-card-title>
+                    <v-card-title class="blue darken-3 white--text py-4 title">Add Contact</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
@@ -65,7 +65,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn type="submit" flat>Save</v-btn>
-                        <v-btn flat color="primary" form="taskForm" @click="dialog = false">Cancel</v-btn>
+                        <v-btn flat color="primary" form="contactForm" @click="dialog = false">Cancel</v-btn>
                         <v-spacer></v-spacer>
                     </v-card-actions>
                 </v-card>
@@ -90,7 +90,7 @@
             }
         },
         methods: {
-            createContact() {
+            addContact() {
                 let name = this.name
                 let title = this.title
                 let email = this.email
@@ -104,7 +104,7 @@
 
                     let contacts = this.contacts
 
-                    EventBus.$emit('createContact', contacts)
+                    EventBus.$emit('addContact', contacts)
                 })
 
                 this.reset()

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-    import EventBus from './../eventbus';
+    import EventBus from './../eventbus'
     import EditProject from './EditProject'
     import ViewProject from './ViewProject'
     import ProjectTasks from './ProjectTasks'
@@ -24,7 +24,7 @@
             return {
                 editProject: false,
                 project: '',
-                tasks: '',
+                tasks: ''
             }
         },
         methods: {
@@ -48,7 +48,7 @@
                 this.editProject = editProject
             })
 
-            EventBus.$on('createTask', tasks => {
+            EventBus.$on('addTask', tasks => {
                 this.tasks = tasks
             })
 
@@ -61,7 +61,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>

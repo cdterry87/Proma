@@ -94,7 +94,7 @@ export default {
 
 .data-card {
     cursor: pointer;
-    height: 150px;
+    height: 165px;
 }
 
 .v-card {

@@ -29,9 +29,9 @@
         </v-layout>
 
         <v-dialog v-model="dialog" width="500">
-            <v-form method="POST" id="teamForm" @submit.prevent="createTeam">
+            <v-form method="POST" id="teamForm" @submit.prevent="addTeam">
                 <v-card>
-                    <v-card-title class="blue darken-3 white--text py-4 title">Create Team</v-card-title>
+                    <v-card-title class="blue darken-3 white--text py-4 title">Add Team</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
@@ -73,7 +73,7 @@ export default {
                 this.teams = response.data
             })
         },
-        createTeam() {
+        addTeam() {
             let name = this.name;
             let description = this.description;
 

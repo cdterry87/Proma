@@ -30,9 +30,9 @@
 
 
         <v-dialog v-model="dialog" width="500">
-            <v-form method="POST" id="clientForm" @submit.prevent="createClient">
+            <v-form method="POST" id="clientForm" @submit.prevent="addClient">
                 <v-card>
-                    <v-card-title class="blue darken-3 white--text py-4 title">Create Client</v-card-title>
+                    <v-card-title class="blue darken-3 white--text py-4 title">Add Client</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
@@ -73,7 +73,7 @@ export default {
                 this.clients = response.data
             })
         },
-        createClient() {
+        addClient() {
             let name = this.name
             let description = this.description
 
@@ -96,7 +96,3 @@ export default {
 
 }
 </script>
-
-<style scoped>
-
-</style>

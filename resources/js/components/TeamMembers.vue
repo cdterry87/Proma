@@ -39,7 +39,7 @@
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="memberForm" @submit.prevent="addMember">
                 <v-card>
-                    <v-card-title class="grey lighten-4 py-4 title">Add Member</v-card-title>
+                    <v-card-title class="blue darken-3 white--text py-4 title">Add Member</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                            <v-flex xs12>

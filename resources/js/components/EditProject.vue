@@ -4,7 +4,7 @@
             <v-container text-xs-right>
                 <v-btn color="info" @click="viewProject" small>
                     <v-icon left dark>remove_red_eye</v-icon>
-                    View Project
+                    View
                 </v-btn>
             </v-container>
             <v-container>

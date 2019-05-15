@@ -48,7 +48,7 @@
                 this.editClient = editClient
             })
 
-            EventBus.$on('createContact', contacts => {
+            EventBus.$on('addContact', contacts => {
                 this.contacts = contacts
             })
 
@@ -61,7 +61,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>
