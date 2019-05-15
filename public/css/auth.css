@@ -2,14 +2,17 @@ html, body {
     height: 100%;
 }
 
+body {
+    background-color: #f1f5f8;
+}
+
 #main {
     min-height: 100%;
-    background-color: #f1f5f8;
 }
 
 body{display: flex; min-height: 100vh; flex-direction: column;}
 #app {
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 main{flex: 1 0 auto;}
 hr{margin: 15px 0; border: 0; border-top: 1px solid #eee;}

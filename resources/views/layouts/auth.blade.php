@@ -12,7 +12,7 @@
     <div id="main">
         <div id="app" class="container">
             <div class="row">
-                <div class="col m6 offset-m3">
+                <div class="col m8 offset-m2">
                     @yield('content')
                 </div>
             </div>
