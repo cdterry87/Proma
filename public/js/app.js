@@ -1011,6 +1011,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Projects',
   data: function data() {
@@ -1029,27 +1049,49 @@ __webpack_require__.r(__webpack_exports__);
         _this.projects = response.data;
       });
     },
-    addProject: function addProject() {
+    getClients: function getClients() {
       var _this2 = this;
+
+      axios.get('/api/clients').then(function (response) {
+        _this2.clients = response.data;
+      });
+    },
+    getTeams: function getTeams() {
+      var _this3 = this;
+
+      axios.get('/api/teams').then(function (response) {
+        _this3.teams = response.data;
+      });
+    },
+    addProject: function addProject() {
+      var _this4 = this;
 
       var name = this.name;
       var description = this.description;
+      var client_id = this.client_id;
+      var team_id = this.team_id;
       axios.post('/api/projects', {
         name: name,
-        description: description
+        description: description,
+        client_id: client_id,
+        team_id: team_id
       }).then(function (response) {
-        _this2.projects.push(response.data.data);
+        _this4.projects.push(response.data.data);
       });
       this.reset();
     },
     reset: function reset() {
       this.dialog = false;
       this.name = '';
+      this.client_id = '';
+      this.team_id = '';
       this.description = '';
     }
   },
   mounted: function mounted() {
     this.getProjects();
+    this.getClients();
+    this.getTeams();
   }
 });
 
@@ -4544,6 +4586,54 @@ var render = function() {
                                     _vm.name = $$v
                                   },
                                   expression: "name"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "" } },
+                            [
+                              _c("v-autocomplete", {
+                                attrs: {
+                                  items: _vm.teams,
+                                  "item-text": "name",
+                                  "item-value": "id",
+                                  label: "Select a team",
+                                  "prepend-icon": "people"
+                                },
+                                model: {
+                                  value: _vm.team_id,
+                                  callback: function($$v) {
+                                    _vm.team_id = $$v
+                                  },
+                                  expression: "team_id"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "" } },
+                            [
+                              _c("v-autocomplete", {
+                                attrs: {
+                                  items: _vm.clients,
+                                  "item-text": "name",
+                                  "item-value": "id",
+                                  label: "Select a client",
+                                  "prepend-icon": "person"
+                                },
+                                model: {
+                                  value: _vm.client_id,
+                                  callback: function($$v) {
+                                    _vm.client_id = $$v
+                                  },
+                                  expression: "client_id"
                                 }
                               })
                             ],

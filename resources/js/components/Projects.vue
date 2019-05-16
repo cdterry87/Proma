@@ -39,6 +39,26 @@
                                 <v-text-field prepend-icon="work" label="Project Name" v-model="name" maxlength="100"></v-text-field>
                             </v-flex>
                             <v-flex xs12>
+                                <v-autocomplete
+                                    :items="teams"
+                                    item-text="name"
+                                    item-value="id"
+                                    label="Select a team"
+                                    prepend-icon="people"
+                                    v-model="team_id"
+                                ></v-autocomplete>
+                            </v-flex>
+                            <v-flex xs12>
+                                 <v-autocomplete
+                                    :items="clients"
+                                    item-text="name"
+                                    item-value="id"
+                                    label="Select a client"
+                                    prepend-icon="person"
+                                    v-model="client_id"
+                                ></v-autocomplete>
+                            </v-flex>
+                            <v-flex xs12>
                                 <v-textarea prepend-icon="notes" label="Description" v-model="description"></v-textarea>
                             </v-flex>
                         </v-layout>
@@ -73,11 +93,25 @@ export default {
                 this.projects = response.data
             })
         },
+        getClients() {
+            axios.get('/api/clients')
+            .then(response => {
+                this.clients = response.data
+            })
+        },
+        getTeams() {
+            axios.get('/api/teams')
+            .then(response => {
+                this.teams = response.data
+            })
+        },
         addProject() {
             let name = this.name
             let description = this.description
+            let client_id = this.client_id
+            let team_id = this.team_id
 
-            axios.post('/api/projects', { name, description })
+            axios.post('/api/projects', { name, description, client_id, team_id })
             .then(response => {
                 this.projects.push(response.data.data)
             })
@@ -87,11 +121,15 @@ export default {
         reset() {
             this.dialog = false
             this.name = ''
+            this.client_id = ''
+            this.team_id = ''
             this.description = ''
         }
     },
     mounted() {
         this.getProjects()
+        this.getClients()
+        this.getTeams()
     }
 
 }
