@@ -32,6 +32,7 @@ class TeamController extends Controller
         ]);
 
         $team->user()->attach(Auth::user()->id);
+        $team->member()->attach(Auth::user()->id);
 
         return response()->json([
             'status' => (bool)$team,
