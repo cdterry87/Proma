@@ -1,41 +1,39 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-container>
-            <v-layout align-baseline>
-                <v-flex xs6>
-                    <span class="headline">
-                        <v-icon>phone</v-icon> Contacts
-                    </span>
-                </v-flex>
-                <v-flex xs6 text-xs-right>
-                    <v-btn color="info" @click="dialog = true" small>
-                        <v-icon left dark>add</v-icon>
-                        Add Contact
-                    </v-btn>
-                </v-flex>
-            </v-layout>
-            <v-layout row v-if="clientContacts.length == 0">
-                There are currently no contacts for this client.
-            </v-layout>
-            <v-layout row wrap v-else>
-                <v-flex xs12 md6 lg4 v-for="contact in clientContacts" :key="contact.id">
-                    <v-card class="data-card">
-                        <v-card-text>
-                            <div>
-                                <div class="headline">{{ contact.name | truncate(20) }}</div>
-                                <span class="grey--text">{{ contact.title | truncate(30)}}</span>
-                            </div>
-                            <v-layout>
-                                <v-flex>
-                                    <div><i class="material-icons">mail</i> {{ contact.email | truncate(30) }}</div>
-                                    <div><i class="material-icons">phone</i> {{ contact.phone }}</div>
-                                </v-flex>
-                            </v-layout>
-                        </v-card-text>
-                    </v-card>
-                </v-flex>
-            </v-layout>
-        </v-container>
+        <v-layout align-baseline>
+            <v-flex xs6>
+                <span class="headline">
+                    <v-icon>phone</v-icon> Contacts
+                </span>
+            </v-flex>
+            <v-flex xs6 text-xs-right>
+                <v-btn color="info" @click="dialog = true" small>
+                    <v-icon left dark>add</v-icon>
+                    Add Contact
+                </v-btn>
+            </v-flex>
+        </v-layout>
+        <v-layout row v-if="clientContacts.length == 0">
+            There are currently no contacts for this client.
+        </v-layout>
+        <v-layout row wrap v-else>
+            <v-flex xs12 md6 lg4 v-for="contact in clientContacts" :key="contact.id">
+                <v-card class="data-card">
+                    <v-card-text>
+                        <div>
+                            <div class="headline">{{ contact.name | truncate(20) }}</div>
+                            <span class="grey--text">{{ contact.title | truncate(30)}}</span>
+                        </div>
+                        <v-layout>
+                            <v-flex>
+                                <div><i class="material-icons">mail</i> {{ contact.email | truncate(30) }}</div>
+                                <div><i class="material-icons">phone</i> {{ contact.phone }}</div>
+                            </v-flex>
+                        </v-layout>
+                    </v-card-text>
+                </v-card>
+            </v-flex>
+        </v-layout>
 
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="contactForm" @submit.prevent="addContact">

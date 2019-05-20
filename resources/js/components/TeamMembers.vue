@@ -1,35 +1,33 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-container>
-            <v-layout align-baseline>
-                <v-flex xs6>
-                    <span class="headline">
-                        <v-icon>people</v-icon> Members
-                    </span>
-                </v-flex>
-                <v-flex xs6 text-xs-right>
-                    <v-btn color="info" @click="openDialog" small>
-                        <v-icon left dark>add</v-icon>
-                        Add Member
-                    </v-btn>
-                </v-flex>
-            </v-layout>
-            <v-layout row v-if="teamMembers.length == 0">
-                There are currently no members on this team.
-            </v-layout>
-            <v-layout row wrap v-else fluid>
-                <v-flex xs12 md6 lg4 v-for="member in teamMembers" :key="member.id">
-                    <v-card class="data-card">
-                        <v-card-text>
-                            <div>
-                                <div class="headline">{{ member.user.name | truncate(20) }}</div>
-                                <span class="grey--text">{{ member.user.email }}</span>
-                            </div>
-                        </v-card-text>
-                    </v-card>
-                </v-flex>
-            </v-layout>
-        </v-container>
+        <v-layout align-baseline>
+            <v-flex xs6>
+                <span class="headline">
+                    <v-icon>people</v-icon> Members
+                </span>
+            </v-flex>
+            <v-flex xs6 text-xs-right>
+                <v-btn color="info" @click="openDialog" small>
+                    <v-icon left dark>add</v-icon>
+                    Add Member
+                </v-btn>
+            </v-flex>
+        </v-layout>
+        <v-layout row v-if="teamMembers.length == 0">
+            There are currently no members on this team.
+        </v-layout>
+        <v-layout row wrap v-else fluid>
+            <v-flex xs12 md6 lg4 v-for="member in teamMembers" :key="member.id">
+                <v-card class="data-card">
+                    <v-card-text>
+                        <div>
+                            <div class="headline">{{ member.user.name | truncate(20) }}</div>
+                            <span class="grey--text">{{ member.user.email }}</span>
+                        </div>
+                    </v-card-text>
+                </v-card>
+            </v-flex>
+        </v-layout>
 
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="memberForm" @submit.prevent="addMember">

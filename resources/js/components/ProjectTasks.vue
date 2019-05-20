@@ -1,38 +1,36 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-container>
-            <v-layout align-baseline>
-                <v-flex xs6>
-                    <span class="headline">
-                        <v-icon>list</v-icon> Tasks
-                    </span>
-                </v-flex>
-                <v-flex xs6 text-xs-right>
-                    <v-btn color="info" @click="dialog = true" small>
-                        <v-icon left dark>add</v-icon>
-                        Add Task
-                    </v-btn>
-                </v-flex>
-            </v-layout>
-            <v-layout row v-if="projectTasks.length == 0">
-                There are currently no tasks for this project.
-            </v-layout>
-            <v-layout row wrap v-else>
-                <v-flex xs12 md6 lg4 v-for="task in projectTasks" :key="task.id">
-                    <v-card class="data-card">
-                        <v-alert :value="true" v-if="task.complete" type="success" @click="incompleteTask(task.project_id, task.id)">
-                            Task is complete.
-                        </v-alert>
-                        <v-alert :value="true" v-if="!task.complete" type="warning" @click="completeTask(task.project_id, task.id)">
-                            Task is incomplete.
-                        </v-alert>
-                        <v-card-text>
-                            {{ task.description | truncate(100) }}
-                        </v-card-text>
-                    </v-card>
-                </v-flex>
-            </v-layout>
-        </v-container>
+        <v-layout align-baseline>
+            <v-flex xs6>
+                <span class="headline">
+                    <v-icon>list</v-icon> Tasks
+                </span>
+            </v-flex>
+            <v-flex xs6 text-xs-right>
+                <v-btn color="info" @click="dialog = true" small>
+                    <v-icon left dark>add</v-icon>
+                    Add Task
+                </v-btn>
+            </v-flex>
+        </v-layout>
+        <v-layout row v-if="projectTasks.length == 0">
+            There are currently no tasks for this project.
+        </v-layout>
+        <v-layout row wrap v-else>
+            <v-flex xs12 md6 lg4 v-for="task in projectTasks" :key="task.id">
+                <v-card class="data-card">
+                    <v-alert :value="true" v-if="task.complete" type="success" @click="incompleteTask(task.project_id, task.id)">
+                        Task is complete.
+                    </v-alert>
+                    <v-alert :value="true" v-if="!task.complete" type="warning" @click="completeTask(task.project_id, task.id)">
+                        Task is incomplete.
+                    </v-alert>
+                    <v-card-text>
+                        {{ task.description | truncate(100) }}
+                    </v-card-text>
+                </v-card>
+            </v-flex>
+        </v-layout>
 
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="taskForm" @submit.prevent="addTask">
