@@ -14,32 +14,27 @@
                     </v-btn>
                 </v-flex>
             </v-layout>
-
-            <v-container v-if="clientContacts.length == 0">
-                <v-layout row>
-                    There are currently no contacts for this client.
-                </v-layout>
-            </v-container>
-            <v-container v-else fluid grid-list-md>
-                <v-layout row wrap>
-                    <v-flex xs12 md6 lg4 v-for="contact in clientContacts" :key="contact.id">
-                        <v-card class="data-card">
-                            <v-card-text>
-                                <div>
-                                    <div class="headline">{{ contact.name | truncate(20) }}</div>
-                                    <span class="grey--text">{{ contact.title | truncate(30)}}</span>
-                                </div>
-                                <v-layout>
-                                    <v-flex>
-                                        <div><i class="material-icons">mail</i> {{ contact.email | truncate(30) }}</div>
-                                        <div><i class="material-icons">phone</i> {{ contact.phone }}</div>
-                                    </v-flex>
-                                </v-layout>
-                            </v-card-text>
-                        </v-card>
-                    </v-flex>
-                </v-layout>
-            </v-container>
+            <v-layout row v-if="clientContacts.length == 0">
+                There are currently no contacts for this client.
+            </v-layout>
+            <v-layout row wrap v-else>
+                <v-flex xs12 md6 lg4 v-for="contact in clientContacts" :key="contact.id">
+                    <v-card class="data-card">
+                        <v-card-text>
+                            <div>
+                                <div class="headline">{{ contact.name | truncate(20) }}</div>
+                                <span class="grey--text">{{ contact.title | truncate(30)}}</span>
+                            </div>
+                            <v-layout>
+                                <v-flex>
+                                    <div><i class="material-icons">mail</i> {{ contact.email | truncate(30) }}</div>
+                                    <div><i class="material-icons">phone</i> {{ contact.phone }}</div>
+                                </v-flex>
+                            </v-layout>
+                        </v-card-text>
+                    </v-card>
+                </v-flex>
+            </v-layout>
         </v-container>
 
         <v-dialog v-model="dialog" width="500">

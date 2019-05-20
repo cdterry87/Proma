@@ -341,11 +341,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ClientContacts',
@@ -890,11 +885,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ProjectTasks',
@@ -1185,11 +1175,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _eventbus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../eventbus */ "./resources/js/eventbus.js");
-//
-//
-//
-//
-//
 //
 //
 //
@@ -3105,90 +3090,72 @@ var render = function() {
           ),
           _vm._v(" "),
           _vm.clientContacts.length == 0
-            ? _c(
-                "v-container",
-                [
-                  _c("v-layout", { attrs: { row: "" } }, [
-                    _vm._v(
-                      "\n                There are currently no contacts for this client.\n            "
-                    )
-                  ])
-                ],
-                1
-              )
+            ? _c("v-layout", { attrs: { row: "" } }, [
+                _vm._v(
+                  "\n            There are currently no contacts for this client.\n        "
+                )
+              ])
             : _c(
-                "v-container",
-                { attrs: { fluid: "", "grid-list-md": "" } },
-                [
-                  _c(
-                    "v-layout",
-                    { attrs: { row: "", wrap: "" } },
-                    _vm._l(_vm.clientContacts, function(contact) {
-                      return _c(
-                        "v-flex",
-                        {
-                          key: contact.id,
-                          attrs: { xs12: "", md6: "", lg4: "" }
-                        },
+                "v-layout",
+                { attrs: { row: "", wrap: "" } },
+                _vm._l(_vm.clientContacts, function(contact) {
+                  return _c(
+                    "v-flex",
+                    { key: contact.id, attrs: { xs12: "", md6: "", lg4: "" } },
+                    [
+                      _c(
+                        "v-card",
+                        { staticClass: "data-card" },
                         [
                           _c(
-                            "v-card",
-                            { staticClass: "data-card" },
+                            "v-card-text",
                             [
+                              _c("div", [
+                                _c("div", { staticClass: "headline" }, [
+                                  _vm._v(
+                                    _vm._s(_vm._f("truncate")(contact.name, 20))
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "grey--text" }, [
+                                  _vm._v(
+                                    _vm._s(
+                                      _vm._f("truncate")(contact.title, 30)
+                                    )
+                                  )
+                                ])
+                              ]),
+                              _vm._v(" "),
                               _c(
-                                "v-card-text",
+                                "v-layout",
                                 [
-                                  _c("div", [
-                                    _c("div", { staticClass: "headline" }, [
+                                  _c("v-flex", [
+                                    _c("div", [
+                                      _c(
+                                        "i",
+                                        { staticClass: "material-icons" },
+                                        [_vm._v("mail")]
+                                      ),
                                       _vm._v(
-                                        _vm._s(
-                                          _vm._f("truncate")(contact.name, 20)
-                                        )
+                                        " " +
+                                          _vm._s(
+                                            _vm._f("truncate")(
+                                              contact.email,
+                                              30
+                                            )
+                                          )
                                       )
                                     ]),
                                     _vm._v(" "),
-                                    _c("span", { staticClass: "grey--text" }, [
-                                      _vm._v(
-                                        _vm._s(
-                                          _vm._f("truncate")(contact.title, 30)
-                                        )
-                                      )
+                                    _c("div", [
+                                      _c(
+                                        "i",
+                                        { staticClass: "material-icons" },
+                                        [_vm._v("phone")]
+                                      ),
+                                      _vm._v(" " + _vm._s(contact.phone))
                                     ])
-                                  ]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-layout",
-                                    [
-                                      _c("v-flex", [
-                                        _c("div", [
-                                          _c(
-                                            "i",
-                                            { staticClass: "material-icons" },
-                                            [_vm._v("mail")]
-                                          ),
-                                          _vm._v(
-                                            " " +
-                                              _vm._s(
-                                                _vm._f("truncate")(
-                                                  contact.email,
-                                                  30
-                                                )
-                                              )
-                                          )
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("div", [
-                                          _c(
-                                            "i",
-                                            { staticClass: "material-icons" },
-                                            [_vm._v("phone")]
-                                          ),
-                                          _vm._v(" " + _vm._s(contact.phone))
-                                        ])
-                                      ])
-                                    ],
-                                    1
-                                  )
+                                  ])
                                 ],
                                 1
                               )
@@ -3198,10 +3165,10 @@ var render = function() {
                         ],
                         1
                       )
-                    }),
+                    ],
                     1
                   )
-                ],
+                }),
                 1
               )
         ],
@@ -4201,96 +4168,83 @@ var render = function() {
           ),
           _vm._v(" "),
           _vm.projectTasks.length == 0
-            ? _c(
-                "v-container",
-                [
-                  _c("v-layout", { attrs: { row: "" } }, [
-                    _vm._v(
-                      "\n                There are currently no tasks for this project.\n            "
-                    )
-                  ])
-                ],
-                1
-              )
+            ? _c("v-layout", { attrs: { row: "" } }, [
+                _vm._v(
+                  "\n            There are currently no tasks for this project.\n        "
+                )
+              ])
             : _c(
-                "v-container",
-                { attrs: { fluid: "", "grid-list-md": "" } },
-                [
-                  _c(
-                    "v-layout",
-                    { attrs: { row: "", wrap: "" } },
-                    _vm._l(_vm.projectTasks, function(task) {
-                      return _c(
-                        "v-flex",
-                        { key: task.id, attrs: { xs12: "", md6: "", lg4: "" } },
+                "v-layout",
+                { attrs: { row: "", wrap: "" } },
+                _vm._l(_vm.projectTasks, function(task) {
+                  return _c(
+                    "v-flex",
+                    { key: task.id, attrs: { xs12: "", md6: "", lg4: "" } },
+                    [
+                      _c(
+                        "v-card",
+                        { staticClass: "data-card" },
                         [
-                          _c(
-                            "v-card",
-                            { staticClass: "data-card" },
-                            [
-                              task.complete
-                                ? _c(
-                                    "v-alert",
-                                    {
-                                      attrs: { value: true, type: "success" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.incompleteTask(
-                                            task.project_id,
-                                            task.id
-                                          )
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                            Task is complete.\n                        "
+                          task.complete
+                            ? _c(
+                                "v-alert",
+                                {
+                                  attrs: { value: true, type: "success" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.incompleteTask(
+                                        task.project_id,
+                                        task.id
                                       )
-                                    ]
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                        Task is complete.\n                    "
                                   )
-                                : _vm._e(),
-                              _vm._v(" "),
-                              !task.complete
-                                ? _c(
-                                    "v-alert",
-                                    {
-                                      attrs: { value: true, type: "warning" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.completeTask(
-                                            task.project_id,
-                                            task.id
-                                          )
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                            Task is incomplete.\n                        "
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          !task.complete
+                            ? _c(
+                                "v-alert",
+                                {
+                                  attrs: { value: true, type: "warning" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.completeTask(
+                                        task.project_id,
+                                        task.id
                                       )
-                                    ]
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                        Task is incomplete.\n                    "
                                   )
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _c("v-card-text", [
-                                _vm._v(
-                                  "\n                            " +
-                                    _vm._s(
-                                      _vm._f("truncate")(task.description, 100)
-                                    ) +
-                                    "\n                        "
-                                )
-                              ])
-                            ],
-                            1
-                          )
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c("v-card-text", [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(
+                                  _vm._f("truncate")(task.description, 100)
+                                ) +
+                                "\n                    "
+                            )
+                          ])
                         ],
                         1
                       )
-                    }),
+                    ],
                     1
                   )
-                ],
+                }),
                 1
               )
         ],
@@ -4819,61 +4773,45 @@ var render = function() {
           ),
           _vm._v(" "),
           _vm.teamMembers.length == 0
-            ? _c(
-                "v-container",
-                [
-                  _c("v-layout", { attrs: { row: "" } }, [
-                    _vm._v(
-                      "\n                There are currently no members on this team.\n            "
-                    )
-                  ])
-                ],
-                1
-              )
+            ? _c("v-layout", { attrs: { row: "" } }, [
+                _vm._v(
+                  "\n            There are currently no members on this team.\n        "
+                )
+              ])
             : _c(
-                "v-container",
-                { attrs: { fluid: "", "grid-list-md": "" } },
-                [
-                  _c(
-                    "v-layout",
-                    { attrs: { row: "", wrap: "" } },
-                    _vm._l(_vm.teamMembers, function(member) {
-                      return _c(
-                        "v-flex",
-                        {
-                          key: member.id,
-                          attrs: { xs12: "", md6: "", lg4: "" }
-                        },
+                "v-layout",
+                { attrs: { row: "", wrap: "", fluid: "" } },
+                _vm._l(_vm.teamMembers, function(member) {
+                  return _c(
+                    "v-flex",
+                    { key: member.id, attrs: { xs12: "", md6: "", lg4: "" } },
+                    [
+                      _c(
+                        "v-card",
+                        { staticClass: "data-card" },
                         [
-                          _c(
-                            "v-card",
-                            { staticClass: "data-card" },
-                            [
-                              _c("v-card-text", [
-                                _c("div", [
-                                  _c("div", { staticClass: "headline" }, [
-                                    _vm._v(
-                                      _vm._s(
-                                        _vm._f("truncate")(member.user.name, 20)
-                                      )
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("span", { staticClass: "grey--text" }, [
-                                    _vm._v(_vm._s(member.user.email))
-                                  ])
-                                ])
+                          _c("v-card-text", [
+                            _c("div", [
+                              _c("div", { staticClass: "headline" }, [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm._f("truncate")(member.user.name, 20)
+                                  )
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("span", { staticClass: "grey--text" }, [
+                                _vm._v(_vm._s(member.user.email))
                               ])
-                            ],
-                            1
-                          )
+                            ])
+                          ])
                         ],
                         1
                       )
-                    }),
+                    ],
                     1
                   )
-                ],
+                }),
                 1
               )
         ],

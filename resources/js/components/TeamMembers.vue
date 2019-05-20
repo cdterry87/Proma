@@ -14,26 +14,21 @@
                     </v-btn>
                 </v-flex>
             </v-layout>
-
-            <v-container v-if="teamMembers.length == 0">
-                <v-layout row>
-                    There are currently no members on this team.
-                </v-layout>
-            </v-container>
-            <v-container v-else fluid grid-list-md>
-                <v-layout row wrap>
-                    <v-flex xs12 md6 lg4 v-for="member in teamMembers" :key="member.id">
-                        <v-card class="data-card">
-                            <v-card-text>
-                                <div>
-                                    <div class="headline">{{ member.user.name | truncate(20) }}</div>
-                                    <span class="grey--text">{{ member.user.email }}</span>
-                                </div>
-                            </v-card-text>
-                        </v-card>
-                    </v-flex>
-                </v-layout>
-            </v-container>
+            <v-layout row v-if="teamMembers.length == 0">
+                There are currently no members on this team.
+            </v-layout>
+            <v-layout row wrap v-else fluid>
+                <v-flex xs12 md6 lg4 v-for="member in teamMembers" :key="member.id">
+                    <v-card class="data-card">
+                        <v-card-text>
+                            <div>
+                                <div class="headline">{{ member.user.name | truncate(20) }}</div>
+                                <span class="grey--text">{{ member.user.email }}</span>
+                            </div>
+                        </v-card-text>
+                    </v-card>
+                </v-flex>
+            </v-layout>
         </v-container>
 
         <v-dialog v-model="dialog" width="500">

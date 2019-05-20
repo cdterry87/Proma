@@ -15,22 +15,32 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
     Route::prefix('api')->group(function () {
+        // Primary Resources
         Route::resource('/clients', 'ClientController');
         Route::resource('/teams', 'TeamController');
         Route::resource('/projects', 'ProjectController');
 
+        // Projects - Tasks
         Route::get('/tasks/{project}', 'ProjectTaskController@index');
         Route::post('/tasks/{project}/complete/{task}', 'ProjectTaskController@complete');
         Route::post('/tasks/{project}/incomplete/{task}', 'ProjectTaskController@incomplete');
         Route::resource('/tasks', 'ProjectTaskController');
 
+        // Clients - Contacts
         Route::get('/contacts/{client}', 'ClientContactController@index');
         Route::resource('/contacts', 'ClientContactController');
 
+        // Teams - Members
         Route::get('/members/{team}', 'TeamMemberController@index');
         Route::resource('/members', 'TeamMemberController');
 
+        // Users
         Route::get('/users', 'UserController@index');
+
+        // Users - Associated
+        Route::get('/users/teams', 'UserController@teams');
+        Route::get('/users/clients', 'UserController@clients');
+        Route::get('/users/projects', 'UserController@projects');
     });
 
     Route::get('/{any}', 'HomeController@index')->where('any', '.*');

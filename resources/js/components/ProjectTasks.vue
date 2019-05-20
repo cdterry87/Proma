@@ -14,29 +14,24 @@
                     </v-btn>
                 </v-flex>
             </v-layout>
-
-            <v-container v-if="projectTasks.length == 0">
-                <v-layout row>
-                    There are currently no tasks for this project.
-                </v-layout>
-            </v-container>
-            <v-container v-else fluid grid-list-md>
-                <v-layout row wrap>
-                    <v-flex xs12 md6 lg4 v-for="task in projectTasks" :key="task.id">
-                        <v-card class="data-card">
-                            <v-alert :value="true" v-if="task.complete" type="success" @click="incompleteTask(task.project_id, task.id)">
-                                Task is complete.
-                            </v-alert>
-                            <v-alert :value="true" v-if="!task.complete" type="warning" @click="completeTask(task.project_id, task.id)">
-                                Task is incomplete.
-                            </v-alert>
-                            <v-card-text>
-                                {{ task.description | truncate(100) }}
-                            </v-card-text>
-                        </v-card>
-                    </v-flex>
-                </v-layout>
-            </v-container>
+            <v-layout row v-if="projectTasks.length == 0">
+                There are currently no tasks for this project.
+            </v-layout>
+            <v-layout row wrap v-else>
+                <v-flex xs12 md6 lg4 v-for="task in projectTasks" :key="task.id">
+                    <v-card class="data-card">
+                        <v-alert :value="true" v-if="task.complete" type="success" @click="incompleteTask(task.project_id, task.id)">
+                            Task is complete.
+                        </v-alert>
+                        <v-alert :value="true" v-if="!task.complete" type="warning" @click="completeTask(task.project_id, task.id)">
+                            Task is incomplete.
+                        </v-alert>
+                        <v-card-text>
+                            {{ task.description | truncate(100) }}
+                        </v-card-text>
+                    </v-card>
+                </v-flex>
+            </v-layout>
         </v-container>
 
         <v-dialog v-model="dialog" width="500">

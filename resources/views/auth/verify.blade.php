@@ -4,6 +4,7 @@
     <div class="card">
         <div class="card-content">
             <h4 class="center-align">Proma</h4>
+            <h6 class="center-align">Simple Project Management</h6>
 
             <hr/>
 
