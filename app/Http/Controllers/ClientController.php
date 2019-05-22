@@ -66,6 +66,7 @@ class ClientController extends Controller
 
         return response()->json([
             'status' => $status,
+            // 'data'  => $client,
             'message' => $status ? 'Client updated successfully!' : 'Error updating client!'
         ]);
     }

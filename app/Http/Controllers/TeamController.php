@@ -67,6 +67,7 @@ class TeamController extends Controller
 
         return response()->json([
             'status' => $status,
+            // 'data' => $team,
             'message' => $status ? 'Team updated successfully!' : 'Error updating team!'
         ]);
     }

@@ -49,8 +49,8 @@
                     </v-container>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn type="submit" flat>Save</v-btn>
-                        <v-btn flat color="primary" form="taskForm" @click="dialog = false">Cancel</v-btn>
+                        <v-btn type="submit" flat color="blue darken-2">Save</v-btn>
+                        <v-btn flat color="red darken-2" form="taskForm" @click="dialog = false">Cancel</v-btn>
                         <v-spacer></v-spacer>
                     </v-card-actions>
                 </v-card>

@@ -28,7 +28,6 @@
             </v-flex>
         </v-layout>
 
-
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="projectForm" @submit.prevent="addProject">
                 <v-card>
@@ -65,8 +64,8 @@
                     </v-container>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn type="submit" flat>Save</v-btn>
-                        <v-btn flat color="primary" form="projectForm" @click="dialog = false">Cancel</v-btn>
+                        <v-btn type="submit" flat color="blue darken-2">Save</v-btn>
+                        <v-btn flat color="red darken-2" form="projectForm" @click="dialog = false">Cancel</v-btn>
                         <v-spacer></v-spacer>
                     </v-card-actions>
                 </v-card>
@@ -83,7 +82,11 @@ export default {
             dialog: false,
             name: '',
             description: '',
-            projects: []
+            team_id: '',
+            client_id: '',
+            projects: [],
+            teams: [],
+            clients: [],
         }
     },
     methods: {
