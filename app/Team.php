@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
 class Team extends Model
@@ -23,5 +24,12 @@ class Team extends Model
     public function members()
     {
         return $this->hasMany('App\TeamMember')->with('user');
+    }
+
+    public static function availableUsers(Team $team)
+    {
+        return DB::table("users")->select('*')->whereNotIn('users.id', function ($query) use ($team) {
+            $query->select('user_id')->from('teams_members')->where('team_id', $team->id);
+        })->get();
     }
 }

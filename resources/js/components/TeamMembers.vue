@@ -78,7 +78,7 @@
                 this.getUsers();
             },
             getUsers() {
-                axios.get('/api/users')
+                axios.get('/api/teams/' + this.teamInfo.id + '/users')
                 .then(response => {
                     this.users = response.data
                 })

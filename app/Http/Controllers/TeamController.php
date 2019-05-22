@@ -87,4 +87,17 @@ class TeamController extends Controller
             'message' => $status ? 'Team deleted successfully!' : 'Error deleting team!'
         ]);
     }
+
+    /**
+     * Display the available list of users for this team.
+     *
+     * @param  \App\Team  $team
+     * @return \Illuminate\Http\Response
+     */
+    public function users(Team $team)
+    {
+        $availableUsers = Team::availableUsers($team);
+
+        return response()->json($availableUsers);
+    }
 }

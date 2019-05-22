@@ -1208,7 +1208,7 @@ __webpack_require__.r(__webpack_exports__);
     getUsers: function getUsers() {
       var _this = this;
 
-      axios.get('/api/users').then(function (response) {
+      axios.get('/api/teams/' + this.teamInfo.id + '/users').then(function (response) {
         _this.users = response.data;
       });
     },

@@ -30,12 +30,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/contacts/{client}', 'ClientContactController@index');
         Route::resource('/contacts', 'ClientContactController');
 
+        // Teams - Users
+        Route::get('/teams/{team}/users', 'TeamController@users');
+
         // Teams - Members
         Route::get('/members/{team}', 'TeamMemberController@index');
         Route::resource('/members', 'TeamMemberController');
-
-        // Users
-        Route::get('/users', 'UserController@index');
 
         // Users - Associated
         Route::get('/users/teams', 'UserController@teams');
