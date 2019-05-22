@@ -26,7 +26,7 @@
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="editClientForm" @submit.prevent="updateClient">
                 <v-card>
-                    <v-card-title class="blue darken-3 white--text py-4 title">Add Client</v-card-title>
+                    <v-card-title class="blue darken-3 white--text py-4 title">Edit Client</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>

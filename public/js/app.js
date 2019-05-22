@@ -3095,7 +3095,7 @@ var render = function() {
                   _c(
                     "v-card-title",
                     { staticClass: "blue darken-3 white--text py-4 title" },
-                    [_vm._v("Add Client")]
+                    [_vm._v("Edit Client")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -4032,7 +4032,7 @@ var render = function() {
                   _c(
                     "v-card-title",
                     { staticClass: "blue darken-3 white--text py-4 title" },
-                    [_vm._v("Add Project")]
+                    [_vm._v("Edit Project")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -5000,7 +5000,7 @@ var render = function() {
                   _c(
                     "v-card-title",
                     { staticClass: "blue darken-3 white--text py-4 title" },
-                    [_vm._v("Add Team")]
+                    [_vm._v("Edit Team")]
                   ),
                   _vm._v(" "),
                   _c(

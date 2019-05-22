@@ -26,7 +26,7 @@
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="editTeamForm" @submit.prevent="updateTeam">
                 <v-card>
-                    <v-card-title class="blue darken-3 white--text py-4 title">Add Team</v-card-title>
+                    <v-card-title class="blue darken-3 white--text py-4 title">Edit Team</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
