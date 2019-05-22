@@ -52,6 +52,11 @@
                 </v-card>
             </v-form>
         </v-dialog>
+
+        <v-snackbar v-model="snackbar.enabled" :color="snackbar.color" :bottom="true" :right="true" :timeout="snackbar.timeout">
+            {{ snackbar.message }}
+            <v-btn color="white" flat @click="snackbar.enabled = false"><v-icon>close</v-icon></v-btn>
+        </v-snackbar>
     </v-container>
 </template>
 
@@ -64,6 +69,14 @@
         data() {
             return {
                 dialog: false,
+                snackbar: {
+                    enabled: false,
+                    message: '',
+                    timeout: 5000,
+                    y: 'bottom',
+                    x: 'right',
+                    color: ''
+                },
                 description: '',
                 start_date: '',
                 due_date: '',
@@ -82,6 +95,15 @@
                     let tasks = this.tasks
 
                     EventBus.$emit('addTask', tasks)
+
+                    this.snackbar.color = 'success'
+                    this.snackbar.message = "Task added successfully!"
+                    this.snackbar.enabled = true
+                })
+                .catch(function (error) {
+                    this.snackbar.color = 'error'
+                    this.snackbar.message = "Error adding task!"
+                    this.snackbar.enabled = true
                 })
 
                 this.reset()
@@ -90,12 +112,30 @@
                 axios.post('/api/tasks/' + project_id + '/complete/' + task_id)
                 .then(response => {
                     EventBus.$emit('loadTasks', project_id)
+
+                    this.snackbar.color = 'success'
+                    this.snackbar.message = "Task is now complete!"
+                    this.snackbar.enabled = true
+                })
+                .catch(function (error) {
+                    this.snackbar.color = 'danger'
+                    this.snackbar.message = "Task could not be completed!"
+                    this.snackbar.enabled = true
                 })
             },
             incompleteTask(project_id, task_id) {
                 axios.post('/api/tasks/' + project_id + '/incomplete/' + task_id)
                 .then(response => {
                     EventBus.$emit('loadTasks', project_id)
+
+                    this.snackbar.color = 'warning'
+                    this.snackbar.message = "Task is now incomplete!"
+                    this.snackbar.enabled = true
+                })
+                .catch(function (error) {
+                    this.snackbar.color = 'danger'
+                    this.snackbar.message = "Task could not be changed to incomplete!"
+                    this.snackbar.enabled = true
                 })
             },
             reset() {

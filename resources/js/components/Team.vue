@@ -46,6 +46,10 @@
                 </v-card>
             </v-form>
         </v-dialog>
+        <v-snackbar v-model="snackbar.enabled" :color="snackbar.color" :bottom="true" :right="true" :timeout="snackbar.timeout">
+            {{ snackbar.message }}
+            <v-btn color="white" flat @click="snackbar.enabled = false"><v-icon>close</v-icon></v-btn>
+        </v-snackbar>
     </div>
 </template>
 
@@ -62,7 +66,14 @@
         data() {
             return {
                 dialog: false,
-                editTeam: false,
+                snackbar: {
+                    enabled: false,
+                    message: '',
+                    timeout: 5000,
+                    y: 'bottom',
+                    x: 'right',
+                    color: ''
+                },
                 team: '',
                 members: ''
             }
@@ -89,6 +100,15 @@
                 axios.put('/api/teams/' + this.team.id, { name, description })
                 .then(response => {
                     // this.team = response.data.data
+
+                    this.snackbar.color = 'success'
+                    this.snackbar.message = "Team updated successfully!"
+                    this.snackbar.enabled = true
+                })
+                .catch(function (error) {
+                    this.snackbar.color = 'error'
+                    this.snackbar.message = "Error updating team!"
+                    this.snackbar.enabled = true
                 })
 
                 this.reset()

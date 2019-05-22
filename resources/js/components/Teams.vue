@@ -4,7 +4,7 @@
             <v-container text-xs-center>
                 <v-btn color="info" @click="dialog = true">
                     <v-icon left dark>add</v-icon>
-                    Create a Team
+                    Add a Team
                 </v-btn>
             </v-container>
         </v-layout>
@@ -51,6 +51,11 @@
                 </v-card>
             </v-form>
         </v-dialog>
+
+        <v-snackbar v-model="snackbar.enabled" :color="snackbar.color" :bottom="true" :right="true" :timeout="snackbar.timeout">
+            {{ snackbar.message }}
+            <v-btn color="white" flat @click="snackbar.enabled = false"><v-icon>close</v-icon></v-btn>
+        </v-snackbar>
     </v-container>
 </template>
 
@@ -61,6 +66,14 @@ export default {
     data() {
         return {
             dialog: false,
+            snackbar: {
+                enabled: false,
+                message: '',
+                timeout: 5000,
+                y: 'bottom',
+                x: 'right',
+                color: ''
+            },
             name: '',
             description: '',
             teams: []
@@ -80,6 +93,15 @@ export default {
             axios.post('/api/teams', { name, description })
             .then(response => {
                 this.teams.push(response.data.data)
+
+                this.snackbar.color = 'success'
+                this.snackbar.message = "Team successfully created!"
+                this.snackbar.enabled = true
+            })
+            .catch(function (error) {
+                this.snackbar.color = 'error'
+                this.snackbar.message = "Error creating team!"
+                this.snackbar.enabled = true
             })
 
             this.reset()
