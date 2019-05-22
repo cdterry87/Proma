@@ -2,12 +2,12 @@
     <div>
         <v-container fluid grid-list-md>
             <v-layout align-baseline>
-                <v-flex xs10>
+                <v-flex xs6>
                     <span class="headline">
                         {{ client.name }}
                     </span>
                 </v-flex>
-                <v-flex xs2 text-xs-right>
+                <v-flex xs6 text-xs-right>
                     <v-btn color="info" @click="dialog = true" small>
                         <v-icon left dark>edit</v-icon>
                         Edit

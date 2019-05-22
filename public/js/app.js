@@ -3003,7 +3003,7 @@ var render = function() {
             "v-layout",
             { attrs: { "align-baseline": "" } },
             [
-              _c("v-flex", { attrs: { xs10: "" } }, [
+              _c("v-flex", { attrs: { xs6: "" } }, [
                 _c("span", { staticClass: "headline" }, [
                   _vm._v(
                     "\n                    " +
@@ -3015,7 +3015,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-flex",
-                { attrs: { xs2: "", "text-xs-right": "" } },
+                { attrs: { xs6: "", "text-xs-right": "" } },
                 [
                   _c(
                     "v-btn",
@@ -3940,7 +3940,7 @@ var render = function() {
             "v-layout",
             { attrs: { "align-baseline": "" } },
             [
-              _c("v-flex", { attrs: { xs10: "" } }, [
+              _c("v-flex", { attrs: { xs6: "" } }, [
                 _c("span", { staticClass: "headline" }, [
                   _vm._v(
                     "\n                    " +
@@ -3952,7 +3952,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-flex",
-                { attrs: { xs2: "", "text-xs-right": "" } },
+                { attrs: { xs6: "", "text-xs-right": "" } },
                 [
                   _c(
                     "v-btn",
@@ -4908,7 +4908,7 @@ var render = function() {
             "v-layout",
             { attrs: { "align-baseline": "" } },
             [
-              _c("v-flex", { attrs: { xs10: "" } }, [
+              _c("v-flex", { attrs: { xs6: "" } }, [
                 _c("span", { staticClass: "headline" }, [
                   _vm._v(
                     "\n                    " +
@@ -4920,7 +4920,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-flex",
-                { attrs: { xs2: "", "text-xs-right": "" } },
+                { attrs: { xs6: "", "text-xs-right": "" } },
                 [
                   _c(
                     "v-btn",
