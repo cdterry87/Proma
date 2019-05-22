@@ -90,7 +90,14 @@
                 .then(response => {
                     // this.team = response.data.data
                 })
+
+                this.reset()
             },
+            reset() {
+                this.dialog = false
+                this.name = ''
+                this.description = ''
+            }
         },
         created() {
             EventBus.$on('addMember', () => {

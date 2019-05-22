@@ -284,6 +284,12 @@ __webpack_require__.r(__webpack_exports__);
         description: description
       }).then(function (response) {// this.client = response.data.data
       });
+      this.reset();
+    },
+    reset: function reset() {
+      this.dialog = false;
+      this.name = '';
+      this.description = '';
     }
   },
   created: function created() {
@@ -683,6 +689,14 @@ __webpack_require__.r(__webpack_exports__);
         team_id: team_id
       }).then(function (response) {// this.project = response.data.data
       });
+      this.reset();
+    },
+    reset: function reset() {
+      this.dialog = false;
+      this.name = '';
+      this.client_id = '';
+      this.team_id = '';
+      this.description = '';
     }
   },
   created: function created() {
@@ -1079,6 +1093,12 @@ __webpack_require__.r(__webpack_exports__);
         description: description
       }).then(function (response) {// this.team = response.data.data
       });
+      this.reset();
+    },
+    reset: function reset() {
+      this.dialog = false;
+      this.name = '';
+      this.description = '';
     }
   },
   created: function created() {

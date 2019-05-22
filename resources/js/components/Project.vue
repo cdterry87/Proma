@@ -125,7 +125,16 @@
                 .then(response => {
                     // this.project = response.data.data
                 })
+
+                this.reset()
             },
+            reset() {
+                this.dialog = false
+                this.name = ''
+                this.client_id = ''
+                this.team_id = ''
+                this.description = ''
+            }
         },
         created() {
             EventBus.$on('addTask', tasks => {
