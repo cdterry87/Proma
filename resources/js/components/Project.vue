@@ -35,10 +35,10 @@
                 </v-flex>
             </v-layout>
              <v-layout align-baseline>
-                <v-flex xs6>
+                <v-flex xs6 v-if="project.team">
                     {{ project.team.name }}
                 </v-flex>
-                <v-flex xs6>
+                <v-flex xs6 v-if="project.client">
                     {{ project.client.name }}
                 </v-flex>
             </v-layout>

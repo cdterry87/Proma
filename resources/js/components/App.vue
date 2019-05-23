@@ -77,8 +77,8 @@ export default {
     },
     methods: {
         logout() {
-            axios.post('logout')
-            .finally(function () {
+            axios.get('/api/logout')
+            .then(function () {
                 location.reload()
             });
         }

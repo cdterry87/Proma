@@ -41,6 +41,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/users/teams', 'UserController@teams');
         Route::get('/users/clients', 'UserController@clients');
         Route::get('/users/projects', 'UserController@projects');
+
+        Route::get('/logout', function () {
+            Auth::logout();
+            return Redirect::to('login');
+        });
     });
 
     Route::get('/{any}', 'HomeController@index')->where('any', '.*');

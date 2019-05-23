@@ -173,7 +173,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     logout: function logout() {
-      axios.post('logout')["finally"](function () {
+      axios.get('/api/logout').then(function () {
         location.reload();
       });
     }
@@ -4059,21 +4059,25 @@ var render = function() {
             "v-layout",
             { attrs: { "align-baseline": "" } },
             [
-              _c("v-flex", { attrs: { xs6: "" } }, [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.project.team.name) +
-                    "\n            "
-                )
-              ]),
+              _vm.project.team
+                ? _c("v-flex", { attrs: { xs6: "" } }, [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.project.team.name) +
+                        "\n            "
+                    )
+                  ])
+                : _vm._e(),
               _vm._v(" "),
-              _c("v-flex", { attrs: { xs6: "" } }, [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.project.client.name) +
-                    "\n            "
-                )
-              ])
+              _vm.project.client
+                ? _c("v-flex", { attrs: { xs6: "" } }, [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(_vm.project.client.name) +
+                        "\n            "
+                    )
+                  ])
+                : _vm._e()
             ],
             1
           )
