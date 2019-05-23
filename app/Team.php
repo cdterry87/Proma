@@ -26,6 +26,11 @@ class Team extends Model
         return $this->hasMany('App\TeamMember')->with('user');
     }
 
+    public function project()
+    {
+        return $this->hasOne('App\Project');
+    }
+
     public static function availableUsers(Team $team)
     {
         return DB::table("users")->select('*')->whereNotIn('users.id', function ($query) use ($team) {

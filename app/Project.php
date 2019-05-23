@@ -19,4 +19,14 @@ class Project extends Model
     {
         return $this->hasMany('App\ProjectTask');
     }
+
+    public function team()
+    {
+        return $this->belongsTo('App\Team');
+    }
+
+    public function client()
+    {
+        return $this->belongsTo('App\Client');
+    }
 }

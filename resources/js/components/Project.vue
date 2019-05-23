@@ -21,6 +21,29 @@
             </v-layout>
         </v-container>
 
+        <v-container fluid grid-list-md>
+            <v-layout align-baseline>
+                <v-flex xs6>
+                    <span class="headline">
+                        <v-icon>people</v-icon> Team
+                    </span>
+                </v-flex>
+                <v-flex xs6>
+                    <span class="headline">
+                        <v-icon>person</v-icon> Client
+                    </span>
+                </v-flex>
+            </v-layout>
+             <v-layout align-baseline>
+                <v-flex xs6>
+                    {{ project.team.name }}
+                </v-flex>
+                <v-flex xs6>
+                    {{ project.client.name }}
+                </v-flex>
+            </v-layout>
+        </v-container>
+
         <ProjectTasks :projectInfo="project" :projectTasks="tasks" />
 
         <v-dialog v-model="dialog" width="500">

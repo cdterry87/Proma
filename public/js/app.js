@@ -698,6 +698,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2843,7 +2866,7 @@ var render = function() {
                     [
                       _c(
                         "v-card-title",
-                        { staticClass: "grey lighten-4 py-4 title" },
+                        { staticClass: "blue darken-3 white--text py-4 title" },
                         [_vm._v("My Account")]
                       ),
                       _vm._v(" "),
@@ -3987,6 +4010,67 @@ var render = function() {
                 _vm._v(
                   "\n                " +
                     _vm._s(_vm.project.description) +
+                    "\n            "
+                )
+              ])
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-container",
+        { attrs: { fluid: "", "grid-list-md": "" } },
+        [
+          _c(
+            "v-layout",
+            { attrs: { "align-baseline": "" } },
+            [
+              _c("v-flex", { attrs: { xs6: "" } }, [
+                _c(
+                  "span",
+                  { staticClass: "headline" },
+                  [
+                    _c("v-icon", [_vm._v("people")]),
+                    _vm._v(" Team\n                ")
+                  ],
+                  1
+                )
+              ]),
+              _vm._v(" "),
+              _c("v-flex", { attrs: { xs6: "" } }, [
+                _c(
+                  "span",
+                  { staticClass: "headline" },
+                  [
+                    _c("v-icon", [_vm._v("person")]),
+                    _vm._v(" Client\n                ")
+                  ],
+                  1
+                )
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-layout",
+            { attrs: { "align-baseline": "" } },
+            [
+              _c("v-flex", { attrs: { xs6: "" } }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.project.team.name) +
+                    "\n            "
+                )
+              ]),
+              _vm._v(" "),
+              _c("v-flex", { attrs: { xs6: "" } }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.project.client.name) +
                     "\n            "
                 )
               ])

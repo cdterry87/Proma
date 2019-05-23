@@ -19,4 +19,9 @@ class Client extends Model
     {
         return $this->hasMany('App\ClientContact');
     }
+
+    public function project()
+    {
+        return $this->hasOne('App\Project');
+    }
 }
