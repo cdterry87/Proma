@@ -13,12 +13,6 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
-        Team::unguard();
-        Client::unguard();
-        ClientContact::unguard();
-        Project::unguard();
-        ProjectTask::unguard();
-
         // Creating an admin user with associated teams, projects, and clients
         factory(User::class)->create([
             'name' => 'Admin',
