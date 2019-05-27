@@ -6,7 +6,32 @@
                     <a href="/">Proma</a>
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-text-field flat solo-inverted hide-details prepend-inner-icon="search" label="Search" class="hidden-sm-and-down" ></v-text-field>
+
+                <!-- <v-text-field
+                    flat solo-inverted hide-details prepend-inner-icon="search"
+                    label="Search" @keyup="search" v-model="query" class="hidden-sm-and-down" >
+                </v-text-field> -->
+
+                <v-autocomplete
+                    v-model="query"
+                    :items="results"
+                    :search-input.sync="searchInput"
+                    item-text="title"
+                    label="Search..."
+                    prepend-inner-icon="search"
+                    flat solo-inverted hide-details hide-no-data append-icon=""
+                    class="hidden-sm-and-down"
+                    @keyup="search"
+                >
+                    <template v-slot:item="{ item }">
+                        <router-link :to="item.url">
+                            <v-list-tile-content>
+                                <v-list-tile-title v-text="item.title"></v-list-tile-title>
+                            </v-list-tile-content>
+                        </router-link>
+                    </template>
+                </v-autocomplete>
+
                 <v-spacer></v-spacer>
                 <v-btn icon>
                     <v-icon>notifications</v-icon>
@@ -76,8 +101,9 @@ export default {
         return {
             tabs: 'projects',
             dialog: false,
+            query: '',
+            searchInput: '',
             user: [],
-            search: '',
             results: [],
             snackbar: {
                 enabled: false,
@@ -90,6 +116,14 @@ export default {
         }
     },
     methods: {
+        search() {
+            let query = this.searchInput
+
+            axios.post('/api/search', { query })
+            .then(response => {
+                this.results = response.data
+            });
+        },
         getUser() {
             this.dialog = true
 

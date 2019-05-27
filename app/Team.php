@@ -4,8 +4,10 @@ namespace App;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
-class Team extends Model
+class Team extends Model implements Searchable
 {
     protected $fillable = [
         'name', 'description'
@@ -36,5 +38,14 @@ class Team extends Model
         return DB::table("users")->select('*')->whereNotIn('users.id', function ($query) use ($team) {
             $query->select('user_id')->from('teams_members')->where('team_id', $team->id);
         })->get();
+    }
+
+    public function getSearchResult() : SearchResult
+    {
+        return new SearchResult(
+            $this,
+            $this->name,
+            '/team/' . $this->id
+        );
     }
 }

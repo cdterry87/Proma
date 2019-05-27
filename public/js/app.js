@@ -166,14 +166,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'App',
   data: function data() {
     return {
       tabs: 'projects',
       dialog: false,
+      query: '',
+      searchInput: '',
       user: [],
-      search: '',
       results: [],
       snackbar: {
         enabled: false,
@@ -186,16 +212,26 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    getUser: function getUser() {
+    search: function search() {
       var _this = this;
+
+      var query = this.searchInput;
+      axios.post('/api/search', {
+        query: query
+      }).then(function (response) {
+        _this.results = response.data;
+      });
+    },
+    getUser: function getUser() {
+      var _this2 = this;
 
       this.dialog = true;
       axios.get('/api/user').then(function (response) {
-        _this.user = response.data;
+        _this2.user = response.data;
       });
     },
     updateUser: function updateUser() {
-      var _this2 = this;
+      var _this3 = this;
 
       var name = this.user.name;
       var email = this.user.email;
@@ -204,9 +240,9 @@ __webpack_require__.r(__webpack_exports__);
         email: email
       }).then(function (response) {
         // this.client = response.data.data
-        _this2.snackbar.color = 'success';
-        _this2.snackbar.message = "Account updated successfully!";
-        _this2.snackbar.enabled = true;
+        _this3.snackbar.color = 'success';
+        _this3.snackbar.message = "Account updated successfully!";
+        _this3.snackbar.enabled = true;
       })["catch"](function (error) {
         this.snackbar.color = 'error';
         this.snackbar.message = "Error updating account!";
@@ -2843,14 +2879,61 @@ var render = function() {
               _vm._v(" "),
               _c("v-spacer"),
               _vm._v(" "),
-              _c("v-text-field", {
+              _c("v-autocomplete", {
                 staticClass: "hidden-sm-and-down",
                 attrs: {
+                  items: _vm.results,
+                  "search-input": _vm.searchInput,
+                  "item-text": "title",
+                  label: "Search...",
+                  "prepend-inner-icon": "search",
                   flat: "",
                   "solo-inverted": "",
                   "hide-details": "",
-                  "prepend-inner-icon": "search",
-                  label: "Search"
+                  "hide-no-data": "",
+                  "append-icon": ""
+                },
+                on: {
+                  "update:searchInput": function($event) {
+                    _vm.searchInput = $event
+                  },
+                  "update:search-input": function($event) {
+                    _vm.searchInput = $event
+                  },
+                  keyup: _vm.search
+                },
+                scopedSlots: _vm._u([
+                  {
+                    key: "item",
+                    fn: function(ref) {
+                      var item = ref.item
+                      return [
+                        _c(
+                          "router-link",
+                          { attrs: { to: item.url } },
+                          [
+                            _c(
+                              "v-list-tile-content",
+                              [
+                                _c("v-list-tile-title", {
+                                  domProps: { textContent: _vm._s(item.title) }
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ]
+                    }
+                  }
+                ]),
+                model: {
+                  value: _vm.query,
+                  callback: function($$v) {
+                    _vm.query = $$v
+                  },
+                  expression: "query"
                 }
               }),
               _vm._v(" "),

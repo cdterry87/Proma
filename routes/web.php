@@ -46,6 +46,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/users/clients', 'UserController@clients');
         Route::get('/users/projects', 'UserController@projects');
 
+        // Search
+        Route::post('/search', 'HomeController@search')->name('search');
+
         // Logout
         Route::get('/logout', function () {
             Auth::logout();

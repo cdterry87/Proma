@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Client;
+use App\Project;
+use App\Team;
 use Illuminate\Http\Request;
+use Spatie\Searchable\Search;
 
 class HomeController extends Controller
 {
@@ -26,8 +30,15 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function search()
+    public function search(Request $request)
     {
+        $results = (new Search())
+            ->registerModel(Client::class, 'name')
+            ->registerModel(Project::class, 'name')
+            ->registerModel(Team::class, 'name')
+            ->perform($request->input('query'));
 
+        // return view('search', compact('searchResults'));
+        return response()->json($results);
     }
 }
