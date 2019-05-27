@@ -7,11 +7,6 @@
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
 
-                <!-- <v-text-field
-                    flat solo-inverted hide-details prepend-inner-icon="search"
-                    label="Search" @keyup="search" v-model="query" class="hidden-sm-and-down" >
-                </v-text-field> -->
-
                 <v-autocomplete
                     v-model="query"
                     :items="results"
@@ -138,8 +133,6 @@ export default {
 
             axios.put('/api/user/', { name, email })
             .then(response => {
-                // this.client = response.data.data
-
                 this.snackbar.color = 'success'
                 this.snackbar.message = "Account updated successfully!"
                 this.snackbar.enabled = true

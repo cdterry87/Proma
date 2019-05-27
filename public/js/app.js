@@ -186,11 +186,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'App',
   data: function data() {
@@ -239,7 +234,6 @@ __webpack_require__.r(__webpack_exports__);
         name: name,
         email: email
       }).then(function (response) {
-        // this.client = response.data.data
         _this3.snackbar.color = 'success';
         _this3.snackbar.message = "Account updated successfully!";
         _this3.snackbar.enabled = true;
