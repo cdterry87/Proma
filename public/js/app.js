@@ -1666,7 +1666,7 @@ __webpack_require__.r(__webpack_exports__);
 
 exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, "\n.container {\n    padding-top: 6px !important;\n    padding-bottom: 6px !important;\n}\n.data-card {\n    cursor: pointer;\n    height: 165px;\n}\n.v-card {\n    padding-bottom: 10px;\n}\n", ""]);
+exports.push([module.i, "\n.container {\n    padding-top: 6px !important;\n    padding-bottom: 6px !important;\n}\n.data-card {\n    cursor: pointer;\n    height: 165px;\n}\n.search-link {\n    height: 100% !important;\n    width: 100% !important;\n}\n.v-card {\n    padding-bottom: 10px;\n}\n", ""]);
 
 
 
@@ -2910,7 +2910,10 @@ var render = function() {
                       return [
                         _c(
                           "router-link",
-                          { attrs: { to: item.url } },
+                          {
+                            staticClass: "search-link",
+                            attrs: { to: item.url }
+                          },
                           [
                             _c(
                               "v-list-tile-content",
