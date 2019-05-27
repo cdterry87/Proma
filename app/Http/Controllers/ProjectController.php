@@ -50,7 +50,6 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        // return response()->json($project->with(['team', 'client'])->first());
         return response()->json($project->with([
             'team',
             'client'

@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div>
         <v-app class="inspire">
             <v-toolbar color="blue darken-3" dark tabs >
                 <v-toolbar-title>
@@ -11,7 +11,7 @@
                 <v-btn icon>
                     <v-icon>notifications</v-icon>
                 </v-btn>
-                <v-btn icon @click="dialog = true">
+                <v-btn icon @click="getUser">
                     <v-icon>account_circle</v-icon>
                 </v-btn>
                 <template v-slot:extension>
@@ -34,6 +34,11 @@
 
             <v-content>
                 <router-view></router-view>
+
+                <v-snackbar v-model="snackbar.enabled" :color="snackbar.color" :bottom="true" :right="true" :timeout="snackbar.timeout">
+                    {{ snackbar.message }}
+                    <v-btn color="white" flat @click="snackbar.enabled = false"><v-icon>close</v-icon></v-btn>
+                </v-snackbar>
             </v-content>
 
             <v-dialog v-model="dialog" width="500">
@@ -43,10 +48,10 @@
                         <v-container grid-list-sm class="pa-4">
                             <v-layout row wrap>
                                 <v-flex xs12>
-                                    <v-text-field prepend-icon="person" label="Name" v-model="name"></v-text-field>
+                                    <v-text-field prepend-icon="person" label="Name" v-model="user.name"></v-text-field>
                                 </v-flex>
                                 <v-flex xs12>
-                                    <v-text-field prepend-icon="email" label="Email" v-model="email"></v-text-field>
+                                    <v-text-field prepend-icon="email" label="Email" v-model="user.email"></v-text-field>
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -71,11 +76,53 @@ export default {
         return {
             tabs: 'projects',
             dialog: false,
-            name: '',
-            email: '',
+            user: [],
+            search: '',
+            results: [],
+            snackbar: {
+                enabled: false,
+                message: '',
+                timeout: 5000,
+                y: 'bottom',
+                x: 'right',
+                color: ''
+            },
         }
     },
     methods: {
+        getUser() {
+            this.dialog = true
+
+            axios.get('/api/user')
+            .then(response => {
+                this.user = response.data
+            })
+        },
+        updateUser() {
+            let name = this.user.name;
+            let email = this.user.email;
+
+            axios.put('/api/user/', { name, email })
+            .then(response => {
+                // this.client = response.data.data
+
+                this.snackbar.color = 'success'
+                this.snackbar.message = "Account updated successfully!"
+                this.snackbar.enabled = true
+            })
+            .catch(function (error) {
+                this.snackbar.color = 'error'
+                this.snackbar.message = "Error updating account!"
+                this.snackbar.enabled = true
+            })
+
+            this.reset()
+        },
+        reset() {
+            this.dialog = false
+            this.name = ''
+            this.description = ''
+        },
         logout() {
             axios.get('/api/logout')
             .then(function () {

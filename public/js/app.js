@@ -161,17 +161,64 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'App',
   data: function data() {
     return {
       tabs: 'projects',
       dialog: false,
-      name: '',
-      email: ''
+      user: [],
+      search: '',
+      results: [],
+      snackbar: {
+        enabled: false,
+        message: '',
+        timeout: 5000,
+        y: 'bottom',
+        x: 'right',
+        color: ''
+      }
     };
   },
   methods: {
+    getUser: function getUser() {
+      var _this = this;
+
+      this.dialog = true;
+      axios.get('/api/user').then(function (response) {
+        _this.user = response.data;
+      });
+    },
+    updateUser: function updateUser() {
+      var _this2 = this;
+
+      var name = this.user.name;
+      var email = this.user.email;
+      axios.put('/api/user/', {
+        name: name,
+        email: email
+      }).then(function (response) {
+        // this.client = response.data.data
+        _this2.snackbar.color = 'success';
+        _this2.snackbar.message = "Account updated successfully!";
+        _this2.snackbar.enabled = true;
+      })["catch"](function (error) {
+        this.snackbar.color = 'error';
+        this.snackbar.message = "Error updating account!";
+        this.snackbar.enabled = true;
+      });
+      this.reset();
+    },
+    reset: function reset() {
+      this.dialog = false;
+      this.name = '';
+      this.description = '';
+    },
     logout: function logout() {
       axios.get('/api/logout').then(function () {
         location.reload();
@@ -2709,7 +2756,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { attrs: { id: "app" } },
     [
       _c(
         "v-app",
@@ -2819,14 +2865,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-btn",
-                {
-                  attrs: { icon: "" },
-                  on: {
-                    click: function($event) {
-                      _vm.dialog = true
-                    }
-                  }
-                },
+                { attrs: { icon: "" }, on: { click: _vm.getUser } },
                 [_c("v-icon", [_vm._v("account_circle")])],
                 1
               )
@@ -2834,7 +2873,53 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c("v-content", [_c("router-view")], 1),
+          _c(
+            "v-content",
+            [
+              _c("router-view"),
+              _vm._v(" "),
+              _c(
+                "v-snackbar",
+                {
+                  attrs: {
+                    color: _vm.snackbar.color,
+                    bottom: true,
+                    right: true,
+                    timeout: _vm.snackbar.timeout
+                  },
+                  model: {
+                    value: _vm.snackbar.enabled,
+                    callback: function($$v) {
+                      _vm.$set(_vm.snackbar, "enabled", $$v)
+                    },
+                    expression: "snackbar.enabled"
+                  }
+                },
+                [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.snackbar.message) +
+                      "\n                "
+                  ),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "white", flat: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.snackbar.enabled = false
+                        }
+                      }
+                    },
+                    [_c("v-icon", [_vm._v("close")])],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
           _vm._v(" "),
           _c(
             "v-dialog",
@@ -2888,11 +2973,11 @@ var render = function() {
                                       label: "Name"
                                     },
                                     model: {
-                                      value: _vm.name,
+                                      value: _vm.user.name,
                                       callback: function($$v) {
-                                        _vm.name = $$v
+                                        _vm.$set(_vm.user, "name", $$v)
                                       },
-                                      expression: "name"
+                                      expression: "user.name"
                                     }
                                   })
                                 ],
@@ -2909,11 +2994,11 @@ var render = function() {
                                       label: "Email"
                                     },
                                     model: {
-                                      value: _vm.email,
+                                      value: _vm.user.email,
                                       callback: function($$v) {
-                                        _vm.email = $$v
+                                        _vm.$set(_vm.user, "email", $$v)
                                       },
-                                      expression: "email"
+                                      expression: "user.email"
                                     }
                                   })
                                 ],

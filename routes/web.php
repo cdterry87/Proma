@@ -37,11 +37,16 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/members/{team}', 'TeamMemberController@index');
         Route::resource('/members', 'TeamMemberController');
 
+        // User
+        Route::get('/user/', 'UserController@index');
+        Route::put('/user/', 'UserController@update');
+
         // Users - Associated
         Route::get('/users/teams', 'UserController@teams');
         Route::get('/users/clients', 'UserController@clients');
         Route::get('/users/projects', 'UserController@projects');
 
+        // Logout
         Route::get('/logout', function () {
             Auth::logout();
             return Redirect::to('login');
