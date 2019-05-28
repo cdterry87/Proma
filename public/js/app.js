@@ -196,6 +196,7 @@ __webpack_require__.r(__webpack_exports__);
       searchInput: '',
       user: [],
       results: [],
+      notifications: '',
       snackbar: {
         enabled: false,
         message: '',
@@ -217,16 +218,24 @@ __webpack_require__.r(__webpack_exports__);
         _this.results = response.data;
       });
     },
-    getUser: function getUser() {
+    getNotifications: function getNotifications() {
       var _this2 = this;
+
+      axios.get('/api/notifications').then(function (response) {
+        _this2.notifications = response.data;
+        console.log('notifications', _this2.notifications);
+      });
+    },
+    getUser: function getUser() {
+      var _this3 = this;
 
       this.dialog = true;
       axios.get('/api/user').then(function (response) {
-        _this2.user = response.data;
+        _this3.user = response.data;
       });
     },
     updateUser: function updateUser() {
-      var _this3 = this;
+      var _this4 = this;
 
       var name = this.user.name;
       var email = this.user.email;
@@ -234,9 +243,9 @@ __webpack_require__.r(__webpack_exports__);
         name: name,
         email: email
       }).then(function (response) {
-        _this3.snackbar.color = 'success';
-        _this3.snackbar.message = "Account updated successfully!";
-        _this3.snackbar.enabled = true;
+        _this4.snackbar.color = 'success';
+        _this4.snackbar.message = "Account updated successfully!";
+        _this4.snackbar.enabled = true;
       })["catch"](function (error) {
         this.snackbar.color = 'error';
         this.snackbar.message = "Error updating account!";
@@ -254,6 +263,9 @@ __webpack_require__.r(__webpack_exports__);
         location.reload();
       });
     }
+  },
+  mounted: function mounted() {
+    this.getNotifications();
   }
 });
 

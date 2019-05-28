@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use App\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,6 +35,9 @@ class ProjectController extends Controller
         ]);
 
         $project->user()->attach(Auth::user()->id);
+
+        $notification = new Notification;
+        $notification->createNotification("Project '" . $project->name . "' created.");
 
         return response()->json([
             'status' => (bool)$project,
@@ -71,6 +75,9 @@ class ProjectController extends Controller
             $request->only(['name', 'description', 'client_id', 'team_id'])
         );
 
+        $notification = new Notification;
+        $notification->createNotification("Project '" . $project->name . "' updated.");
+
         return response()->json([
             'status' => $status,
             // 'data' => $project,
@@ -87,6 +94,9 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         $status = $project->delete();
+
+        $notification = new Notification;
+        $notification->createNotification("Project '" . $project->name . "' deleted.");
 
         return response()->json([
             'status' => $status,

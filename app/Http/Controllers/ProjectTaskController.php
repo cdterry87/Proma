@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Project;
 use App\ProjectTask;
+use App\Notification;
 use Illuminate\Http\Request;
 
 class ProjectTaskController extends Controller
@@ -30,6 +31,9 @@ class ProjectTaskController extends Controller
             'description' => $request->description,
             'project_id' => $request->project_id,
         ]);
+
+        $notification = new Notification;
+        $notification->createNotification("Task '" . $task->name . "' created.");
 
         return response()->json([
             'status' => (bool)$task,
@@ -62,6 +66,9 @@ class ProjectTaskController extends Controller
             $request->only(['description'])
         );
 
+        $notification = new Notification;
+        $notification->createNotification("Task '" . $task->name . "' updated.");
+
         return response()->json([
             'status' => $status,
             'message' => $status ? 'Task updated successfully!' : 'Error updating task!'
@@ -77,6 +84,9 @@ class ProjectTaskController extends Controller
     public function destroy(ProjectTask $task)
     {
         $status = $task->delete();
+
+        $notification = new Notification;
+        $notification->createNotification("Task '" . $task->name . "' created.");
 
         return response()->json([
             'status' => $status,
@@ -96,6 +106,9 @@ class ProjectTaskController extends Controller
         $task->complete = 1;
         $status = $task->save();
 
+        $notification = new Notification;
+        $notification->createNotification("Task '" . $task->name . "' completed.");
+
         return response()->json([
             'status' => $status,
             'message' => $status ? 'Task is now complete!' : 'Task could not be completed!'
@@ -113,6 +126,9 @@ class ProjectTaskController extends Controller
     {
         $task->complete = 0;
         $status = $task->save();
+
+        $notification = new Notification;
+        $notification->createNotification("Task '" . $task->name . "' incomplete.");
 
         return response()->json([
             'status' => $status,

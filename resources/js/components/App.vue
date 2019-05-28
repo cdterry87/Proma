@@ -100,6 +100,7 @@ export default {
             searchInput: '',
             user: [],
             results: [],
+            notifications: '',
             snackbar: {
                 enabled: false,
                 message: '',
@@ -118,6 +119,13 @@ export default {
             .then(response => {
                 this.results = response.data
             });
+        },
+        getNotifications() {
+            axios.get('/api/notifications')
+            .then(response => {
+                this.notifications = response.data
+                console.log('notifications', this.notifications)
+            })
         },
         getUser() {
             this.dialog = true
@@ -156,6 +164,9 @@ export default {
                 location.reload()
             });
         }
+    },
+    mounted() {
+        this.getNotifications()
     }
 }
 </script>

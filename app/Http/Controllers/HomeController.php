@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Client;
 use App\Project;
 use App\Team;
+use App\Notification;
 use Illuminate\Http\Request;
 use Spatie\Searchable\Search;
 
@@ -40,5 +41,10 @@ class HomeController extends Controller
 
         // return view('search', compact('searchResults'));
         return response()->json($results);
+    }
+
+    public function notifications()
+    {
+        return response()->json(Notification::where('user_id', auth()->id())->orderBy('created_at', 'desc')->get());
     }
 }

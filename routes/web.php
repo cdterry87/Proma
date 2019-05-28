@@ -49,6 +49,9 @@ Route::group(['middleware' => 'auth'], function () {
         // Search
         Route::post('/search', 'HomeController@search')->name('search');
 
+        // Notifications
+        Route::get('/notifications', 'HomeController@notifications')->name('notifications');
+
         // Logout
         Route::get('/logout', function () {
             Auth::logout();

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Team;
 use App\TeamMember;
+use App\Notification;
 use Illuminate\Http\Request;
 
 class TeamMemberController extends Controller
@@ -25,6 +26,9 @@ class TeamMemberController extends Controller
             'team_id' => $request->team_id,
             'user_id' => $request->user_id,
         ]);
+
+        $notification = new Notification;
+        $notification->createNotification("Team member '" . $member->name . "' created.");
 
         return response()->json([
             'status' => (bool)$member,
@@ -57,6 +61,9 @@ class TeamMemberController extends Controller
             $request->only(['user_id'])
         );
 
+        $notification = new Notification;
+        $notification->createNotification("Team member '" . $member->name . "' updated.");
+
         return response()->json([
             'status' => $status,
             'message' => $status ? 'Team member updated successfully!' : 'Error updating team member!'
@@ -72,6 +79,9 @@ class TeamMemberController extends Controller
     public function destroy(TeamMember $member)
     {
         $status = $member->delete();
+
+        $notification = new Notification;
+        $notification->createNotification("Team member '" . $member->name . "' deleted.");
 
         return response()->json([
             'status' => $status,

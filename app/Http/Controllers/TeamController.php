@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Team;
+use App\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,6 +34,9 @@ class TeamController extends Controller
 
         $team->user()->attach(Auth::user()->id);
         $team->member()->attach(Auth::user()->id);
+
+        $notification = new Notification;
+        $notification->createNotification("Team '" . $team->name . "' created.");
 
         return response()->json([
             'status' => (bool)$team,
@@ -65,6 +69,9 @@ class TeamController extends Controller
             $request->only(['name', 'description'])
         );
 
+        $notification = new Notification;
+        $notification->createNotification("Team '" . $team->name . "' updated.");
+
         return response()->json([
             'status' => $status,
             // 'data' => $team,
@@ -81,6 +88,9 @@ class TeamController extends Controller
     public function destroy(Team $team)
     {
         $status = $team->delete();
+
+        $notification = new Notification;
+        $notification->createNotification("Team '" . $team->name . "' deleted.");
 
         return response()->json([
             'status' => $status,
