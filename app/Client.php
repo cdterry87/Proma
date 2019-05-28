@@ -31,7 +31,7 @@ class Client extends Model implements Searchable
     {
         return new SearchResult(
             $this,
-            $this->name,
+            'Client: ' . $this->name,
             '/client/' . $this->id
         );
     }

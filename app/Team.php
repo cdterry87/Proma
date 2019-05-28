@@ -44,7 +44,7 @@ class Team extends Model implements Searchable
     {
         return new SearchResult(
             $this,
-            $this->name,
+            'Team: ' . $this->name,
             '/team/' . $this->id
         );
     }

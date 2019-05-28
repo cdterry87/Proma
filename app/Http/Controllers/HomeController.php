@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Client;
+use App\ClientContact;
 use App\Project;
 use App\Team;
 use App\Notification;
@@ -37,6 +38,7 @@ class HomeController extends Controller
             ->registerModel(Client::class, 'name')
             ->registerModel(Project::class, 'name')
             ->registerModel(Team::class, 'name')
+            ->registerModel(ClientContact::class, 'name')
             ->perform($request->input('query'));
 
         // return view('search', compact('searchResults'));

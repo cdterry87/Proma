@@ -36,7 +36,7 @@ class Project extends Model implements Searchable
     {
         return new SearchResult(
             $this,
-            $this->name,
+            'Project: ' . $this->name,
             '/project/' . $this->id
         );
     }
