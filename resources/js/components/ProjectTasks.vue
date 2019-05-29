@@ -20,9 +20,12 @@
             <v-flex xs12 md6 lg4 v-for="task in projectTasks" :key="task.id">
                 <v-card class="data-card">
                     <v-alert :value="true" v-if="task.complete" type="success" @click="incompleteTask(task.project_id, task.id)">
-                        Task is complete.
+                        Task completed {{ task.completed_date }}.
                     </v-alert>
-                    <v-alert :value="true" v-if="!task.complete" type="warning" @click="completeTask(task.project_id, task.id)">
+                    <v-alert :value="true" v-else-if="!task.complete && task.due_date != '' && task.due_date != null && new Date(task.due_date) < Date.now()" type="error" @click="completeTask(task.project_id, task.id)">
+                        Task is overdue.
+                    </v-alert>
+                    <v-alert :value="true" v-else-if="!task.complete" type="warning" @click="completeTask(task.project_id, task.id)">
                         Task is incomplete.
                     </v-alert>
                     <v-card-text>
@@ -40,6 +43,30 @@
                         <v-layout row wrap>
                             <v-flex xs12>
                                 <v-textarea prepend-icon="notes" label="Description" v-model="description"></v-textarea>
+                                <v-dialog
+                                ref="dialog"
+                                v-model="date_dialog"
+                                :return-value.sync="due_date"
+                                persistent
+                                lazy
+                                full-width
+                                width="290px"
+                                >
+                                    <template v-slot:activator="{ on }">
+                                        <v-text-field
+                                        v-model="due_date"
+                                        label="Due Date"
+                                        prepend-icon="event"
+                                        readonly
+                                        v-on="on"
+                                        ></v-text-field>
+                                    </template>
+                                    <v-date-picker v-model="due_date" scrollable>
+                                        <v-spacer></v-spacer>
+                                        <v-btn flat color="primary" @click="date_dialog = false">Cancel</v-btn>
+                                        <v-btn flat color="primary" @click="$refs.dialog.save(due_date)">OK</v-btn>
+                                    </v-date-picker>
+                                </v-dialog>
                             </v-flex>
                         </v-layout>
                     </v-container>
@@ -69,6 +96,7 @@
         data() {
             return {
                 dialog: false,
+                date_dialog: false,
                 snackbar: {
                     enabled: false,
                     message: '',
@@ -78,16 +106,18 @@
                     color: ''
                 },
                 description: '',
-                start_date: '',
                 due_date: '',
             }
         },
         methods: {
             addTask() {
+                let due_date = this.due_date
                 let description = this.description
                 let project_id = this.projectInfo.id
 
-                axios.post('/api/tasks', { description, project_id })
+                console.log('due_date', due_date)
+
+                axios.post('/api/tasks', { due_date, description, project_id })
                 .then(response => {
                     this.tasks = this.projectTasks
                     this.tasks.push(response.data.data)

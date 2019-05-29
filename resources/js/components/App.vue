@@ -16,7 +16,7 @@
                     prepend-inner-icon="search"
                     flat solo-inverted hide-details hide-no-data append-icon=""
                     class="hidden-sm-and-down"
-                    @keyup="search"
+                    @keypress="search"
                 >
                     <template v-slot:item="{ item }">
                         <router-link :to="item.url" class="search-link">
@@ -28,7 +28,7 @@
                 </v-autocomplete>
 
                 <v-spacer></v-spacer>
-                <v-btn icon>
+                <v-btn icon @click="getNotifications">
                     <v-icon>notifications</v-icon>
                 </v-btn>
                 <v-btn icon @click="getUser">
@@ -60,6 +60,25 @@
                     <v-btn color="white" flat @click="snackbar.enabled = false"><v-icon>close</v-icon></v-btn>
                 </v-snackbar>
             </v-content>
+
+            <v-dialog v-model="notifications.enabled" width="500">
+                <v-card>
+                    <v-card-title class="blue darken-3 white--text py-4 title">Notifications</v-card-title>
+                    <v-container grid-list-sm class="pa-4">
+                        <template v-for="(notification, index) in notifications.data">
+                            <v-list :key="index">
+                                <v-list-tile>
+                                    <v-list-tile-content>
+                                        <v-list-tile-title class="body-2">{{ notification.message }}</v-list-tile-title>
+                                        <v-list-tile-subtitle class="caption grey--text">{{ notification.elapsed_time }}</v-list-tile-subtitle>
+                                    </v-list-tile-content>
+                                </v-list-tile>
+                                <v-divider></v-divider>
+                            </v-list>
+                        </template>
+                    </v-container>
+                </v-card>
+            </v-dialog>
 
             <v-dialog v-model="dialog" width="500">
                 <v-form method="POST" id="userForm" @submit.prevent="updateUser">
@@ -96,11 +115,15 @@ export default {
         return {
             tabs: 'projects',
             dialog: false,
+
             query: '',
             searchInput: '',
             user: [],
             results: [],
-            notifications: '',
+            notifications: {
+                enabled: false,
+                data: ''
+            },
             snackbar: {
                 enabled: false,
                 message: '',
@@ -121,10 +144,12 @@ export default {
             });
         },
         getNotifications() {
+            this.notifications.enabled = true
+
             axios.get('/api/notifications')
             .then(response => {
-                this.notifications = response.data
-                console.log('notifications', this.notifications)
+                this.notifications.data = response.data
+                console.log('notifications', this.notifications.data)
             })
         },
         getUser() {
@@ -165,9 +190,6 @@ export default {
             });
         }
     },
-    mounted() {
-        this.getNotifications()
-    }
 }
 </script>
 

@@ -47,6 +47,9 @@ class HomeController extends Controller
 
     public function notifications()
     {
-        return response()->json(Notification::where('user_id', auth()->id())->orderBy('created_at', 'desc')->get());
+        return response()->json(Notification::where('user_id', auth()->id())
+        ->orderBy('created_at', 'desc')
+        ->take(25)
+        ->get());
     }
 }

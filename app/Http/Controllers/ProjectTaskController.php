@@ -28,12 +28,13 @@ class ProjectTaskController extends Controller
     public function store(Request $request)
     {
         $task = ProjectTask::create([
+            'due_date' => $request->due_date,
             'description' => $request->description,
             'project_id' => $request->project_id,
         ]);
 
         $notification = new Notification;
-        $notification->createNotification("Task '" . $task->name . "' created.");
+        $notification->createNotification("Task '" . $task->description . "' created.");
 
         return response()->json([
             'status' => (bool)$task,
@@ -63,11 +64,11 @@ class ProjectTaskController extends Controller
     public function update(Request $request, ProjectTask $task)
     {
         $status = $task->update(
-            $request->only(['description'])
+            $request->only(['due_date', 'description'])
         );
 
         $notification = new Notification;
-        $notification->createNotification("Task '" . $task->name . "' updated.");
+        $notification->createNotification("Task '" . $task->description . "' updated.");
 
         return response()->json([
             'status' => $status,
@@ -86,7 +87,7 @@ class ProjectTaskController extends Controller
         $status = $task->delete();
 
         $notification = new Notification;
-        $notification->createNotification("Task '" . $task->name . "' created.");
+        $notification->createNotification("Task '" . $task->description . "' created.");
 
         return response()->json([
             'status' => $status,
@@ -104,10 +105,11 @@ class ProjectTaskController extends Controller
     public function complete(Project $project, ProjectTask $task)
     {
         $task->complete = 1;
+        $task->completed_date = date('Y-m-d');
         $status = $task->save();
 
         $notification = new Notification;
-        $notification->createNotification("Task '" . $task->name . "' completed.");
+        $notification->createNotification("Task '" . $task->description . "' completed.");
 
         return response()->json([
             'status' => $status,
@@ -128,7 +130,7 @@ class ProjectTaskController extends Controller
         $status = $task->save();
 
         $notification = new Notification;
-        $notification->createNotification("Task '" . $task->name . "' incomplete.");
+        $notification->createNotification("Task '" . $task->description . "' incomplete.");
 
         return response()->json([
             'status' => $status,

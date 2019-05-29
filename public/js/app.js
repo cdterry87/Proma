@@ -186,6 +186,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'App',
   data: function data() {
@@ -196,7 +215,10 @@ __webpack_require__.r(__webpack_exports__);
       searchInput: '',
       user: [],
       results: [],
-      notifications: '',
+      notifications: {
+        enabled: false,
+        data: ''
+      },
       snackbar: {
         enabled: false,
         message: '',
@@ -221,9 +243,10 @@ __webpack_require__.r(__webpack_exports__);
     getNotifications: function getNotifications() {
       var _this2 = this;
 
+      this.notifications.enabled = true;
       axios.get('/api/notifications').then(function (response) {
-        _this2.notifications = response.data;
-        console.log('notifications', _this2.notifications);
+        _this2.notifications.data = response.data;
+        console.log('notifications', _this2.notifications.data);
       });
     },
     getUser: function getUser() {
@@ -263,9 +286,6 @@ __webpack_require__.r(__webpack_exports__);
         location.reload();
       });
     }
-  },
-  mounted: function mounted() {
-    this.getNotifications();
   }
 });
 
@@ -989,6 +1009,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ProjectTasks',
@@ -996,6 +1043,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       dialog: false,
+      date_dialog: false,
       snackbar: {
         enabled: false,
         message: '',
@@ -1005,7 +1053,6 @@ __webpack_require__.r(__webpack_exports__);
         color: ''
       },
       description: '',
-      start_date: '',
       due_date: ''
     };
   },
@@ -1013,9 +1060,12 @@ __webpack_require__.r(__webpack_exports__);
     addTask: function addTask() {
       var _this = this;
 
+      var due_date = this.due_date;
       var description = this.description;
       var project_id = this.projectInfo.id;
+      console.log('due_date', due_date);
       axios.post('/api/tasks', {
+        due_date: due_date,
         description: description,
         project_id: project_id
       }).then(function (response) {
@@ -2906,7 +2956,7 @@ var render = function() {
                   "update:search-input": function($event) {
                     _vm.searchInput = $event
                   },
-                  keyup: _vm.search
+                  keypress: _vm.search
                 },
                 scopedSlots: _vm._u([
                   {
@@ -2950,7 +3000,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-btn",
-                { attrs: { icon: "" } },
+                { attrs: { icon: "" }, on: { click: _vm.getNotifications } },
                 [_c("v-icon", [_vm._v("notifications")])],
                 1
               ),
@@ -3005,6 +3055,85 @@ var render = function() {
                     },
                     [_c("v-icon", [_vm._v("close")])],
                     1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-dialog",
+            {
+              attrs: { width: "500" },
+              model: {
+                value: _vm.notifications.enabled,
+                callback: function($$v) {
+                  _vm.$set(_vm.notifications, "enabled", $$v)
+                },
+                expression: "notifications.enabled"
+              }
+            },
+            [
+              _c(
+                "v-card",
+                [
+                  _c(
+                    "v-card-title",
+                    { staticClass: "blue darken-3 white--text py-4 title" },
+                    [_vm._v("Notifications")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-container",
+                    { staticClass: "pa-4", attrs: { "grid-list-sm": "" } },
+                    [
+                      _vm._l(_vm.notifications.data, function(
+                        notification,
+                        index
+                      ) {
+                        return [
+                          _c(
+                            "v-list",
+                            { key: index },
+                            [
+                              _c(
+                                "v-list-tile",
+                                [
+                                  _c(
+                                    "v-list-tile-content",
+                                    [
+                                      _c(
+                                        "v-list-tile-title",
+                                        { staticClass: "body-2" },
+                                        [_vm._v(_vm._s(notification.message))]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list-tile-subtitle",
+                                        { staticClass: "caption grey--text" },
+                                        [
+                                          _vm._v(
+                                            _vm._s(notification.elapsed_time)
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("v-divider")
+                            ],
+                            1
+                          )
+                        ]
+                      })
+                    ],
+                    2
                   )
                 ],
                 1
@@ -4594,13 +4723,36 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                    Task is complete.\n                "
+                                "\n                    Task completed " +
+                                  _vm._s(task.completed_date) +
+                                  ".\n                "
                               )
                             ]
                           )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      !task.complete
+                        : !task.complete &&
+                          task.due_date != "" &&
+                          task.due_date != null &&
+                          new Date(task.due_date) < Date.now()
+                        ? _c(
+                            "v-alert",
+                            {
+                              attrs: { value: true, type: "error" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.completeTask(
+                                    task.project_id,
+                                    task.id
+                                  )
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                    Task is overdue.\n                "
+                              )
+                            ]
+                          )
+                        : !task.complete
                         ? _c(
                             "v-alert",
                             {
@@ -4697,7 +4849,115 @@ var render = function() {
                                   },
                                   expression: "description"
                                 }
-                              })
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "v-dialog",
+                                {
+                                  ref: "dialog",
+                                  attrs: {
+                                    "return-value": _vm.due_date,
+                                    persistent: "",
+                                    lazy: "",
+                                    "full-width": "",
+                                    width: "290px"
+                                  },
+                                  on: {
+                                    "update:returnValue": function($event) {
+                                      _vm.due_date = $event
+                                    },
+                                    "update:return-value": function($event) {
+                                      _vm.due_date = $event
+                                    }
+                                  },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "activator",
+                                      fn: function(ref) {
+                                        var on = ref.on
+                                        return [
+                                          _c(
+                                            "v-text-field",
+                                            _vm._g(
+                                              {
+                                                attrs: {
+                                                  label: "Due Date",
+                                                  "prepend-icon": "event",
+                                                  readonly: ""
+                                                },
+                                                model: {
+                                                  value: _vm.due_date,
+                                                  callback: function($$v) {
+                                                    _vm.due_date = $$v
+                                                  },
+                                                  expression: "due_date"
+                                                }
+                                              },
+                                              on
+                                            )
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ]),
+                                  model: {
+                                    value: _vm.date_dialog,
+                                    callback: function($$v) {
+                                      _vm.date_dialog = $$v
+                                    },
+                                    expression: "date_dialog"
+                                  }
+                                },
+                                [
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-date-picker",
+                                    {
+                                      attrs: { scrollable: "" },
+                                      model: {
+                                        value: _vm.due_date,
+                                        callback: function($$v) {
+                                          _vm.due_date = $$v
+                                        },
+                                        expression: "due_date"
+                                      }
+                                    },
+                                    [
+                                      _c("v-spacer"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { flat: "", color: "primary" },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.date_dialog = false
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("Cancel")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { flat: "", color: "primary" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.$refs.dialog.save(
+                                                _vm.due_date
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("OK")]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
                             ],
                             1
                           )
