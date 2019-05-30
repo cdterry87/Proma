@@ -830,6 +830,52 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -841,6 +887,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       dialog: false,
+      date_dialog: false,
       snackbar: {
         enabled: false,
         message: '',
@@ -856,6 +903,10 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    dueDate: function dueDate(due_date) {
+      this.date_dialog = false;
+      this.$refs.datePicker.save(due_date);
+    },
     getProject: function getProject() {
       var _this = this;
 
@@ -910,6 +961,36 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.reset();
     },
+    completeProject: function completeProject(project_id) {
+      var _this6 = this;
+
+      axios.post('/api/projects/' + project_id + '/complete').then(function (response) {
+        _this6.getProject();
+
+        _this6.snackbar.color = 'success';
+        _this6.snackbar.message = "Project is now complete!";
+        _this6.snackbar.enabled = true;
+      })["catch"](function (error) {
+        this.snackbar.color = 'danger';
+        this.snackbar.message = "Project could not be completed!";
+        this.snackbar.enabled = true;
+      });
+    },
+    incompleteProject: function incompleteProject(project_id) {
+      var _this7 = this;
+
+      axios.post('/api/projects/' + project_id + '/incomplete').then(function (response) {
+        _this7.getProject();
+
+        _this7.snackbar.color = 'warning';
+        _this7.snackbar.message = "Project is now incomplete!";
+        _this7.snackbar.enabled = true;
+      })["catch"](function (error) {
+        this.snackbar.color = 'danger';
+        this.snackbar.message = "Project could not be changed to incomplete!";
+        this.snackbar.enabled = true;
+      });
+    },
     reset: function reset() {
       this.dialog = false;
       this.name = '';
@@ -919,13 +1000,13 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    var _this6 = this;
+    var _this8 = this;
 
     _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('addTask', function (tasks) {
-      _this6.tasks = tasks;
+      _this8.tasks = tasks;
     });
     _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('loadTasks', function (project_id) {
-      _this6.getProjectTasks(project_id);
+      _this8.getProjectTasks(project_id);
     });
   },
   mounted: function mounted() {
@@ -1802,7 +1883,7 @@ __webpack_require__.r(__webpack_exports__);
 
 exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, "\n.container {\n    padding-top: 6px !important;\n    padding-bottom: 6px !important;\n}\n.data-card {\n    cursor: pointer;\n    height: 200px;\n}\n.search-link {\n    height: 100% !important;\n    width: 100% !important;\n}\n.v-card {\n    padding-bottom: 10px;\n}\n", ""]);
+exports.push([module.i, "\n.container {\n    padding-top: 6px !important;\n    padding-bottom: 6px !important;\n}\n.clickable {\n    cursor: pointer;\n}\n.data-card {\n    cursor: pointer;\n    height: 200px;\n}\n.search-link {\n    height: 100% !important;\n    width: 100% !important;\n}\n.v-card {\n    padding-bottom: 10px;\n}\n", ""]);
 
 
 
@@ -4349,6 +4430,86 @@ var render = function() {
             "v-layout",
             { attrs: { "align-baseline": "" } },
             [
+              _c(
+                "v-flex",
+                { staticClass: "clickable", attrs: { xs12: "" } },
+                [
+                  _vm.project.complete
+                    ? _c(
+                        "v-alert",
+                        {
+                          attrs: { value: true, type: "success" },
+                          on: {
+                            click: function($event) {
+                              return _vm.incompleteProject(_vm.project.id)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    Project completed " +
+                              _vm._s(_vm.project.completed_date) +
+                              ".\n                "
+                          )
+                        ]
+                      )
+                    : !_vm.project.complete &&
+                      _vm.project.due_date != "" &&
+                      _vm.project.due_date != null &&
+                      new Date(_vm.project.due_date) < Date.now()
+                    ? _c(
+                        "v-alert",
+                        {
+                          attrs: { value: true, type: "error" },
+                          on: {
+                            click: function($event) {
+                              return _vm.completeProject(_vm.project.id)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    Project was due " +
+                              _vm._s(_vm.project.due_date) +
+                              ".\n                "
+                          )
+                        ]
+                      )
+                    : !_vm.project.complete
+                    ? _c(
+                        "v-alert",
+                        {
+                          attrs: { value: true, type: "warning" },
+                          on: {
+                            click: function($event) {
+                              return _vm.completeProject(_vm.project.id)
+                            }
+                          }
+                        },
+                        [
+                          _vm.project.due_date
+                            ? _c("span", [
+                                _vm._v(
+                                  "Project is due " +
+                                    _vm._s(_vm.project.due_date) +
+                                    "."
+                                )
+                              ])
+                            : _c("span", [_vm._v("Project is incomplete.")])
+                        ]
+                      )
+                    : _vm._e()
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-layout",
+            { attrs: { "align-baseline": "" } },
+            [
               _c("v-flex", { attrs: { xs6: "" } }, [
                 _c("span", { staticClass: "headline" }, [
                   _vm._v(
@@ -4414,55 +4575,74 @@ var render = function() {
             "v-layout",
             { attrs: { "align-baseline": "" } },
             [
-              _c("v-flex", { attrs: { xs6: "" } }, [
-                _c(
-                  "span",
-                  { staticClass: "headline" },
-                  [
-                    _c("v-icon", [_vm._v("people")]),
-                    _vm._v(" Team\n                ")
-                  ],
-                  1
-                )
-              ]),
-              _vm._v(" "),
-              _c("v-flex", { attrs: { xs6: "" } }, [
-                _c(
-                  "span",
-                  { staticClass: "headline" },
-                  [
-                    _c("v-icon", [_vm._v("person")]),
-                    _vm._v(" Client\n                ")
-                  ],
-                  1
-                )
-              ])
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-layout",
-            { attrs: { "align-baseline": "" } },
-            [
               _vm.project.team
-                ? _c("v-flex", { attrs: { xs6: "" } }, [
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(_vm.project.team.name) +
-                        "\n            "
-                    )
-                  ])
+                ? _c(
+                    "v-flex",
+                    { attrs: { xs6: "" } },
+                    [
+                      _c(
+                        "v-card",
+                        [
+                          _c("v-card-text", [
+                            _c(
+                              "span",
+                              { staticClass: "headline" },
+                              [
+                                _c("v-icon", [_vm._v("people")]),
+                                _vm._v(" Team\n                        ")
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("div", [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(_vm.project.team.name) +
+                                  "\n                        "
+                              )
+                            ])
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
                 : _vm._e(),
               _vm._v(" "),
               _vm.project.client
-                ? _c("v-flex", { attrs: { xs6: "" } }, [
-                    _vm._v(
-                      "\n                " +
-                        _vm._s(_vm.project.client.name) +
-                        "\n            "
-                    )
-                  ])
+                ? _c(
+                    "v-flex",
+                    { attrs: { xs6: "" } },
+                    [
+                      _c(
+                        "v-card",
+                        [
+                          _c("v-card-text", [
+                            _c(
+                              "span",
+                              { staticClass: "headline" },
+                              [
+                                _c("v-icon", [_vm._v("person")]),
+                                _vm._v(" Client\n                        ")
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("div", [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(_vm.project.client.name) +
+                                  "\n                        "
+                              )
+                            ])
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
                 : _vm._e()
             ],
             1
@@ -4603,7 +4783,122 @@ var render = function() {
                                   },
                                   expression: "project.description"
                                 }
-                              })
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "v-dialog",
+                                {
+                                  ref: "datePicker",
+                                  attrs: {
+                                    "return-value": _vm.due_date,
+                                    persistent: "",
+                                    lazy: "",
+                                    "full-width": "",
+                                    width: "290px"
+                                  },
+                                  on: {
+                                    "update:returnValue": function($event) {
+                                      _vm.due_date = $event
+                                    },
+                                    "update:return-value": function($event) {
+                                      _vm.due_date = $event
+                                    }
+                                  },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "activator",
+                                      fn: function(ref) {
+                                        var on = ref.on
+                                        return [
+                                          _c(
+                                            "v-text-field",
+                                            _vm._g(
+                                              {
+                                                attrs: {
+                                                  label: "Due Date",
+                                                  "prepend-icon": "event",
+                                                  readonly: ""
+                                                },
+                                                model: {
+                                                  value: _vm.project.due_date,
+                                                  callback: function($$v) {
+                                                    _vm.$set(
+                                                      _vm.project,
+                                                      "due_date",
+                                                      $$v
+                                                    )
+                                                  },
+                                                  expression: "project.due_date"
+                                                }
+                                              },
+                                              on
+                                            )
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ]),
+                                  model: {
+                                    value: _vm.date_dialog,
+                                    callback: function($$v) {
+                                      _vm.date_dialog = $$v
+                                    },
+                                    expression: "date_dialog"
+                                  }
+                                },
+                                [
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-date-picker",
+                                    {
+                                      attrs: { scrollable: "" },
+                                      on: { change: _vm.dueDate },
+                                      model: {
+                                        value: _vm.project.due_date,
+                                        callback: function($$v) {
+                                          _vm.$set(_vm.project, "due_date", $$v)
+                                        },
+                                        expression: "project.due_date"
+                                      }
+                                    },
+                                    [
+                                      _c("v-spacer"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { flat: "", color: "primary" },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.date_dialog = false
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("Cancel")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { flat: "", color: "primary" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.$refs.dialog.save(
+                                                _vm.due_date
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("OK")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("v-spacer")
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
                             ],
                             1
                           )

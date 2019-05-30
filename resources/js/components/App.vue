@@ -199,6 +199,10 @@ export default {
     padding-bottom: 6px !important;
 }
 
+.clickable {
+    cursor: pointer;
+}
+
 .data-card {
     cursor: pointer;
     height: 200px;
