@@ -1037,6 +1037,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ProjectTasks',
@@ -1136,6 +1137,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -4826,7 +4828,9 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                    Task is overdue.\n                "
+                                "\n                    Task was due " +
+                                  _vm._s(task.due_date) +
+                                  ".\n                "
                               )
                             ]
                           )
@@ -4845,9 +4849,15 @@ var render = function() {
                               }
                             },
                             [
-                              _vm._v(
-                                "\n                    Task is incomplete.\n                "
-                              )
+                              task.due_date
+                                ? _c("span", [
+                                    _vm._v(
+                                      "Task is due " +
+                                        _vm._s(task.due_date) +
+                                        "."
+                                    )
+                                  ])
+                                : _c("span", [_vm._v("Task is incomplete.")])
                             ]
                           )
                         : _vm._e(),
@@ -5257,7 +5267,9 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                    Project is overdue.\n                "
+                            "\n                    Project was due " +
+                              _vm._s(project.due_date) +
+                              ".\n                "
                           )
                         ]
                       )
@@ -5273,9 +5285,15 @@ var render = function() {
                           }
                         },
                         [
-                          _vm._v(
-                            "\n                    Project is incomplete.\n                "
-                          )
+                          project.due_date
+                            ? _c("span", [
+                                _vm._v(
+                                  "Project is due " +
+                                    _vm._s(project.due_date) +
+                                    "."
+                                )
+                              ])
+                            : _c("span", [_vm._v("Project is incomplete.")])
                         ]
                       )
                     : _vm._e(),

@@ -16,7 +16,11 @@ class ProjectTaskController extends Controller
      */
     public function index(Project $project)
     {
-        return response()->json($project->tasks()->get());
+        return response()->json($project->tasks()
+            ->orderBy('complete')
+            ->orderByRaw('ISNULL(due_date), due_date ASC')
+            ->orderByRaw('ISNULL(completed_date), completed_date ASC')
+            ->get());
     }
 
     /**

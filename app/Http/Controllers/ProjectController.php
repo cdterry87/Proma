@@ -16,7 +16,11 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        return response()->json(Auth::user()->projects()->get());
+        return response()->json(Auth::user()->projects()
+            ->orderBy('complete')
+            ->orderByRaw('ISNULL(due_date), due_date ASC')
+            ->orderByRaw('ISNULL(completed_date), completed_date ASC')
+            ->get());
     }
 
     /**
@@ -119,7 +123,7 @@ class ProjectController extends Controller
         $status = $project->save();
 
         $notification = new Notification;
-        $notification->createNotification("Project '" . $project->description . "' completed.");
+        $notification->createNotification("Project '" . $project->name . "' completed.");
 
         return response()->json([
             'status' => $status,
@@ -140,7 +144,7 @@ class ProjectController extends Controller
         $status = $project->save();
 
         $notification = new Notification;
-        $notification->createNotification("Project '" . $project->description . "' incomplete.");
+        $notification->createNotification("Project '" . $project->name . "' incomplete.");
 
         return response()->json([
             'status' => $status,

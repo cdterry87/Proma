@@ -23,10 +23,11 @@
                         Task completed {{ task.completed_date }}.
                     </v-alert>
                     <v-alert :value="true" v-else-if="!task.complete && task.due_date != '' && task.due_date != null && new Date(task.due_date) < Date.now()" type="error" @click="completeTask(task.project_id, task.id)">
-                        Task is overdue.
+                        Task was due {{ task.due_date }}.
                     </v-alert>
                     <v-alert :value="true" v-else-if="!task.complete" type="warning" @click="completeTask(task.project_id, task.id)">
-                        Task is incomplete.
+                        <span v-if="task.due_date">Task is due {{ task.due_date }}.</span>
+                        <span v-else>Task is incomplete.</span>
                     </v-alert>
                     <v-card-text>
                         {{ task.description | truncate(100) }}
