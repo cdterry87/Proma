@@ -20,6 +20,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('/teams', 'TeamController');
         Route::resource('/projects', 'ProjectController');
 
+        // Projects
+        Route::post('/projects/{project}/complete', 'ProjectController@complete');
+        Route::post('/projects/{project}/incomplete', 'ProjectController@incomplete');
+
         // Projects - Tasks
         Route::get('/tasks/{project}', 'ProjectTaskController@index');
         Route::post('/tasks/{project}/complete/{task}', 'ProjectTaskController@complete');

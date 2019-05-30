@@ -96,7 +96,7 @@ class ProjectTaskController extends Controller
     }
 
     /**
-     * Set a project as complete.
+     * Set a project task as complete.
      *
      * @param  int  $project_id
      * @param  int  $task_id
@@ -118,7 +118,7 @@ class ProjectTaskController extends Controller
     }
 
     /**
-     * Set a project as complete.
+     * Set a project task as complete.
      *
      * @param  int  $project_id
      * @param  int  $task_id

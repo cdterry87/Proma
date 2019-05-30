@@ -1036,6 +1036,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ProjectTasks',
@@ -1057,6 +1058,10 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    dueDate: function dueDate(due_date) {
+      this.date_dialog = false;
+      this.$refs.datePicker.save(due_date);
+    },
     addTask: function addTask() {
       var _this = this;
 
@@ -1212,11 +1217,47 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Projects',
   data: function data() {
     return {
       dialog: false,
+      date_dialog: false,
       snackbar: {
         enabled: false,
         message: '',
@@ -1227,6 +1268,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       name: '',
       description: '',
+      due_date: '',
       team_id: '',
       client_id: '',
       projects: [],
@@ -1235,6 +1277,10 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    dueDate: function dueDate(due_date) {
+      this.date_dialog = false;
+      this.$refs.datePicker.save(due_date);
+    },
     getProjects: function getProjects() {
       var _this = this;
 
@@ -1261,11 +1307,13 @@ __webpack_require__.r(__webpack_exports__);
 
       var name = this.name;
       var description = this.description;
+      var due_date = this.due_date;
       var client_id = this.client_id;
       var team_id = this.team_id;
       axios.post('/api/projects', {
         name: name,
         description: description,
+        due_date: due_date,
         client_id: client_id,
         team_id: team_id
       }).then(function (response) {
@@ -1280,6 +1328,36 @@ __webpack_require__.r(__webpack_exports__);
         this.snackbar.enabled = true;
       });
       this.reset();
+    },
+    completeProject: function completeProject(project_id) {
+      var _this5 = this;
+
+      axios.post('/api/projects/' + project_id + '/complete').then(function (response) {
+        _this5.getProjects();
+
+        _this5.snackbar.color = 'success';
+        _this5.snackbar.message = "Project is now complete!";
+        _this5.snackbar.enabled = true;
+      })["catch"](function (error) {
+        this.snackbar.color = 'danger';
+        this.snackbar.message = "Project could not be completed!";
+        this.snackbar.enabled = true;
+      });
+    },
+    incompleteProject: function incompleteProject(project_id) {
+      var _this6 = this;
+
+      axios.post('/api/projects/' + project_id + '/incomplete').then(function (response) {
+        _this6.getProjects();
+
+        _this6.snackbar.color = 'warning';
+        _this6.snackbar.message = "Project is now incomplete!";
+        _this6.snackbar.enabled = true;
+      })["catch"](function (error) {
+        this.snackbar.color = 'danger';
+        this.snackbar.message = "Project could not be changed to incomplete!";
+        this.snackbar.enabled = true;
+      });
     },
     reset: function reset() {
       this.dialog = false;
@@ -1722,7 +1800,7 @@ __webpack_require__.r(__webpack_exports__);
 
 exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, "\n.container {\n    padding-top: 6px !important;\n    padding-bottom: 6px !important;\n}\n.data-card {\n    cursor: pointer;\n    height: 165px;\n}\n.search-link {\n    height: 100% !important;\n    width: 100% !important;\n}\n.v-card {\n    padding-bottom: 10px;\n}\n", ""]);
+exports.push([module.i, "\n.container {\n    padding-top: 6px !important;\n    padding-bottom: 6px !important;\n}\n.data-card {\n    cursor: pointer;\n    height: 200px;\n}\n.search-link {\n    height: 100% !important;\n    width: 100% !important;\n}\n.v-card {\n    padding-bottom: 10px;\n}\n", ""]);
 
 
 
@@ -4854,7 +4932,7 @@ var render = function() {
                               _c(
                                 "v-dialog",
                                 {
-                                  ref: "dialog",
+                                  ref: "datePicker",
                                   attrs: {
                                     "return-value": _vm.due_date,
                                     persistent: "",
@@ -4914,6 +4992,7 @@ var render = function() {
                                     "v-date-picker",
                                     {
                                       attrs: { scrollable: "" },
+                                      on: { change: _vm.dueDate },
                                       model: {
                                         value: _vm.due_date,
                                         callback: function($$v) {
@@ -4951,7 +5030,9 @@ var render = function() {
                                           }
                                         },
                                         [_vm._v("OK")]
-                                      )
+                                      ),
+                                      _vm._v(" "),
+                                      _c("v-spacer")
                                     ],
                                     1
                                   )
@@ -5138,12 +5219,70 @@ var render = function() {
             { key: project.id, attrs: { xs12: "", md6: "", lg4: "" } },
             [
               _c(
-                "router-link",
-                { attrs: { to: "/project/" + project.id } },
+                "v-card",
+                { staticClass: "data-card" },
                 [
+                  project.complete
+                    ? _c(
+                        "v-alert",
+                        {
+                          attrs: { value: true, type: "success" },
+                          on: {
+                            click: function($event) {
+                              return _vm.incompleteProject(project.id)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    Project completed " +
+                              _vm._s(project.completed_date) +
+                              ".\n                "
+                          )
+                        ]
+                      )
+                    : !project.complete &&
+                      project.due_date != "" &&
+                      project.due_date != null &&
+                      new Date(project.due_date) < Date.now()
+                    ? _c(
+                        "v-alert",
+                        {
+                          attrs: { value: true, type: "error" },
+                          on: {
+                            click: function($event) {
+                              return _vm.completeProject(project.id)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    Project is overdue.\n                "
+                          )
+                        ]
+                      )
+                    : !project.complete
+                    ? _c(
+                        "v-alert",
+                        {
+                          attrs: { value: true, type: "warning" },
+                          on: {
+                            click: function($event) {
+                              return _vm.completeProject(project.id)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    Project is incomplete.\n                "
+                          )
+                        ]
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c(
-                    "v-card",
-                    { staticClass: "data-card" },
+                    "router-link",
+                    { attrs: { to: "/project/" + project.id } },
                     [
                       _c("v-card-text", [
                         _c("div", { staticClass: "headline" }, [
@@ -5302,7 +5441,118 @@ var render = function() {
                                   },
                                   expression: "description"
                                 }
-                              })
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "v-dialog",
+                                {
+                                  ref: "datePicker",
+                                  attrs: {
+                                    "return-value": _vm.due_date,
+                                    persistent: "",
+                                    lazy: "",
+                                    "full-width": "",
+                                    width: "290px"
+                                  },
+                                  on: {
+                                    "update:returnValue": function($event) {
+                                      _vm.due_date = $event
+                                    },
+                                    "update:return-value": function($event) {
+                                      _vm.due_date = $event
+                                    }
+                                  },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "activator",
+                                      fn: function(ref) {
+                                        var on = ref.on
+                                        return [
+                                          _c(
+                                            "v-text-field",
+                                            _vm._g(
+                                              {
+                                                attrs: {
+                                                  label: "Due Date",
+                                                  "prepend-icon": "event",
+                                                  readonly: ""
+                                                },
+                                                model: {
+                                                  value: _vm.due_date,
+                                                  callback: function($$v) {
+                                                    _vm.due_date = $$v
+                                                  },
+                                                  expression: "due_date"
+                                                }
+                                              },
+                                              on
+                                            )
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ]),
+                                  model: {
+                                    value: _vm.date_dialog,
+                                    callback: function($$v) {
+                                      _vm.date_dialog = $$v
+                                    },
+                                    expression: "date_dialog"
+                                  }
+                                },
+                                [
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-date-picker",
+                                    {
+                                      attrs: { scrollable: "" },
+                                      on: { change: _vm.dueDate },
+                                      model: {
+                                        value: _vm.due_date,
+                                        callback: function($$v) {
+                                          _vm.due_date = $$v
+                                        },
+                                        expression: "due_date"
+                                      }
+                                    },
+                                    [
+                                      _c("v-spacer"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { flat: "", color: "primary" },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.date_dialog = false
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("Cancel")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { flat: "", color: "primary" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.$refs.dialog.save(
+                                                _vm.due_date
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("OK")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("v-spacer")
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
                             ],
                             1
                           )

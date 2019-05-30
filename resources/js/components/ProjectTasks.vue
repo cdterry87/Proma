@@ -44,7 +44,7 @@
                             <v-flex xs12>
                                 <v-textarea prepend-icon="notes" label="Description" v-model="description"></v-textarea>
                                 <v-dialog
-                                ref="dialog"
+                                ref="datePicker"
                                 v-model="date_dialog"
                                 :return-value.sync="due_date"
                                 persistent
@@ -61,10 +61,11 @@
                                         v-on="on"
                                         ></v-text-field>
                                     </template>
-                                    <v-date-picker v-model="due_date" scrollable>
+                                    <v-date-picker v-model="due_date" scrollable @change="dueDate">
                                         <v-spacer></v-spacer>
                                         <v-btn flat color="primary" @click="date_dialog = false">Cancel</v-btn>
                                         <v-btn flat color="primary" @click="$refs.dialog.save(due_date)">OK</v-btn>
+                                        <v-spacer></v-spacer>
                                     </v-date-picker>
                                 </v-dialog>
                             </v-flex>
@@ -110,6 +111,10 @@
             }
         },
         methods: {
+            dueDate(due_date) {
+                this.date_dialog = false
+                this.$refs.datePicker.save(due_date)
+            },
             addTask() {
                 let due_date = this.due_date
                 let description = this.description

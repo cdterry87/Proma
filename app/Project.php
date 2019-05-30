@@ -9,7 +9,7 @@ use Spatie\Searchable\SearchResult;
 class Project extends Model implements Searchable
 {
     protected $fillable = [
-        'name', 'description', 'client_id', 'team_id',
+        'name', 'description', 'client_id', 'team_id', 'due_date'
     ];
 
     public function user()
@@ -32,7 +32,7 @@ class Project extends Model implements Searchable
         return $this->belongsTo('App\Client');
     }
 
-    public function getSearchResult() : SearchResult
+    public function getSearchResult(): SearchResult
     {
         return new SearchResult(
             $this,
@@ -40,5 +40,4 @@ class Project extends Model implements Searchable
             '/project/' . $this->id
         );
     }
-
 }

@@ -201,7 +201,7 @@ export default {
 
 .data-card {
     cursor: pointer;
-    height: 165px;
+    height: 200px;
 }
 
 .search-link {

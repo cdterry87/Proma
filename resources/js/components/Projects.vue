@@ -15,16 +15,25 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex xs12 md6 lg4 v-for="project in projects" :key="project.id">
-                <router-link :to="'/project/' + project.id">
-                    <v-card class="data-card">
+                <v-card class="data-card">
+                    <v-alert :value="true" v-if="project.complete" type="success" @click="incompleteProject(project.id)">
+                        Project completed {{ project.completed_date }}.
+                    </v-alert>
+                    <v-alert :value="true" v-else-if="!project.complete && project.due_date != '' && project.due_date != null && new Date(project.due_date) < Date.now()" type="error" @click="completeProject(project.id)">
+                        Project is overdue.
+                    </v-alert>
+                    <v-alert :value="true" v-else-if="!project.complete" type="warning" @click="completeProject(project.id)">
+                        Project is incomplete.
+                    </v-alert>
+                    <router-link :to="'/project/' + project.id">
                         <v-card-text>
                             <div class="headline">
                                 {{ project.name | truncate(25) }}
                             </div>
                             {{ project.description | truncate(150) }}
                         </v-card-text>
-                    </v-card>
-                </router-link>
+                    </router-link>
+                </v-card>
             </v-flex>
         </v-layout>
 
@@ -59,6 +68,32 @@
                             </v-flex>
                             <v-flex xs12>
                                 <v-textarea prepend-icon="notes" label="Description" v-model="description"></v-textarea>
+
+                                <v-dialog
+                                ref="datePicker"
+                                v-model="date_dialog"
+                                :return-value.sync="due_date"
+                                persistent
+                                lazy
+                                full-width
+                                width="290px"
+                                >
+                                    <template v-slot:activator="{ on }">
+                                        <v-text-field
+                                        v-model="due_date"
+                                        label="Due Date"
+                                        prepend-icon="event"
+                                        readonly
+                                        v-on="on"
+                                        ></v-text-field>
+                                    </template>
+                                    <v-date-picker v-model="due_date" scrollable @change="dueDate">
+                                        <v-spacer></v-spacer>
+                                        <v-btn flat color="primary" @click="date_dialog = false">Cancel</v-btn>
+                                        <v-btn flat color="primary" @click="$refs.dialog.save(due_date)">OK</v-btn>
+                                        <v-spacer></v-spacer>
+                                    </v-date-picker>
+                                </v-dialog>
                             </v-flex>
                         </v-layout>
                     </v-container>
@@ -85,6 +120,7 @@ export default {
     data() {
         return {
             dialog: false,
+            date_dialog: false,
             snackbar: {
                 enabled: false,
                 message: '',
@@ -95,6 +131,7 @@ export default {
             },
             name: '',
             description: '',
+            due_date: '',
             team_id: '',
             client_id: '',
             projects: [],
@@ -103,6 +140,10 @@ export default {
         }
     },
     methods: {
+        dueDate(due_date) {
+            this.date_dialog = false
+            this.$refs.datePicker.save(due_date)
+        },
         getProjects() {
             axios.get('/api/projects')
             .then(response => {
@@ -124,10 +165,11 @@ export default {
         addProject() {
             let name = this.name
             let description = this.description
+            let due_date = this.due_date
             let client_id = this.client_id
             let team_id = this.team_id
 
-            axios.post('/api/projects', { name, description, client_id, team_id })
+            axios.post('/api/projects', { name, description, due_date, client_id, team_id })
             .then(response => {
                 this.projects.push(response.data.data)
 
@@ -142,6 +184,36 @@ export default {
             })
 
             this.reset()
+        },
+        completeProject(project_id) {
+            axios.post('/api/projects/' + project_id + '/complete')
+            .then(response => {
+                this.getProjects()
+
+                this.snackbar.color = 'success'
+                this.snackbar.message = "Project is now complete!"
+                this.snackbar.enabled = true
+            })
+            .catch(function (error) {
+                this.snackbar.color = 'danger'
+                this.snackbar.message = "Project could not be completed!"
+                this.snackbar.enabled = true
+            })
+        },
+        incompleteProject(project_id) {
+            axios.post('/api/projects/' + project_id + '/incomplete')
+            .then(response => {
+                this.getProjects()
+
+                this.snackbar.color = 'warning'
+                this.snackbar.message = "Project is now incomplete!"
+                this.snackbar.enabled = true
+            })
+            .catch(function (error) {
+                this.snackbar.color = 'danger'
+                this.snackbar.message = "Project could not be changed to incomplete!"
+                this.snackbar.enabled = true
+            })
         },
         reset() {
             this.dialog = false

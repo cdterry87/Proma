@@ -30,6 +30,7 @@ class ProjectController extends Controller
         $project = Project::create([
             'name' => $request->name,
             'description' => $request->description,
+            'due_date' => $request->due_date,
             'client_id' => $request->client_id,
             'team_id' => $request->team_id,
         ]);
@@ -58,8 +59,8 @@ class ProjectController extends Controller
             'team',
             'client'
         ])
-        ->where('id', $project->id)
-        ->first());
+            ->where('id', $project->id)
+            ->first());
     }
 
     /**
@@ -72,7 +73,7 @@ class ProjectController extends Controller
     public function update(Request $request, Project $project)
     {
         $status = $project->update(
-            $request->only(['name', 'description', 'client_id', 'team_id'])
+            $request->only(['name', 'description', 'due_date', 'client_id', 'team_id'])
         );
 
         $notification = new Notification;
@@ -101,6 +102,49 @@ class ProjectController extends Controller
         return response()->json([
             'status' => $status,
             'message' => $status ? 'Project deleted successfully!' : 'Error deleting project!'
+        ]);
+    }
+
+    /**
+     * Set a project as complete.
+     *
+     * @param  int  $project_id
+     * @param  int  $task_id
+     * @return \Illuminate\Http\Response
+     */
+    public function complete(Project $project)
+    {
+        $project->complete = 1;
+        $project->completed_date = date('Y-m-d');
+        $status = $project->save();
+
+        $notification = new Notification;
+        $notification->createNotification("Project '" . $project->description . "' completed.");
+
+        return response()->json([
+            'status' => $status,
+            'message' => $status ? 'Project is now complete!' : 'Project could not be completed!'
+        ]);
+    }
+
+    /**
+     * Set a project as complete.
+     *
+     * @param  int  $project_id
+     * @param  int  $task_id
+     * @return \Illuminate\Http\Response
+     */
+    public function incomplete(Project $project)
+    {
+        $project->complete = 0;
+        $status = $project->save();
+
+        $notification = new Notification;
+        $notification->createNotification("Project '" . $project->description . "' incomplete.");
+
+        return response()->json([
+            'status' => $status,
+            'message' => $status ? 'Project is now incomplete!' : 'Project could not be marked as incomplete!'
         ]);
     }
 }

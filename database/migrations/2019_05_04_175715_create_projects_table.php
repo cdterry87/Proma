@@ -20,7 +20,7 @@ class CreateProjectsTable extends Migration
             $table->string('name')->index();
             $table->text('description')->nullable();
             $table->date('due_date')->nullable();
-            $table->boolean('completed')->default(false);
+            $table->boolean('complete')->default(false);
             $table->date('completed_date')->nullable();
             $table->timestamps();
         });
