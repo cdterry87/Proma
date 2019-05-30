@@ -525,6 +525,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ClientContacts',
@@ -543,11 +544,24 @@ __webpack_require__.r(__webpack_exports__);
       name: '',
       title: '',
       email: '',
-      phone: ''
+      phone: '',
+      contact_id: ''
     };
   },
   methods: {
-    addContact: function addContact() {
+    newContact: function newContact() {
+      this.reset();
+      this.dialog = true;
+    },
+    editContact: function editContact(contact) {
+      this.dialog = true;
+      this.name = contact.name;
+      this.title = contact.title;
+      this.email = contact.email;
+      this.phone = contact.phone;
+      this.contact_id = contact.id;
+    },
+    saveContact: function saveContact() {
       var _this = this;
 
       var name = this.name;
@@ -555,19 +569,20 @@ __webpack_require__.r(__webpack_exports__);
       var email = this.email;
       var phone = this.phone;
       var client_id = this.clientInfo.id;
-      axios.post('/api/contacts', {
-        name: name,
-        title: title,
-        email: email,
-        phone: phone,
-        client_id: client_id
+      var contact_id = this.contact_id;
+      var method = !_.isNumber(contact_id) ? 'post' : 'put';
+      axios({
+        method: method,
+        url: '/api/contacts/' + contact_id,
+        data: {
+          name: name,
+          title: title,
+          email: email,
+          phone: phone,
+          client_id: client_id
+        }
       }).then(function (response) {
-        _this.contacts = _this.clientContacts;
-
-        _this.contacts.push(response.data.data);
-
-        var contacts = _this.contacts;
-        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('addContact', contacts);
+        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadContacts', client_id);
         _this.snackbar.color = 'success';
         _this.snackbar.message = "Contact successfully added!";
         _this.snackbar.enabled = true;
@@ -584,6 +599,7 @@ __webpack_require__.r(__webpack_exports__);
       this.title = '';
       this.email = '';
       this.phone = '';
+      this.contact_id = '';
     }
   }
 });
@@ -3782,11 +3798,7 @@ var render = function() {
                 "v-btn",
                 {
                   attrs: { color: "info", small: "" },
-                  on: {
-                    click: function($event) {
-                      _vm.dialog = true
-                    }
-                  }
+                  on: { click: _vm.newContact }
                 },
                 [
                   _c("v-icon", { attrs: { left: "", dark: "" } }, [
@@ -3819,7 +3831,14 @@ var render = function() {
                 [
                   _c(
                     "v-card",
-                    { staticClass: "data-card" },
+                    {
+                      staticClass: "data-card",
+                      on: {
+                        click: function($event) {
+                          return _vm.editContact(contact)
+                        }
+                      }
+                    },
                     [
                       _c(
                         "v-card-text",
@@ -3897,18 +3916,39 @@ var render = function() {
               on: {
                 submit: function($event) {
                   $event.preventDefault()
-                  return _vm.addContact($event)
+                  return _vm.saveContact($event)
                 }
               }
             },
             [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.contact_id,
+                    expression: "contact_id"
+                  }
+                ],
+                attrs: { type: "hidden", name: "contact_id" },
+                domProps: { value: _vm.contact_id },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.contact_id = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
               _c(
                 "v-card",
                 [
                   _c(
                     "v-card-title",
                     { staticClass: "blue darken-3 white--text py-4 title" },
-                    [_vm._v("Add Contact")]
+                    [_vm._v("Save Contact")]
                   ),
                   _vm._v(" "),
                   _c(

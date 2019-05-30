@@ -7,7 +7,7 @@
                 </span>
             </v-flex>
             <v-flex xs6 text-xs-right>
-                <v-btn color="info" @click="dialog = true" small>
+                <v-btn color="info" @click="newContact" small>
                     <v-icon left dark>add</v-icon>
                     Add Contact
                 </v-btn>
@@ -18,7 +18,7 @@
         </v-layout>
         <v-layout row wrap v-else>
             <v-flex xs12 md6 lg4 v-for="contact in clientContacts" :key="contact.id">
-                <v-card class="data-card">
+                <v-card class="data-card" @click="editContact(contact)">
                     <v-card-text>
                         <div>
                             <div class="headline">{{ contact.name | truncate(20) }}</div>
@@ -36,9 +36,10 @@
         </v-layout>
 
         <v-dialog v-model="dialog" width="500">
-            <v-form method="POST" id="contactForm" @submit.prevent="addContact">
+            <v-form method="POST" id="contactForm" @submit.prevent="saveContact">
+                <input type="hidden" name="contact_id" v-model="contact_id">
                 <v-card>
-                    <v-card-title class="blue darken-3 white--text py-4 title">Add Contact</v-card-title>
+                    <v-card-title class="blue darken-3 white--text py-4 title">Save Contact</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
@@ -93,24 +94,42 @@
                 title: '',
                 email: '',
                 phone: '',
+                contact_id: ''
             }
         },
         methods: {
-            addContact() {
+            newContact() {
+                this.reset()
+
+                this.dialog = true
+            },
+            editContact(contact) {
+                this.dialog = true
+
+                this.name = contact.name
+                this.title = contact.title
+                this.email = contact.email
+                this.phone = contact.phone
+                this.contact_id = contact.id
+            },
+            saveContact() {
                 let name = this.name
                 let title = this.title
                 let email = this.email
                 let phone = this.phone
                 let client_id = this.clientInfo.id
 
-                axios.post('/api/contacts', { name, title, email, phone, client_id })
+                let contact_id = this.contact_id
+
+                let method = (!_.isNumber(contact_id) ? 'post' : 'put')
+
+                axios({
+                    method: method,
+                    url: '/api/contacts/' + contact_id,
+                    data: { name, title, email, phone, client_id }
+                })
                 .then(response => {
-                    this.contacts = this.clientContacts
-                    this.contacts.push(response.data.data)
-
-                    let contacts = this.contacts
-
-                    EventBus.$emit('addContact', contacts)
+                    EventBus.$emit('loadContacts', client_id)
 
                     this.snackbar.color = 'success'
                     this.snackbar.message = "Contact successfully added!"
@@ -126,10 +145,12 @@
             },
             reset() {
                 this.dialog = false
+
                 this.name = ''
                 this.title = ''
                 this.email = ''
                 this.phone = ''
+                this.contact_id = ''
             }
         },
     }
