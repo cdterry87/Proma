@@ -1164,6 +1164,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ProjectTasks',
@@ -1181,32 +1182,39 @@ __webpack_require__.r(__webpack_exports__);
         color: ''
       },
       description: '',
-      due_date: ''
+      due_date: '',
+      task_id: ''
     };
   },
   methods: {
+    editTask: function editTask(task) {
+      this.dialog = true;
+      this.due_date = task.due_date;
+      this.description = task.description;
+      this.task_id = task.id;
+    },
     dueDate: function dueDate(due_date) {
       this.date_dialog = false;
       this.$refs.datePicker.save(due_date);
     },
-    addTask: function addTask() {
+    saveTask: function saveTask() {
       var _this = this;
 
       var due_date = this.due_date;
       var description = this.description;
       var project_id = this.projectInfo.id;
-      console.log('due_date', due_date);
-      axios.post('/api/tasks', {
-        due_date: due_date,
-        description: description,
-        project_id: project_id
+      var task_id = this.task_id;
+      var method = !_.isNumber(task_id) ? 'post' : 'put';
+      axios({
+        method: method,
+        url: '/api/tasks/' + task_id,
+        data: {
+          due_date: due_date,
+          description: description,
+          project_id: project_id
+        }
       }).then(function (response) {
-        _this.tasks = _this.projectTasks;
-
-        _this.tasks.push(response.data.data);
-
-        var tasks = _this.tasks;
-        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('addTask', tasks);
+        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadTasks', project_id);
         _this.snackbar.color = 'success';
         _this.snackbar.message = "Task added successfully!";
         _this.snackbar.enabled = true;
@@ -5355,13 +5363,25 @@ var render = function() {
                           )
                         : _vm._e(),
                       _vm._v(" "),
-                      _c("v-card-text", [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(_vm._f("truncate")(task.description, 100)) +
-                            "\n                "
-                        )
-                      ])
+                      _c(
+                        "v-card-text",
+                        {
+                          on: {
+                            click: function($event) {
+                              return _vm.editTask(task)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    " +
+                              _vm._s(
+                                _vm._f("truncate")(task.description, 100)
+                              ) +
+                              "\n                "
+                          )
+                        ]
+                      )
                     ],
                     1
                   )
@@ -5392,11 +5412,32 @@ var render = function() {
               on: {
                 submit: function($event) {
                   $event.preventDefault()
-                  return _vm.addTask($event)
+                  return _vm.saveTask($event)
                 }
               }
             },
             [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.task_id,
+                    expression: "task_id"
+                  }
+                ],
+                attrs: { type: "hidden", name: "task_id" },
+                domProps: { value: _vm.task_id },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.task_id = $event.target.value
+                  }
+                }
+              }),
+              _vm._v(" "),
               _c(
                 "v-card",
                 [

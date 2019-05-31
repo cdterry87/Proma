@@ -37,7 +37,7 @@
                         <span v-if="task.due_date">Task is due {{ task.due_date }}.</span>
                         <span v-else>Task is incomplete.</span>
                     </v-alert>
-                    <v-card-text>
+                    <v-card-text @click="editTask(task)">
                         {{ task.description | truncate(100) }}
                     </v-card-text>
                 </v-card>
@@ -45,7 +45,8 @@
         </v-layout>
 
         <v-dialog v-model="dialog" width="500">
-            <v-form method="POST" id="taskForm" @submit.prevent="addTask">
+            <v-form method="POST" id="taskForm" @submit.prevent="saveTask">
+                <input type="hidden" name="task_id" v-model="task_id">
                 <v-card>
                     <v-card-title class="blue darken-3 white--text py-4 title">Add Task</v-card-title>
                     <v-container grid-list-sm class="pa-4">
@@ -117,28 +118,37 @@
                 },
                 description: '',
                 due_date: '',
+                task_id: ''
             }
         },
         methods: {
+            editTask(task) {
+                this.dialog = true
+
+                this.due_date = task.due_date
+                this.description = task.description
+                this.task_id = task.id
+            },
             dueDate(due_date) {
                 this.date_dialog = false
                 this.$refs.datePicker.save(due_date)
             },
-            addTask() {
+            saveTask() {
                 let due_date = this.due_date
                 let description = this.description
                 let project_id = this.projectInfo.id
 
-                console.log('due_date', due_date)
+                let task_id = this.task_id
 
-                axios.post('/api/tasks', { due_date, description, project_id })
+                let method = (!_.isNumber(task_id) ? 'post' : 'put')
+
+                axios({
+                    method: method,
+                    url: '/api/tasks/' + task_id,
+                    data: { due_date, description, project_id }
+                })
                 .then(response => {
-                    this.tasks = this.projectTasks
-                    this.tasks.push(response.data.data)
-
-                    let tasks = this.tasks
-
-                    EventBus.$emit('addTask', tasks)
+                    EventBus.$emit('loadTasks', project_id)
 
                     this.snackbar.color = 'success'
                     this.snackbar.message = "Task added successfully!"
