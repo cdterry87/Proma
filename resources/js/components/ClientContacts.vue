@@ -26,8 +26,8 @@
         </v-layout>
         <v-layout row wrap v-else>
             <v-flex xs12 md6 lg4 v-for="contact in clientContacts" :key="contact.id">
-                <v-card class="data-card" @click="editContact(contact)">
-                    <v-card-text>
+                <v-card class="data-card">
+                    <v-card-text @click="editContact(contact)">
                         <div>
                             <div class="headline">{{ contact.name | truncate(20) }}</div>
                             <span class="grey--text">{{ contact.title | truncate(30)}}</span>
@@ -39,6 +39,11 @@
                             </v-flex>
                         </v-layout>
                     </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn flat color="red darken-2" @click="removeContact(contact.client_id, contact.id)">Remove</v-btn>
+                        <v-spacer></v-spacer>
+                    </v-card-actions>
                 </v-card>
             </v-flex>
         </v-layout>
@@ -150,6 +155,16 @@
                 })
 
                 this.reset()
+            },
+            removeContact(client_id, contact_id) {
+                axios.delete('/api/contacts/' + contact_id)
+                .then(response => {
+                    EventBus.$emit('loadContacts', client_id)
+
+                    this.snackbar.color = 'success'
+                    this.snackbar.message = "Contact successfully removed!"
+                    this.snackbar.enabled = true
+                })
             },
             reset() {
                 this.dialog = false

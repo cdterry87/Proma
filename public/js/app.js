@@ -540,6 +540,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ClientContacts',
@@ -606,6 +611,16 @@ __webpack_require__.r(__webpack_exports__);
         this.snackbar.enabled = true;
       });
       this.reset();
+    },
+    removeContact: function removeContact(client_id, contact_id) {
+      var _this2 = this;
+
+      axios["delete"]('/api/contacts/' + contact_id).then(function (response) {
+        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadContacts', client_id);
+        _this2.snackbar.color = 'success';
+        _this2.snackbar.message = "Contact successfully removed!";
+        _this2.snackbar.enabled = true;
+      });
     },
     reset: function reset() {
       this.dialog = false;
@@ -1165,6 +1180,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ProjectTasks',
@@ -1251,6 +1271,16 @@ __webpack_require__.r(__webpack_exports__);
         this.snackbar.color = 'danger';
         this.snackbar.message = "Task could not be changed to incomplete!";
         this.snackbar.enabled = true;
+      });
+    },
+    removeTask: function removeTask(project_id, task_id) {
+      var _this4 = this;
+
+      axios["delete"]('/api/tasks/' + task_id).then(function (response) {
+        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadTasks', project_id);
+        _this4.snackbar.color = 'success';
+        _this4.snackbar.message = "Task successfully removed!";
+        _this4.snackbar.enabled = true;
       });
     },
     reset: function reset() {
@@ -1796,7 +1826,7 @@ __webpack_require__.r(__webpack_exports__);
         user_id: user_id,
         team_id: team_id
       }).then(function (response) {
-        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('addMember');
+        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadMembers', team_id);
         _this2.snackbar.color = 'success';
         _this2.snackbar.message = "Team member successfully added!";
         _this2.snackbar.enabled = true;
@@ -1807,11 +1837,11 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.reset();
     },
-    removeMember: function removeMember(member_id) {
+    removeMember: function removeMember(team_id, member_id) {
       var _this3 = this;
 
       axios["delete"]('/api/members/' + member_id).then(function (response) {
-        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('addMember');
+        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadMembers', team_id);
         _this3.snackbar.color = 'success';
         _this3.snackbar.message = "Team member successfully removed!";
         _this3.snackbar.enabled = true;
@@ -3956,17 +3986,17 @@ var render = function() {
                 [
                   _c(
                     "v-card",
-                    {
-                      staticClass: "data-card",
-                      on: {
-                        click: function($event) {
-                          return _vm.editContact(contact)
-                        }
-                      }
-                    },
+                    { staticClass: "data-card" },
                     [
                       _c(
                         "v-card-text",
+                        {
+                          on: {
+                            click: function($event) {
+                              return _vm.editContact(contact)
+                            }
+                          }
+                        },
                         [
                           _c("div", [
                             _c("div", { staticClass: "headline" }, [
@@ -4008,6 +4038,32 @@ var render = function() {
                             ],
                             1
                           )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-actions",
+                        [
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { flat: "", color: "red darken-2" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.removeContact(
+                                    contact.client_id,
+                                    contact.id
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v("Remove")]
+                          ),
+                          _vm._v(" "),
+                          _c("v-spacer")
                         ],
                         1
                       )
@@ -5396,6 +5452,32 @@ var render = function() {
                               "\n                "
                           )
                         ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-actions",
+                        [
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { flat: "", color: "red darken-2" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.removeTask(
+                                    task.project_id,
+                                    task.id
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v("Remove")]
+                          ),
+                          _vm._v(" "),
+                          _c("v-spacer")
+                        ],
+                        1
                       )
                     ],
                     1
@@ -6649,14 +6731,13 @@ var render = function() {
                           _c(
                             "v-btn",
                             {
-                              attrs: {
-                                flat: "",
-                                color: "red darken-2",
-                                form: "removeMemberForm"
-                              },
+                              attrs: { flat: "", color: "red darken-2" },
                               on: {
                                 click: function($event) {
-                                  return _vm.removeMember(member.id)
+                                  return _vm.removeMember(
+                                    member.team_id,
+                                    member.id
+                                  )
                                 }
                               }
                             },

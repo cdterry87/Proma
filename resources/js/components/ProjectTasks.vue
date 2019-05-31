@@ -40,6 +40,11 @@
                     <v-card-text @click="editTask(task)">
                         {{ task.description | truncate(100) }}
                     </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn flat color="red darken-2" @click="removeTask(task.project_id, task.id)">Remove</v-btn>
+                        <v-spacer></v-spacer>
+                    </v-card-actions>
                 </v-card>
             </v-flex>
         </v-layout>
@@ -189,6 +194,16 @@
                 .catch(function (error) {
                     this.snackbar.color = 'danger'
                     this.snackbar.message = "Task could not be changed to incomplete!"
+                    this.snackbar.enabled = true
+                })
+            },
+            removeTask(project_id, task_id) {
+                axios.delete('/api/tasks/' + task_id)
+                .then(response => {
+                    EventBus.$emit('loadTasks', project_id)
+
+                    this.snackbar.color = 'success'
+                    this.snackbar.message = "Task successfully removed!"
                     this.snackbar.enabled = true
                 })
             },

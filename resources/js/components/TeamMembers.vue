@@ -33,9 +33,9 @@
                             <span class="grey--text">{{ member.user.email }}</span>
                         </div>
                     </v-card-text>
-                     <v-card-actions>
+                    <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn flat color="red darken-2" form="removeMemberForm" @click="removeMember(member.id)">Remove</v-btn>
+                        <v-btn flat color="red darken-2" @click="removeMember(member.team_id, member.id)">Remove</v-btn>
                         <v-spacer></v-spacer>
                     </v-card-actions>
                 </v-card>
@@ -115,7 +115,7 @@
 
                 axios.post('/api/members', { user_id, team_id })
                 .then(response => {
-                    EventBus.$emit('addMember')
+                    EventBus.$emit('loadMembers', team_id)
 
                     this.snackbar.color = 'success'
                     this.snackbar.message = "Team member successfully added!"
@@ -129,10 +129,10 @@
 
                 this.reset()
             },
-            removeMember(member_id) {
+            removeMember(team_id, member_id) {
                 axios.delete('/api/members/' + member_id)
                 .then(response => {
-                    EventBus.$emit('addMember')
+                    EventBus.$emit('loadMembers', team_id)
 
                     this.snackbar.color = 'success'
                     this.snackbar.message = "Team member successfully removed!"
