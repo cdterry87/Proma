@@ -85,7 +85,6 @@ class ProjectController extends Controller
 
         return response()->json([
             'status' => $status,
-            // 'data' => $project,
             'message' => $status ? 'Project updated successfully!' : 'Error updating project!'
         ]);
     }

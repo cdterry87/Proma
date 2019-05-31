@@ -358,6 +358,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -451,6 +457,14 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _eventbus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../eventbus */ "./resources/js/eventbus.js");
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -892,6 +906,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1044,6 +1065,14 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _eventbus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../eventbus */ "./resources/js/eventbus.js");
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1541,6 +1570,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1634,6 +1669,14 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _eventbus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../eventbus */ "./resources/js/eventbus.js");
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3507,58 +3550,81 @@ var render = function() {
         [
           _c(
             "v-layout",
-            { attrs: { "align-baseline": "" } },
+            { attrs: { row: "" } },
             [
-              _c("v-flex", { attrs: { xs6: "" } }, [
-                _c("span", { staticClass: "headline" }, [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(_vm.client.name) +
-                      "\n                "
-                  )
-                ])
-              ]),
-              _vm._v(" "),
               _c(
                 "v-flex",
-                { attrs: { xs6: "", "text-xs-right": "" } },
+                { attrs: { xs12: "" } },
                 [
                   _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "info", small: "" },
-                      on: {
-                        click: function($event) {
-                          _vm.dialog = true
-                        }
-                      }
-                    },
+                    "v-card",
                     [
-                      _c("v-icon", { attrs: { left: "", dark: "" } }, [
-                        _vm._v("edit")
-                      ]),
-                      _vm._v("\n                    Edit\n                ")
+                      _c(
+                        "v-card-text",
+                        [
+                          _c(
+                            "v-layout",
+                            { attrs: { "align-baseline": "" } },
+                            [
+                              _c("v-flex", { attrs: { xs6: "" } }, [
+                                _c("span", { staticClass: "headline" }, [
+                                  _vm._v(
+                                    "\n                                    " +
+                                      _vm._s(_vm.client.name) +
+                                      "\n                                "
+                                  )
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-flex",
+                                { attrs: { xs6: "", "text-xs-right": "" } },
+                                [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: { color: "info", small: "" },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.dialog = true
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "v-icon",
+                                        { attrs: { left: "", dark: "" } },
+                                        [_vm._v("edit")]
+                                      ),
+                                      _vm._v(
+                                        "\n                                    Edit\n                                "
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("div", [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(_vm.client.description) +
+                                "\n                        "
+                            )
+                          ])
+                        ],
+                        1
+                      )
                     ],
                     1
                   )
                 ],
                 1
               )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-layout",
-            { attrs: { row: "" } },
-            [
-              _c("v-flex", { attrs: { xs12: "" } }, [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.client.description) +
-                    "\n            "
-                )
-              ])
             ],
             1
           )
@@ -3778,33 +3844,69 @@ var render = function() {
         "v-layout",
         { attrs: { "align-baseline": "" } },
         [
-          _c("v-flex", { attrs: { xs6: "" } }, [
-            _c(
-              "span",
-              { staticClass: "headline" },
-              [
-                _c("v-icon", [_vm._v("phone")]),
-                _vm._v(" Contacts\n            ")
-              ],
-              1
-            )
-          ]),
-          _vm._v(" "),
           _c(
             "v-flex",
-            { attrs: { xs6: "", "text-xs-right": "" } },
+            { attrs: { xs12: "" } },
             [
               _c(
-                "v-btn",
-                {
-                  attrs: { color: "info", small: "" },
-                  on: { click: _vm.newContact }
-                },
+                "v-card",
                 [
-                  _c("v-icon", { attrs: { left: "", dark: "" } }, [
-                    _vm._v("add")
-                  ]),
-                  _vm._v("\n                Add Contact\n            ")
+                  _c(
+                    "v-card-text",
+                    [
+                      _c(
+                        "v-layout",
+                        { attrs: { "align-baseline": "" } },
+                        [
+                          _c("v-flex", { attrs: { xs6: "" } }, [
+                            _c(
+                              "span",
+                              { staticClass: "headline" },
+                              [
+                                _c("v-icon", [_vm._v("phone")]),
+                                _vm._v(
+                                  " Contacts\n                            "
+                                )
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs6: "", "text-xs-right": "" } },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { color: "info", small: "" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.dialog = true
+                                    }
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-icon",
+                                    { attrs: { left: "", dark: "" } },
+                                    [_vm._v("add")]
+                                  ),
+                                  _vm._v(
+                                    "\n                                Add Contact\n                            "
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
                 ],
                 1
               )
@@ -4548,58 +4650,81 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-layout",
-            { attrs: { "align-baseline": "" } },
+            { attrs: { row: "" } },
             [
-              _c("v-flex", { attrs: { xs6: "" } }, [
-                _c("span", { staticClass: "headline" }, [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(_vm.project.name) +
-                      "\n                "
-                  )
-                ])
-              ]),
-              _vm._v(" "),
               _c(
                 "v-flex",
-                { attrs: { xs6: "", "text-xs-right": "" } },
+                { attrs: { xs12: "" } },
                 [
                   _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "info", small: "" },
-                      on: {
-                        click: function($event) {
-                          _vm.dialog = true
-                        }
-                      }
-                    },
+                    "v-card",
                     [
-                      _c("v-icon", { attrs: { left: "", dark: "" } }, [
-                        _vm._v("edit")
-                      ]),
-                      _vm._v("\n                    Edit\n                ")
+                      _c(
+                        "v-card-text",
+                        [
+                          _c(
+                            "v-layout",
+                            { attrs: { "align-baseline": "" } },
+                            [
+                              _c("v-flex", { attrs: { xs6: "" } }, [
+                                _c("span", { staticClass: "headline" }, [
+                                  _vm._v(
+                                    "\n                                    " +
+                                      _vm._s(_vm.project.name) +
+                                      "\n                                "
+                                  )
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-flex",
+                                { attrs: { xs6: "", "text-xs-right": "" } },
+                                [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: { color: "info", small: "" },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.dialog = true
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "v-icon",
+                                        { attrs: { left: "", dark: "" } },
+                                        [_vm._v("edit")]
+                                      ),
+                                      _vm._v(
+                                        "\n                                    Edit\n                                "
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("div", [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(_vm.project.description) +
+                                "\n                        "
+                            )
+                          ])
+                        ],
+                        1
+                      )
                     ],
                     1
                   )
                 ],
                 1
               )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-layout",
-            { attrs: { row: "" } },
-            [
-              _c("v-flex", { attrs: { xs12: "" } }, [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.project.description) +
-                    "\n            "
-                )
-              ])
             ],
             1
           )
@@ -5066,34 +5191,67 @@ var render = function() {
         "v-layout",
         { attrs: { "align-baseline": "" } },
         [
-          _c("v-flex", { attrs: { xs6: "" } }, [
-            _c(
-              "span",
-              { staticClass: "headline" },
-              [_c("v-icon", [_vm._v("list")]), _vm._v(" Tasks\n            ")],
-              1
-            )
-          ]),
-          _vm._v(" "),
           _c(
             "v-flex",
-            { attrs: { xs6: "", "text-xs-right": "" } },
+            { attrs: { xs12: "" } },
             [
               _c(
-                "v-btn",
-                {
-                  attrs: { color: "info", small: "" },
-                  on: {
-                    click: function($event) {
-                      _vm.dialog = true
-                    }
-                  }
-                },
+                "v-card",
                 [
-                  _c("v-icon", { attrs: { left: "", dark: "" } }, [
-                    _vm._v("add")
-                  ]),
-                  _vm._v("\n                Add Task\n            ")
+                  _c(
+                    "v-card-text",
+                    [
+                      _c(
+                        "v-layout",
+                        { attrs: { "align-baseline": "" } },
+                        [
+                          _c("v-flex", { attrs: { xs6: "" } }, [
+                            _c(
+                              "span",
+                              { staticClass: "headline" },
+                              [
+                                _c("v-icon", [_vm._v("list")]),
+                                _vm._v(" Tasks\n                            ")
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs6: "", "text-xs-right": "" } },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { color: "info", small: "" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.dialog = true
+                                    }
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-icon",
+                                    { attrs: { left: "", dark: "" } },
+                                    [_vm._v("add")]
+                                  ),
+                                  _vm._v(
+                                    "\n                                Add Task\n                            "
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
                 ],
                 1
               )
@@ -6034,58 +6192,81 @@ var render = function() {
         [
           _c(
             "v-layout",
-            { attrs: { "align-baseline": "" } },
+            { attrs: { row: "" } },
             [
-              _c("v-flex", { attrs: { xs6: "" } }, [
-                _c("span", { staticClass: "headline" }, [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(_vm.team.name) +
-                      "\n                "
-                  )
-                ])
-              ]),
-              _vm._v(" "),
               _c(
                 "v-flex",
-                { attrs: { xs6: "", "text-xs-right": "" } },
+                { attrs: { xs12: "" } },
                 [
                   _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "info", small: "" },
-                      on: {
-                        click: function($event) {
-                          _vm.dialog = true
-                        }
-                      }
-                    },
+                    "v-card",
                     [
-                      _c("v-icon", { attrs: { left: "", dark: "" } }, [
-                        _vm._v("edit")
-                      ]),
-                      _vm._v("\n                    Edit\n                ")
+                      _c(
+                        "v-card-text",
+                        [
+                          _c(
+                            "v-layout",
+                            { attrs: { "align-baseline": "" } },
+                            [
+                              _c("v-flex", { attrs: { xs6: "" } }, [
+                                _c("span", { staticClass: "headline" }, [
+                                  _vm._v(
+                                    "\n                                    " +
+                                      _vm._s(_vm.team.name) +
+                                      "\n                                "
+                                  )
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-flex",
+                                { attrs: { xs6: "", "text-xs-right": "" } },
+                                [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: { color: "info", small: "" },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.dialog = true
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "v-icon",
+                                        { attrs: { left: "", dark: "" } },
+                                        [_vm._v("edit")]
+                                      ),
+                                      _vm._v(
+                                        "\n                                    Edit\n                                "
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("div", [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(_vm.team.description) +
+                                "\n                        "
+                            )
+                          ])
+                        ],
+                        1
+                      )
                     ],
                     1
                   )
                 ],
                 1
               )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-layout",
-            { attrs: { row: "" } },
-            [
-              _c("v-flex", { attrs: { xs12: "" } }, [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(_vm.team.description) +
-                    "\n            "
-                )
-              ])
             ],
             1
           )
@@ -6305,33 +6486,67 @@ var render = function() {
         "v-layout",
         { attrs: { "align-baseline": "" } },
         [
-          _c("v-flex", { attrs: { xs6: "" } }, [
-            _c(
-              "span",
-              { staticClass: "headline" },
-              [
-                _c("v-icon", [_vm._v("people")]),
-                _vm._v(" Members\n            ")
-              ],
-              1
-            )
-          ]),
-          _vm._v(" "),
           _c(
             "v-flex",
-            { attrs: { xs6: "", "text-xs-right": "" } },
+            { attrs: { xs12: "" } },
             [
               _c(
-                "v-btn",
-                {
-                  attrs: { color: "info", small: "" },
-                  on: { click: _vm.openDialog }
-                },
+                "v-card",
                 [
-                  _c("v-icon", { attrs: { left: "", dark: "" } }, [
-                    _vm._v("add")
-                  ]),
-                  _vm._v("\n                Add Member\n            ")
+                  _c(
+                    "v-card-text",
+                    [
+                      _c(
+                        "v-layout",
+                        { attrs: { "align-baseline": "" } },
+                        [
+                          _c("v-flex", { attrs: { xs6: "" } }, [
+                            _c(
+                              "span",
+                              { staticClass: "headline" },
+                              [
+                                _c("v-icon", [_vm._v("people")]),
+                                _vm._v(" Members\n                            ")
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs6: "", "text-xs-right": "" } },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { color: "info", small: "" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.dialog = true
+                                    }
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-icon",
+                                    { attrs: { left: "", dark: "" } },
+                                    [_vm._v("add")]
+                                  ),
+                                  _vm._v(
+                                    "\n                                Add Member\n                            "
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
                 ],
                 1
               )

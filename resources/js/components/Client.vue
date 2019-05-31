@@ -1,22 +1,28 @@
 <template>
     <div>
         <v-container fluid grid-list-md>
-            <v-layout align-baseline>
-                <v-flex xs6>
-                    <span class="headline">
-                        {{ client.name }}
-                    </span>
-                </v-flex>
-                <v-flex xs6 text-xs-right>
-                    <v-btn color="info" @click="dialog = true" small>
-                        <v-icon left dark>edit</v-icon>
-                        Edit
-                    </v-btn>
-                </v-flex>
-            </v-layout>
             <v-layout row>
                 <v-flex xs12>
-                    {{ client.description }}
+                    <v-card>
+                        <v-card-text>
+                             <v-layout align-baseline>
+                                <v-flex xs6>
+                                    <span class="headline">
+                                        {{ client.name }}
+                                    </span>
+                                </v-flex>
+                                <v-flex xs6 text-xs-right>
+                                    <v-btn color="info" @click="dialog = true" small>
+                                        <v-icon left dark>edit</v-icon>
+                                        Edit
+                                    </v-btn>
+                                </v-flex>
+                            </v-layout>
+                            <div>
+                                {{ client.description }}
+                            </div>
+                        </v-card-text>
+                    </v-card>
                 </v-flex>
             </v-layout>
         </v-container>

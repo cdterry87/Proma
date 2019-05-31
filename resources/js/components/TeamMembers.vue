@@ -1,16 +1,24 @@
 <template>
     <v-container fluid grid-list-md>
         <v-layout align-baseline>
-            <v-flex xs6>
-                <span class="headline">
-                    <v-icon>people</v-icon> Members
-                </span>
-            </v-flex>
-            <v-flex xs6 text-xs-right>
-                <v-btn color="info" @click="openDialog" small>
-                    <v-icon left dark>add</v-icon>
-                    Add Member
-                </v-btn>
+            <v-flex xs12>
+                <v-card>
+                    <v-card-text>
+                        <v-layout align-baseline>
+                            <v-flex xs6>
+                                <span class="headline">
+                                    <v-icon>people</v-icon> Members
+                                </span>
+                            </v-flex>
+                            <v-flex xs6 text-xs-right>
+                                <v-btn color="info" @click="dialog = true" small>
+                                    <v-icon left dark>add</v-icon>
+                                    Add Member
+                                </v-btn>
+                            </v-flex>
+                        </v-layout>
+                    </v-card-text>
+                </v-card>
             </v-flex>
         </v-layout>
         <v-layout row v-if="teamMembers.length == 0">
