@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Client;
+use App\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,7 +32,10 @@ class ClientController extends Controller
             'description' => $request->description,
         ]);
 
-        $client->user()->attach($request->user_id);
+        $client->user()->attach(Auth::user()->id);
+
+        $notification = new Notification;
+        $notification->createNotification("Client '" . $client->name . "' created.");
 
         return response()->json([
             'status' => (bool)$client,
@@ -64,8 +68,12 @@ class ClientController extends Controller
             $request->only(['name', 'description'])
         );
 
+        $notification = new Notification;
+        $notification->createNotification("Client '" . $client->name . "' updated.");
+
         return response()->json([
             'status' => $status,
+            // 'data'  => $client,
             'message' => $status ? 'Client updated successfully!' : 'Error updating client!'
         ]);
     }
@@ -79,6 +87,9 @@ class ClientController extends Controller
     public function destroy(Client $client)
     {
         $status = $client->delete();
+
+        $notification = new Notification;
+        $notification->createNotification("Client '" . $client->name . "' deleted.");
 
         return response()->json([
             'status' => $status,

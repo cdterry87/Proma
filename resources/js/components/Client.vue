@@ -1,36 +1,91 @@
 <template>
     <div>
-        <EditClient v-if="editClient" :clientInfo="client" />
-        <ViewClient v-else :clientInfo="client" />
+        <v-container fluid grid-list-md>
+            <v-layout row>
+                <v-flex xs12>
+                    <v-card>
+                        <v-card-text>
+                             <v-layout align-baseline>
+                                <v-flex xs6>
+                                    <span class="headline">
+                                        {{ client.name }}
+                                    </span>
+                                </v-flex>
+                                <v-flex xs6 text-xs-right>
+                                    <v-btn color="info" @click="dialog = true" small>
+                                        <v-icon left dark>edit</v-icon>
+                                        Edit
+                                    </v-btn>
+                                </v-flex>
+                            </v-layout>
+                            <div>
+                                {{ client.description }}
+                            </div>
+                        </v-card-text>
+                    </v-card>
+                </v-flex>
+            </v-layout>
+        </v-container>
+
         <ClientContacts :clientInfo="client" :clientContacts="contacts" />
+
+        <v-dialog v-model="dialog" width="500">
+            <v-form method="POST" id="editClientForm" @submit.prevent="updateClient">
+                <v-card>
+                    <v-card-title class="blue darken-3 white--text py-4 title">Edit Client</v-card-title>
+                    <v-container grid-list-sm class="pa-4">
+                        <v-layout row wrap>
+                            <v-flex xs12>
+                                <v-text-field prepend-icon="business" label="Client Name" v-model="client.name" maxlength="100"></v-text-field>
+                            </v-flex>
+                            <v-flex xs12>
+                                <v-textarea prepend-icon="notes" label="Description" v-model="client.description"></v-textarea>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn type="submit" color="blue darken-2" flat>Save</v-btn>
+                        <v-btn flat color="red darken-2" form="editClientForm" @click="dialog = false">Cancel</v-btn>
+                        <v-spacer></v-spacer>
+                    </v-card-actions>
+                </v-card>
+            </v-form>
+        </v-dialog>
+
+        <v-snackbar v-model="snackbar.enabled" :color="snackbar.color" :bottom="true" :right="true" :timeout="snackbar.timeout">
+            {{ snackbar.message }}
+            <v-btn color="white" flat @click="snackbar.enabled = false"><v-icon>close</v-icon></v-btn>
+        </v-snackbar>
     </div>
 </template>
 
 <script>
-    import eventBus from './../events';
-    import EditClient from './EditClient'
-    import ViewClient from './ViewClient'
+    import EventBus from './../eventbus'
     import ClientContacts from './ClientContacts'
 
     export default {
         name: 'Client',
         props: ['id'],
         components: {
-            EditClient,
-            ViewClient,
             ClientContacts
         },
         data() {
             return {
-                editClient: false,
+                dialog: false,
+                snackbar: {
+                    enabled: false,
+                    message: '',
+                    timeout: 5000,
+                    y: 'bottom',
+                    x: 'right',
+                    color: ''
+                },
                 client: '',
                 contacts: ''
             }
         },
         methods: {
-            getUserData() {
-                this.userData = JSON.parse(localStorage.getItem('userData'))
-            },
             getClient() {
                 axios.get('/api/clients/' + this.id)
                 .then(response => {
@@ -45,31 +100,43 @@
                     this.contacts = response.data
                 })
             },
+            updateClient() {
+                let name = this.client.name;
+                let description = this.client.description;
+
+                axios.put('/api/clients/' + this.client.id, { name, description })
+                .then(response => {
+                    // this.client = response.data.data
+
+                    this.snackbar.color = 'success'
+                    this.snackbar.message = "Client updated successfully!"
+                    this.snackbar.enabled = true
+                })
+                .catch(function (error) {
+                    this.snackbar.color = 'error'
+                    this.snackbar.message = "Error updating client!"
+                    this.snackbar.enabled = true
+                })
+
+                this.reset()
+            },
+            reset() {
+                this.dialog = false
+                this.name = ''
+                this.description = ''
+            }
         },
         created() {
-            this.getUserData()
-
-            eventBus.$on('editClient', editClient => {
-                this.editClient = editClient
-            })
-
-            eventBus.$on('createContact', contacts => {
+            EventBus.$on('addContact', contacts => {
                 this.contacts = contacts
             })
 
-            eventBus.$on('loadContacts', client_id => {
+            EventBus.$on('loadContacts', client_id => {
                 this.getClientContacts(client_id)
             })
         },
         mounted() {
-            axios.defaults.headers.common['Content-Type'] = 'application/json'
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt
-
             this.getClient()
         }
     }
 </script>
-
-<style scoped>
-
-</style>

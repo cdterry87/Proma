@@ -9,6 +9,6 @@ class ProjectTask extends Model
     protected $table = 'projects_tasks';
 
     protected $fillable = [
-        'project_id', 'description'
+        'project_id', 'description', 'due_date'
     ];
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Project;
 use App\ProjectTask;
+use App\Notification;
 use Illuminate\Http\Request;
 
 class ProjectTaskController extends Controller
@@ -15,7 +16,11 @@ class ProjectTaskController extends Controller
      */
     public function index(Project $project)
     {
-        return response()->json($project->tasks()->get());
+        return response()->json($project->tasks()
+            ->orderBy('complete')
+            ->orderByRaw('ISNULL(due_date), due_date ASC')
+            ->orderByRaw('ISNULL(completed_date), completed_date ASC')
+            ->get());
     }
 
     /**
@@ -27,9 +32,13 @@ class ProjectTaskController extends Controller
     public function store(Request $request)
     {
         $task = ProjectTask::create([
+            'due_date' => $request->due_date,
             'description' => $request->description,
             'project_id' => $request->project_id,
         ]);
+
+        $notification = new Notification;
+        $notification->createNotification("Task '" . $task->description . "' created.");
 
         return response()->json([
             'status' => (bool)$task,
@@ -59,8 +68,11 @@ class ProjectTaskController extends Controller
     public function update(Request $request, ProjectTask $task)
     {
         $status = $task->update(
-            $request->only(['description'])
+            $request->only(['due_date', 'description'])
         );
+
+        $notification = new Notification;
+        $notification->createNotification("Task '" . $task->description . "' updated.");
 
         return response()->json([
             'status' => $status,
@@ -78,6 +90,9 @@ class ProjectTaskController extends Controller
     {
         $status = $task->delete();
 
+        $notification = new Notification;
+        $notification->createNotification("Task '" . $task->description . "' created.");
+
         return response()->json([
             'status' => $status,
             'message' => $status ? 'Task deleted successfully!' : 'Error deleting task!'
@@ -85,7 +100,7 @@ class ProjectTaskController extends Controller
     }
 
     /**
-     * Set a project as complete.
+     * Set a project task as complete.
      *
      * @param  int  $project_id
      * @param  int  $task_id
@@ -94,7 +109,11 @@ class ProjectTaskController extends Controller
     public function complete(Project $project, ProjectTask $task)
     {
         $task->complete = 1;
+        $task->completed_date = date('Y-m-d');
         $status = $task->save();
+
+        $notification = new Notification;
+        $notification->createNotification("Task '" . $task->description . "' completed.");
 
         return response()->json([
             'status' => $status,
@@ -103,7 +122,7 @@ class ProjectTaskController extends Controller
     }
 
     /**
-     * Set a project as complete.
+     * Set a project task as complete.
      *
      * @param  int  $project_id
      * @param  int  $task_id
@@ -113,6 +132,9 @@ class ProjectTaskController extends Controller
     {
         $task->complete = 0;
         $status = $task->save();
+
+        $notification = new Notification;
+        $notification->createNotification("Task '" . $task->description . "' incomplete.");
 
         return response()->json([
             'status' => $status,

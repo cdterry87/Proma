@@ -3,69 +3,50 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function login()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-        $credentials = [
-            'email' => request('email'),
-            'password' => request('password')
-        ];
-
-        if (Auth::attempt($credentials)) {
-            $success['id'] = Auth::user()->id;
-            $success['name'] = Auth::user()->name;
-            $success['email'] = Auth::user()->email;
-            $success['token'] = Auth::user()->createToken('promaToken')->accessToken;
-
-            return response()->json(['success' => $success]);
-        }
-
-        return response()->json(['error' => 'Invalid username/password.'], 401);
+        return response()->json(Auth::user());
     }
 
-    public function register(Request $request)
+    public function update(Request $request)
     {
-        $validate = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
+        $status = Auth::user()->update(
+            $request->only(['name', 'email'])
+        );
+
+        $user = Auth::user()->get();
+
+        return response()->json([
+            'status' => $status,
+            'data' => $user,
+            'message' => $status ? 'Account updated successfully!' : 'Error updating account!'
         ]);
-
-        if ($validate->fails()) {
-            $errorString = implode("<br>", $validate->messages()->all());
-
-            return response()->json(['error' => $errorString], 401);
-        }
-
-        $data = $request->all();
-        $data['password'] = bcrypt($data['password']);
-
-        $user = User::create($data);
-
-        $credentials = [
-            'email' => request('email'),
-            'password' => request('password')
-        ];
-
-        if (Auth::attempt($credentials)) {
-            $success['id'] = Auth::user()->id;
-            $success['name'] = Auth::user()->name;
-            $success['email'] = Auth::user()->email;
-            $success['token'] = Auth::user()->createToken('promaToken')->accessToken;
-
-            return response()->json(['success' => $success]);
-        }
-
-        return response()->json(['error' => 'Failed to generate user data.'], 500);
     }
 
-    public function getUserInfo()
+    public function teams()
     {
-        return response()->json(['success' => Auth::user()]);
+
     }
+
+    public function clients()
+    {
+
+    }
+
+    public function projects()
+    {
+
+    }
+
+
 }

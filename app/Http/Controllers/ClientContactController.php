@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Client;
 use App\ClientContact;
+use App\Notification;
 use Illuminate\Http\Request;
 
 class ClientContactController extends Controller
@@ -33,6 +34,9 @@ class ClientContactController extends Controller
             'phone' => $request->phone,
             'client_id' => $request->client_id,
         ]);
+
+        $notification = new Notification;
+        $notification->createNotification("Contact '" . $contact->name . "' created.");
 
         return response()->json([
             'status' => (bool)$contact,
@@ -65,6 +69,9 @@ class ClientContactController extends Controller
             $request->only(['name', 'title', 'email', 'phone'])
         );
 
+        $notification = new Notification;
+        $notification->createNotification("Contact '" . $contact->name . "' updated.");
+
         return response()->json([
             'status' => $status,
             'message' => $status ? 'Contact updated successfully!' : 'Error updating contact!'
@@ -80,6 +87,9 @@ class ClientContactController extends Controller
     public function destroy(ClientContact $contact)
     {
         $status = $contact->delete();
+
+        $notification = new Notification;
+        $notification->createNotification("Contact '" . $contact->name . "' deleted.");
 
         return response()->json([
             'status' => $status,

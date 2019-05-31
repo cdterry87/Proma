@@ -1,87 +1,93 @@
 <template>
     <v-container fluid grid-list-md>
-        <v-card>
-            <v-container>
-                <v-layout align-baseline>
-                    <v-flex xs6>
-                        <span class="headline">
-                            <v-icon>list</v-icon> Contacts
-                        </span>
-                    </v-flex>
-                    <v-flex xs6 text-xs-right>
-                        <v-btn color="info" @click="dialog = true" small>
-                            <v-icon left dark>add</v-icon>
-                            Add Contact
-                        </v-btn>
-                    </v-flex>
-                </v-layout>
-            </v-container>
-            <v-container v-if="clientContacts.length == 0">
-                <v-layout row>
-                    There are currently no contacts for this client.
-                </v-layout>
-            </v-container>
-            <v-container v-else fluid grid-list-md>
-                <v-layout row wrap>
-                    <v-flex xs12 md6 lg4 v-for="contact in clientContacts" :key="contact.id">
-                        <v-card>
-                            <v-card-text>
-                                <div>
-                                    <div class="headline">{{ contact.name | truncate(25) }}</div>
-                                    <span class="grey--text">{{ contact.title }}</span>
-                                </div>
-                                <v-layout>
-                                    <v-flex>
-                                        <div><i class="material-icons">mail</i> {{ contact.email }}</div>
-                                        <div><i class="material-icons">phone</i> {{ contact.phone }}</div>
-                                    </v-flex>
-                                </v-layout>
-                            </v-card-text>
-                            <v-card-actions>
-                                <v-flex xs6 offset-xs3>
-                                    <v-btn color="info" block small><i class="material-icons">edit</i> Edit</v-btn>
-                                </v-flex>
-                            </v-card-actions>
-                        </v-card>
-                    </v-flex>
-                </v-layout>
-            </v-container>
-        </v-card>
+        <v-layout align-baseline>
+            <v-flex xs12>
+                <v-card>
+                    <v-card-text>
+                        <v-layout align-baseline>
+                            <v-flex xs6>
+                                <span class="headline">
+                                    <v-icon>phone</v-icon> Contacts
+                                </span>
+                            </v-flex>
+                            <v-flex xs6 text-xs-right>
+                                <v-btn color="info" @click="dialog = true" small>
+                                    <v-icon left dark>add</v-icon>
+                                    Add Contact
+                                </v-btn>
+                            </v-flex>
+                        </v-layout>
+                    </v-card-text>
+                </v-card>
+            </v-flex>
+        </v-layout>
+        <v-layout row v-if="clientContacts.length == 0">
+            There are currently no contacts for this client.
+        </v-layout>
+        <v-layout row wrap v-else>
+            <v-flex xs12 md6 lg4 v-for="contact in clientContacts" :key="contact.id">
+                <v-card class="data-card medium">
+                    <v-card-text @click="editContact(contact)">
+                        <div>
+                            <div class="headline">{{ contact.name | truncate(20) }}</div>
+                            <span class="grey--text">{{ contact.title | truncate(30)}}</span>
+                        </div>
+                        <v-layout>
+                            <v-flex>
+                                <div><i class="material-icons">mail</i> {{ contact.email | truncate(30) }}</div>
+                                <div><i class="material-icons">phone</i> {{ contact.phone }}</div>
+                            </v-flex>
+                        </v-layout>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn flat color="red darken-2" @click="removeContact(contact.client_id, contact.id)">Remove</v-btn>
+                        <v-spacer></v-spacer>
+                    </v-card-actions>
+                </v-card>
+            </v-flex>
+        </v-layout>
 
         <v-dialog v-model="dialog" width="500">
-            <v-form method="POST" id="contactForm" @submit.prevent="createContact">
+            <v-form method="POST" id="contactForm" @submit.prevent="saveContact">
+                <input type="hidden" name="contact_id" v-model="contact_id">
                 <v-card>
-                    <v-card-title class="grey lighten-4 py-4 title">Create Contact</v-card-title>
+                    <v-card-title class="blue darken-3 white--text py-4 title">Save Contact</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
-                                <v-text-field prepend-icon="person" label="Contact Name" v-model="name"></v-text-field>
+                                <v-text-field prepend-icon="person" label="Contact Name" v-model="name" maxlength="100"></v-text-field>
                             </v-flex>
                             <v-flex xs12>
-                                <v-text-field prepend-icon="work" label="Contact Title" v-model="title"></v-text-field>
+                                <v-text-field prepend-icon="work" label="Contact Title" v-model="title" maxlength="100"></v-text-field>
                             </v-flex>
                             <v-flex xs12>
-                                <v-text-field prepend-icon="mail" label="Contact Email" v-model="email"></v-text-field>
+                                <v-text-field prepend-icon="mail" label="Contact Email" v-model="email" maxlength="100"></v-text-field>
                             </v-flex>
                             <v-flex xs12>
-                                <v-text-field prepend-icon="phone" label="Contact Phone" v-model="phone"></v-text-field>
+                                <v-text-field prepend-icon="phone" label="Contact Phone" v-model="phone" maxlength="30"></v-text-field>
                             </v-flex>
                         </v-layout>
                     </v-container>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn type="submit" flat>Save</v-btn>
-                        <v-btn flat color="primary" form="taskForm" @click="dialog = false">Cancel</v-btn>
+                        <v-btn type="submit" flat color="blue darken-2">Save</v-btn>
+                        <v-btn flat color="red darken-2" form="contactForm" @click="dialog = false">Cancel</v-btn>
                         <v-spacer></v-spacer>
                     </v-card-actions>
                 </v-card>
             </v-form>
         </v-dialog>
+
+        <v-snackbar v-model="snackbar.enabled" :color="snackbar.color" :bottom="true" :right="true" :timeout="snackbar.timeout">
+            {{ snackbar.message }}
+            <v-btn color="white" flat @click="snackbar.enabled = false"><v-icon>close</v-icon></v-btn>
+        </v-snackbar>
     </v-container>
 </template>
 
 <script>
-    import eventBus from './../events';
+    import EventBus from './../eventbus'
 
     export default {
         name: 'ClientContacts',
@@ -89,50 +95,86 @@
         data() {
             return {
                 dialog: false,
+                snackbar: {
+                    enabled: false,
+                    message: '',
+                    timeout: 5000,
+                    y: 'bottom',
+                    x: 'right',
+                    color: ''
+                },
                 name: '',
                 title: '',
                 email: '',
                 phone: '',
-                userData: null,
+                contact_id: ''
             }
         },
         methods: {
-            getUserData() {
-                this.userData = JSON.parse(localStorage.getItem('userData'))
+            newContact() {
+                this.reset()
+
+                this.dialog = true
             },
-            createContact() {
+            editContact(contact) {
+                this.dialog = true
+
+                this.name = contact.name
+                this.title = contact.title
+                this.email = contact.email
+                this.phone = contact.phone
+                this.contact_id = contact.id
+            },
+            saveContact() {
                 let name = this.name
                 let title = this.title
                 let email = this.email
                 let phone = this.phone
                 let client_id = this.clientInfo.id
 
-                axios.post('/api/contacts', { name, title, email, phone, client_id })
+                let contact_id = this.contact_id
+
+                let method = (!_.isNumber(contact_id) ? 'post' : 'put')
+
+                axios({
+                    method: method,
+                    url: '/api/contacts/' + contact_id,
+                    data: { name, title, email, phone, client_id }
+                })
                 .then(response => {
-                    this.contacts = this.clientContacts
-                    this.contacts.push(response.data.data)
+                    EventBus.$emit('loadContacts', client_id)
 
-                    let contacts = this.contacts
-
-                    eventBus.$emit('createContact', contacts)
+                    this.snackbar.color = 'success'
+                    this.snackbar.message = "Contact successfully added!"
+                    this.snackbar.enabled = true
+                })
+                .catch(function (error) {
+                    this.snackbar.color = 'error'
+                    this.snackbar.message = "Error adding contact!"
+                    this.snackbar.enabled = true
                 })
 
                 this.reset()
             },
+            removeContact(client_id, contact_id) {
+                axios.delete('/api/contacts/' + contact_id)
+                .then(response => {
+                    EventBus.$emit('loadContacts', client_id)
+
+                    this.snackbar.color = 'success'
+                    this.snackbar.message = "Contact successfully removed!"
+                    this.snackbar.enabled = true
+                })
+            },
             reset() {
                 this.dialog = false
+
                 this.name = ''
                 this.title = ''
                 this.email = ''
                 this.phone = ''
+                this.contact_id = ''
             }
-        },
-        created() {
-            this.getUserData()
-        },
-        mounted() {
-            axios.defaults.headers.common['Content-Type'] = 'application/json'
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt
         },
     }
 </script>

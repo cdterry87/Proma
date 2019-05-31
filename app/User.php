@@ -3,13 +3,12 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laravel\Passport\HasApiTokens;
-use App\Project;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -46,6 +45,11 @@ class User extends Authenticatable
     public function teams()
     {
         return $this->belongsToMany('App\Team', 'users_teams');
+    }
+
+    public function isTeamMember()
+    {
+        return $this->belongsToMany('App\Team', 'teams_members');
     }
 
     public function clients()

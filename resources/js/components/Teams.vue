@@ -4,7 +4,7 @@
             <v-container text-xs-center>
                 <v-btn color="info" @click="dialog = true">
                     <v-icon left dark>add</v-icon>
-                    Create a Team
+                    Add a Team
                 </v-btn>
             </v-container>
         </v-layout>
@@ -15,27 +15,32 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex xs12 md6 lg4 v-for="team in teams" :key="team.id">
-                <router-link :to="'/team/' + team.id">
-                    <v-card class="editCard">
+                <v-card class="data-card medium">
+                    <router-link :to="'/team/' + team.id">
                         <v-card-text>
                             <div class="headline">
                                 {{ team.name | truncate(25) }}
                             </div>
-                            {{ team.description | truncate(80) }}
+                            {{ team.description | truncate(200) }}
                         </v-card-text>
-                    </v-card>
-                </router-link>
+                    </router-link>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn flat color="red darken-2" @click="removeTeam(team.id)">Remove</v-btn>
+                        <v-spacer></v-spacer>
+                    </v-card-actions>
+                </v-card>
             </v-flex>
         </v-layout>
 
         <v-dialog v-model="dialog" width="500">
-            <v-form method="POST" id="teamForm" @submit.prevent="createTeam">
+            <v-form method="POST" id="teamForm" @submit.prevent="addTeam">
                 <v-card>
-                    <v-card-title class="grey lighten-4 py-4 title">Create Team</v-card-title>
+                    <v-card-title class="blue darken-3 white--text py-4 title">Add Team</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
-                                <v-text-field prepend-icon="people" label="Team Name" v-model="name"></v-text-field>
+                                <v-text-field prepend-icon="people" label="Team Name" v-model="name" maxlength="100"></v-text-field>
                             </v-flex>
                             <v-flex xs12>
                                 <v-textarea prepend-icon="notes" label="Description" v-model="description"></v-textarea>
@@ -44,13 +49,18 @@
                     </v-container>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn type="submit" flat>Save</v-btn>
-                        <v-btn flat color="primary" form="teamForm" @click="dialog = false">Cancel</v-btn>
+                        <v-btn type="submit" flat color="blue darken-2">Save</v-btn>
+                        <v-btn flat color="red darken-2" form="teamForm" @click="dialog = false">Cancel</v-btn>
                         <v-spacer></v-spacer>
                     </v-card-actions>
                 </v-card>
             </v-form>
         </v-dialog>
+
+        <v-snackbar v-model="snackbar.enabled" :color="snackbar.color" :bottom="true" :right="true" :timeout="snackbar.timeout">
+            {{ snackbar.message }}
+            <v-btn color="white" flat @click="snackbar.enabled = false"><v-icon>close</v-icon></v-btn>
+        </v-snackbar>
     </v-container>
 </template>
 
@@ -61,33 +71,55 @@ export default {
     data() {
         return {
             dialog: false,
+            snackbar: {
+                enabled: false,
+                message: '',
+                timeout: 5000,
+                y: 'bottom',
+                x: 'right',
+                color: ''
+            },
             name: '',
             description: '',
-            userData: null,
             teams: []
         }
     },
     methods: {
-        getUserData() {
-            this.userData = JSON.parse(localStorage.getItem('userData'))
-        },
         getTeams() {
-            axios.get('api/teams')
+            axios.get('/api/teams')
             .then(response => {
                 this.teams = response.data
             })
         },
-        createTeam() {
+        addTeam() {
             let name = this.name;
             let description = this.description;
-            let user_id = this.userData.id
 
-            axios.post('api/teams', { name, description, user_id })
+            axios.post('/api/teams', { name, description })
             .then(response => {
                 this.teams.push(response.data.data)
+
+                this.snackbar.color = 'success'
+                this.snackbar.message = "Team successfully created!"
+                this.snackbar.enabled = true
+            })
+            .catch(function (error) {
+                this.snackbar.color = 'error'
+                this.snackbar.message = "Error creating team!"
+                this.snackbar.enabled = true
             })
 
             this.reset()
+        },
+        removeTeam(team_id) {
+            axios.delete('/api/teams/' + team_id)
+            .then(response => {
+                this.getTeams()
+
+                this.snackbar.color = 'success'
+                this.snackbar.message = "Team successfully removed!"
+                this.snackbar.enabled = true
+            })
         },
         reset() {
             this.dialog = false
@@ -95,13 +127,7 @@ export default {
             this.description = ''
         }
     },
-    created() {
-        this.getUserData()
-    },
     mounted() {
-        axios.defaults.headers.common['Content-Type'] = 'application/json'
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.userData.jwt
-
         this.getTeams()
     }
 

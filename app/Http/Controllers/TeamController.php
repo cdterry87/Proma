@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Team;
+use App\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,6 +17,7 @@ class TeamController extends Controller
     public function index()
     {
         return response()->json(Auth::user()->teams()->get());
+        // return response()->json(Auth::user()->isTeamMember()->get());
     }
 
     /**
@@ -31,7 +33,11 @@ class TeamController extends Controller
             'description' => $request->description,
         ]);
 
-        $team->user()->attach($request->user_id);
+        $team->user()->attach(Auth::user()->id);
+        $team->member()->attach(Auth::user()->id);
+
+        $notification = new Notification;
+        $notification->createNotification("Team '" . $team->name . "' created.");
 
         return response()->json([
             'status' => (bool)$team,
@@ -64,8 +70,12 @@ class TeamController extends Controller
             $request->only(['name', 'description'])
         );
 
+        $notification = new Notification;
+        $notification->createNotification("Team '" . $team->name . "' updated.");
+
         return response()->json([
             'status' => $status,
+            // 'data' => $team,
             'message' => $status ? 'Team updated successfully!' : 'Error updating team!'
         ]);
     }
@@ -80,9 +90,25 @@ class TeamController extends Controller
     {
         $status = $team->delete();
 
+        $notification = new Notification;
+        $notification->createNotification("Team '" . $team->name . "' deleted.");
+
         return response()->json([
             'status' => $status,
             'message' => $status ? 'Team deleted successfully!' : 'Error deleting team!'
         ]);
+    }
+
+    /**
+     * Display the available list of users for this team.
+     *
+     * @param  \App\Team  $team
+     * @return \Illuminate\Http\Response
+     */
+    public function users(Team $team)
+    {
+        $availableUsers = Team::availableUsers($team);
+
+        return response()->json($availableUsers);
     }
 }
