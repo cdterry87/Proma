@@ -1751,6 +1751,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'TeamMembers',
@@ -1801,6 +1806,16 @@ __webpack_require__.r(__webpack_exports__);
         this.snackbar.enabled = true;
       });
       this.reset();
+    },
+    removeMember: function removeMember(member_id) {
+      var _this3 = this;
+
+      axios["delete"]('/api/members/' + member_id).then(function (response) {
+        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('addMember');
+        _this3.snackbar.color = 'success';
+        _this3.snackbar.message = "Team member successfully removed!";
+        _this3.snackbar.enabled = true;
+      });
     },
     reset: function reset() {
       this.dialog = false;
@@ -5444,7 +5459,7 @@ var render = function() {
                   _c(
                     "v-card-title",
                     { staticClass: "blue darken-3 white--text py-4 title" },
-                    [_vm._v("Add Task")]
+                    [_vm._v("Save Task")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -6561,11 +6576,7 @@ var render = function() {
                                 "v-btn",
                                 {
                                   attrs: { color: "info", small: "" },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.dialog = true
-                                    }
-                                  }
+                                  on: { click: _vm.openDialog }
                                 },
                                 [
                                   _c(
@@ -6628,7 +6639,34 @@ var render = function() {
                             _vm._v(_vm._s(member.user.email))
                           ])
                         ])
-                      ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-actions",
+                        [
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                flat: "",
+                                color: "red darken-2",
+                                form: "removeMemberForm"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.removeMember(member.id)
+                                }
+                              }
+                            },
+                            [_vm._v("Remove")]
+                          ),
+                          _vm._v(" "),
+                          _c("v-spacer")
+                        ],
+                        1
+                      )
                     ],
                     1
                   )

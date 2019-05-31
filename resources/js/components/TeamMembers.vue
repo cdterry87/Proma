@@ -11,7 +11,7 @@
                                 </span>
                             </v-flex>
                             <v-flex xs6 text-xs-right>
-                                <v-btn color="info" @click="dialog = true" small>
+                                <v-btn color="info" @click="openDialog" small>
                                     <v-icon left dark>add</v-icon>
                                     Add Member
                                 </v-btn>
@@ -33,6 +33,11 @@
                             <span class="grey--text">{{ member.user.email }}</span>
                         </div>
                     </v-card-text>
+                     <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn flat color="red darken-2" form="removeMemberForm" @click="removeMember(member.id)">Remove</v-btn>
+                        <v-spacer></v-spacer>
+                    </v-card-actions>
                 </v-card>
             </v-flex>
         </v-layout>
@@ -123,6 +128,16 @@
                 })
 
                 this.reset()
+            },
+            removeMember(member_id) {
+                axios.delete('/api/members/' + member_id)
+                .then(response => {
+                    EventBus.$emit('addMember')
+
+                    this.snackbar.color = 'success'
+                    this.snackbar.message = "Team member successfully removed!"
+                    this.snackbar.enabled = true
+                })
             },
             reset() {
                 this.dialog = false

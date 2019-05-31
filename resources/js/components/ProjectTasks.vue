@@ -48,7 +48,7 @@
             <v-form method="POST" id="taskForm" @submit.prevent="saveTask">
                 <input type="hidden" name="task_id" v-model="task_id">
                 <v-card>
-                    <v-card-title class="blue darken-3 white--text py-4 title">Add Task</v-card-title>
+                    <v-card-title class="blue darken-3 white--text py-4 title">Save Task</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
