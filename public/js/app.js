@@ -2043,7 +2043,7 @@ __webpack_require__.r(__webpack_exports__);
 
 exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, ".container {\n  padding-top: 6px !important;\n  padding-bottom: 6px !important;\n}\n.clickable {\n  cursor: pointer;\n}\n.data-card {\n  cursor: pointer;\n}\n.data-card.small {\n  height: 150px;\n}\n.data-card.medium {\n  height: 200px;\n}\n.data-card.large {\n  height: 250px;\n}\n.search-link {\n  height: 100% !important;\n  width: 100% !important;\n}\n.v-card {\n  padding-bottom: 10px;\n}", ""]);
+exports.push([module.i, ".container {\n  padding-top: 6px !important;\n  padding-bottom: 6px !important;\n}\n.clickable {\n  cursor: pointer;\n}\n.data-card {\n  cursor: pointer;\n}\n.data-card.small {\n  height: 140px;\n}\n.data-card.medium {\n  height: 200px;\n}\n.data-card.large {\n  height: 245px;\n}\n.search-link {\n  height: 100% !important;\n  width: 100% !important;\n}\n.v-card {\n  padding-bottom: 10px;\n}", ""]);
 
 
 
@@ -4470,7 +4470,7 @@ var render = function() {
                         _vm._v(
                           "\n                            " +
                             _vm._s(
-                              _vm._f("truncate")(client.description, 150)
+                              _vm._f("truncate")(client.description, 200)
                             ) +
                             "\n                        "
                         )
@@ -7111,7 +7111,7 @@ var render = function() {
                         ]),
                         _vm._v(
                           "\n                        " +
-                            _vm._s(_vm._f("truncate")(team.description, 150)) +
+                            _vm._s(_vm._f("truncate")(team.description, 200)) +
                             "\n                    "
                         )
                       ])

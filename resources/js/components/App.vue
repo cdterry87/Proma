@@ -207,7 +207,7 @@ export default {
     cursor: pointer;
 
     &.small {
-        height: 150px;
+        height: 140px;
     }
 
     &.medium {
@@ -215,7 +215,7 @@ export default {
     }
 
     &.large {
-        height: 250px;
+        height: 245px;
     }
 }
 

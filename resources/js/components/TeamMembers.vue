@@ -95,7 +95,7 @@
                     color: ''
                 },
                 user_id: '',
-                users: []
+                users: [],
             }
         },
         methods: {
@@ -143,6 +143,6 @@
                 this.dialog = false
                 this.user_id = ''
             }
-        },
+        }
     }
 </script>

@@ -21,7 +21,7 @@
                                 <div class="headline">
                                     {{ client.name | truncate(25) }}
                                 </div>
-                                {{ client.description | truncate(150) }}
+                                {{ client.description | truncate(200) }}
                             </v-card-text>
                         </router-link>
                         <v-card-actions>

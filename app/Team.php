@@ -33,6 +33,11 @@ class Team extends Model implements Searchable
         return $this->hasOne('App\Project');
     }
 
+    public function hasTeamMembers()
+    {
+        return $this->belongsToMany('App\User', 'teams_members');
+    }
+
     public static function availableUsers(Team $team)
     {
         return DB::table("users")->select('*')->whereNotIn('users.id', function ($query) use ($team) {
@@ -40,7 +45,7 @@ class Team extends Model implements Searchable
         })->get();
     }
 
-    public function getSearchResult() : SearchResult
+    public function getSearchResult(): SearchResult
     {
         return new SearchResult(
             $this,
