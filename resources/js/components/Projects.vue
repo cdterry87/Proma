@@ -15,7 +15,7 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex xs12 md6 lg4 v-for="project in projects" :key="project.id">
-                <v-card class="data-card">
+                <v-card class="data-card large">
                     <v-alert :value="true" v-if="project.complete" type="success" @click="incompleteProject(project.id)">
                         Project completed {{ project.completed_date }}.
                     </v-alert>
@@ -34,6 +34,11 @@
                             {{ project.description | truncate(150) }}
                         </v-card-text>
                     </router-link>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn flat color="red darken-2" @click="removeTeam(team.id)">Remove</v-btn>
+                        <v-spacer></v-spacer>
+                    </v-card-actions>
                 </v-card>
             </v-flex>
         </v-layout>
@@ -213,6 +218,16 @@ export default {
             .catch(function (error) {
                 this.snackbar.color = 'danger'
                 this.snackbar.message = "Project could not be changed to incomplete!"
+                this.snackbar.enabled = true
+            })
+        },
+        removeProject(project_id) {
+            axios.delete('/api/projects/' + project_id)
+            .then(response => {
+                this.getProjects()
+
+                this.snackbar.color = 'success'
+                this.snackbar.message = "Project successfully removed!"
                 this.snackbar.enabled = true
             })
         },

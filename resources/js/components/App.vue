@@ -193,7 +193,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .container {
     padding-top: 6px !important;
     padding-bottom: 6px !important;
@@ -205,7 +205,18 @@ export default {
 
 .data-card {
     cursor: pointer;
-    height: 200px;
+
+    &.small {
+        height: 150px;
+    }
+
+    &.medium {
+        height: 200px;
+    }
+
+    &.large {
+        height: 250px;
+    }
 }
 
 .search-link {
@@ -216,4 +227,5 @@ export default {
 .v-card {
     padding-bottom: 10px;
 }
+
 </style>

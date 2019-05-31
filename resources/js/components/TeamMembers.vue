@@ -26,7 +26,7 @@
         </v-layout>
         <v-layout row wrap v-else fluid>
             <v-flex xs12 md6 lg4 v-for="member in teamMembers" :key="member.id">
-                <v-card class="data-card">
+                <v-card class="data-card small">
                     <v-card-text>
                         <div>
                             <div class="headline">{{ member.user.name | truncate(20) }}</div>

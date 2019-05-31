@@ -26,7 +26,7 @@
         </v-layout>
         <v-layout row wrap v-else>
             <v-flex xs12 md6 lg4 v-for="task in projectTasks" :key="task.id">
-                <v-card class="data-card">
+                <v-card class="data-card medium">
                     <v-alert :value="true" v-if="task.complete" type="success" @click="incompleteTask(task.project_id, task.id)">
                         Task completed {{ task.completed_date }}.
                     </v-alert>

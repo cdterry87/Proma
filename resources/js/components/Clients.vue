@@ -15,16 +15,21 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex xs12 md6 lg4 v-for="client in clients" :key="client.id">
-                <router-link :to="'/client/' + client.id">
-                    <v-card class="data-card">
-                        <v-card-text>
-                            <div class="headline">
-                                {{ client.name | truncate(25) }}
-                            </div>
-                            {{ client.description | truncate(150) }}
-                        </v-card-text>
+                    <v-card class="data-card medium">
+                        <router-link :to="'/client/' + client.id">
+                            <v-card-text>
+                                <div class="headline">
+                                    {{ client.name | truncate(25) }}
+                                </div>
+                                {{ client.description | truncate(150) }}
+                            </v-card-text>
+                        </router-link>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn flat color="red darken-2" @click="removeClient(client.id)">Remove</v-btn>
+                            <v-spacer></v-spacer>
+                        </v-card-actions>
                     </v-card>
-                </router-link>
             </v-flex>
         </v-layout>
 
@@ -104,6 +109,16 @@ export default {
             })
 
             this.reset()
+        },
+        removeClient(client_id) {
+            axios.delete('/api/clients/' + client_id)
+            .then(response => {
+                this.getClients()
+
+                this.snackbar.color = 'success'
+                this.snackbar.message = "Client successfully removed!"
+                this.snackbar.enabled = true
+            })
         },
         reset() {
             this.dialog = false

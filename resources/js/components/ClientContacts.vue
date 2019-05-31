@@ -26,7 +26,7 @@
         </v-layout>
         <v-layout row wrap v-else>
             <v-flex xs12 md6 lg4 v-for="contact in clientContacts" :key="contact.id">
-                <v-card class="data-card">
+                <v-card class="data-card medium">
                     <v-card-text @click="editContact(contact)">
                         <div>
                             <div class="headline">{{ contact.name | truncate(20) }}</div>

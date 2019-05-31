@@ -15,16 +15,21 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex xs12 md6 lg4 v-for="team in teams" :key="team.id">
-                <router-link :to="'/team/' + team.id">
-                    <v-card class="data-card">
+                <v-card class="data-card medium">
+                    <router-link :to="'/team/' + team.id">
                         <v-card-text>
                             <div class="headline">
                                 {{ team.name | truncate(25) }}
                             </div>
                             {{ team.description | truncate(150) }}
                         </v-card-text>
-                    </v-card>
-                </router-link>
+                    </router-link>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn flat color="red darken-2" @click="removeTeam(team.id)">Remove</v-btn>
+                        <v-spacer></v-spacer>
+                    </v-card-actions>
+                </v-card>
             </v-flex>
         </v-layout>
 
@@ -105,6 +110,16 @@ export default {
             })
 
             this.reset()
+        },
+        removeTeam(team_id) {
+            axios.delete('/api/teams/' + team_id)
+            .then(response => {
+                this.getTeams()
+
+                this.snackbar.color = 'success'
+                this.snackbar.message = "Team successfully removed!"
+                this.snackbar.enabled = true
+            })
         },
         reset() {
             this.dialog = false
