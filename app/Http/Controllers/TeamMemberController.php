@@ -28,7 +28,7 @@ class TeamMemberController extends Controller
         ]);
 
         $notification = new Notification;
-        $notification->createNotification("Team member '" . $member->name . "' created.");
+        $notification->createNotification("Team member created.");
 
         return response()->json([
             'status' => (bool)$member,
@@ -62,7 +62,7 @@ class TeamMemberController extends Controller
         );
 
         $notification = new Notification;
-        $notification->createNotification("Team member '" . $member->name . "' updated.");
+        $notification->createNotification("Team member updated.");
 
         return response()->json([
             'status' => $status,
@@ -80,8 +80,10 @@ class TeamMemberController extends Controller
     {
         $status = $member->delete();
 
+        dd($member);
+
         $notification = new Notification;
-        $notification->createNotification("Team member '" . $member->name . "' deleted.");
+        $notification->createNotification("Team member deleted.");
 
         return response()->json([
             'status' => $status,
