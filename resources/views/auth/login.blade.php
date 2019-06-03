@@ -9,6 +9,7 @@
             <hr/>
 
             <div class="row">
+                @include('layouts.demo')
                 @include('layouts.errors')
             </div>
 
