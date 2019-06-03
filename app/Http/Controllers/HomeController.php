@@ -38,7 +38,6 @@ class HomeController extends Controller
             ->registerModel(Client::class, 'name')
             ->registerModel(Project::class, 'name')
             ->registerModel(Team::class, 'name')
-            ->registerModel(ClientContact::class, 'name')
             ->perform($request->input('query'));
 
         // return view('search', compact('searchResults'));
@@ -48,8 +47,8 @@ class HomeController extends Controller
     public function notifications()
     {
         return response()->json(Notification::where('user_id', auth()->id())
-        ->orderBy('created_at', 'desc')
-        ->take(25)
-        ->get());
+            ->orderBy('created_at', 'desc')
+            ->take(25)
+            ->get());
     }
 }
