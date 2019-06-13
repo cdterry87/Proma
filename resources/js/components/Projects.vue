@@ -36,7 +36,7 @@
                     </router-link>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn flat color="red darken-2" @click="removeTeam(team.id)">Remove</v-btn>
+                        <v-btn flat color="red darken-2" @click="removeProject(project.id)">Remove</v-btn>
                         <v-spacer></v-spacer>
                     </v-card-actions>
                 </v-card>

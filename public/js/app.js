@@ -5105,7 +5105,7 @@ var render = function() {
                                 {
                                   ref: "datePicker",
                                   attrs: {
-                                    "return-value": _vm.due_date,
+                                    "return-value": _vm.project.due_date,
                                     persistent: "",
                                     lazy: "",
                                     "full-width": "",
@@ -5113,10 +5113,18 @@ var render = function() {
                                   },
                                   on: {
                                     "update:returnValue": function($event) {
-                                      _vm.due_date = $event
+                                      return _vm.$set(
+                                        _vm.project,
+                                        "due_date",
+                                        $event
+                                      )
                                     },
                                     "update:return-value": function($event) {
-                                      _vm.due_date = $event
+                                      return _vm.$set(
+                                        _vm.project,
+                                        "due_date",
+                                        $event
+                                      )
                                     }
                                   },
                                   scopedSlots: _vm._u([
@@ -5413,7 +5421,7 @@ var render = function() {
       ),
       _vm._v(" "),
       _vm.projectTasks.length == 0
-        ? _c("v-layout", { attrs: { row: "" } }, [
+        ? _c("v-layout", { staticClass: "headline mt-4", attrs: { row: "" } }, [
             _vm._v(
               "\n        There are currently no tasks for this project.\n    "
             )
@@ -6035,7 +6043,7 @@ var render = function() {
                           attrs: { flat: "", color: "red darken-2" },
                           on: {
                             click: function($event) {
-                              return _vm.removeTeam(_vm.team.id)
+                              return _vm.removeProject(project.id)
                             }
                           }
                         },
@@ -48947,8 +48955,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/chaset/www/laravel/proma3/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/chaset/www/laravel/proma3/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/chaset/www/laravel/proma/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/chaset/www/laravel/proma/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -21,7 +21,7 @@
                 </v-card>
             </v-flex>
         </v-layout>
-        <v-layout row v-if="projectTasks.length == 0">
+        <v-layout row v-if="projectTasks.length == 0" class="headline mt-4">
             There are currently no tasks for this project.
         </v-layout>
         <v-layout row wrap v-else>

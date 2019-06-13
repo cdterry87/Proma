@@ -108,7 +108,7 @@
                                 <v-dialog
                                 ref="datePicker"
                                 v-model="date_dialog"
-                                :return-value.sync="due_date"
+                                :return-value.sync="project.due_date"
                                 persistent
                                 lazy
                                 full-width
