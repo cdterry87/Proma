@@ -11,4 +11,9 @@ class ProjectTask extends Model
     protected $fillable = [
         'project_id', 'description', 'due_date'
     ];
+
+    public function project()
+    {
+        return $this->belongsTo('App\Project');
+    }
 }

@@ -9,8 +9,18 @@ use Spatie\Searchable\SearchResult;
 class Issue extends Model
 {
     protected $fillable = [
-        'name', 'description', 'client_id', 'team_id', 'due_date'
+        'description', 'priority',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo('App\User')->withTimestamps();
+    }
+
+    public function activities()
+    {
+        return $this->hasMany('App\IssueActivity');
+    }
 
     public function getSearchResult(): SearchResult
     {

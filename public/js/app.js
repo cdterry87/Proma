@@ -955,37 +955,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1033,37 +1002,28 @@ __webpack_require__.r(__webpack_exports__);
         _this2.clients = response.data;
       });
     },
-    getTeams: function getTeams() {
+    getProjectTasks: function getProjectTasks(project_id) {
       var _this3 = this;
 
-      axios.get('/api/teams').then(function (response) {
-        _this3.teams = response.data;
-      });
-    },
-    getProjectTasks: function getProjectTasks(project_id) {
-      var _this4 = this;
-
       axios.get('/api/tasks/' + project_id).then(function (response) {
-        _this4.tasks = response.data;
+        _this3.tasks = response.data;
       });
     },
     updateProject: function updateProject() {
-      var _this5 = this;
+      var _this4 = this;
 
       var name = this.project.name;
       var description = this.project.description;
       var client_id = this.project.client_id;
-      var team_id = this.project.team_id;
       axios.put('/api/projects/' + this.project.id, {
         name: name,
         description: description,
-        client_id: client_id,
-        team_id: team_id
+        client_id: client_id
       }).then(function (response) {
         // this.project = response.data.data
-        _this5.snackbar.color = 'success';
-        _this5.snackbar.message = "Project updated successfully!";
-        _this5.snackbar.enabled = true;
+        _this4.snackbar.color = 'success';
+        _this4.snackbar.message = "Project updated successfully!";
+        _this4.snackbar.enabled = true;
       })["catch"](function (error) {
         this.snackbar.color = 'error';
         this.snackbar.message = "Error updating project!";
@@ -1072,14 +1032,14 @@ __webpack_require__.r(__webpack_exports__);
       this.reset();
     },
     completeProject: function completeProject(project_id) {
-      var _this6 = this;
+      var _this5 = this;
 
       axios.post('/api/projects/' + project_id + '/complete').then(function (response) {
-        _this6.getProject();
+        _this5.getProject();
 
-        _this6.snackbar.color = 'success';
-        _this6.snackbar.message = "Project is now complete!";
-        _this6.snackbar.enabled = true;
+        _this5.snackbar.color = 'success';
+        _this5.snackbar.message = "Project is now complete!";
+        _this5.snackbar.enabled = true;
       })["catch"](function (error) {
         this.snackbar.color = 'danger';
         this.snackbar.message = "Project could not be completed!";
@@ -1087,14 +1047,14 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     incompleteProject: function incompleteProject(project_id) {
-      var _this7 = this;
+      var _this6 = this;
 
       axios.post('/api/projects/' + project_id + '/incomplete').then(function (response) {
-        _this7.getProject();
+        _this6.getProject();
 
-        _this7.snackbar.color = 'warning';
-        _this7.snackbar.message = "Project is now incomplete!";
-        _this7.snackbar.enabled = true;
+        _this6.snackbar.color = 'warning';
+        _this6.snackbar.message = "Project is now incomplete!";
+        _this6.snackbar.enabled = true;
       })["catch"](function (error) {
         this.snackbar.color = 'danger';
         this.snackbar.message = "Project could not be changed to incomplete!";
@@ -1105,24 +1065,22 @@ __webpack_require__.r(__webpack_exports__);
       this.dialog = false;
       this.name = '';
       this.client_id = '';
-      this.team_id = '';
       this.description = '';
     }
   },
   created: function created() {
-    var _this8 = this;
+    var _this7 = this;
 
     _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('addTask', function (tasks) {
-      _this8.tasks = tasks;
+      _this7.tasks = tasks;
     });
     _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('loadTasks', function (project_id) {
-      _this8.getProjectTasks(project_id);
+      _this7.getProjectTasks(project_id);
     });
   },
   mounted: function mounted() {
     this.getProject();
     this.getClients();
-    this.getTeams();
   }
 });
 
@@ -1498,10 +1456,8 @@ __webpack_require__.r(__webpack_exports__);
       name: '',
       description: '',
       due_date: '',
-      team_id: '',
       client_id: '',
       projects: [],
-      teams: [],
       clients: []
     };
   },
@@ -1524,33 +1480,24 @@ __webpack_require__.r(__webpack_exports__);
         _this2.clients = response.data;
       });
     },
-    getTeams: function getTeams() {
-      var _this3 = this;
-
-      axios.get('/api/teams').then(function (response) {
-        _this3.teams = response.data;
-      });
-    },
     addProject: function addProject() {
-      var _this4 = this;
+      var _this3 = this;
 
       var name = this.name;
       var description = this.description;
       var due_date = this.due_date;
       var client_id = this.client_id;
-      var team_id = this.team_id;
       axios.post('/api/projects', {
         name: name,
         description: description,
         due_date: due_date,
-        client_id: client_id,
-        team_id: team_id
+        client_id: client_id
       }).then(function (response) {
-        _this4.projects.push(response.data.data);
+        _this3.projects.push(response.data.data);
 
-        _this4.snackbar.color = 'success';
-        _this4.snackbar.message = "Project successfully created!";
-        _this4.snackbar.enabled = true;
+        _this3.snackbar.color = 'success';
+        _this3.snackbar.message = "Project successfully created!";
+        _this3.snackbar.enabled = true;
       })["catch"](function (error) {
         this.snackbar.color = 'error';
         this.snackbar.message = "Error creating project!";
@@ -1559,14 +1506,14 @@ __webpack_require__.r(__webpack_exports__);
       this.reset();
     },
     completeProject: function completeProject(project_id) {
-      var _this5 = this;
+      var _this4 = this;
 
       axios.post('/api/projects/' + project_id + '/complete').then(function (response) {
-        _this5.getProjects();
+        _this4.getProjects();
 
-        _this5.snackbar.color = 'success';
-        _this5.snackbar.message = "Project is now complete!";
-        _this5.snackbar.enabled = true;
+        _this4.snackbar.color = 'success';
+        _this4.snackbar.message = "Project is now complete!";
+        _this4.snackbar.enabled = true;
       })["catch"](function (error) {
         this.snackbar.color = 'danger';
         this.snackbar.message = "Project could not be completed!";
@@ -1574,14 +1521,14 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     incompleteProject: function incompleteProject(project_id) {
-      var _this6 = this;
+      var _this5 = this;
 
       axios.post('/api/projects/' + project_id + '/incomplete').then(function (response) {
-        _this6.getProjects();
+        _this5.getProjects();
 
-        _this6.snackbar.color = 'warning';
-        _this6.snackbar.message = "Project is now incomplete!";
-        _this6.snackbar.enabled = true;
+        _this5.snackbar.color = 'warning';
+        _this5.snackbar.message = "Project is now incomplete!";
+        _this5.snackbar.enabled = true;
       })["catch"](function (error) {
         this.snackbar.color = 'danger';
         this.snackbar.message = "Project could not be changed to incomplete!";
@@ -1589,28 +1536,26 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     removeProject: function removeProject(project_id) {
-      var _this7 = this;
+      var _this6 = this;
 
       axios["delete"]('/api/projects/' + project_id).then(function (response) {
-        _this7.getProjects();
+        _this6.getProjects();
 
-        _this7.snackbar.color = 'success';
-        _this7.snackbar.message = "Project successfully removed!";
-        _this7.snackbar.enabled = true;
+        _this6.snackbar.color = 'success';
+        _this6.snackbar.message = "Project successfully removed!";
+        _this6.snackbar.enabled = true;
       });
     },
     reset: function reset() {
       this.dialog = false;
       this.name = '';
       this.client_id = '';
-      this.team_id = '';
       this.description = '';
     }
   },
   mounted: function mounted() {
     this.getProjects();
     this.getClients();
-    this.getTeams();
   }
 });
 
@@ -4495,6 +4440,26 @@ var render = function() {
                                 _vm._s(_vm.project.description) +
                                 "\n                        "
                             )
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "mt-4" }, [
+                            _c(
+                              "span",
+                              { staticClass: "headline" },
+                              [
+                                _c("v-icon", [_vm._v("person")]),
+                                _vm._v(" Client\n                            ")
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("div", [
+                              _vm._v(
+                                "\n                                " +
+                                  _vm._s(_vm.project.client.name) +
+                                  "\n                            "
+                              )
+                            ])
                           ])
                         ],
                         1
@@ -4505,90 +4470,6 @@ var render = function() {
                 ],
                 1
               )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-container",
-        { attrs: { fluid: "", "grid-list-md": "" } },
-        [
-          _c(
-            "v-layout",
-            { attrs: { "align-baseline": "" } },
-            [
-              _vm.project.team
-                ? _c(
-                    "v-flex",
-                    { attrs: { xs6: "" } },
-                    [
-                      _c(
-                        "v-card",
-                        [
-                          _c("v-card-text", [
-                            _c(
-                              "span",
-                              { staticClass: "headline" },
-                              [
-                                _c("v-icon", [_vm._v("people")]),
-                                _vm._v(" Team\n                        ")
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c("div", [
-                              _vm._v(
-                                "\n                            " +
-                                  _vm._s(_vm.project.team.name) +
-                                  "\n                        "
-                              )
-                            ])
-                          ])
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.project.client
-                ? _c(
-                    "v-flex",
-                    { attrs: { xs6: "" } },
-                    [
-                      _c(
-                        "v-card",
-                        [
-                          _c("v-card-text", [
-                            _c(
-                              "span",
-                              { staticClass: "headline" },
-                              [
-                                _c("v-icon", [_vm._v("person")]),
-                                _vm._v(" Client\n                        ")
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c("div", [
-                              _vm._v(
-                                "\n                            " +
-                                  _vm._s(_vm.project.client.name) +
-                                  "\n                        "
-                              )
-                            ])
-                          ])
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                : _vm._e()
             ],
             1
           )
@@ -4658,30 +4539,6 @@ var render = function() {
                                     _vm.$set(_vm.project, "name", $$v)
                                   },
                                   expression: "project.name"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            { attrs: { xs12: "" } },
-                            [
-                              _c("v-autocomplete", {
-                                attrs: {
-                                  items: _vm.teams,
-                                  "item-text": "name",
-                                  "item-value": "id",
-                                  label: "Select a team",
-                                  "prepend-icon": "people"
-                                },
-                                model: {
-                                  value: _vm.project.team_id,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.project, "team_id", $$v)
-                                  },
-                                  expression: "project.team_id"
                                 }
                               })
                             ],

@@ -30,9 +30,8 @@ class ClientController extends Controller
         $client = Client::create([
             'name' => $request->name,
             'description' => $request->description,
+            'user_id' => Auth::user()->id
         ]);
-
-        $client->user()->attach(Auth::user()->id);
 
         $notification = new Notification;
         $notification->createNotification("Client '" . $client->name . "' created.");

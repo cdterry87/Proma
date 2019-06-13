@@ -36,34 +36,13 @@
                             <div>
                                 {{ project.description }}
                             </div>
-                        </v-card-text>
-                    </v-card>
-                </v-flex>
-            </v-layout>
-        </v-container>
-
-        <v-container fluid grid-list-md>
-            <v-layout align-baseline>
-                <v-flex xs6 v-if="project.team">
-                    <v-card>
-                        <v-card-text>
-                            <span class="headline">
-                                <v-icon>people</v-icon> Team
-                            </span>
-                            <div>
-                                {{ project.team.name }}
-                            </div>
-                        </v-card-text>
-                    </v-card>
-                </v-flex>
-                <v-flex xs6 v-if="project.client">
-                    <v-card>
-                        <v-card-text>
-                            <span class="headline">
-                                <v-icon>person</v-icon> Client
-                            </span>
-                            <div>
-                                {{ project.client.name }}
+                            <div class="mt-4">
+                                <span class="headline">
+                                    <v-icon>person</v-icon> Client
+                                </span>
+                                <div>
+                                    {{ project.client.name }}
+                                </div>
                             </div>
                         </v-card-text>
                     </v-card>
@@ -81,16 +60,6 @@
                         <v-layout row wrap>
                             <v-flex xs12>
                                 <v-text-field prepend-icon="work" label="Project Name" v-model="project.name" maxlength="100"></v-text-field>
-                            </v-flex>
-                            <v-flex xs12>
-                                <v-autocomplete
-                                    :items="teams"
-                                    item-text="name"
-                                    item-value="id"
-                                    label="Select a team"
-                                    prepend-icon="people"
-                                    v-model="project.team_id"
-                                ></v-autocomplete>
                             </v-flex>
                             <v-flex xs12>
                                  <v-autocomplete
@@ -197,12 +166,6 @@
                     this.clients = response.data
                 })
             },
-            getTeams() {
-                axios.get('/api/teams')
-                .then(response => {
-                    this.teams = response.data
-                })
-            },
             getProjectTasks(project_id) {
                 axios.get('/api/tasks/' + project_id)
                 .then(response => {
@@ -213,9 +176,8 @@
                 let name = this.project.name;
                 let description = this.project.description;
                 let client_id = this.project.client_id;
-                let team_id = this.project.team_id;
 
-                axios.put('/api/projects/' + this.project.id, { name, description, client_id, team_id })
+                axios.put('/api/projects/' + this.project.id, { name, description, client_id })
                 .then(response => {
                     // this.project = response.data.data
 
@@ -265,7 +227,6 @@
                 this.dialog = false
                 this.name = ''
                 this.client_id = ''
-                this.team_id = ''
                 this.description = ''
             }
         },
@@ -281,7 +242,6 @@
         mounted() {
             this.getProject()
             this.getClients()
-            this.getTeams()
         }
     }
 </script>

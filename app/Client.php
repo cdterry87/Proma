@@ -14,7 +14,7 @@ class Client extends Model implements Searchable
 
     public function user()
     {
-        return $this->belongsToMany('App\User', 'users_clients')->withTimestamps();
+        return $this->belongsTo('App\User')->withTimestamps();
     }
 
     public function contacts()
@@ -24,7 +24,7 @@ class Client extends Model implements Searchable
 
     public function project()
     {
-        return $this->hasOne('App\Project');
+        return $this->hasMany('App\Project');
     }
 
     public function getSearchResult(): SearchResult

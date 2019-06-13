@@ -14,7 +14,12 @@ class ClientContact extends Model implements Searchable
         'client_id', 'name', 'title', 'email', 'phone'
     ];
 
-    public function getSearchResult() : SearchResult
+    public function client()
+    {
+        return $this->belongsTo('App\Client');
+    }
+
+    public function getSearchResult(): SearchResult
     {
         return new SearchResult(
             $this,

@@ -22,7 +22,6 @@ class CreateProjectsTasksTable extends Migration
             $table->boolean('complete')->default(false);
             $table->date('completed_date')->nullable();
             $table->timestamps();
-
         });
     }
 

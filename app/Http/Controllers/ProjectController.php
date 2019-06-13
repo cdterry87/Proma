@@ -36,10 +36,8 @@ class ProjectController extends Controller
             'description' => $request->description,
             'due_date' => $request->due_date,
             'client_id' => $request->client_id,
-            'team_id' => $request->team_id,
+            'user_id' => Auth::user()->id
         ]);
-
-        $project->user()->attach(Auth::user()->id);
 
         $notification = new Notification;
         $notification->createNotification("Project '" . $project->name . "' created.");
@@ -60,7 +58,6 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         return response()->json($project->with([
-            'team',
             'client'
         ])
             ->where('id', $project->id)
@@ -77,7 +74,7 @@ class ProjectController extends Controller
     public function update(Request $request, Project $project)
     {
         $status = $project->update(
-            $request->only(['name', 'description', 'due_date', 'client_id', 'team_id'])
+            $request->only(['name', 'description', 'due_date', 'client_id'])
         );
 
         $notification = new Notification;

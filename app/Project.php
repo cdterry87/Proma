@@ -14,7 +14,7 @@ class Project extends Model implements Searchable
 
     public function user()
     {
-        return $this->belongsToMany('App\User', 'users_projects')->withTimestamps();
+        return $this->belongsTo('App\User')->withTimestamps();
     }
 
     public function tasks()

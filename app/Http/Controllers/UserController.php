@@ -32,21 +32,4 @@ class UserController extends Controller
             'message' => $status ? 'Account updated successfully!' : 'Error updating account!'
         ]);
     }
-
-    public function teams()
-    {
-
-    }
-
-    public function clients()
-    {
-
-    }
-
-    public function projects()
-    {
-
-    }
-
-
 }

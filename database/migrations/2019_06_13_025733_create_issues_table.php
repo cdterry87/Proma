@@ -19,7 +19,6 @@ class CreateIssuesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('client_id')->nullable();
             $table->bigInteger('project_id')->nullable();
-            $table->string('name')->index();
             $table->text('description')->nullable();
             $table->text('priority')->nullable();
             $table->boolean('complete')->default(false);

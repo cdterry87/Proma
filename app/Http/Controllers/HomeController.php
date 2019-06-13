@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Client;
 use App\ClientContact;
 use App\Project;
-use App\Team;
 use App\Notification;
 use Illuminate\Http\Request;
 use Spatie\Searchable\Search;

@@ -14,11 +14,11 @@ $factory->define(App\Project::class, function (Faker $faker) {
     }
 
     return [
+        'user_id' => 1,
         'name' => ucwords($faker->sentence(rand(3, 6), true)),
         'description' => $faker->paragraph(10),
         'complete' => $complete,
         'completed_date' => $completed_date,
-        'team_id' => rand(1, 9),
         'client_id' => rand(1, 9)
     ];
 });

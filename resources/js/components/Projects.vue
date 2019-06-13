@@ -138,10 +138,8 @@ export default {
             name: '',
             description: '',
             due_date: '',
-            team_id: '',
             client_id: '',
             projects: [],
-            teams: [],
             clients: [],
         }
     },
@@ -162,20 +160,13 @@ export default {
                 this.clients = response.data
             })
         },
-        getTeams() {
-            axios.get('/api/teams')
-            .then(response => {
-                this.teams = response.data
-            })
-        },
         addProject() {
             let name = this.name
             let description = this.description
             let due_date = this.due_date
             let client_id = this.client_id
-            let team_id = this.team_id
 
-            axios.post('/api/projects', { name, description, due_date, client_id, team_id })
+            axios.post('/api/projects', { name, description, due_date, client_id })
             .then(response => {
                 this.projects.push(response.data.data)
 
@@ -235,14 +226,12 @@ export default {
             this.dialog = false
             this.name = ''
             this.client_id = ''
-            this.team_id = ''
             this.description = ''
         }
     },
     mounted() {
         this.getProjects()
         this.getClients()
-        this.getTeams()
     }
 
 }
