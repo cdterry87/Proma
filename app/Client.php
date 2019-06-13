@@ -27,13 +27,12 @@ class Client extends Model implements Searchable
         return $this->hasOne('App\Project');
     }
 
-    public function getSearchResult() : SearchResult
+    public function getSearchResult(): SearchResult
     {
         return new SearchResult(
             $this,
-            'Client: ' . $this->name,
+            $this->name,
             '/client/' . $this->id
         );
     }
-
 }

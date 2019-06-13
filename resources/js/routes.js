@@ -1,9 +1,9 @@
-import Teams from './components/Teams'
-import Team from './components/Team'
-import Clients from './components/Clients'
-import Client from './components/Client'
 import Projects from './components/Projects'
 import Project from './components/Project'
+import Issues from './components/Issues'
+import Issue from './components/Issue'
+import Clients from './components/Clients'
+import Client from './components/Client'
 
 export default [
     {
@@ -12,14 +12,20 @@ export default [
         component: Projects,
     },
     {
-        path: '/teams',
-        name: 'teams',
-        component: Teams,
+        path: '/project/:id',
+        name: 'project',
+        component: Project,
+        props: true
     },
     {
-        path: '/team/:id',
-        name: 'team',
-        component: Team,
+        path: '/issues',
+        name: 'issues',
+        component: Issues,
+    },
+    {
+        path: '/issue/:id',
+        name: 'issue',
+        component: Issue,
         props: true
     },
     {
@@ -33,10 +39,4 @@ export default [
         component: Client,
         props: true
     },
-    {
-        path: '/project/:id',
-        name: 'project',
-        component: Project,
-        props: true
-    }
 ];

@@ -42,18 +42,13 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Project', 'users_projects');
     }
 
-    public function teams()
-    {
-        return $this->belongsToMany('App\Team', 'users_teams');
-    }
-
-    public function isTeamMember()
-    {
-        return $this->belongsToMany('App\Team', 'teams_members');
-    }
-
     public function clients()
     {
         return $this->belongsToMany('App\Client', 'users_clients');
+    }
+
+    public function issues()
+    {
+        return $this->belongsToMany('App\Issue', 'users_issues');
     }
 }

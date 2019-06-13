@@ -19,12 +19,6 @@ class UserSeeder extends Seeder
             'email' => 'admin@example.com',
             'password' => bcrypt('password'),
         ])->each(function ($admin) {
-            $admin->teams()->saveMany(factory(Team::class, 9)->create()->each(function ($team) {
-                $team->members()->save(factory(TeamMember::class)->create([
-                    'team_id' => $team->first()->id,
-                    'user_id' => 1
-                ]));
-            }));
             $admin->clients()->saveMany(factory(Client::class, 9)->create()->each(function ($client) {
                 $client->contacts()->saveMany(factory(ClientContact::class, 9)->create([
                     'client_id' => $client->first()->id

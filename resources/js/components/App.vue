@@ -44,9 +44,9 @@
                             <v-icon>person</v-icon>
                             <span class="tab-title">Clients</span>
                         </v-tab>
-                        <v-tab to="/teams" >
-                            <v-icon>people</v-icon>
-                            <span class="tab-title">Teams</span>
+                        <v-tab to="/issues" >
+                            <v-icon>bug_report</v-icon>
+                            <span class="tab-title">Issues</span>
                         </v-tab>
                     </v-tabs>
                 </template>

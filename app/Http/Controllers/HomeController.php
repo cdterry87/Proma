@@ -37,10 +37,8 @@ class HomeController extends Controller
         $results = (new Search())
             ->registerModel(Client::class, 'name')
             ->registerModel(Project::class, 'name')
-            ->registerModel(Team::class, 'name')
+            ->registerModel(Issue::class, 'name')
             ->perform($request->input('query'));
-
-        // return view('search', compact('searchResults'));
         return response()->json($results);
     }
 
