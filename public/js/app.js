@@ -903,6 +903,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Issues',
   data: function data() {
@@ -920,7 +941,32 @@ __webpack_require__.r(__webpack_exports__);
       projects: [],
       project_id: '',
       priority: '',
-      issues: []
+      issues: [],
+      search: '',
+      pagination: {
+        sortBy: 'resolved',
+        rowsPerPage: -1
+      },
+      headers: [{
+        text: 'Status',
+        value: 'resolved'
+      }, {
+        text: 'Priority',
+        value: 'priority'
+      }, {
+        text: 'Description',
+        value: 'desription'
+      }, {
+        text: 'Project',
+        value: 'project.name'
+      }, {
+        text: 'Created',
+        value: 'created_at'
+      }, {
+        text: 'Actions',
+        value: 'actions',
+        sortable: false
+      }]
     };
   },
   methods: {
@@ -961,15 +1007,45 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.reset();
     },
-    removeIssue: function removeIssue(issue_id) {
+    resolveIssue: function resolveIssue(issue_id) {
       var _this4 = this;
 
-      axios["delete"]('/api/issues/' + issue_id).then(function (response) {
+      axios.post('/api/issues/' + issue_id + '/resolve').then(function (response) {
         _this4.getIssues();
 
         _this4.snackbar.color = 'success';
-        _this4.snackbar.message = "Project successfully removed!";
+        _this4.snackbar.message = "Issue is now resolved!";
         _this4.snackbar.enabled = true;
+      })["catch"](function (error) {
+        this.snackbar.color = 'danger';
+        this.snackbar.message = "Issue could not be resolved!";
+        this.snackbar.enabled = true;
+      });
+    },
+    unresolveIssue: function unresolveIssue(issue_id) {
+      var _this5 = this;
+
+      axios.post('/api/issues/' + issue_id + '/unresolve').then(function (response) {
+        _this5.getIssues();
+
+        _this5.snackbar.color = 'warning';
+        _this5.snackbar.message = "Issue is now unresolved!";
+        _this5.snackbar.enabled = true;
+      })["catch"](function (error) {
+        this.snackbar.color = 'danger';
+        this.snackbar.message = "Issue could not be marked as unresolved!";
+        this.snackbar.enabled = true;
+      });
+    },
+    deleteIssue: function deleteIssue(issue_id) {
+      var _this6 = this;
+
+      axios["delete"]('/api/issues/' + issue_id).then(function (response) {
+        _this6.getIssues();
+
+        _this6.snackbar.color = 'success';
+        _this6.snackbar.message = "Issue successfully deleted!";
+        _this6.snackbar.enabled = true;
       });
     },
     reset: function reset() {
@@ -4524,79 +4600,170 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-layout",
-        { attrs: { row: "", "text-xs-center": "" } },
+        { attrs: { row: "" } },
         [
-          _vm.issues.length == 0
-            ? _c("v-container", { staticClass: "headline" }, [
-                _vm._v(
-                  "\n            You do not currently have any issues..\n        "
-                )
-              ])
-            : _vm._e()
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-layout",
-        { attrs: { row: "", wrap: "" } },
-        _vm._l(_vm.issues, function(issue) {
-          return _c(
-            "v-flex",
-            { key: issue.id, attrs: { xs12: "", md6: "", lg4: "" } },
+          _c(
+            "v-container",
             [
-              _c(
-                "v-card",
-                { staticClass: "data-card medium" },
-                [
-                  _c(
-                    "router-link",
-                    { attrs: { to: "/issues/" + issue.id } },
-                    [
-                      _c("span", { staticClass: "title" }, [
-                        _vm._v("#" + _vm._s(issue.id))
-                      ]),
-                      _vm._v(" "),
-                      _c("v-card-text", [
-                        _vm._v(
-                          "\n                        " +
-                            _vm._s(_vm._f("truncate")(issue.description, 150)) +
-                            "\n                    "
+              _c("v-text-field", {
+                attrs: {
+                  "append-icon": "search",
+                  label: "Search",
+                  "single-line": "",
+                  "hide-details": "",
+                  box: ""
+                },
+                model: {
+                  value: _vm.search,
+                  callback: function($$v) {
+                    _vm.search = $$v
+                  },
+                  expression: "search"
+                }
+              }),
+              _vm._v(" "),
+              _c("v-data-table", {
+                staticClass: "elevation-1",
+                attrs: {
+                  headers: _vm.headers,
+                  items: _vm.issues,
+                  search: _vm.search,
+                  pagination: _vm.pagination,
+                  "hide-actions": "",
+                  "no-data-text": "You do not currently have any issues."
+                },
+                on: {
+                  "update:pagination": function($event) {
+                    _vm.pagination = $event
+                  }
+                },
+                scopedSlots: _vm._u([
+                  {
+                    key: "items",
+                    fn: function(props) {
+                      return [
+                        _c("td", [
+                          props.item.resolved
+                            ? _c(
+                                "span",
+                                [
+                                  _c(
+                                    "v-icon",
+                                    {
+                                      staticClass: "pointer",
+                                      attrs: { color: "success" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.unresolveIssue(
+                                            props.item.id
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("check_circle")]
+                                  )
+                                ],
+                                1
+                              )
+                            : _c(
+                                "span",
+                                [
+                                  _c(
+                                    "v-icon",
+                                    {
+                                      staticClass: "pointer",
+                                      attrs: { color: "error" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.resolveIssue(props.item.id)
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("remove_circle")]
+                                  )
+                                ],
+                                1
+                              )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(props.item.priority))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            _vm._s(
+                              _vm._f("truncate")(props.item.description, 125)
+                            )
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          props.item.project
+                            ? _c("span", [
+                                _vm._v(_vm._s(props.item.project.name))
+                              ])
+                            : _vm._e()
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { attrs: { width: "15%" } }, [
+                          _vm._v(
+                            _vm._s(_vm._f("fromNow")(props.item.created_at))
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          { attrs: { width: "25%" } },
+                          [
+                            _c(
+                              "v-form",
+                              {
+                                attrs: { method: "POST", id: "deleteForm" },
+                                on: {
+                                  submit: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.deleteIssue(props.item.id)
+                                  }
+                                }
+                              },
+                              [
+                                _c(
+                                  "v-btn",
+                                  {
+                                    staticClass: "white--text",
+                                    attrs: {
+                                      to: "/issue/" + props.item.id,
+                                      color: "primary"
+                                    }
+                                  },
+                                  [_vm._v("Edit")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-btn",
+                                  {
+                                    staticClass: "white--text",
+                                    attrs: {
+                                      type: "submit",
+                                      color: "red darken-1"
+                                    }
+                                  },
+                                  [_vm._v("Delete")]
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
                         )
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-card-actions",
-                    [
-                      _c("v-spacer"),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { flat: "", color: "red darken-2" },
-                          on: {
-                            click: function($event) {
-                              return _vm.removeIssue(issue.id)
-                            }
-                          }
-                        },
-                        [_vm._v("Remove")]
-                      ),
-                      _vm._v(" "),
-                      _c("v-spacer")
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
+                      ]
+                    }
+                  }
+                ])
+              })
             ],
             1
           )
-        }),
+        ],
         1
       ),
       _vm._v(" "),

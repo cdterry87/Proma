@@ -110,7 +110,6 @@ class ProjectController extends Controller
      * Set a project as complete.
      *
      * @param  int  $project_id
-     * @param  int  $task_id
      * @return \Illuminate\Http\Response
      */
     public function complete(Project $project)
@@ -129,15 +128,15 @@ class ProjectController extends Controller
     }
 
     /**
-     * Set a project as complete.
+     * Set a project as incomplete.
      *
      * @param  int  $project_id
-     * @param  int  $task_id
      * @return \Illuminate\Http\Response
      */
     public function incomplete(Project $project)
     {
         $project->completed = 0;
+        $project->completed_date = '';
         $status = $project->save();
 
         $notification = new Notification;

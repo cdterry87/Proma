@@ -43,6 +43,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/contacts/{client}', 'ClientContactController@index');
         Route::resource('/contacts', 'ClientContactController');
 
+        // Issues
+        Route::post('/issues/{issue}/resolve', 'IssueController@resolve');
+        Route::post('/issues/{issue}/unresolve', 'IssueController@unresolve');
+
         // Issues - Activities
         Route::get('/activities/{activity}', 'IssueActivityController@index');
         Route::resource('/activities', 'IssueActivityController');

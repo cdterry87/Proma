@@ -17,6 +17,7 @@ class IssueController extends Controller
     public function index()
     {
         return response()->json(Auth::user()->issues()->with('project')
+            ->orderBy('resolved')
             ->orderBy('priority')
             ->get());
     }
@@ -97,6 +98,48 @@ class IssueController extends Controller
         return response()->json([
             'status' => $status,
             'message' => $status ? 'Issue deleted successfully!' : 'Error deleting issue!'
+        ]);
+    }
+
+    /**
+     * Set an issue as complete.
+     *
+     * @param  int  $issue_id
+     * @return \Illuminate\Http\Response
+     */
+    public function resolve(Issue $issue)
+    {
+        $issue->resolved = 1;
+        $issue->resolved_date = date('Y-m-d');
+        $status = $issue->save();
+
+        $notification = new Notification;
+        $notification->createNotification("Issue #" . $issue->id . " is resolved.");
+
+        return response()->json([
+            'status' => $status,
+            'message' => $status ? 'Issue is now resolved!' : 'Issue could not be resolved!'
+        ]);
+    }
+
+    /**
+     * Set an issue as incomplete.
+     *
+     * @param  int  $issue_id
+     * @return \Illuminate\Http\Response
+     */
+    public function unresolve(Issue $issue)
+    {
+        $issue->resolved = 0;
+        $issue->resolved_date = null;
+        $status = $issue->save();
+
+        $notification = new Notification;
+        $notification->createNotification("Issue #" . $issue->id . " is unresolved.");
+
+        return response()->json([
+            'status' => $status,
+            'message' => $status ? 'Issue is now unresolved!' : 'Issue could not be marked as unresolved!'
         ]);
     }
 }

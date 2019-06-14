@@ -8,27 +8,48 @@
                 </v-btn>
             </v-container>
         </v-layout>
-        <v-layout row text-xs-center>
-            <v-container v-if="issues.length == 0" class="headline">
-                You do not currently have any issues..
+
+        <v-layout row>
+            <v-container>
+                <v-text-field
+                    v-model="search"
+                    append-icon="search"
+                    label="Search"
+                    single-line
+                    hide-details
+                    box
+                ></v-text-field>
+                <v-data-table
+                    :headers="headers"
+                    :items="issues"
+                    :search="search"
+                    :pagination.sync="pagination"
+                    hide-actions
+                    class="elevation-1"
+                    no-data-text="You do not currently have any issues."
+                >
+                    <template v-slot:items="props">
+                        <td>
+                            <span v-if="props.item.resolved">
+                                <v-icon class="pointer" color="success" @click="unresolveIssue(props.item.id)">check_circle</v-icon>
+                            </span>
+                            <span v-else>
+                                <v-icon class="pointer" color="error" @click="resolveIssue(props.item.id)">remove_circle</v-icon>
+                            </span>
+                        </td>
+                        <td>{{ props.item.priority }}</td>
+                        <td>{{ props.item.description | truncate(125) }}</td>
+                        <td><span v-if="props.item.project">{{ props.item.project.name }}</span></td>
+                        <td width="15%">{{ props.item.created_at | fromNow() }}</td>
+                        <td width="25%">
+                            <v-form method="POST" id="deleteForm" @submit.prevent="deleteIssue(props.item.id)">
+                                <v-btn :to="'/issue/' + props.item.id" color="primary" class="white--text">Edit</v-btn>
+                                <v-btn type="submit" color="red darken-1" class="white--text">Delete</v-btn>
+                            </v-form>
+                        </td>
+                    </template>
+                </v-data-table>
             </v-container>
-        </v-layout>
-        <v-layout row wrap>
-            <v-flex xs12 md6 lg4 v-for="issue in issues" :key="issue.id">
-                <v-card class="data-card medium">
-                    <router-link :to="'/issues/' + issue.id">
-                        <span class="title">#{{ issue.id }}</span>
-                        <v-card-text>
-                            {{ issue.description | truncate(150) }}
-                        </v-card-text>
-                    </router-link>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn flat color="red darken-2" @click="removeIssue(issue.id)">Remove</v-btn>
-                        <v-spacer></v-spacer>
-                    </v-card-actions>
-                </v-card>
-            </v-flex>
         </v-layout>
 
         <v-dialog v-model="dialog" width="500">
@@ -100,6 +121,19 @@ export default {
             project_id: '',
             priority: '',
             issues: [],
+            search: '',
+            pagination: {
+                sortBy: 'resolved',
+                rowsPerPage: -1
+            },
+            headers: [
+                { text: 'Status', value: 'resolved' },
+                { text: 'Priority', value: 'priority' },
+                { text: 'Description', value: 'desription' },
+                { text: 'Project', value: 'project.name' },
+                { text: 'Created', value: 'created_at' },
+                { text: 'Actions', value: 'actions', sortable: false },
+            ],
         }
     },
     methods: {
@@ -136,13 +170,43 @@ export default {
 
             this.reset()
         },
-        removeIssue(issue_id) {
+        resolveIssue(issue_id) {
+            axios.post('/api/issues/' + issue_id + '/resolve')
+            .then(response => {
+                this.getIssues()
+
+                this.snackbar.color = 'success'
+                this.snackbar.message = "Issue is now resolved!"
+                this.snackbar.enabled = true
+            })
+            .catch(function (error) {
+                this.snackbar.color = 'danger'
+                this.snackbar.message = "Issue could not be resolved!"
+                this.snackbar.enabled = true
+            })
+        },
+        unresolveIssue(issue_id) {
+            axios.post('/api/issues/' + issue_id + '/unresolve')
+            .then(response => {
+                this.getIssues()
+
+                this.snackbar.color = 'warning'
+                this.snackbar.message = "Issue is now unresolved!"
+                this.snackbar.enabled = true
+            })
+            .catch(function (error) {
+                this.snackbar.color = 'danger'
+                this.snackbar.message = "Issue could not be marked as unresolved!"
+                this.snackbar.enabled = true
+            })
+        },
+        deleteIssue(issue_id) {
             axios.delete('/api/issues/' + issue_id)
             .then(response => {
                 this.getIssues()
 
                 this.snackbar.color = 'success'
-                this.snackbar.message = "Project successfully removed!"
+                this.snackbar.message = "Issue successfully deleted!"
                 this.snackbar.enabled = true
             })
         },
