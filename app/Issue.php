@@ -9,7 +9,7 @@ use Spatie\Searchable\SearchResult;
 class Issue extends Model implements Searchable
 {
     protected $fillable = [
-        'description', 'priority',
+        'description', 'priority', 'user_id'
     ];
 
     public function user()

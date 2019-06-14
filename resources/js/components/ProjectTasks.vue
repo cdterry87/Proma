@@ -27,13 +27,13 @@
         <v-layout row wrap v-else>
             <v-flex xs12 md6 lg4 v-for="task in projectTasks" :key="task.id">
                 <v-card class="data-card medium">
-                    <v-alert :value="true" v-if="task.complete" type="success" @click="incompleteTask(task.project_id, task.id)">
+                    <v-alert :value="true" v-if="task.completed" type="success" @click="incompleteTask(task.project_id, task.id)">
                         Task completed {{ task.completed_date }}.
                     </v-alert>
-                    <v-alert :value="true" v-else-if="!task.complete && task.due_date != '' && task.due_date != null && new Date(task.due_date) < Date.now()" type="error" @click="completeTask(task.project_id, task.id)">
+                    <v-alert :value="true" v-else-if="!task.completed && task.due_date != '' && task.due_date != null && new Date(task.due_date) < Date.now()" type="error" @click="completeTask(task.project_id, task.id)">
                         Task was due {{ task.due_date }}.
                     </v-alert>
-                    <v-alert :value="true" v-else-if="!task.complete" type="warning" @click="completeTask(task.project_id, task.id)">
+                    <v-alert :value="true" v-else-if="!task.completed" type="warning" @click="completeTask(task.project_id, task.id)">
                         <span v-if="task.due_date">Task is due {{ task.due_date }}.</span>
                         <span v-else>Task is incomplete.</span>
                     </v-alert>

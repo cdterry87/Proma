@@ -17,7 +17,7 @@ class ProjectTaskController extends Controller
     public function index(Project $project)
     {
         return response()->json($project->tasks()
-            ->orderBy('complete')
+            ->orderBy('completed')
             ->orderByRaw('ISNULL(due_date), due_date ASC')
             ->orderByRaw('ISNULL(completed_date), completed_date ASC')
             ->get());
@@ -108,7 +108,7 @@ class ProjectTaskController extends Controller
      */
     public function complete(Project $project, ProjectTask $task)
     {
-        $task->complete = 1;
+        $task->completed = 1;
         $task->completed_date = date('Y-m-d');
         $status = $task->save();
 
@@ -130,7 +130,7 @@ class ProjectTaskController extends Controller
      */
     public function incomplete(Project $project, ProjectTask $task)
     {
-        $task->complete = 0;
+        $task->completed = 0;
         $status = $task->save();
 
         $notification = new Notification;

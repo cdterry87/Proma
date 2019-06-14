@@ -7,9 +7,9 @@ use Faker\Generator as Faker;
 
 $factory->define(App\Project::class, function (Faker $faker) {
 
-    $complete = rand(0, 1);
+    $completed = rand(0, 1);
     $completed_date = null;
-    if ($complete) {
+    if ($completed) {
         $completed_date = date('Y-m-d H:i:s');
     }
 
@@ -17,7 +17,7 @@ $factory->define(App\Project::class, function (Faker $faker) {
         'user_id' => 1,
         'name' => ucwords($faker->sentence(rand(3, 6), true)),
         'description' => $faker->paragraph(10),
-        'complete' => $complete,
+        'completed' => $completed,
         'completed_date' => $completed_date,
         'client_id' => rand(1, 9)
     ];

@@ -902,6 +902,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Issues',
   data: function data() {
@@ -945,6 +946,7 @@ __webpack_require__.r(__webpack_exports__);
       var project_id = this.project_id;
       axios.post('/api/issues', {
         description: description,
+        priority: priority,
         project_id: project_id
       }).then(function (response) {
         _this3.issues.push(response.data.data);
@@ -4485,12 +4487,16 @@ var render = function() {
             [
               _c(
                 "v-card",
-                { staticClass: "data-card small" },
+                { staticClass: "data-card medium" },
                 [
                   _c(
                     "router-link",
                     { attrs: { to: "/issues/" + issue.id } },
                     [
+                      _c("span", { staticClass: "title" }, [
+                        _vm._v("#" + _vm._s(issue.id))
+                      ]),
+                      _vm._v(" "),
                       _c("v-card-text", [
                         _vm._v(
                           "\n                        " +
@@ -5430,7 +5436,7 @@ var render = function() {
                     "v-card",
                     { staticClass: "data-card medium" },
                     [
-                      task.complete
+                      task.completed
                         ? _c(
                             "v-alert",
                             {
@@ -5452,7 +5458,7 @@ var render = function() {
                               )
                             ]
                           )
-                        : !task.complete &&
+                        : !task.completed &&
                           task.due_date != "" &&
                           task.due_date != null &&
                           new Date(task.due_date) < Date.now()
@@ -5477,7 +5483,7 @@ var render = function() {
                               )
                             ]
                           )
-                        : !task.complete
+                        : !task.completed
                         ? _c(
                             "v-alert",
                             {

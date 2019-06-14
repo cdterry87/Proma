@@ -17,7 +17,7 @@ class ProjectController extends Controller
     public function index()
     {
         return response()->json(Auth::user()->projects()
-            ->orderBy('complete')
+            ->orderBy('completed')
             ->orderByRaw('ISNULL(due_date), due_date ASC')
             ->orderByRaw('ISNULL(completed_date), completed_date ASC')
             ->get());
@@ -114,7 +114,7 @@ class ProjectController extends Controller
      */
     public function complete(Project $project)
     {
-        $project->complete = 1;
+        $project->completed = 1;
         $project->completed_date = date('Y-m-d');
         $status = $project->save();
 
@@ -136,7 +136,7 @@ class ProjectController extends Controller
      */
     public function incomplete(Project $project)
     {
-        $project->complete = 0;
+        $project->completed = 0;
         $status = $project->save();
 
         $notification = new Notification;

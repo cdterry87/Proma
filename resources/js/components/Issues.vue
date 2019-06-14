@@ -15,8 +15,9 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex xs12 md6 lg4 v-for="issue in issues" :key="issue.id">
-                <v-card class="data-card small">
+                <v-card class="data-card medium">
                     <router-link :to="'/issues/' + issue.id">
+                        <span class="title">#{{ issue.id }}</span>
                         <v-card-text>
                             {{ issue.description | truncate(150) }}
                         </v-card-text>
@@ -119,7 +120,7 @@ export default {
             let priority = this.priority
             let project_id = this.project_id
 
-            axios.post('/api/issues', { description, project_id })
+            axios.post('/api/issues', { description, priority, project_id })
             .then(response => {
                 this.issues.push(response.data.data)
 
