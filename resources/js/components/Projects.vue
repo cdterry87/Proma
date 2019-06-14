@@ -9,20 +9,20 @@
             </v-container>
         </v-layout>
         <v-layout row text-xs-center>
-            <v-container v-if="projects.length == 0">
+            <v-container v-if="projects.length == 0" class="headline">
                 You do not currently have any projects.
             </v-container>
         </v-layout>
         <v-layout row wrap>
             <v-flex xs12 md6 lg4 v-for="project in projects" :key="project.id">
                 <v-card class="data-card large">
-                    <v-alert :value="true" v-if="project.complete" type="success" @click="incompleteProject(project.id)">
+                    <v-alert :value="true" v-if="project.completed" type="success" @click="incompleteProject(project.id)">
                         Project completed {{ project.completed_date }}.
                     </v-alert>
-                    <v-alert :value="true" v-else-if="!project.complete && project.due_date != '' && project.due_date != null && new Date(project.due_date) < Date.now()" type="error" @click="completeProject(project.id)">
+                    <v-alert :value="true" v-else-if="!project.completed && project.due_date != '' && project.due_date != null && new Date(project.due_date) < Date.now()" type="error" @click="completeProject(project.id)">
                         Project was due {{ project.due_date }}.
                     </v-alert>
-                    <v-alert :value="true" v-else-if="!project.complete" type="warning" @click="completeProject(project.id)">
+                    <v-alert :value="true" v-else-if="!project.completed" type="warning" @click="completeProject(project.id)">
                         <span v-if="project.due_date">Project is due {{ project.due_date }}.</span>
                         <span v-else>Project is incomplete.</span>
                     </v-alert>
@@ -51,16 +51,6 @@
                         <v-layout row wrap>
                             <v-flex xs12>
                                 <v-text-field prepend-icon="work" label="Project Name" v-model="name" maxlength="100"></v-text-field>
-                            </v-flex>
-                            <v-flex xs12>
-                                <v-autocomplete
-                                    :items="teams"
-                                    item-text="name"
-                                    item-value="id"
-                                    label="Select a team"
-                                    prepend-icon="people"
-                                    v-model="team_id"
-                                ></v-autocomplete>
                             </v-flex>
                             <v-flex xs12>
                                  <v-autocomplete

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Client;
 use App\ClientContact;
 use App\Project;
+use App\Issue;
 use App\Notification;
 use Illuminate\Http\Request;
 use Spatie\Searchable\Search;
@@ -36,7 +37,7 @@ class HomeController extends Controller
         $results = (new Search())
             ->registerModel(Client::class, 'name')
             ->registerModel(Project::class, 'name')
-            ->registerModel(Issue::class, 'name')
+            ->registerModel(Issue::class, 'description')
             ->perform($request->input('query'));
         return response()->json($results);
     }

@@ -21,7 +21,9 @@
                     <template v-slot:item="{ item }">
                         <router-link :to="item.url" class="search-link">
                             <v-list-tile-content>
-                                <v-list-tile-title v-text="item.title"></v-list-tile-title>
+                                <v-list-tile-title>
+                                    {{ item.title | truncate(50) }}
+                                </v-list-tile-title>
                             </v-list-tile-content>
                         </router-link>
                     </template>
@@ -40,13 +42,13 @@
                             <v-icon>work</v-icon>
                             <span class="tab-title">Projects</span>
                         </v-tab>
-                        <v-tab to="/clients" >
-                            <v-icon>person</v-icon>
-                            <span class="tab-title">Clients</span>
-                        </v-tab>
                         <v-tab to="/issues" >
                             <v-icon>bug_report</v-icon>
                             <span class="tab-title">Issues</span>
+                        </v-tab>
+                        <v-tab to="/clients" >
+                            <v-icon>person</v-icon>
+                            <span class="tab-title">Clients</span>
                         </v-tab>
                     </v-tabs>
                 </template>
@@ -104,6 +106,10 @@
                     </v-card>
                 </v-form>
             </v-dialog>
+
+            <div class="footer text-xs-center mt-5 mb-3">
+                &copy; Chase Terry 2019
+            </div>
         </v-app>
     </div>
 </template>
@@ -138,10 +144,12 @@ export default {
         search() {
             let query = this.searchInput
 
-            axios.post('/api/search', { query })
-            .then(response => {
-                this.results = response.data
-            });
+            if (!_.isNull(query)) {
+                axios.post('/api/search', { query })
+                .then(response => {
+                    this.results = response.data
+                });
+            }
         },
         getNotifications() {
             this.notifications.enabled = true

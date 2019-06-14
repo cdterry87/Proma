@@ -6,6 +6,6 @@
 
 <script>
     export default {
-        name: 'ViewIssue'
+        name: 'IssueActivities'
     }
 </script>

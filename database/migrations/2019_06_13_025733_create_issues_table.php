@@ -21,8 +21,8 @@ class CreateIssuesTable extends Migration
             $table->bigInteger('project_id')->nullable();
             $table->text('description')->nullable();
             $table->text('priority')->nullable();
-            $table->boolean('complete')->default(false);
-            $table->date('completed_date')->nullable();
+            $table->boolean('resolved')->default(false);
+            $table->date('resolved_date')->nullable();
             $table->timestamps();
         });
     }

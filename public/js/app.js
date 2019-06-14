@@ -205,6 +205,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'App',
   data: function data() {
@@ -234,11 +240,14 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var query = this.searchInput;
-      axios.post('/api/search', {
-        query: query
-      }).then(function (response) {
-        _this.results = response.data;
-      });
+
+      if (!_.isNull(query)) {
+        axios.post('/api/search', {
+          query: query
+        }).then(function (response) {
+          _this.results = response.data;
+        });
+      }
     },
     getNotifications: function getNotifications() {
       var _this2 = this;
@@ -817,8 +826,160 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'Issues'
+  name: 'Issues',
+  data: function data() {
+    return {
+      dialog: false,
+      snackbar: {
+        enabled: false,
+        message: '',
+        timeout: 5000,
+        y: 'bottom',
+        x: 'right',
+        color: ''
+      },
+      description: '',
+      projects: [],
+      project_id: '',
+      priority: '',
+      issues: []
+    };
+  },
+  methods: {
+    getIssues: function getIssues() {
+      var _this = this;
+
+      axios.get('/api/issues').then(function (response) {
+        _this.issues = response.data;
+      });
+    },
+    getProjects: function getProjects() {
+      var _this2 = this;
+
+      axios.get('/api/projects').then(function (response) {
+        _this2.projects = response.data;
+      });
+    },
+    addIssue: function addIssue() {
+      var _this3 = this;
+
+      var description = this.description;
+      var priority = this.priority;
+      var project_id = this.project_id;
+      axios.post('/api/issues', {
+        description: description,
+        project_id: project_id
+      }).then(function (response) {
+        _this3.issues.push(response.data.data);
+
+        _this3.snackbar.color = 'success';
+        _this3.snackbar.message = "Issue successfully created!";
+        _this3.snackbar.enabled = true;
+      })["catch"](function (error) {
+        this.snackbar.color = 'error';
+        this.snackbar.message = "Error creating issue!";
+        this.snackbar.enabled = true;
+      });
+      this.reset();
+    },
+    removeIssue: function removeIssue(issue_id) {
+      var _this4 = this;
+
+      axios["delete"]('/api/issues/' + issue_id).then(function (response) {
+        _this4.getIssues();
+
+        _this4.snackbar.color = 'success';
+        _this4.snackbar.message = "Project successfully removed!";
+        _this4.snackbar.enabled = true;
+      });
+    },
+    reset: function reset() {
+      this.dialog = false;
+      this.project_id = '';
+      this.description = '';
+    }
+  },
+  mounted: function mounted() {
+    this.getIssues();
+    this.getProjects();
+  }
 });
 
 /***/ }),
@@ -1317,16 +1478,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -2744,12 +2895,12 @@ var render = function() {
                           _vm._v(" "),
                           _c(
                             "v-tab",
-                            { attrs: { to: "/clients" } },
+                            { attrs: { to: "/issues" } },
                             [
-                              _c("v-icon", [_vm._v("person")]),
+                              _c("v-icon", [_vm._v("bug_report")]),
                               _vm._v(" "),
                               _c("span", { staticClass: "tab-title" }, [
-                                _vm._v("Clients")
+                                _vm._v("Issues")
                               ])
                             ],
                             1
@@ -2757,12 +2908,12 @@ var render = function() {
                           _vm._v(" "),
                           _c(
                             "v-tab",
-                            { attrs: { to: "/issues" } },
+                            { attrs: { to: "/clients" } },
                             [
-                              _c("v-icon", [_vm._v("bug_report")]),
+                              _c("v-icon", [_vm._v("person")]),
                               _vm._v(" "),
                               _c("span", { staticClass: "tab-title" }, [
-                                _vm._v("Issues")
+                                _vm._v("Clients")
                               ])
                             ],
                             1
@@ -2822,9 +2973,15 @@ var render = function() {
                             _c(
                               "v-list-tile-content",
                               [
-                                _c("v-list-tile-title", {
-                                  domProps: { textContent: _vm._s(item.title) }
-                                })
+                                _c("v-list-tile-title", [
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(
+                                        _vm._f("truncate")(item.title, 50)
+                                      ) +
+                                      "\n                            "
+                                  )
+                                ])
                               ],
                               1
                             )
@@ -3139,7 +3296,11 @@ var render = function() {
               )
             ],
             1
-          )
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "footer text-xs-center mt-5 mb-3" }, [
+            _vm._v("\n            © Chase Terry 2019\n        ")
+          ])
         ],
         1
       )
@@ -3960,7 +4121,7 @@ var render = function() {
         { attrs: { row: "", "text-xs-center": "" } },
         [
           _vm.clients.length == 0
-            ? _c("v-container", [
+            ? _c("v-container", { staticClass: "headline" }, [
                 _vm._v(
                   "\n            You do not currently have any clients.\n        "
                 )
@@ -4262,7 +4423,351 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c(
+    "v-container",
+    { attrs: { fluid: "", "grid-list-md": "" } },
+    [
+      _c(
+        "v-layout",
+        { attrs: { row: "" } },
+        [
+          _c(
+            "v-container",
+            { attrs: { "text-xs-center": "" } },
+            [
+              _c(
+                "v-btn",
+                {
+                  attrs: { color: "info" },
+                  on: {
+                    click: function($event) {
+                      _vm.dialog = true
+                    }
+                  }
+                },
+                [
+                  _c("v-icon", { attrs: { left: "", dark: "" } }, [
+                    _vm._v("add")
+                  ]),
+                  _vm._v("\n                Add an Issue\n            ")
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-layout",
+        { attrs: { row: "", "text-xs-center": "" } },
+        [
+          _vm.issues.length == 0
+            ? _c("v-container", { staticClass: "headline" }, [
+                _vm._v(
+                  "\n            You do not currently have any issues..\n        "
+                )
+              ])
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-layout",
+        { attrs: { row: "", wrap: "" } },
+        _vm._l(_vm.issues, function(issue) {
+          return _c(
+            "v-flex",
+            { key: issue.id, attrs: { xs12: "", md6: "", lg4: "" } },
+            [
+              _c(
+                "v-card",
+                { staticClass: "data-card small" },
+                [
+                  _c(
+                    "router-link",
+                    { attrs: { to: "/issues/" + issue.id } },
+                    [
+                      _c("v-card-text", [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(_vm._f("truncate")(issue.description, 150)) +
+                            "\n                    "
+                        )
+                      ])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { flat: "", color: "red darken-2" },
+                          on: {
+                            click: function($event) {
+                              return _vm.removeIssue(issue.id)
+                            }
+                          }
+                        },
+                        [_vm._v("Remove")]
+                      ),
+                      _vm._v(" "),
+                      _c("v-spacer")
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        }),
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { width: "500" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _c(
+            "v-form",
+            {
+              attrs: { method: "POST", id: "issueForm" },
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.addIssue($event)
+                }
+              }
+            },
+            [
+              _c(
+                "v-card",
+                [
+                  _c(
+                    "v-card-title",
+                    { staticClass: "blue darken-3 white--text py-4 title" },
+                    [_vm._v("Add Issue")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-container",
+                    { staticClass: "pa-4", attrs: { "grid-list-sm": "" } },
+                    [
+                      _c(
+                        "v-layout",
+                        { attrs: { row: "", wrap: "" } },
+                        [
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "" } },
+                            [
+                              _c("v-autocomplete", {
+                                attrs: {
+                                  items: _vm.projects,
+                                  "item-text": "name",
+                                  "item-value": "id",
+                                  label: "Select a project",
+                                  "prepend-icon": "work"
+                                },
+                                model: {
+                                  value: _vm.project_id,
+                                  callback: function($$v) {
+                                    _vm.project_id = $$v
+                                  },
+                                  expression: "project_id"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "" } },
+                            [
+                              _c("v-textarea", {
+                                attrs: {
+                                  "prepend-icon": "notes",
+                                  label: "Description"
+                                },
+                                model: {
+                                  value: _vm.description,
+                                  callback: function($$v) {
+                                    _vm.description = $$v
+                                  },
+                                  expression: "description"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "" } },
+                            [
+                              _c(
+                                "v-radio-group",
+                                {
+                                  attrs: { row: "" },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "label",
+                                      fn: function() {
+                                        return [
+                                          _c("div", [_vm._v("Priority:")])
+                                        ]
+                                      },
+                                      proxy: true
+                                    }
+                                  ]),
+                                  model: {
+                                    value: _vm.priority,
+                                    callback: function($$v) {
+                                      _vm.priority = $$v
+                                    },
+                                    expression: "priority"
+                                  }
+                                },
+                                [
+                                  _vm._v(" "),
+                                  _c("v-radio", {
+                                    attrs: { label: "1", value: "1" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-radio", {
+                                    attrs: { label: "2", value: "2" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-radio", {
+                                    attrs: { label: "3", value: "3" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-radio", {
+                                    attrs: { label: "4", value: "4" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-radio", {
+                                    attrs: { label: "5", value: "5" }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            type: "submit",
+                            flat: "",
+                            color: "blue darken-2"
+                          }
+                        },
+                        [_vm._v("Save")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            flat: "",
+                            color: "red darken-2",
+                            form: "projectForm"
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.dialog = false
+                            }
+                          }
+                        },
+                        [_vm._v("Cancel")]
+                      ),
+                      _vm._v(" "),
+                      _c("v-spacer")
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-snackbar",
+        {
+          attrs: {
+            color: _vm.snackbar.color,
+            bottom: true,
+            right: true,
+            timeout: _vm.snackbar.timeout
+          },
+          model: {
+            value: _vm.snackbar.enabled,
+            callback: function($$v) {
+              _vm.$set(_vm.snackbar, "enabled", $$v)
+            },
+            expression: "snackbar.enabled"
+          }
+        },
+        [
+          _vm._v("\n        " + _vm._s(_vm.snackbar.message) + "\n        "),
+          _c(
+            "v-btn",
+            {
+              attrs: { color: "white", flat: "" },
+              on: {
+                click: function($event) {
+                  _vm.snackbar.enabled = false
+                }
+              }
+            },
+            [_c("v-icon", [_vm._v("close")])],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -4301,7 +4806,7 @@ var render = function() {
                 "v-flex",
                 { staticClass: "clickable", attrs: { xs12: "" } },
                 [
-                  _vm.project.complete
+                  _vm.project.completed
                     ? _c(
                         "v-alert",
                         {
@@ -4320,7 +4825,7 @@ var render = function() {
                           )
                         ]
                       )
-                    : !_vm.project.complete &&
+                    : !_vm.project.completed &&
                       _vm.project.due_date != "" &&
                       _vm.project.due_date != null &&
                       new Date(_vm.project.due_date) < Date.now()
@@ -4342,7 +4847,7 @@ var render = function() {
                           )
                         ]
                       )
-                    : !_vm.project.complete
+                    : !_vm.project.completed
                     ? _c(
                         "v-alert",
                         {
@@ -5407,7 +5912,7 @@ var render = function() {
         { attrs: { row: "", "text-xs-center": "" } },
         [
           _vm.projects.length == 0
-            ? _c("v-container", [
+            ? _c("v-container", { staticClass: "headline" }, [
                 _vm._v(
                   "\n            You do not currently have any projects.\n        "
                 )
@@ -5429,7 +5934,7 @@ var render = function() {
                 "v-card",
                 { staticClass: "data-card large" },
                 [
-                  project.complete
+                  project.completed
                     ? _c(
                         "v-alert",
                         {
@@ -5448,7 +5953,7 @@ var render = function() {
                           )
                         ]
                       )
-                    : !project.complete &&
+                    : !project.completed &&
                       project.due_date != "" &&
                       project.due_date != null &&
                       new Date(project.due_date) < Date.now()
@@ -5470,7 +5975,7 @@ var render = function() {
                           )
                         ]
                       )
-                    : !project.complete
+                    : !project.completed
                     ? _c(
                         "v-alert",
                         {
@@ -5609,30 +6114,6 @@ var render = function() {
                                     _vm.name = $$v
                                   },
                                   expression: "name"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            { attrs: { xs12: "" } },
-                            [
-                              _c("v-autocomplete", {
-                                attrs: {
-                                  items: _vm.teams,
-                                  "item-text": "name",
-                                  "item-value": "id",
-                                  label: "Select a team",
-                                  "prepend-icon": "people"
-                                },
-                                model: {
-                                  value: _vm.team_id,
-                                  callback: function($$v) {
-                                    _vm.team_id = $$v
-                                  },
-                                  expression: "team_id"
                                 }
                               })
                             ],

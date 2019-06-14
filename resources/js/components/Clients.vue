@@ -9,7 +9,7 @@
             </v-container>
         </v-layout>
         <v-layout row text-xs-center>
-            <v-container v-if="clients.length == 0">
+            <v-container v-if="clients.length == 0" class="headline">
                 You do not currently have any clients.
             </v-container>
         </v-layout>

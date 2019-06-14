@@ -3,13 +3,13 @@
         <v-container fluid grid-list-md>
             <v-layout align-baseline>
                 <v-flex xs12 class="clickable">
-                    <v-alert :value="true" v-if="project.complete" type="success" @click="incompleteProject(project.id)">
+                    <v-alert :value="true" v-if="project.completed" type="success" @click="incompleteProject(project.id)">
                         Project completed {{ project.completed_date }}.
                     </v-alert>
-                    <v-alert :value="true" v-else-if="!project.complete && project.due_date != '' && project.due_date != null && new Date(project.due_date) < Date.now()" type="error" @click="completeProject(project.id)">
+                    <v-alert :value="true" v-else-if="!project.completed && project.due_date != '' && project.due_date != null && new Date(project.due_date) < Date.now()" type="error" @click="completeProject(project.id)">
                         Project was due {{ project.due_date }}.
                     </v-alert>
-                    <v-alert :value="true" v-else-if="!project.complete" type="warning" @click="completeProject(project.id)">
+                    <v-alert :value="true" v-else-if="!project.completed" type="warning" @click="completeProject(project.id)">
                         <span v-if="project.due_date">Project is due {{ project.due_date }}.</span>
                         <span v-else>Project is incomplete.</span>
                     </v-alert>

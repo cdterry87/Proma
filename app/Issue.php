@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
-class Issue extends Model
+class Issue extends Model implements Searchable
 {
     protected $fillable = [
         'description', 'priority',
@@ -22,11 +22,16 @@ class Issue extends Model
         return $this->hasMany('App\IssueActivity');
     }
 
+    public function project()
+    {
+        return $this->belongsTo('App\Project');
+    }
+
     public function getSearchResult(): SearchResult
     {
         return new SearchResult(
             $this,
-            $this->name,
+            $this->description,
             '/issue/' . $this->id
         );
     }

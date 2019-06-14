@@ -17,8 +17,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::prefix('api')->group(function () {
         // Primary Resources
         Route::resource('/clients', 'ClientController');
-        Route::resource('/teams', 'TeamController');
         Route::resource('/projects', 'ProjectController');
+        Route::resource('/issues', 'IssueController');
 
         // Projects
         Route::post('/projects/{project}/complete', 'ProjectController@complete');
@@ -34,21 +34,18 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/contacts/{client}', 'ClientContactController@index');
         Route::resource('/contacts', 'ClientContactController');
 
-        // Teams - Users
-        Route::get('/teams/{team}/users', 'TeamController@users');
-
-        // Teams - Members
-        Route::get('/members/{team}', 'TeamMemberController@index');
-        Route::resource('/members', 'TeamMemberController');
+        // Issues - Activities
+        Route::get('/activities/{activity}', 'IssueActivityController@index');
+        Route::resource('/activities', 'IssueActivityController');
 
         // User
         Route::get('/user/', 'UserController@index');
         Route::put('/user/', 'UserController@update');
 
         // Users - Associated
-        Route::get('/users/teams', 'UserController@teams');
         Route::get('/users/clients', 'UserController@clients');
         Route::get('/users/projects', 'UserController@projects');
+        Route::get('/users/issues', 'UserController@issues');
 
         // Search
         Route::post('/search', 'HomeController@search')->name('search');
