@@ -7,7 +7,7 @@ use App\ClientContact;
 use App\Project;
 use App\ProjectTask;
 use App\Issue;
-use App\IssueActivity;
+use App\IssueNote;
 use App\Notification;
 use Illuminate\Http\Request;
 use Spatie\Searchable\Search;
@@ -42,7 +42,7 @@ class HomeController extends Controller
             ->registerModel(Project::class, 'name')
             ->registerModel(ProjectTask::class, 'description')
             ->registerModel(Issue::class, 'description')
-            ->registerModel(IssueActivity::class, 'description')
+            ->registerModel(IssueNote::class, 'description')
             ->perform($request->input('query'));
         return response()->json($results);
     }
