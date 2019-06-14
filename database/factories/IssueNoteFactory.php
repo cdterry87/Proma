@@ -5,7 +5,7 @@
 use App\Model;
 use Faker\Generator as Faker;
 
-$factory->define(App\IssueActivity::class, function (Faker $faker) {
+$factory->define(App\IssueNote::class, function (Faker $faker) {
     return [
         'issue_id' => rand(1, 9),
         'description' => $faker->paragraph(10),

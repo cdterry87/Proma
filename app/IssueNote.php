@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
-class IssueActivity extends Model implements Searchable
+class IssueNote extends Model implements Searchable
 {
-    protected $table = 'issues_activities';
+    protected $table = 'issues_notes';
 
     protected $fillable = [
         'issue_id', 'description'

@@ -17,7 +17,7 @@
                         <v-card-text>
                              <v-layout align-baseline>
                                 <v-flex xs6>
-                                    <span class="headline">
+                                    <span class="title">
                                         <v-icon>work</v-icon>
                                         {{ project.name }}
                                     </span>
@@ -33,7 +33,7 @@
                                 {{ project.description }}
                             </div>
                             <div class="mt-4" v-if="project.client">
-                                <span class="headline">
+                                <span class="title">
                                     <v-icon>person</v-icon> Client
                                 </span>
                                 <div>
@@ -139,7 +139,6 @@
                 },
                 project: '',
                 tasks: '',
-                teams: [],
                 clients: []
             }
         },
@@ -226,10 +225,6 @@
             }
         },
         created() {
-            EventBus.$on('addTask', tasks => {
-                this.tasks = tasks
-            })
-
             EventBus.$on('loadTasks', project_id => {
                 this.getProjectTasks(project_id)
             })

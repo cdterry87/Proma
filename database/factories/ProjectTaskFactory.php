@@ -16,7 +16,7 @@ $factory->define(App\ProjectTask::class, function (Faker $faker) {
     return [
         'project_id' => rand(1, 9),
         'description' => $faker->paragraph(rand(5, 10)),
-        'due_date' => $faker->dateTime('+' . rand(2, 12) . ' months'),
+        'due_date' => $faker->dateTimeBetween('-6 months', '+6 months'),
         'completed' => $completed,
         'completed_date' => $completed_date
     ];

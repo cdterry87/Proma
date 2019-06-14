@@ -7,7 +7,7 @@ use App\ClientContact;
 use App\Project;
 use App\ProjectTask;
 use App\Issue;
-use App\IssueActivity;
+use App\IssueNote;
 
 class UserSeeder extends Seeder
 {
@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
 
             $user->issues()->saveMany(factory(Issue::class, 9)->create()
                 ->each(function ($issue) {
-                    $issue->activities()->saveMany(factory(IssueActivity::class, 9)->create([
+                    $issue->notes()->saveMany(factory(IssueNote::class, 9)->create([
                         'issue_id' => $issue->first()->id,
                     ]));
                 }));

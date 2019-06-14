@@ -13,7 +13,7 @@
                         <v-card-text>
                              <v-layout align-baseline>
                                 <v-flex xs6>
-                                    <span class="headline" v-if="issue.project">
+                                    <span class="title" v-if="issue.project">
                                         <v-icon>star</v-icon>
                                         Priority: {{ issue.priority }}
                                     </span>
@@ -29,7 +29,7 @@
                                 {{ issue.description }}
                             </div>
                             <div class="mt-4" v-if="issue.project">
-                                <span class="headline">
+                                <span class="title">
                                     <v-icon>work</v-icon> Project
                                 </span>
                                 <div>
@@ -42,7 +42,7 @@
             </v-layout>
         </v-container>
 
-        <IssueActivities :issueInfo="issue" :issueActivities="activities" />
+        <IssueNotes :issueInfo="issue" :issueNotes="notes" />
 
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="editIssueForm" @submit.prevent="updateIssue">
@@ -99,13 +99,13 @@
 
 <script>
     import EventBus from './../eventbus'
-    import IssueActivities from './IssueActivities'
+    import IssueNotes from './IssueNotes'
 
     export default {
         name: 'Issue',
         props: ['id'],
         components: {
-            IssueActivities
+            IssueNotes
         },
         data() {
             return {
@@ -119,8 +119,7 @@
                     color: ''
                 },
                 issue: '',
-                activities: '',
-                teams: [],
+                notes: '',
                 projects: []
             }
         },
@@ -130,7 +129,7 @@
                 .then(response => {
                     this.issue = response.data
 
-                    this.getIssueActivities(this.id);
+                    this.getIssueNotes(this.id);
                 })
             },
             getProjects() {
@@ -139,10 +138,10 @@
                     this.projects = response.data
                 })
             },
-            getIssueActivities(issue_id) {
-                axios.get('/api/activites/' + issue_id)
+            getIssueNotes(issue_id) {
+                axios.get('/api/notes/' + issue_id)
                 .then(response => {
-                    this.activities = response.data
+                    this.notes = response.data
                 })
             },
             updateIssue() {
@@ -202,12 +201,8 @@
             }
         },
         created() {
-            EventBus.$on('addActivity', activities => {
-                this.activities = activities
-            })
-
-            EventBus.$on('loadActivities', issue_id => {
-                this.getIssueActivities(issue_id)
+            EventBus.$on('loadNotes', issue_id => {
+                this.getIssueNotes(issue_id)
             })
         },
         mounted() {

@@ -17,6 +17,7 @@ $factory->define(App\Project::class, function (Faker $faker) {
         'user_id' => 1,
         'name' => ucwords($faker->sentence(rand(3, 6), true)),
         'description' => $faker->paragraph(10),
+        'due_date' => $faker->dateTimeBetween('-6 months', '+6 months'),
         'completed' => $completed,
         'completed_date' => $completed_date,
         'client_id' => rand(1, 9)

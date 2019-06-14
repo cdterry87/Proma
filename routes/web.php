@@ -47,9 +47,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/issues/{issue}/resolve', 'IssueController@resolve');
         Route::post('/issues/{issue}/unresolve', 'IssueController@unresolve');
 
-        // Issues - Activities
-        Route::get('/activities/{activity}', 'IssueActivityController@index');
-        Route::resource('/activities', 'IssueActivityController');
+        // Issues - Notes
+        Route::get('/notes/{issue}', 'IssueNoteController@index');
+        Route::resource('/notes', 'IssueNoteController');
 
         // User
         Route::get('/user/', 'UserController@index');

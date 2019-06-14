@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIssuesActivitiesTable extends Migration
+class CreateIssuesNotesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateIssuesActivitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('issues_activities', function (Blueprint $table) {
+        Schema::create('issues_notes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('issue_id')->unsigned();
             $table->foreign('issue_id')->references('id')->on('issues')->onDelete('cascade');
@@ -29,6 +29,6 @@ class CreateIssuesActivitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('issues_activities');
+        Schema::dropIfExists('issues_notes');
     }
 }

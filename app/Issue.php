@@ -17,9 +17,9 @@ class Issue extends Model implements Searchable
         return $this->belongsTo('App\User')->withTimestamps();
     }
 
-    public function activities()
+    public function notes()
     {
-        return $this->hasMany('App\IssueActivity');
+        return $this->hasMany('App\IssueNote');
     }
 
     public function project()
