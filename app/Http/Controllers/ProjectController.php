@@ -17,6 +17,7 @@ class ProjectController extends Controller
     public function index()
     {
         return response()->json(Auth::user()->projects()
+            ->with('client')
             ->orderBy('completed')
             ->orderByRaw('ISNULL(due_date), due_date ASC')
             ->orderByRaw('ISNULL(completed_date), completed_date ASC')

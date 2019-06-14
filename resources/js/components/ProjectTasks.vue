@@ -11,40 +11,54 @@
                                 </span>
                             </v-flex>
                             <v-flex xs6 text-xs-right>
-                                <v-btn color="info" @click="dialog = true" small>
+                                <v-btn color="primary" @click="dialog = true" small>
                                     <v-icon left dark>add</v-icon>
                                     Add Task
                                 </v-btn>
                             </v-flex>
                         </v-layout>
+
+                        <v-content v-if="projectTasks">
+                            <v-text-field
+                                v-model="search"
+                                append-icon="search"
+                                label="Search"
+                                single-line
+                                hide-details
+                                box
+                            ></v-text-field>
+                            <v-data-table
+                                :headers="headers"
+                                :items="projectTasks"
+                                :search="search"
+                                :pagination.sync="pagination"
+                                hide-actions
+                                no-data-text="This project does not currently have any tasks."
+                            >
+                                <template v-slot:items="props">
+                                    <td>
+                                        <span v-if="props.item.completed">
+                                            <v-icon class="pointer" color="success" @click="incompleteTask(props.item.project_id, props.item.id)">check_circle</v-icon>
+                                        </span>
+                                        <span v-else-if="!props.item.completed && props.item.due_date != '' && props.item.due_date != null && new Date(props.item.due_date) < Date.now()">
+                                            <v-icon class="pointer" color="error" @click="completeTask(props.item.project_id, props.item.id)">warning</v-icon>
+                                        </span>
+                                        <span v-else-if="!props.item.completed">
+                                            <v-icon class="pointer" color="warning" @click="completeTask(props.item.project_id, props.item.id)">remove_circle</v-icon>
+                                        </span>
+                                    </td>
+                                    <td>{{ props.item.description | truncate(150) }}</td>
+                                    <td width="15%">{{ props.item.due_date | fromNow() }}</td>
+                                    <td width="25%">
+                                        <v-form method="POST" id="deleteForm" @submit.prevent="deleteTask(props.item.project_id, props.item.id)">
+                                            <v-btn color="primary" class="white--text" @click="editTask(props.item)">Edit</v-btn>
+                                            <v-btn type="submit" color="red darken-1" class="white--text">Delete</v-btn>
+                                        </v-form>
+                                    </td>
+                                </template>
+                            </v-data-table>
+                        </v-content>
                     </v-card-text>
-                </v-card>
-            </v-flex>
-        </v-layout>
-        <v-layout row v-if="projectTasks.length == 0" class="headline mt-4">
-            There are currently no tasks for this project.
-        </v-layout>
-        <v-layout row wrap v-else>
-            <v-flex xs12 md6 lg4 v-for="task in projectTasks" :key="task.id">
-                <v-card class="data-card medium">
-                    <v-alert :value="true" v-if="task.completed" type="success" @click="incompleteTask(task.project_id, task.id)">
-                        Task completed {{ task.completed_date }}.
-                    </v-alert>
-                    <v-alert :value="true" v-else-if="!task.completed && task.due_date != '' && task.due_date != null && new Date(task.due_date) < Date.now()" type="error" @click="completeTask(task.project_id, task.id)">
-                        Task was due {{ task.due_date }}.
-                    </v-alert>
-                    <v-alert :value="true" v-else-if="!task.completed" type="warning" @click="completeTask(task.project_id, task.id)">
-                        <span v-if="task.due_date">Task is due {{ task.due_date }}.</span>
-                        <span v-else>Task is incomplete.</span>
-                    </v-alert>
-                    <v-card-text @click="editTask(task)">
-                        {{ task.description | truncate(100) }}
-                    </v-card-text>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn flat color="red darken-2" @click="removeTask(task.project_id, task.id)">Remove</v-btn>
-                        <v-spacer></v-spacer>
-                    </v-card-actions>
                 </v-card>
             </v-flex>
         </v-layout>
@@ -123,7 +137,18 @@
                 },
                 description: '',
                 due_date: '',
-                task_id: ''
+                task_id: '',
+                search: '',
+                pagination: {
+                    sortBy: 'completed',
+                    rowsPerPage: -1
+                },
+                headers: [
+                    { text: 'Status', value: 'completed' },
+                    { text: 'Description', value: 'description' },
+                    { text: 'Due Date', value: 'due_date' },
+                    { text: 'Actions', value: 'actions', sortable: false },
+                ],
             }
         },
         methods: {
@@ -197,7 +222,7 @@
                     this.snackbar.enabled = true
                 })
             },
-            removeTask(project_id, task_id) {
+            deleteTask(project_id, task_id) {
                 axios.delete('/api/tasks/' + task_id)
                 .then(response => {
                     EventBus.$emit('loadTasks', project_id)

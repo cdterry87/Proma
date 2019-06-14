@@ -3,8 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
-class ProjectTask extends Model
+class ProjectTask extends Model implements Searchable
 {
     protected $table = 'projects_tasks';
 
@@ -15,5 +17,14 @@ class ProjectTask extends Model
     public function project()
     {
         return $this->belongsTo('App\Project');
+    }
+
+    public function getSearchResult(): SearchResult
+    {
+        return new SearchResult(
+            $this,
+            $this->description,
+            '/project/' . $this->project_id
+        );
     }
 }

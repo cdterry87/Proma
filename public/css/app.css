@@ -38,3 +38,11 @@ a {
   color: inherit !important;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+

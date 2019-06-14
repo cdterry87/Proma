@@ -241,7 +241,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var query = this.searchInput;
 
-      if (!_.isNull(query)) {
+      if (!_.isNull(query) && query.length > 2) {
         axios.post('/api/search', {
           query: query
         }).then(function (response) {
@@ -1114,10 +1114,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1364,6 +1360,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ProjectTasks',
@@ -1382,7 +1392,26 @@ __webpack_require__.r(__webpack_exports__);
       },
       description: '',
       due_date: '',
-      task_id: ''
+      task_id: '',
+      search: '',
+      pagination: {
+        sortBy: 'completed',
+        rowsPerPage: -1
+      },
+      headers: [{
+        text: 'Status',
+        value: 'completed'
+      }, {
+        text: 'Description',
+        value: 'description'
+      }, {
+        text: 'Due Date',
+        value: 'due_date'
+      }, {
+        text: 'Actions',
+        value: 'actions',
+        sortable: false
+      }]
     };
   },
   methods: {
@@ -1452,7 +1481,7 @@ __webpack_require__.r(__webpack_exports__);
         this.snackbar.enabled = true;
       });
     },
-    removeTask: function removeTask(project_id, task_id) {
+    deleteTask: function deleteTask(project_id, task_id) {
       var _this4 = this;
 
       axios["delete"]('/api/tasks/' + task_id).then(function (response) {
@@ -1592,6 +1621,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Projects',
   data: function data() {
@@ -1611,7 +1648,29 @@ __webpack_require__.r(__webpack_exports__);
       due_date: '',
       client_id: '',
       projects: [],
-      clients: []
+      clients: [],
+      search: '',
+      pagination: {
+        sortBy: 'completed',
+        rowsPerPage: -1
+      },
+      headers: [{
+        text: 'Status',
+        value: 'completed'
+      }, {
+        text: 'Name',
+        value: 'name'
+      }, {
+        text: 'Client',
+        value: 'client.name'
+      }, {
+        text: 'Created',
+        value: 'created_at'
+      }, {
+        text: 'Actions',
+        value: 'actions',
+        sortable: false
+      }]
     };
   },
   methods: {
@@ -1688,14 +1747,14 @@ __webpack_require__.r(__webpack_exports__);
         this.snackbar.enabled = true;
       });
     },
-    removeProject: function removeProject(project_id) {
+    deleteProject: function deleteProject(project_id) {
       var _this6 = this;
 
       axios["delete"]('/api/projects/' + project_id).then(function (response) {
         _this6.getProjects();
 
         _this6.snackbar.color = 'success';
-        _this6.snackbar.message = "Project successfully removed!";
+        _this6.snackbar.message = "Project successfully deleted!";
         _this6.snackbar.enabled = true;
       });
     },
@@ -1708,7 +1767,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.getProjects();
-    this.getClients();
+    this.getClients(); // let fromnow = moment('2019-01-31', 'YYYY-MM-DD').fromNow()
+    // console.log('fromnow', fromnow)
   }
 });
 
@@ -2957,7 +3017,7 @@ var render = function() {
                   "update:search-input": function($event) {
                     _vm.searchInput = $event
                   },
-                  keypress: _vm.search
+                  keyup: _vm.search
                 },
                 scopedSlots: _vm._u([
                   {
@@ -4806,86 +4866,6 @@ var render = function() {
         [
           _c(
             "v-layout",
-            { attrs: { "align-baseline": "" } },
-            [
-              _c(
-                "v-flex",
-                { staticClass: "clickable", attrs: { xs12: "" } },
-                [
-                  _vm.project.completed
-                    ? _c(
-                        "v-alert",
-                        {
-                          attrs: { value: true, type: "success" },
-                          on: {
-                            click: function($event) {
-                              return _vm.incompleteProject(_vm.project.id)
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                    Project completed " +
-                              _vm._s(_vm.project.completed_date) +
-                              ".\n                "
-                          )
-                        ]
-                      )
-                    : !_vm.project.completed &&
-                      _vm.project.due_date != "" &&
-                      _vm.project.due_date != null &&
-                      new Date(_vm.project.due_date) < Date.now()
-                    ? _c(
-                        "v-alert",
-                        {
-                          attrs: { value: true, type: "error" },
-                          on: {
-                            click: function($event) {
-                              return _vm.completeProject(_vm.project.id)
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                    Project was due " +
-                              _vm._s(_vm.project.due_date) +
-                              ".\n                "
-                          )
-                        ]
-                      )
-                    : !_vm.project.completed
-                    ? _c(
-                        "v-alert",
-                        {
-                          attrs: { value: true, type: "warning" },
-                          on: {
-                            click: function($event) {
-                              return _vm.completeProject(_vm.project.id)
-                            }
-                          }
-                        },
-                        [
-                          _vm.project.due_date
-                            ? _c("span", [
-                                _vm._v(
-                                  "Project is due " +
-                                    _vm._s(_vm.project.due_date) +
-                                    "."
-                                )
-                              ])
-                            : _c("span", [_vm._v("Project is incomplete.")])
-                        ]
-                      )
-                    : _vm._e()
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-layout",
             { attrs: { row: "" } },
             [
               _c(
@@ -4895,6 +4875,75 @@ var render = function() {
                   _c(
                     "v-card",
                     [
+                      _vm.project.completed
+                        ? _c(
+                            "v-alert",
+                            {
+                              staticClass: "clickable",
+                              attrs: { value: true, type: "success" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.incompleteProject(_vm.project.id)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                        Project completed " +
+                                  _vm._s(_vm.project.completed_date) +
+                                  ".\n                    "
+                              )
+                            ]
+                          )
+                        : !_vm.project.completed &&
+                          _vm.project.due_date != "" &&
+                          _vm.project.due_date != null &&
+                          new Date(_vm.project.due_date) < Date.now()
+                        ? _c(
+                            "v-alert",
+                            {
+                              staticClass: "clickable",
+                              attrs: { value: true, type: "error" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.completeProject(_vm.project.id)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                        Project was due " +
+                                  _vm._s(_vm.project.due_date) +
+                                  ".\n                    "
+                              )
+                            ]
+                          )
+                        : !_vm.project.completed
+                        ? _c(
+                            "v-alert",
+                            {
+                              staticClass: "clickable",
+                              attrs: { value: true, type: "warning" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.completeProject(_vm.project.id)
+                                }
+                              }
+                            },
+                            [
+                              _vm.project.due_date
+                                ? _c("span", [
+                                    _vm._v(
+                                      "Project is due " +
+                                        _vm._s(_vm.project.due_date) +
+                                        "."
+                                    )
+                                  ])
+                                : _c("span", [_vm._v("Project is incomplete.")])
+                            ]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
                       _c(
                         "v-card-text",
                         [
@@ -4903,13 +4952,19 @@ var render = function() {
                             { attrs: { "align-baseline": "" } },
                             [
                               _c("v-flex", { attrs: { xs6: "" } }, [
-                                _c("span", { staticClass: "headline" }, [
-                                  _vm._v(
-                                    "\n                                    " +
-                                      _vm._s(_vm.project.name) +
-                                      "\n                                "
-                                  )
-                                ])
+                                _c(
+                                  "span",
+                                  { staticClass: "headline" },
+                                  [
+                                    _c("v-icon", [_vm._v("work")]),
+                                    _vm._v(
+                                      "\n                                    " +
+                                        _vm._s(_vm.project.name) +
+                                        "\n                                "
+                                    )
+                                  ],
+                                  1
+                                )
                               ]),
                               _vm._v(" "),
                               _c(
@@ -4919,7 +4974,7 @@ var render = function() {
                                   _c(
                                     "v-btn",
                                     {
-                                      attrs: { color: "info", small: "" },
+                                      attrs: { color: "primary", small: "" },
                                       on: {
                                         click: function($event) {
                                           _vm.dialog = true
@@ -4953,25 +5008,29 @@ var render = function() {
                             )
                           ]),
                           _vm._v(" "),
-                          _c("div", { staticClass: "mt-4" }, [
-                            _c(
-                              "span",
-                              { staticClass: "headline" },
-                              [
-                                _c("v-icon", [_vm._v("person")]),
-                                _vm._v(" Client\n                            ")
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c("div", [
-                              _vm._v(
-                                "\n                                " +
-                                  _vm._s(_vm.project.client.name) +
-                                  "\n                            "
-                              )
-                            ])
-                          ])
+                          _vm.project.client
+                            ? _c("div", { staticClass: "mt-4" }, [
+                                _c(
+                                  "span",
+                                  { staticClass: "headline" },
+                                  [
+                                    _c("v-icon", [_vm._v("person")]),
+                                    _vm._v(
+                                      " Client\n                            "
+                                    )
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c("div", [
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(_vm.project.client.name) +
+                                      "\n                            "
+                                  )
+                                ])
+                              ])
+                            : _vm._e()
                         ],
                         1
                       )
@@ -5380,7 +5439,7 @@ var render = function() {
                               _c(
                                 "v-btn",
                                 {
-                                  attrs: { color: "info", small: "" },
+                                  attrs: { color: "primary", small: "" },
                                   on: {
                                     click: function($event) {
                                       _vm.dialog = true
@@ -5404,7 +5463,241 @@ var render = function() {
                           )
                         ],
                         1
-                      )
+                      ),
+                      _vm._v(" "),
+                      _vm.projectTasks
+                        ? _c(
+                            "v-content",
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  "append-icon": "search",
+                                  label: "Search",
+                                  "single-line": "",
+                                  "hide-details": "",
+                                  box: ""
+                                },
+                                model: {
+                                  value: _vm.search,
+                                  callback: function($$v) {
+                                    _vm.search = $$v
+                                  },
+                                  expression: "search"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("v-data-table", {
+                                attrs: {
+                                  headers: _vm.headers,
+                                  items: _vm.projectTasks,
+                                  search: _vm.search,
+                                  pagination: _vm.pagination,
+                                  "hide-actions": "",
+                                  "no-data-text":
+                                    "This project does not currently have any tasks."
+                                },
+                                on: {
+                                  "update:pagination": function($event) {
+                                    _vm.pagination = $event
+                                  }
+                                },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "items",
+                                      fn: function(props) {
+                                        return [
+                                          _c("td", [
+                                            props.item.completed
+                                              ? _c(
+                                                  "span",
+                                                  [
+                                                    _c(
+                                                      "v-icon",
+                                                      {
+                                                        staticClass: "pointer",
+                                                        attrs: {
+                                                          color: "success"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.incompleteTask(
+                                                              props.item
+                                                                .project_id,
+                                                              props.item.id
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [_vm._v("check_circle")]
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              : !props.item.completed &&
+                                                props.item.due_date != "" &&
+                                                props.item.due_date != null &&
+                                                new Date(props.item.due_date) <
+                                                  Date.now()
+                                              ? _c(
+                                                  "span",
+                                                  [
+                                                    _c(
+                                                      "v-icon",
+                                                      {
+                                                        staticClass: "pointer",
+                                                        attrs: {
+                                                          color: "error"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.completeTask(
+                                                              props.item
+                                                                .project_id,
+                                                              props.item.id
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [_vm._v("warning")]
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              : !props.item.completed
+                                              ? _c(
+                                                  "span",
+                                                  [
+                                                    _c(
+                                                      "v-icon",
+                                                      {
+                                                        staticClass: "pointer",
+                                                        attrs: {
+                                                          color: "warning"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.completeTask(
+                                                              props.item
+                                                                .project_id,
+                                                              props.item.id
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [_vm._v("remove_circle")]
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              : _vm._e()
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(
+                                              _vm._s(
+                                                _vm._f("truncate")(
+                                                  props.item.description,
+                                                  150
+                                                )
+                                              )
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { attrs: { width: "15%" } },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm._f("fromNow")(
+                                                    props.item.due_date
+                                                  )
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { attrs: { width: "25%" } },
+                                            [
+                                              _c(
+                                                "v-form",
+                                                {
+                                                  attrs: {
+                                                    method: "POST",
+                                                    id: "deleteForm"
+                                                  },
+                                                  on: {
+                                                    submit: function($event) {
+                                                      $event.preventDefault()
+                                                      return _vm.deleteTask(
+                                                        props.item.project_id,
+                                                        props.item.id
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-btn",
+                                                    {
+                                                      staticClass:
+                                                        "white--text",
+                                                      attrs: {
+                                                        color: "primary"
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.editTask(
+                                                            props.item
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [_vm._v("Edit")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-btn",
+                                                    {
+                                                      staticClass:
+                                                        "white--text",
+                                                      attrs: {
+                                                        type: "submit",
+                                                        color: "red darken-1"
+                                                      }
+                                                    },
+                                                    [_vm._v("Delete")]
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  null,
+                                  false,
+                                  1516552726
+                                )
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e()
                     ],
                     1
                   )
@@ -5417,154 +5710,6 @@ var render = function() {
         ],
         1
       ),
-      _vm._v(" "),
-      _vm.projectTasks.length == 0
-        ? _c("v-layout", { staticClass: "headline mt-4", attrs: { row: "" } }, [
-            _vm._v(
-              "\n        There are currently no tasks for this project.\n    "
-            )
-          ])
-        : _c(
-            "v-layout",
-            { attrs: { row: "", wrap: "" } },
-            _vm._l(_vm.projectTasks, function(task) {
-              return _c(
-                "v-flex",
-                { key: task.id, attrs: { xs12: "", md6: "", lg4: "" } },
-                [
-                  _c(
-                    "v-card",
-                    { staticClass: "data-card medium" },
-                    [
-                      task.completed
-                        ? _c(
-                            "v-alert",
-                            {
-                              attrs: { value: true, type: "success" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.incompleteTask(
-                                    task.project_id,
-                                    task.id
-                                  )
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                    Task completed " +
-                                  _vm._s(task.completed_date) +
-                                  ".\n                "
-                              )
-                            ]
-                          )
-                        : !task.completed &&
-                          task.due_date != "" &&
-                          task.due_date != null &&
-                          new Date(task.due_date) < Date.now()
-                        ? _c(
-                            "v-alert",
-                            {
-                              attrs: { value: true, type: "error" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.completeTask(
-                                    task.project_id,
-                                    task.id
-                                  )
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                    Task was due " +
-                                  _vm._s(task.due_date) +
-                                  ".\n                "
-                              )
-                            ]
-                          )
-                        : !task.completed
-                        ? _c(
-                            "v-alert",
-                            {
-                              attrs: { value: true, type: "warning" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.completeTask(
-                                    task.project_id,
-                                    task.id
-                                  )
-                                }
-                              }
-                            },
-                            [
-                              task.due_date
-                                ? _c("span", [
-                                    _vm._v(
-                                      "Task is due " +
-                                        _vm._s(task.due_date) +
-                                        "."
-                                    )
-                                  ])
-                                : _c("span", [_vm._v("Task is incomplete.")])
-                            ]
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c(
-                        "v-card-text",
-                        {
-                          on: {
-                            click: function($event) {
-                              return _vm.editTask(task)
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                    " +
-                              _vm._s(
-                                _vm._f("truncate")(task.description, 100)
-                              ) +
-                              "\n                "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-card-actions",
-                        [
-                          _c("v-spacer"),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { flat: "", color: "red darken-2" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.removeTask(
-                                    task.project_id,
-                                    task.id
-                                  )
-                                }
-                              }
-                            },
-                            [_vm._v("Remove")]
-                          ),
-                          _vm._v(" "),
-                          _c("v-spacer")
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            }),
-            1
-          ),
       _vm._v(" "),
       _c(
         "v-dialog",
@@ -5915,150 +6060,158 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-layout",
-        { attrs: { row: "", "text-xs-center": "" } },
+        { attrs: { row: "" } },
         [
-          _vm.projects.length == 0
-            ? _c("v-container", { staticClass: "headline" }, [
-                _vm._v(
-                  "\n            You do not currently have any projects.\n        "
-                )
-              ])
-            : _vm._e()
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-layout",
-        { attrs: { row: "", wrap: "" } },
-        _vm._l(_vm.projects, function(project) {
-          return _c(
-            "v-flex",
-            { key: project.id, attrs: { xs12: "", md6: "", lg4: "" } },
+          _c(
+            "v-container",
             [
-              _c(
-                "v-card",
-                { staticClass: "data-card large" },
-                [
-                  project.completed
-                    ? _c(
-                        "v-alert",
-                        {
-                          attrs: { value: true, type: "success" },
-                          on: {
-                            click: function($event) {
-                              return _vm.incompleteProject(project.id)
-                            }
-                          }
-                        },
-                        [
+              _c("v-text-field", {
+                attrs: {
+                  "append-icon": "search",
+                  label: "Search",
+                  "single-line": "",
+                  "hide-details": "",
+                  box: ""
+                },
+                model: {
+                  value: _vm.search,
+                  callback: function($$v) {
+                    _vm.search = $$v
+                  },
+                  expression: "search"
+                }
+              }),
+              _vm._v(" "),
+              _c("v-data-table", {
+                staticClass: "elevation-1",
+                attrs: {
+                  headers: _vm.headers,
+                  items: _vm.projects,
+                  search: _vm.search,
+                  pagination: _vm.pagination,
+                  "hide-actions": "",
+                  "no-data-text": "You do not currently have any projects."
+                },
+                on: {
+                  "update:pagination": function($event) {
+                    _vm.pagination = $event
+                  }
+                },
+                scopedSlots: _vm._u([
+                  {
+                    key: "items",
+                    fn: function(props) {
+                      return [
+                        _c("td", [
+                          props.item.completed
+                            ? _c(
+                                "span",
+                                [
+                                  _c(
+                                    "v-icon",
+                                    {
+                                      staticClass: "pointer",
+                                      attrs: { color: "success" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.incompleteProject(
+                                            props.item.id
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("check_circle")]
+                                  )
+                                ],
+                                1
+                              )
+                            : _c(
+                                "span",
+                                [
+                                  _c(
+                                    "v-icon",
+                                    {
+                                      staticClass: "pointer",
+                                      attrs: { color: "error" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.completeProject(
+                                            props.item.id
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("remove_circle")]
+                                  )
+                                ],
+                                1
+                              )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(props.item.name))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(props.item.client.name))]),
+                        _vm._v(" "),
+                        _c("td", { attrs: { width: "15%" } }, [
                           _vm._v(
-                            "\n                    Project completed " +
-                              _vm._s(project.completed_date) +
-                              ".\n                "
-                          )
-                        ]
-                      )
-                    : !project.completed &&
-                      project.due_date != "" &&
-                      project.due_date != null &&
-                      new Date(project.due_date) < Date.now()
-                    ? _c(
-                        "v-alert",
-                        {
-                          attrs: { value: true, type: "error" },
-                          on: {
-                            click: function($event) {
-                              return _vm.completeProject(project.id)
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                    Project was due " +
-                              _vm._s(project.due_date) +
-                              ".\n                "
-                          )
-                        ]
-                      )
-                    : !project.completed
-                    ? _c(
-                        "v-alert",
-                        {
-                          attrs: { value: true, type: "warning" },
-                          on: {
-                            click: function($event) {
-                              return _vm.completeProject(project.id)
-                            }
-                          }
-                        },
-                        [
-                          project.due_date
-                            ? _c("span", [
-                                _vm._v(
-                                  "Project is due " +
-                                    _vm._s(project.due_date) +
-                                    "."
-                                )
-                              ])
-                            : _c("span", [_vm._v("Project is incomplete.")])
-                        ]
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c(
-                    "router-link",
-                    { attrs: { to: "/project/" + project.id } },
-                    [
-                      _c("v-card-text", [
-                        _c("div", { staticClass: "headline" }, [
-                          _vm._v(
-                            "\n                            " +
-                              _vm._s(_vm._f("truncate")(project.name, 25)) +
-                              "\n                        "
+                            _vm._s(_vm._f("fromNow")(props.item.created_at))
                           )
                         ]),
-                        _vm._v(
-                          "\n                        " +
-                            _vm._s(
-                              _vm._f("truncate")(project.description, 150)
-                            ) +
-                            "\n                    "
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          { attrs: { width: "25%" } },
+                          [
+                            _c(
+                              "v-form",
+                              {
+                                attrs: { method: "POST", id: "deleteForm" },
+                                on: {
+                                  submit: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.deleteProject(props.item.id)
+                                  }
+                                }
+                              },
+                              [
+                                _c(
+                                  "v-btn",
+                                  {
+                                    staticClass: "white--text",
+                                    attrs: {
+                                      to: "/project/" + props.item.id,
+                                      color: "primary"
+                                    }
+                                  },
+                                  [_vm._v("Edit")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-btn",
+                                  {
+                                    staticClass: "white--text",
+                                    attrs: {
+                                      type: "submit",
+                                      color: "red darken-1"
+                                    }
+                                  },
+                                  [_vm._v("Delete")]
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
                         )
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-card-actions",
-                    [
-                      _c("v-spacer"),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { flat: "", color: "red darken-2" },
-                          on: {
-                            click: function($event) {
-                              return _vm.removeProject(project.id)
-                            }
-                          }
-                        },
-                        [_vm._v("Remove")]
-                      ),
-                      _vm._v(" "),
-                      _c("v-spacer")
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
+                      ]
+                    }
+                  }
+                ])
+              })
             ],
             1
           )
-        }),
+        ],
         1
       ),
       _vm._v(" "),
@@ -47184,6 +47337,15 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.filter('truncate', function (string, 
   return _.truncate(string, {
     length: length
   });
+});
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.filter('fromNow', function (date, format) {
+  if (!date) return '';
+
+  if (_.isEmpty(format)) {
+    format = 'YYYY-MM-DD';
+  }
+
+  return moment(date, format).fromNow();
 }); //Primary components
 
  // App declaration

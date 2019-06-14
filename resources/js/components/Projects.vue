@@ -8,39 +8,47 @@
                 </v-btn>
             </v-container>
         </v-layout>
-        <v-layout row text-xs-center>
-            <v-container v-if="projects.length == 0" class="headline">
-                You do not currently have any projects.
+
+        <v-layout row>
+            <v-container>
+                <v-text-field
+                    v-model="search"
+                    append-icon="search"
+                    label="Search"
+                    single-line
+                    hide-details
+                    box
+                ></v-text-field>
+                <v-data-table
+                    :headers="headers"
+                    :items="projects"
+                    :search="search"
+                    :pagination.sync="pagination"
+                    hide-actions
+                    class="elevation-1"
+                    no-data-text="You do not currently have any projects."
+                >
+                    <template v-slot:items="props">
+                        <td>
+                            <span v-if="props.item.completed">
+                                <v-icon class="pointer" color="success" @click="incompleteProject(props.item.id)">check_circle</v-icon>
+                            </span>
+                            <span v-else>
+                                <v-icon class="pointer" color="error" @click="completeProject(props.item.id)">remove_circle</v-icon>
+                            </span>
+                        </td>
+                        <td>{{ props.item.name }}</td>
+                        <td>{{ props.item.client.name }}</td>
+                        <td width="15%">{{ props.item.created_at | fromNow() }}</td>
+                        <td width="25%">
+                            <v-form method="POST" id="deleteForm" @submit.prevent="deleteProject(props.item.id)">
+                                <v-btn :to="'/project/' + props.item.id" color="primary" class="white--text">Edit</v-btn>
+                                <v-btn type="submit" color="red darken-1" class="white--text">Delete</v-btn>
+                            </v-form>
+                        </td>
+                    </template>
+                </v-data-table>
             </v-container>
-        </v-layout>
-        <v-layout row wrap>
-            <v-flex xs12 md6 lg4 v-for="project in projects" :key="project.id">
-                <v-card class="data-card large">
-                    <v-alert :value="true" v-if="project.completed" type="success" @click="incompleteProject(project.id)">
-                        Project completed {{ project.completed_date }}.
-                    </v-alert>
-                    <v-alert :value="true" v-else-if="!project.completed && project.due_date != '' && project.due_date != null && new Date(project.due_date) < Date.now()" type="error" @click="completeProject(project.id)">
-                        Project was due {{ project.due_date }}.
-                    </v-alert>
-                    <v-alert :value="true" v-else-if="!project.completed" type="warning" @click="completeProject(project.id)">
-                        <span v-if="project.due_date">Project is due {{ project.due_date }}.</span>
-                        <span v-else>Project is incomplete.</span>
-                    </v-alert>
-                    <router-link :to="'/project/' + project.id">
-                        <v-card-text>
-                            <div class="headline">
-                                {{ project.name | truncate(25) }}
-                            </div>
-                            {{ project.description | truncate(150) }}
-                        </v-card-text>
-                    </router-link>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn flat color="red darken-2" @click="removeProject(project.id)">Remove</v-btn>
-                        <v-spacer></v-spacer>
-                    </v-card-actions>
-                </v-card>
-            </v-flex>
         </v-layout>
 
         <v-dialog v-model="dialog" width="500">
@@ -131,6 +139,18 @@ export default {
             client_id: '',
             projects: [],
             clients: [],
+            search: '',
+            pagination: {
+                sortBy: 'completed',
+                rowsPerPage: -1
+            },
+            headers: [
+                { text: 'Status', value: 'completed' },
+                { text: 'Name', value: 'name' },
+                { text: 'Client', value: 'client.name' },
+                { text: 'Created', value: 'created_at' },
+                { text: 'Actions', value: 'actions', sortable: false },
+            ],
         }
     },
     methods: {
@@ -202,13 +222,13 @@ export default {
                 this.snackbar.enabled = true
             })
         },
-        removeProject(project_id) {
+        deleteProject(project_id) {
             axios.delete('/api/projects/' + project_id)
             .then(response => {
                 this.getProjects()
 
                 this.snackbar.color = 'success'
-                this.snackbar.message = "Project successfully removed!"
+                this.snackbar.message = "Project successfully deleted!"
                 this.snackbar.enabled = true
             })
         },
@@ -222,6 +242,9 @@ export default {
     mounted() {
         this.getProjects()
         this.getClients()
+
+        // let fromnow = moment('2019-01-31', 'YYYY-MM-DD').fromNow()
+        // console.log('fromnow', fromnow)
     }
 
 }

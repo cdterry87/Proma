@@ -11,9 +11,18 @@
 |
 */
 
+// Auth routes for login/registration
 Auth::routes();
 
+// Logout route
+Route::get('/api/logout', function () {
+    Auth::logout();
+    return Redirect::to('login');
+});
+
+// User authenticated routes
 Route::group(['middleware' => 'auth'], function () {
+    // Application api routes
     Route::prefix('api')->group(function () {
         // Primary Resources
         Route::resource('/clients', 'ClientController');
@@ -52,13 +61,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         // Notifications
         Route::get('/notifications', 'HomeController@notifications')->name('notifications');
-
-        // Logout
-        Route::get('/logout', function () {
-            Auth::logout();
-            return Redirect::to('login');
-        });
     });
 
+    // Catch-all route
     Route::get('/{any}', 'HomeController@index')->where('any', '.*');
 });

@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-app class="inspire">
-            <v-toolbar color="blue darken-3" dark tabs >
+            <v-toolbar color="blue darken-3" dark tabs>
                 <v-toolbar-title>
                     <a href="/">Proma</a>
                 </v-toolbar-title>
@@ -16,7 +16,7 @@
                     prepend-inner-icon="search"
                     flat solo-inverted hide-details hide-no-data append-icon=""
                     class="hidden-sm-and-down"
-                    @keypress="search"
+                    @keyup="search"
                 >
                     <template v-slot:item="{ item }">
                         <router-link :to="item.url" class="search-link">
@@ -144,7 +144,7 @@ export default {
         search() {
             let query = this.searchInput
 
-            if (!_.isNull(query)) {
+            if (!_.isNull(query) && query.length > 2) {
                 axios.post('/api/search', { query })
                 .then(response => {
                     this.results = response.data

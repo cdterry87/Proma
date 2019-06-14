@@ -23,8 +23,8 @@ class ClientContact extends Model implements Searchable
     {
         return new SearchResult(
             $this,
-            'Contact: ' . $this->name,
-            '/contact/' . $this->id
+            $this->name,
+            '/client/' . $this->client_id
         );
     }
 }

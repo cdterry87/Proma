@@ -23,6 +23,16 @@ Vue.filter('truncate', function (string, length) {
     return _.truncate(string, { length })
 })
 
+Vue.filter('fromNow', function (date, format) {
+    if (!date) return ''
+
+    if (_.isEmpty(format)) {
+        format = 'YYYY-MM-DD'
+    }
+
+    return moment(date, format).fromNow()
+})
+
 //Primary components
 import App from './components/App'
 
