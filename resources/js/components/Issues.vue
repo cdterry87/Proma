@@ -2,7 +2,7 @@
     <v-container fluid grid-list-md>
         <v-layout row>
             <v-container text-xs-center>
-                <v-btn color="info" @click="dialog = true">
+                <v-btn color="primary" @click="dialog = true">
                     <v-icon left dark>add</v-icon>
                     Add an Issue
                 </v-btn>
@@ -40,11 +40,14 @@
                         <td>{{ props.item.priority }}</td>
                         <td>{{ props.item.description | truncate(125) }}</td>
                         <td><span v-if="props.item.project">{{ props.item.project.name }}</span></td>
-                        <td width="15%">{{ props.item.created_at | fromNow() }}</td>
+                        <td width="15%">
+                            <span class="hidden">{{ props.item.created_at }}</span>
+                            {{ props.item.created_at | fromNow() }}
+                        </td>
                         <td width="25%">
                             <v-form method="POST" id="deleteForm" @submit.prevent="deleteIssue(props.item.id)">
-                                <v-btn :to="'/issue/' + props.item.id" color="primary" class="white--text">Edit</v-btn>
-                                <v-btn type="submit" color="red darken-1" class="white--text">Delete</v-btn>
+                                <v-btn small :to="'/issue/' + props.item.id" color="primary" class="white--text">Edit</v-btn>
+                                <v-btn small type="submit" color="red darken-1" class="white--text">Delete</v-btn>
                             </v-form>
                         </td>
                     </template>
@@ -59,6 +62,9 @@
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
+                                <v-textarea prepend-icon="notes" label="Description" v-model="description"></v-textarea>
+                            </v-flex>
+                            <v-flex xs12>
                                  <v-autocomplete
                                     :items="projects"
                                     item-text="name"
@@ -67,9 +73,6 @@
                                     prepend-icon="work"
                                     v-model="project_id"
                                 ></v-autocomplete>
-                            </v-flex>
-                            <v-flex xs12>
-                                <v-textarea prepend-icon="notes" label="Description" v-model="description"></v-textarea>
                             </v-flex>
                             <v-flex xs12>
                                 <v-radio-group v-model="priority" row>
@@ -156,7 +159,7 @@ export default {
 
             axios.post('/api/issues', { description, priority, project_id })
             .then(response => {
-                this.issues.push(response.data.data)
+                this.getIssues()
 
                 this.snackbar.color = 'success'
                 this.snackbar.message = "Issue successfully created!"
@@ -212,7 +215,9 @@ export default {
         },
         reset() {
             this.dialog = false
+
             this.project_id = ''
+            this.priority = ''
             this.description = ''
         }
     },

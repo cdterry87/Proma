@@ -18,7 +18,7 @@ class IssueController extends Controller
     {
         return response()->json(Auth::user()->issues()->with('project')
             ->orderBy('resolved')
-            ->orderBy('priority')
+            ->orderBy('priority', 'desc')
             ->get());
     }
 
@@ -55,9 +55,9 @@ class IssueController extends Controller
      */
     public function show(Issue $issue)
     {
-        return response()->json($issue->with([
-            'client'
-        ])->where('id', $issue->id)->first());
+        return response()->json($issue->with('project')
+            ->where('id', $issue->id)
+            ->first());
     }
 
     /**

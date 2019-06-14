@@ -121,7 +121,6 @@ export default {
         return {
             tabs: 'projects',
             dialog: false,
-
             query: '',
             searchInput: '',
             user: [],

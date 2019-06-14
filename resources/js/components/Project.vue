@@ -169,14 +169,13 @@
                 })
             },
             updateProject() {
-                let name = this.project.name;
-                let description = this.project.description;
-                let client_id = this.project.client_id;
+                let name = this.project.name
+                let description = this.project.description
+                let due_date = this.project.due_date
+                let client_id = this.project.client_id
 
-                axios.put('/api/projects/' + this.project.id, { name, description, client_id })
+                axios.put('/api/projects/' + this.project.id, { name, description, due_date, client_id })
                 .then(response => {
-                    // this.project = response.data.data
-
                     this.snackbar.color = 'success'
                     this.snackbar.message = "Project updated successfully!"
                     this.snackbar.enabled = true

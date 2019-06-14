@@ -2,7 +2,7 @@
     <v-container fluid grid-list-md>
         <v-layout row>
             <v-container text-xs-center>
-                <v-btn color="info" @click="dialog = true">
+                <v-btn color="primary" @click="dialog = true">
                     <v-icon left dark>add</v-icon>
                     Add a Project
                 </v-btn>
@@ -27,6 +27,7 @@
                     hide-actions
                     class="elevation-1"
                     no-data-text="You do not currently have any projects."
+                    disable-initial-sort
                 >
                     <template v-slot:items="props">
                         <td>
@@ -39,11 +40,14 @@
                         </td>
                         <td>{{ props.item.name }}</td>
                         <td>{{ props.item.client.name }}</td>
-                        <td width="15%">{{ props.item.created_at | fromNow() }}</td>
+                        <td width="15%">
+                            <span class="hidden">{{ props.item.due_date }}</span>
+                            {{ props.item.due_date | fromNow() }}
+                        </td>
                         <td width="25%">
                             <v-form method="POST" id="deleteForm" @submit.prevent="deleteProject(props.item.id)">
-                                <v-btn :to="'/project/' + props.item.id" color="primary" class="white--text">Edit</v-btn>
-                                <v-btn type="submit" color="red darken-1" class="white--text">Delete</v-btn>
+                                <v-btn small :to="'/project/' + props.item.id" color="primary" class="white--text">Edit</v-btn>
+                                <v-btn small type="submit" color="red darken-1" class="white--text">Delete</v-btn>
                             </v-form>
                         </td>
                     </template>
@@ -148,7 +152,7 @@ export default {
                 { text: 'Status', value: 'completed' },
                 { text: 'Name', value: 'name' },
                 { text: 'Client', value: 'client.name' },
-                { text: 'Created', value: 'created_at' },
+                { text: 'Due', value: 'due_date' },
                 { text: 'Actions', value: 'actions', sortable: false },
             ],
         }
@@ -178,7 +182,7 @@ export default {
 
             axios.post('/api/projects', { name, description, due_date, client_id })
             .then(response => {
-                this.projects.push(response.data.data)
+                this.getProjects()
 
                 this.snackbar.color = 'success'
                 this.snackbar.message = "Project successfully created!"
@@ -242,9 +246,6 @@ export default {
     mounted() {
         this.getProjects()
         this.getClients()
-
-        // let fromnow = moment('2019-01-31', 'YYYY-MM-DD').fromNow()
-        // console.log('fromnow', fromnow)
     }
 
 }

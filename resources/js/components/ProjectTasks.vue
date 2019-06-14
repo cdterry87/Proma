@@ -11,7 +11,7 @@
                                 </span>
                             </v-flex>
                             <v-flex xs6 text-xs-right>
-                                <v-btn color="primary" @click="dialog = true" small>
+                                <v-btn color="primary" @click="addTask" small>
                                     <v-icon left dark>add</v-icon>
                                     Add Task
                                 </v-btn>
@@ -51,8 +51,8 @@
                                     <td width="15%">{{ props.item.due_date | fromNow() }}</td>
                                     <td width="25%">
                                         <v-form method="POST" id="deleteForm" @submit.prevent="deleteTask(props.item.project_id, props.item.id)">
-                                            <v-btn color="primary" class="white--text" @click="editTask(props.item)">Edit</v-btn>
-                                            <v-btn type="submit" color="red darken-1" class="white--text">Delete</v-btn>
+                                            <v-btn small color="primary" class="white--text" @click="editTask(props.item)">Edit</v-btn>
+                                            <v-btn small type="submit" color="red darken-1" class="white--text">Delete</v-btn>
                                         </v-form>
                                     </td>
                                 </template>
@@ -152,6 +152,13 @@
             }
         },
         methods: {
+            addTask() {
+                this.dialog = true
+
+                this.due_date = ''
+                this.description = ''
+                this.task_id = ''
+            },
             editTask(task) {
                 this.dialog = true
 
