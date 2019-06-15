@@ -17,33 +17,39 @@
                                 </v-btn>
                             </v-flex>
                         </v-layout>
+                        <v-content v-if="clientContacts">
+                            <v-text-field
+                                v-model="search"
+                                append-icon="search"
+                                label="Search"
+                                single-line
+                                hide-details
+                                box
+                            ></v-text-field>
+                            <v-data-table
+                                :headers="headers"
+                                :items="clientContacts"
+                                :search="search"
+                                :pagination.sync="pagination"
+                                hide-actions
+                                class="elevation-1"
+                                no-data-text="This client does not currently have any contacts."
+                            >
+                                <template v-slot:items="props">
+                                    <td>{{ props.item.name }}</td>
+                                    <td>{{ props.item.title }}</td>
+                                    <td>{{ props.item.email }}</td>
+                                    <td>{{ props.item.phone }}</td>
+                                    <td width="25%">
+                                        <v-form method="POST" id="deleteForm" @submit.prevent="deleteContact(props.item.client_id, props.item.id)">
+                                            <v-btn small @click="editContact(props.item)" color="primary" class="white--text">Edit</v-btn>
+                                            <v-btn small type="submit" color="red darken-1" class="white--text">Delete</v-btn>
+                                        </v-form>
+                                    </td>
+                                </template>
+                            </v-data-table>
+                        </v-content>
                     </v-card-text>
-                </v-card>
-            </v-flex>
-        </v-layout>
-        <v-layout row v-if="clientContacts.length == 0">
-            There are currently no contacts for this client.
-        </v-layout>
-        <v-layout row wrap v-else>
-            <v-flex xs12 md6 lg4 v-for="contact in clientContacts" :key="contact.id">
-                <v-card class="data-card medium">
-                    <v-card-text @click="editContact(contact)">
-                        <div>
-                            <div class="headline">{{ contact.name | truncate(20) }}</div>
-                            <span class="grey--text">{{ contact.title | truncate(30)}}</span>
-                        </div>
-                        <v-layout>
-                            <v-flex>
-                                <div><i class="material-icons">mail</i> {{ contact.email | truncate(30) }}</div>
-                                <div><i class="material-icons">phone</i> {{ contact.phone }}</div>
-                            </v-flex>
-                        </v-layout>
-                    </v-card-text>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn flat color="red darken-2" @click="removeContact(contact.client_id, contact.id)">Remove</v-btn>
-                        <v-spacer></v-spacer>
-                    </v-card-actions>
                 </v-card>
             </v-flex>
         </v-layout>
@@ -107,7 +113,19 @@
                 title: '',
                 email: '',
                 phone: '',
-                contact_id: ''
+                contact_id: '',
+                search: '',
+                pagination: {
+                    sortBy: 'name',
+                    rowsPerPage: -1
+                },
+                headers: [
+                    { text: 'Name', value: 'name' },
+                    { text: 'Title', value: 'title' },
+                    { text: 'Email', value: 'email' },
+                    { text: 'Phone', value: 'phone' },
+                    { text: 'Actions', value: 'actions', sortable: false },
+                ],
             }
         },
         methods: {
@@ -156,7 +174,7 @@
 
                 this.reset()
             },
-            removeContact(client_id, contact_id) {
+            deleteContact(client_id, contact_id) {
                 axios.delete('/api/contacts/' + contact_id)
                 .then(response => {
                     EventBus.$emit('loadContacts', client_id)

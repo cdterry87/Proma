@@ -8,29 +8,37 @@
                 </v-btn>
             </v-container>
         </v-layout>
-        <v-layout row text-xs-center>
-            <v-container v-if="clients.length == 0" class="headline">
-                You do not currently have any clients.
+
+        <v-layout row>
+            <v-container>
+                <v-text-field
+                    v-model="search"
+                    append-icon="search"
+                    label="Search"
+                    single-line
+                    hide-details
+                    box
+                ></v-text-field>
+                <v-data-table
+                    :headers="headers"
+                    :items="clients"
+                    :search="search"
+                    :pagination.sync="pagination"
+                    hide-actions
+                    class="elevation-1"
+                    no-data-text="You do not currently have any clients."
+                >
+                    <template v-slot:items="props">
+                        <td>{{ props.item.name }}</td>
+                        <td width="25%">
+                            <v-form method="POST" id="deleteForm" @submit.prevent="deleteClient(props.item.id)">
+                                <v-btn small :to="'/client/' + props.item.id" color="primary" class="white--text">Edit</v-btn>
+                                <v-btn small type="submit" color="red darken-1" class="white--text">Delete</v-btn>
+                            </v-form>
+                        </td>
+                    </template>
+                </v-data-table>
             </v-container>
-        </v-layout>
-        <v-layout row wrap>
-            <v-flex xs12 md6 lg4 v-for="client in clients" :key="client.id">
-                    <v-card class="data-card medium">
-                        <router-link :to="'/client/' + client.id">
-                            <v-card-text>
-                                <div class="headline">
-                                    {{ client.name | truncate(25) }}
-                                </div>
-                                {{ client.description | truncate(200) }}
-                            </v-card-text>
-                        </router-link>
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn flat color="red darken-2" @click="removeClient(client.id)">Remove</v-btn>
-                            <v-spacer></v-spacer>
-                        </v-card-actions>
-                    </v-card>
-            </v-flex>
         </v-layout>
 
         <v-dialog v-model="dialog" width="500">
@@ -80,7 +88,16 @@ export default {
             },
             name: '',
             description: '',
-            clients: []
+            clients: [],
+            search: '',
+            pagination: {
+                sortBy: 'name',
+                rowsPerPage: -1
+            },
+            headers: [
+                { text: 'Client', value: 'name' },
+                { text: 'Actions', value: 'actions', sortable: false },
+            ],
         }
     },
     methods: {
@@ -110,13 +127,13 @@ export default {
 
             this.reset()
         },
-        removeClient(client_id) {
+        deleteClient(client_id) {
             axios.delete('/api/clients/' + client_id)
             .then(response => {
                 this.getClients()
 
                 this.snackbar.color = 'success'
-                this.snackbar.message = "Client successfully removed!"
+                this.snackbar.message = "Client successfully deleted!"
                 this.snackbar.enabled = true
             })
         },

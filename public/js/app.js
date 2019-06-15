@@ -373,6 +373,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -554,6 +555,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ClientContacts',
@@ -573,7 +580,29 @@ __webpack_require__.r(__webpack_exports__);
       title: '',
       email: '',
       phone: '',
-      contact_id: ''
+      contact_id: '',
+      search: '',
+      pagination: {
+        sortBy: 'name',
+        rowsPerPage: -1
+      },
+      headers: [{
+        text: 'Name',
+        value: 'name'
+      }, {
+        text: 'Title',
+        value: 'title'
+      }, {
+        text: 'Email',
+        value: 'email'
+      }, {
+        text: 'Phone',
+        value: 'phone'
+      }, {
+        text: 'Actions',
+        value: 'actions',
+        sortable: false
+      }]
     };
   },
   methods: {
@@ -621,7 +650,7 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.reset();
     },
-    removeContact: function removeContact(client_id, contact_id) {
+    deleteContact: function deleteContact(client_id, contact_id) {
       var _this2 = this;
 
       axios["delete"]('/api/contacts/' + contact_id).then(function (response) {
@@ -719,6 +748,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Clients',
   data: function data() {
@@ -734,7 +771,20 @@ __webpack_require__.r(__webpack_exports__);
       },
       name: '',
       description: '',
-      clients: []
+      clients: [],
+      search: '',
+      pagination: {
+        sortBy: 'name',
+        rowsPerPage: -1
+      },
+      headers: [{
+        text: 'Client',
+        value: 'name'
+      }, {
+        text: 'Actions',
+        value: 'actions',
+        sortable: false
+      }]
     };
   },
   methods: {
@@ -766,14 +816,14 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.reset();
     },
-    removeClient: function removeClient(client_id) {
+    deleteClient: function deleteClient(client_id) {
       var _this3 = this;
 
       axios["delete"]('/api/clients/' + client_id).then(function (response) {
         _this3.getClients();
 
         _this3.snackbar.color = 'success';
-        _this3.snackbar.message = "Client successfully removed!";
+        _this3.snackbar.message = "Client successfully deleted!";
         _this3.snackbar.enabled = true;
       });
     },
@@ -3898,13 +3948,19 @@ var render = function() {
                             { attrs: { "align-baseline": "" } },
                             [
                               _c("v-flex", { attrs: { xs6: "" } }, [
-                                _c("span", { staticClass: "headline" }, [
-                                  _vm._v(
-                                    "\n                                    " +
-                                      _vm._s(_vm.client.name) +
-                                      "\n                                "
-                                  )
-                                ])
+                                _c(
+                                  "span",
+                                  { staticClass: "title" },
+                                  [
+                                    _c("v-icon", [_vm._v("person")]),
+                                    _vm._v(
+                                      "\n                                    " +
+                                        _vm._s(_vm.client.name) +
+                                        "\n                                "
+                                    )
+                                  ],
+                                  1
+                                )
                               ]),
                               _vm._v(" "),
                               _c(
@@ -4234,7 +4290,143 @@ var render = function() {
                           )
                         ],
                         1
-                      )
+                      ),
+                      _vm._v(" "),
+                      _vm.clientContacts
+                        ? _c(
+                            "v-content",
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  "append-icon": "search",
+                                  label: "Search",
+                                  "single-line": "",
+                                  "hide-details": "",
+                                  box: ""
+                                },
+                                model: {
+                                  value: _vm.search,
+                                  callback: function($$v) {
+                                    _vm.search = $$v
+                                  },
+                                  expression: "search"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("v-data-table", {
+                                staticClass: "elevation-1",
+                                attrs: {
+                                  headers: _vm.headers,
+                                  items: _vm.clientContacts,
+                                  search: _vm.search,
+                                  pagination: _vm.pagination,
+                                  "hide-actions": "",
+                                  "no-data-text":
+                                    "This client does not currently have any contacts."
+                                },
+                                on: {
+                                  "update:pagination": function($event) {
+                                    _vm.pagination = $event
+                                  }
+                                },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "items",
+                                      fn: function(props) {
+                                        return [
+                                          _c("td", [
+                                            _vm._v(_vm._s(props.item.name))
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(_vm._s(props.item.title))
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(_vm._s(props.item.email))
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(_vm._s(props.item.phone))
+                                          ]),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { attrs: { width: "25%" } },
+                                            [
+                                              _c(
+                                                "v-form",
+                                                {
+                                                  attrs: {
+                                                    method: "POST",
+                                                    id: "deleteForm"
+                                                  },
+                                                  on: {
+                                                    submit: function($event) {
+                                                      $event.preventDefault()
+                                                      return _vm.deleteContact(
+                                                        props.item.client_id,
+                                                        props.item.id
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-btn",
+                                                    {
+                                                      staticClass:
+                                                        "white--text",
+                                                      attrs: {
+                                                        small: "",
+                                                        color: "primary"
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.editContact(
+                                                            props.item
+                                                          )
+                                                        }
+                                                      }
+                                                    },
+                                                    [_vm._v("Edit")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-btn",
+                                                    {
+                                                      staticClass:
+                                                        "white--text",
+                                                      attrs: {
+                                                        small: "",
+                                                        type: "submit",
+                                                        color: "red darken-1"
+                                                      }
+                                                    },
+                                                    [_vm._v("Delete")]
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  null,
+                                  false,
+                                  3940891126
+                                )
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e()
                     ],
                     1
                   )
@@ -4247,113 +4439,6 @@ var render = function() {
         ],
         1
       ),
-      _vm._v(" "),
-      _vm.clientContacts.length == 0
-        ? _c("v-layout", { attrs: { row: "" } }, [
-            _vm._v(
-              "\n        There are currently no contacts for this client.\n    "
-            )
-          ])
-        : _c(
-            "v-layout",
-            { attrs: { row: "", wrap: "" } },
-            _vm._l(_vm.clientContacts, function(contact) {
-              return _c(
-                "v-flex",
-                { key: contact.id, attrs: { xs12: "", md6: "", lg4: "" } },
-                [
-                  _c(
-                    "v-card",
-                    { staticClass: "data-card medium" },
-                    [
-                      _c(
-                        "v-card-text",
-                        {
-                          on: {
-                            click: function($event) {
-                              return _vm.editContact(contact)
-                            }
-                          }
-                        },
-                        [
-                          _c("div", [
-                            _c("div", { staticClass: "headline" }, [
-                              _vm._v(
-                                _vm._s(_vm._f("truncate")(contact.name, 20))
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("span", { staticClass: "grey--text" }, [
-                              _vm._v(
-                                _vm._s(_vm._f("truncate")(contact.title, 30))
-                              )
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "v-layout",
-                            [
-                              _c("v-flex", [
-                                _c("div", [
-                                  _c("i", { staticClass: "material-icons" }, [
-                                    _vm._v("mail")
-                                  ]),
-                                  _vm._v(
-                                    " " +
-                                      _vm._s(
-                                        _vm._f("truncate")(contact.email, 30)
-                                      )
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("div", [
-                                  _c("i", { staticClass: "material-icons" }, [
-                                    _vm._v("phone")
-                                  ]),
-                                  _vm._v(" " + _vm._s(contact.phone))
-                                ])
-                              ])
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-card-actions",
-                        [
-                          _c("v-spacer"),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { flat: "", color: "red darken-2" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.removeContact(
-                                    contact.client_id,
-                                    contact.id
-                                  )
-                                }
-                              }
-                            },
-                            [_vm._v("Remove")]
-                          ),
-                          _vm._v(" "),
-                          _c("v-spacer")
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            }),
-            1
-          ),
       _vm._v(" "),
       _c(
         "v-dialog",
@@ -4660,84 +4745,106 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-layout",
-        { attrs: { row: "", "text-xs-center": "" } },
+        { attrs: { row: "" } },
         [
-          _vm.clients.length == 0
-            ? _c("v-container", { staticClass: "headline" }, [
-                _vm._v(
-                  "\n            You do not currently have any clients.\n        "
-                )
-              ])
-            : _vm._e()
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-layout",
-        { attrs: { row: "", wrap: "" } },
-        _vm._l(_vm.clients, function(client) {
-          return _c(
-            "v-flex",
-            { key: client.id, attrs: { xs12: "", md6: "", lg4: "" } },
+          _c(
+            "v-container",
             [
-              _c(
-                "v-card",
-                { staticClass: "data-card medium" },
-                [
-                  _c(
-                    "router-link",
-                    { attrs: { to: "/client/" + client.id } },
-                    [
-                      _c("v-card-text", [
-                        _c("div", { staticClass: "headline" }, [
-                          _vm._v(
-                            "\n                                " +
-                              _vm._s(_vm._f("truncate")(client.name, 25)) +
-                              "\n                            "
-                          )
-                        ]),
-                        _vm._v(
-                          "\n                            " +
-                            _vm._s(
-                              _vm._f("truncate")(client.description, 200)
-                            ) +
-                            "\n                        "
+              _c("v-text-field", {
+                attrs: {
+                  "append-icon": "search",
+                  label: "Search",
+                  "single-line": "",
+                  "hide-details": "",
+                  box: ""
+                },
+                model: {
+                  value: _vm.search,
+                  callback: function($$v) {
+                    _vm.search = $$v
+                  },
+                  expression: "search"
+                }
+              }),
+              _vm._v(" "),
+              _c("v-data-table", {
+                staticClass: "elevation-1",
+                attrs: {
+                  headers: _vm.headers,
+                  items: _vm.clients,
+                  search: _vm.search,
+                  pagination: _vm.pagination,
+                  "hide-actions": "",
+                  "no-data-text": "You do not currently have any clients."
+                },
+                on: {
+                  "update:pagination": function($event) {
+                    _vm.pagination = $event
+                  }
+                },
+                scopedSlots: _vm._u([
+                  {
+                    key: "items",
+                    fn: function(props) {
+                      return [
+                        _c("td", [_vm._v(_vm._s(props.item.name))]),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          { attrs: { width: "25%" } },
+                          [
+                            _c(
+                              "v-form",
+                              {
+                                attrs: { method: "POST", id: "deleteForm" },
+                                on: {
+                                  submit: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.deleteClient(props.item.id)
+                                  }
+                                }
+                              },
+                              [
+                                _c(
+                                  "v-btn",
+                                  {
+                                    staticClass: "white--text",
+                                    attrs: {
+                                      small: "",
+                                      to: "/client/" + props.item.id,
+                                      color: "primary"
+                                    }
+                                  },
+                                  [_vm._v("Edit")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-btn",
+                                  {
+                                    staticClass: "white--text",
+                                    attrs: {
+                                      small: "",
+                                      type: "submit",
+                                      color: "red darken-1"
+                                    }
+                                  },
+                                  [_vm._v("Delete")]
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
                         )
-                      ])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-card-actions",
-                    [
-                      _c("v-spacer"),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { flat: "", color: "red darken-2" },
-                          on: {
-                            click: function($event) {
-                              return _vm.removeClient(client.id)
-                            }
-                          }
-                        },
-                        [_vm._v("Remove")]
-                      ),
-                      _vm._v(" "),
-                      _c("v-spacer")
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
+                      ]
+                    }
+                  }
+                ])
+              })
             ],
             1
           )
-        }),
+        ],
         1
       ),
       _vm._v(" "),
@@ -49514,10 +49621,10 @@ var EventBus = new vue__WEBPACK_IMPORTED_MODULE_0___default.a();
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Projects__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Projects */ "./resources/js/components/Projects.vue");
 /* harmony import */ var _components_Project__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/Project */ "./resources/js/components/Project.vue");
-/* harmony import */ var _components_Issues__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Issues */ "./resources/js/components/Issues.vue");
-/* harmony import */ var _components_Issue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Issue */ "./resources/js/components/Issue.vue");
-/* harmony import */ var _components_Clients__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Clients */ "./resources/js/components/Clients.vue");
-/* harmony import */ var _components_Client__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Client */ "./resources/js/components/Client.vue");
+/* harmony import */ var _components_Issues__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Issues */ "./resources/js/components/Issues.vue");
+/* harmony import */ var _components_Issue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Issue */ "./resources/js/components/Issue.vue");
+/* harmony import */ var _components_Clients__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Clients */ "./resources/js/components/Clients.vue");
+/* harmony import */ var _components_Client__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Client */ "./resources/js/components/Client.vue");
 
 
 
@@ -49536,20 +49643,20 @@ __webpack_require__.r(__webpack_exports__);
 }, {
   path: '/issues',
   name: 'issues',
-  component: _components_Issues__WEBPACK_IMPORTED_MODULE_6__["default"]
+  component: _components_Issues__WEBPACK_IMPORTED_MODULE_2__["default"]
 }, {
   path: '/issue/:id',
   name: 'issue',
-  component: _components_Issue__WEBPACK_IMPORTED_MODULE_5__["default"],
+  component: _components_Issue__WEBPACK_IMPORTED_MODULE_3__["default"],
   props: true
 }, {
   path: '/clients',
   name: 'clients',
-  component: _components_Clients__WEBPACK_IMPORTED_MODULE_3__["default"]
+  component: _components_Clients__WEBPACK_IMPORTED_MODULE_4__["default"]
 }, {
   path: '/client/:id',
   name: 'client',
-  component: _components_Client__WEBPACK_IMPORTED_MODULE_4__["default"],
+  component: _components_Client__WEBPACK_IMPORTED_MODULE_5__["default"],
   props: true
 }]);
 

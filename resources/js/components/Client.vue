@@ -7,7 +7,8 @@
                         <v-card-text>
                              <v-layout align-baseline>
                                 <v-flex xs6>
-                                    <span class="headline">
+                                    <span class="title">
+                                        <v-icon>person</v-icon>
                                         {{ client.name }}
                                     </span>
                                 </v-flex>
