@@ -38,7 +38,7 @@
                             </span>
                         </td>
                         <td>{{ props.item.priority }}</td>
-                        <td>{{ props.item.description | truncate(125) }}</td>
+                        <td>{{ props.item.description | truncate(100) }}</td>
                         <td><span v-if="props.item.project">{{ props.item.project.name }}</span></td>
                         <td width="15%">
                             <span class="hidden">{{ props.item.created_at }}</span>
@@ -46,7 +46,7 @@
                         </td>
                         <td width="25%">
                             <v-form method="POST" id="deleteForm" @submit.prevent="deleteIssue(props.item.id)">
-                                <v-btn small :to="'/issue/' + props.item.id" color="primary" class="white--text">Edit</v-btn>
+                                <v-btn small :to="'/issue/' + props.item.id" color="primary" class="white--text">View</v-btn>
                                 <v-btn small type="submit" color="red darken-1" class="white--text">Delete</v-btn>
                             </v-form>
                         </td>

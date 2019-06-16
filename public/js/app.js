@@ -3891,7 +3891,9 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("div", { staticClass: "footer text-xs-center mt-5 mb-3" }, [
-            _vm._v("\n            © Chase Terry 2019\n        ")
+            _vm._v(
+              "\n            Proma - Simple Project Management © 2019\n        "
+            )
           ])
         ],
         1
@@ -3970,7 +3972,7 @@ var render = function() {
                                   _c(
                                     "v-btn",
                                     {
-                                      attrs: { color: "info", small: "" },
+                                      attrs: { color: "primary", small: "" },
                                       on: {
                                         click: function($event) {
                                           _vm.dialog = true
@@ -4266,7 +4268,7 @@ var render = function() {
                               _c(
                                 "v-btn",
                                 {
-                                  attrs: { color: "info", small: "" },
+                                  attrs: { color: "primary", small: "" },
                                   on: {
                                     click: function($event) {
                                       _vm.dialog = true
@@ -4721,7 +4723,7 @@ var render = function() {
               _c(
                 "v-btn",
                 {
-                  attrs: { color: "info" },
+                  attrs: { color: "primary" },
                   on: {
                     click: function($event) {
                       _vm.dialog = true
@@ -4815,7 +4817,7 @@ var render = function() {
                                       color: "primary"
                                     }
                                   },
-                                  [_vm._v("Edit")]
+                                  [_vm._v("View")]
                                 ),
                                 _vm._v(" "),
                                 _c(
@@ -6036,7 +6038,7 @@ var render = function() {
                         _c("td", [
                           _vm._v(
                             _vm._s(
-                              _vm._f("truncate")(props.item.description, 125)
+                              _vm._f("truncate")(props.item.description, 100)
                             )
                           )
                         ]),
@@ -6086,7 +6088,7 @@ var render = function() {
                                       color: "primary"
                                     }
                                   },
-                                  [_vm._v("Edit")]
+                                  [_vm._v("View")]
                                 ),
                                 _vm._v(" "),
                                 _c(
@@ -7707,7 +7709,7 @@ var render = function() {
                                       color: "primary"
                                     }
                                   },
-                                  [_vm._v("Edit")]
+                                  [_vm._v("View")]
                                 ),
                                 _vm._v(" "),
                                 _c(

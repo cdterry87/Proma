@@ -2,7 +2,7 @@
     <v-container fluid grid-list-md>
         <v-layout row>
             <v-container text-xs-center>
-                <v-btn color="info" @click="dialog = true">
+                <v-btn color="primary" @click="dialog = true">
                     <v-icon left dark>add</v-icon>
                     Add a Client
                 </v-btn>
@@ -32,7 +32,7 @@
                         <td>{{ props.item.name }}</td>
                         <td width="25%">
                             <v-form method="POST" id="deleteForm" @submit.prevent="deleteClient(props.item.id)">
-                                <v-btn small :to="'/client/' + props.item.id" color="primary" class="white--text">Edit</v-btn>
+                                <v-btn small :to="'/client/' + props.item.id" color="primary" class="white--text">View</v-btn>
                                 <v-btn small type="submit" color="red darken-1" class="white--text">Delete</v-btn>
                             </v-form>
                         </td>

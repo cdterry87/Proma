@@ -108,7 +108,7 @@
             </v-dialog>
 
             <div class="footer text-xs-center mt-5 mb-3">
-                &copy; Chase Terry 2019
+                Proma - Simple Project Management &copy; 2019
             </div>
         </v-app>
     </div>

@@ -46,7 +46,7 @@
                         </td>
                         <td width="25%">
                             <v-form method="POST" id="deleteForm" @submit.prevent="deleteProject(props.item.id)">
-                                <v-btn small :to="'/project/' + props.item.id" color="primary" class="white--text">Edit</v-btn>
+                                <v-btn small :to="'/project/' + props.item.id" color="primary" class="white--text">View</v-btn>
                                 <v-btn small type="submit" color="red darken-1" class="white--text">Delete</v-btn>
                             </v-form>
                         </td>

@@ -41,7 +41,7 @@
                 <hr/>
 
                 <div class="center-align">
-                    Proma - Simple Project Management &copy; {{ date('Y') }}
+                    {{ config('app.name', 'Laravel') }} &copy; {{ date('Y') }}
                 </div>
             </form>
         </div>

@@ -13,7 +13,7 @@
                                     </span>
                                 </v-flex>
                                 <v-flex xs6 text-xs-right>
-                                    <v-btn color="info" @click="dialog = true" small>
+                                    <v-btn color="primary" @click="dialog = true" small>
                                         <v-icon left dark>edit</v-icon>
                                         Edit
                                     </v-btn>

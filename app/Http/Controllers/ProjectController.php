@@ -136,7 +136,7 @@ class ProjectController extends Controller
     public function incomplete(Project $project)
     {
         $project->completed = 0;
-        $project->completed_date = '';
+        $project->completed_date = null;
         $status = $project->save();
 
         $notification = new Notification;
