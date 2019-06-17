@@ -101,6 +101,8 @@
 </template>
 
 <script>
+import Event from './../events'
+
 export default {
     name: 'Issues',
     data() {

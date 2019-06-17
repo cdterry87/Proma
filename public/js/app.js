@@ -1181,6 +1181,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../events */ "./resources/js/events.js");
 //
 //
 //
@@ -1283,6 +1284,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Issues',
   data: function data() {
@@ -1348,9 +1350,9 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this3.getIssues();
 
-        Event.$emit('success', response.data.message);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
       })["catch"](function (error) {
-        Event.$emit('error', response.data.message);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
       this.reset();
     },
@@ -1360,9 +1362,9 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/api/issues/' + issue_id + '/resolve').then(function (response) {
         _this4.getIssues();
 
-        Event.$emit('success', response.data.message);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
       })["catch"](function (error) {
-        Event.$emit('error', response.data.message);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
     },
     unresolveIssue: function unresolveIssue(issue_id) {
@@ -1371,9 +1373,9 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/api/issues/' + issue_id + '/unresolve').then(function (response) {
         _this5.getIssues();
 
-        Event.$emit('warning', response.data.message);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('warning', response.data.message);
       })["catch"](function (error) {
-        Event.$emit('error', response.data.message);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
     },
     deleteIssue: function deleteIssue(issue_id) {
@@ -1382,9 +1384,9 @@ __webpack_require__.r(__webpack_exports__);
       axios["delete"]('/api/issues/' + issue_id).then(function (response) {
         _this6.getIssues();
 
-        Event.$emit('success', response.data.message);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
       })["catch"](function (error) {
-        Event.$emit('error', response.data.message);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
     },
     reset: function reset() {
