@@ -458,11 +458,11 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this4 = this;
 
-    _events__WEBPACK_IMPORTED_MODULE_0__["default"].$on('addContact', function (contacts) {
-      _this4.contacts = contacts;
-    });
     _events__WEBPACK_IMPORTED_MODULE_0__["default"].$on('loadContacts', function (client_id) {
       _this4.getContacts(client_id);
+    });
+    _events__WEBPACK_IMPORTED_MODULE_0__["default"].$on('loadProjects', function (client_id) {
+      _this4.getProjects(client_id);
     });
   },
   mounted: function mounted() {
@@ -676,14 +676,221 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../events */ "./resources/js/events.js");
 //
 //
 //
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'ClientProjects'
+  name: 'ClientProjects',
+  props: ['clientInfo', 'clientProjects'],
+  data: function data() {
+    return {
+      dialog: false,
+      date_dialog: false,
+      name: '',
+      description: '',
+      due_date: '',
+      search: '',
+      pagination: {
+        sortBy: 'completed',
+        rowsPerPage: -1
+      },
+      headers: [{
+        text: 'Status',
+        value: 'completed'
+      }, {
+        text: 'Name',
+        value: 'name'
+      }, {
+        text: 'Due',
+        value: 'due_date'
+      }, {
+        text: 'Actions',
+        value: 'actions',
+        sortable: false
+      }]
+    };
+  },
+  methods: {
+    dueDate: function dueDate(due_date) {
+      this.date_dialog = false;
+      this.$refs.datePicker.save(due_date);
+    },
+    addProject: function addProject() {
+      var _this = this;
+
+      var name = this.name;
+      var description = this.description;
+      var due_date = this.due_date;
+      var client_id = this.clientInfo.id;
+      axios.post('/api/projects', {
+        name: name,
+        description: description,
+        due_date: due_date,
+        client_id: client_id
+      }).then(function (response) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadProjects', _this.clientInfo.id);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
+      })["catch"](function (error) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
+      });
+      this.reset();
+    },
+    completeProject: function completeProject(project_id) {
+      var _this2 = this;
+
+      axios.post('/api/projects/' + project_id + '/complete').then(function (response) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadProjects', _this2.clientInfo.id);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
+      })["catch"](function (error) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
+      });
+    },
+    incompleteProject: function incompleteProject(project_id) {
+      var _this3 = this;
+
+      axios.post('/api/projects/' + project_id + '/incomplete').then(function (response) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadProjects', _this3.clientInfo.id);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('warning', response.data.message);
+      })["catch"](function (error) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
+      });
+    },
+    deleteProject: function deleteProject(project_id) {
+      var _this4 = this;
+
+      axios["delete"]('/api/projects/' + project_id).then(function (response) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadProjects', _this4.clientInfo.id);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
+      })["catch"](function (error) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
+      });
+    },
+    reset: function reset() {
+      this.dialog = false;
+      this.name = '';
+      this.description = '';
+    }
+  }
 });
 
 /***/ }),
@@ -1673,6 +1880,9 @@ __webpack_require__.r(__webpack_exports__);
     _events__WEBPACK_IMPORTED_MODULE_0__["default"].$on('loadTasks', function (project_id) {
       _this7.getTasks(project_id);
     });
+    _events__WEBPACK_IMPORTED_MODULE_0__["default"].$on('loadIssues', function (project_id) {
+      _this7.getIssues(project_id);
+    });
   },
   mounted: function mounted() {
     this.getProject();
@@ -1691,14 +1901,196 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../events */ "./resources/js/events.js");
 //
 //
 //
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'ProjectIssues'
+  name: 'ProjectIssues',
+  props: ['projectInfo', 'projectIssues'],
+  data: function data() {
+    return {
+      dialog: false,
+      description: '',
+      priority: '',
+      search: '',
+      pagination: {
+        sortBy: 'resolved',
+        rowsPerPage: -1
+      },
+      headers: [{
+        text: 'Status',
+        value: 'resolved'
+      }, {
+        text: 'Priority',
+        value: 'priority'
+      }, {
+        text: 'Description',
+        value: 'description'
+      }, {
+        text: 'Created',
+        value: 'created_at'
+      }, {
+        text: 'Actions',
+        value: 'actions',
+        sortable: false
+      }]
+    };
+  },
+  methods: {
+    addIssue: function addIssue() {
+      var _this = this;
+
+      var description = this.description;
+      var priority = this.priority;
+      var project_id = this.projectInfo.id;
+      axios.post('/api/issues', {
+        description: description,
+        priority: priority,
+        project_id: project_id
+      }).then(function (response) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadIssues', _this.projectInfo.id);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
+      })["catch"](function (error) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
+      });
+      this.reset();
+    },
+    resolveIssue: function resolveIssue(issue_id) {
+      var _this2 = this;
+
+      axios.post('/api/issues/' + issue_id + '/resolve').then(function (response) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadIssues', _this2.projectInfo.id);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
+      })["catch"](function (error) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
+      });
+    },
+    unresolveIssue: function unresolveIssue(issue_id) {
+      var _this3 = this;
+
+      axios.post('/api/issues/' + issue_id + '/unresolve').then(function (response) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadIssues', _this3.projectInfo.id);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('warning', response.data.message);
+      })["catch"](function (error) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
+      });
+    },
+    deleteIssue: function deleteIssue(issue_id) {
+      var _this4 = this;
+
+      axios["delete"]('/api/issues/' + issue_id).then(function (response) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadIssues', _this4.projectInfo.id);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
+      })["catch"](function (error) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
+      });
+    },
+    reset: function reset() {
+      this.dialog = false;
+      this.priority = '';
+      this.description = '';
+    }
+  }
 });
 
 /***/ }),
@@ -1941,6 +2333,8 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../events */ "./resources/js/events.js");
+//
+//
 //
 //
 //
@@ -4521,7 +4915,570 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c(
+    "v-container",
+    { attrs: { fluid: "", "grid-list-md": "" } },
+    [
+      _c(
+        "v-layout",
+        { attrs: { "align-baseline": "" } },
+        [
+          _c(
+            "v-flex",
+            { attrs: { xs12: "" } },
+            [
+              _c(
+                "v-card",
+                [
+                  _c(
+                    "v-card-text",
+                    [
+                      _c(
+                        "v-layout",
+                        { attrs: { "align-baseline": "" } },
+                        [
+                          _c("v-flex", { attrs: { xs6: "" } }, [
+                            _c(
+                              "span",
+                              { staticClass: "headline" },
+                              [
+                                _c("v-icon", [_vm._v("work")]),
+                                _vm._v(
+                                  " Projects\n                            "
+                                )
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs6: "", "text-xs-right": "" } },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { color: "primary", small: "" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.dialog = true
+                                    }
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-icon",
+                                    { attrs: { left: "", dark: "" } },
+                                    [_vm._v("add")]
+                                  ),
+                                  _vm._v(
+                                    "\n                                Add Project\n                            "
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _vm.clientProjects
+                        ? _c(
+                            "v-content",
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  "append-icon": "search",
+                                  label: "Search",
+                                  "single-line": "",
+                                  "hide-details": "",
+                                  box: ""
+                                },
+                                model: {
+                                  value: _vm.search,
+                                  callback: function($$v) {
+                                    _vm.search = $$v
+                                  },
+                                  expression: "search"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("v-data-table", {
+                                staticClass: "elevation-1",
+                                attrs: {
+                                  headers: _vm.headers,
+                                  items: _vm.clientProjects,
+                                  search: _vm.search,
+                                  pagination: _vm.pagination,
+                                  "hide-actions": "",
+                                  "no-data-text":
+                                    "This client does not currently have any projects.",
+                                  "disable-initial-sort": ""
+                                },
+                                on: {
+                                  "update:pagination": function($event) {
+                                    _vm.pagination = $event
+                                  }
+                                },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "items",
+                                      fn: function(props) {
+                                        return [
+                                          _c("td", [
+                                            parseInt(props.item.completed)
+                                              ? _c(
+                                                  "span",
+                                                  [
+                                                    _c(
+                                                      "v-icon",
+                                                      {
+                                                        staticClass: "pointer",
+                                                        attrs: {
+                                                          color: "success"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.incompleteProject(
+                                                              props.item.id
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [_vm._v("check_circle")]
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              : !parseInt(
+                                                  props.item.completed
+                                                ) &&
+                                                props.item.due_date != "" &&
+                                                props.item.due_date != null &&
+                                                new Date(props.item.due_date) <
+                                                  Date.now()
+                                              ? _c(
+                                                  "span",
+                                                  [
+                                                    _c(
+                                                      "v-icon",
+                                                      {
+                                                        staticClass: "pointer",
+                                                        attrs: {
+                                                          color: "error"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.completeProject(
+                                                              props.item.id
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [_vm._v("warning")]
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              : !parseInt(props.item.completed)
+                                              ? _c(
+                                                  "span",
+                                                  [
+                                                    _c(
+                                                      "v-icon",
+                                                      {
+                                                        staticClass: "pointer",
+                                                        attrs: {
+                                                          color: "warning"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.completeProject(
+                                                              props.item.id
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [_vm._v("remove_circle")]
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              : _vm._e()
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(_vm._s(props.item.name))
+                                          ]),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { attrs: { width: "15%" } },
+                                            [
+                                              _c(
+                                                "span",
+                                                { staticClass: "hidden" },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(props.item.due_date)
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(
+                                                "\n                                    " +
+                                                  _vm._s(
+                                                    _vm._f("fromNow")(
+                                                      props.item.due_date
+                                                    )
+                                                  ) +
+                                                  "\n                                "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { attrs: { width: "25%" } },
+                                            [
+                                              _c(
+                                                "v-form",
+                                                {
+                                                  attrs: {
+                                                    method: "POST",
+                                                    id: "deleteForm"
+                                                  },
+                                                  on: {
+                                                    submit: function($event) {
+                                                      $event.preventDefault()
+                                                      return _vm.deleteProject(
+                                                        props.item.id
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-btn",
+                                                    {
+                                                      staticClass:
+                                                        "white--text",
+                                                      attrs: {
+                                                        small: "",
+                                                        to:
+                                                          "/project/" +
+                                                          props.item.id,
+                                                        color: "primary"
+                                                      }
+                                                    },
+                                                    [_vm._v("View")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-btn",
+                                                    {
+                                                      staticClass:
+                                                        "white--text",
+                                                      attrs: {
+                                                        small: "",
+                                                        type: "submit",
+                                                        color: "red darken-1"
+                                                      }
+                                                    },
+                                                    [_vm._v("Delete")]
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  null,
+                                  false,
+                                  4055174710
+                                )
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e()
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { width: "500" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _c(
+            "v-form",
+            {
+              attrs: { method: "POST", id: "projectForm" },
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.addProject($event)
+                }
+              }
+            },
+            [
+              _c(
+                "v-card",
+                [
+                  _c(
+                    "v-card-title",
+                    { staticClass: "blue darken-3 white--text py-4 title" },
+                    [_vm._v("Add Project")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-container",
+                    { staticClass: "pa-4", attrs: { "grid-list-sm": "" } },
+                    [
+                      _c(
+                        "v-layout",
+                        { attrs: { row: "", wrap: "" } },
+                        [
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  "prepend-icon": "work",
+                                  label: "Project Name",
+                                  maxlength: "100"
+                                },
+                                model: {
+                                  value: _vm.name,
+                                  callback: function($$v) {
+                                    _vm.name = $$v
+                                  },
+                                  expression: "name"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "" } },
+                            [
+                              _c("v-textarea", {
+                                attrs: {
+                                  "prepend-icon": "notes",
+                                  label: "Description"
+                                },
+                                model: {
+                                  value: _vm.description,
+                                  callback: function($$v) {
+                                    _vm.description = $$v
+                                  },
+                                  expression: "description"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "v-dialog",
+                                {
+                                  ref: "datePicker",
+                                  attrs: {
+                                    "return-value": _vm.due_date,
+                                    persistent: "",
+                                    lazy: "",
+                                    "full-width": "",
+                                    width: "290px"
+                                  },
+                                  on: {
+                                    "update:returnValue": function($event) {
+                                      _vm.due_date = $event
+                                    },
+                                    "update:return-value": function($event) {
+                                      _vm.due_date = $event
+                                    }
+                                  },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "activator",
+                                      fn: function(ref) {
+                                        var on = ref.on
+                                        return [
+                                          _c(
+                                            "v-text-field",
+                                            _vm._g(
+                                              {
+                                                attrs: {
+                                                  label: "Due Date",
+                                                  "prepend-icon": "event",
+                                                  readonly: ""
+                                                },
+                                                model: {
+                                                  value: _vm.due_date,
+                                                  callback: function($$v) {
+                                                    _vm.due_date = $$v
+                                                  },
+                                                  expression: "due_date"
+                                                }
+                                              },
+                                              on
+                                            )
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ]),
+                                  model: {
+                                    value: _vm.date_dialog,
+                                    callback: function($$v) {
+                                      _vm.date_dialog = $$v
+                                    },
+                                    expression: "date_dialog"
+                                  }
+                                },
+                                [
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-date-picker",
+                                    {
+                                      attrs: { scrollable: "" },
+                                      on: { change: _vm.dueDate },
+                                      model: {
+                                        value: _vm.due_date,
+                                        callback: function($$v) {
+                                          _vm.due_date = $$v
+                                        },
+                                        expression: "due_date"
+                                      }
+                                    },
+                                    [
+                                      _c("v-spacer"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { flat: "", color: "primary" },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.date_dialog = false
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("Cancel")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { flat: "", color: "primary" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.$refs.dialog.save(
+                                                _vm.due_date
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("OK")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("v-spacer")
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            type: "submit",
+                            flat: "",
+                            color: "blue darken-2"
+                          }
+                        },
+                        [_vm._v("Save")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            flat: "",
+                            color: "red darken-2",
+                            form: "projectForm"
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.dialog = false
+                            }
+                          }
+                        },
+                        [_vm._v("Cancel")]
+                      ),
+                      _vm._v(" "),
+                      _c("v-spacer")
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -6580,7 +7537,467 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c(
+    "v-container",
+    { attrs: { fluid: "", "grid-list-md": "" } },
+    [
+      _c(
+        "v-layout",
+        { attrs: { "align-baseline": "" } },
+        [
+          _c(
+            "v-flex",
+            { attrs: { xs12: "" } },
+            [
+              _c(
+                "v-card",
+                [
+                  _c(
+                    "v-card-text",
+                    [
+                      _c(
+                        "v-layout",
+                        { attrs: { "align-baseline": "" } },
+                        [
+                          _c("v-flex", { attrs: { xs6: "" } }, [
+                            _c(
+                              "span",
+                              { staticClass: "headline" },
+                              [
+                                _c("v-icon", [_vm._v("bug_report")]),
+                                _vm._v(" Issues\n                            ")
+                              ],
+                              1
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs6: "", "text-xs-right": "" } },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { color: "primary", small: "" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.dialog = true
+                                    }
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-icon",
+                                    { attrs: { left: "", dark: "" } },
+                                    [_vm._v("add")]
+                                  ),
+                                  _vm._v(
+                                    "\n                                Add Issue\n                            "
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _vm.projectIssues
+                        ? _c(
+                            "v-content",
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  "append-icon": "search",
+                                  label: "Search",
+                                  "single-line": "",
+                                  "hide-details": "",
+                                  box: ""
+                                },
+                                model: {
+                                  value: _vm.search,
+                                  callback: function($$v) {
+                                    _vm.search = $$v
+                                  },
+                                  expression: "search"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("v-data-table", {
+                                attrs: {
+                                  headers: _vm.headers,
+                                  items: _vm.projectIssues,
+                                  search: _vm.search,
+                                  pagination: _vm.pagination,
+                                  "hide-actions": "",
+                                  "no-data-text":
+                                    "This project does not currently have any issues."
+                                },
+                                on: {
+                                  "update:pagination": function($event) {
+                                    _vm.pagination = $event
+                                  }
+                                },
+                                scopedSlots: _vm._u(
+                                  [
+                                    {
+                                      key: "items",
+                                      fn: function(props) {
+                                        return [
+                                          _c("td", [
+                                            parseInt(props.item.resolved) == 0
+                                              ? _c(
+                                                  "span",
+                                                  [
+                                                    _c(
+                                                      "v-icon",
+                                                      {
+                                                        staticClass: "pointer",
+                                                        attrs: {
+                                                          color: "error"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.resolveIssue(
+                                                              props.item.id
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [_vm._v("remove_circle")]
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              : _c(
+                                                  "span",
+                                                  [
+                                                    _c(
+                                                      "v-icon",
+                                                      {
+                                                        staticClass: "pointer",
+                                                        attrs: {
+                                                          color: "success"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.unresolveIssue(
+                                                              props.item.id
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [_vm._v("check_circle")]
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(_vm._s(props.item.priority))
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(
+                                              _vm._s(
+                                                _vm._f("truncate")(
+                                                  props.item.description,
+                                                  100
+                                                )
+                                              )
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { attrs: { width: "15%" } },
+                                            [
+                                              _c(
+                                                "span",
+                                                { staticClass: "hidden" },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      props.item.created_at
+                                                    )
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(
+                                                "\n                                    " +
+                                                  _vm._s(
+                                                    _vm._f("fromNow")(
+                                                      props.item.created_at
+                                                    )
+                                                  ) +
+                                                  "\n                                "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { attrs: { width: "25%" } },
+                                            [
+                                              _c(
+                                                "v-form",
+                                                {
+                                                  attrs: {
+                                                    method: "POST",
+                                                    id: "deleteForm"
+                                                  },
+                                                  on: {
+                                                    submit: function($event) {
+                                                      $event.preventDefault()
+                                                      return _vm.deleteIssue(
+                                                        props.item.id
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-btn",
+                                                    {
+                                                      staticClass:
+                                                        "white--text",
+                                                      attrs: {
+                                                        small: "",
+                                                        to:
+                                                          "/issue/" +
+                                                          props.item.id,
+                                                        color: "primary"
+                                                      }
+                                                    },
+                                                    [_vm._v("View")]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-btn",
+                                                    {
+                                                      staticClass:
+                                                        "white--text",
+                                                      attrs: {
+                                                        small: "",
+                                                        type: "submit",
+                                                        color: "red darken-1"
+                                                      }
+                                                    },
+                                                    [_vm._v("Delete")]
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ]
+                                      }
+                                    }
+                                  ],
+                                  null,
+                                  false,
+                                  3731179673
+                                )
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e()
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { width: "500" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _c(
+            "v-form",
+            {
+              attrs: { method: "POST", id: "issueForm" },
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.addIssue($event)
+                }
+              }
+            },
+            [
+              _c(
+                "v-card",
+                [
+                  _c(
+                    "v-card-title",
+                    { staticClass: "blue darken-3 white--text py-4 title" },
+                    [_vm._v("Add Issue")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-container",
+                    { staticClass: "pa-4", attrs: { "grid-list-sm": "" } },
+                    [
+                      _c(
+                        "v-layout",
+                        { attrs: { row: "", wrap: "" } },
+                        [
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "" } },
+                            [
+                              _c("v-textarea", {
+                                attrs: {
+                                  "prepend-icon": "notes",
+                                  label: "Description"
+                                },
+                                model: {
+                                  value: _vm.description,
+                                  callback: function($$v) {
+                                    _vm.description = $$v
+                                  },
+                                  expression: "description"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            { attrs: { xs12: "" } },
+                            [
+                              _c(
+                                "v-radio-group",
+                                {
+                                  attrs: { row: "" },
+                                  scopedSlots: _vm._u([
+                                    {
+                                      key: "label",
+                                      fn: function() {
+                                        return [
+                                          _c("div", [_vm._v("Priority:")])
+                                        ]
+                                      },
+                                      proxy: true
+                                    }
+                                  ]),
+                                  model: {
+                                    value: _vm.priority,
+                                    callback: function($$v) {
+                                      _vm.priority = $$v
+                                    },
+                                    expression: "priority"
+                                  }
+                                },
+                                [
+                                  _vm._v(" "),
+                                  _c("v-radio", {
+                                    attrs: { label: "1", value: "1" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-radio", {
+                                    attrs: { label: "2", value: "2" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-radio", {
+                                    attrs: { label: "3", value: "3" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-radio", {
+                                    attrs: { label: "4", value: "4" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-radio", {
+                                    attrs: { label: "5", value: "5" }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            type: "submit",
+                            flat: "",
+                            color: "blue darken-2"
+                          }
+                        },
+                        [_vm._v("Save")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            flat: "",
+                            color: "red darken-2",
+                            form: "projectForm"
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.dialog = false
+                            }
+                          }
+                        },
+                        [_vm._v("Cancel")]
+                      ),
+                      _vm._v(" "),
+                      _c("v-spacer")
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -7274,29 +8691,8 @@ var render = function() {
                     fn: function(props) {
                       return [
                         _c("td", [
-                          parseInt(props.item.completed) == 0
+                          parseInt(props.item.completed)
                             ? _c(
-                                "span",
-                                [
-                                  _c(
-                                    "v-icon",
-                                    {
-                                      staticClass: "pointer",
-                                      attrs: { color: "error" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.completeProject(
-                                            props.item.id
-                                          )
-                                        }
-                                      }
-                                    },
-                                    [_vm._v("remove_circle")]
-                                  )
-                                ],
-                                1
-                              )
-                            : _c(
                                 "span",
                                 [
                                   _c(
@@ -7317,6 +8713,54 @@ var render = function() {
                                 ],
                                 1
                               )
+                            : !parseInt(props.item.completed) &&
+                              props.item.due_date != "" &&
+                              props.item.due_date != null &&
+                              new Date(props.item.due_date) < Date.now()
+                            ? _c(
+                                "span",
+                                [
+                                  _c(
+                                    "v-icon",
+                                    {
+                                      staticClass: "pointer",
+                                      attrs: { color: "error" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.completeProject(
+                                            props.item.id
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("warning")]
+                                  )
+                                ],
+                                1
+                              )
+                            : !parseInt(props.item.completed)
+                            ? _c(
+                                "span",
+                                [
+                                  _c(
+                                    "v-icon",
+                                    {
+                                      staticClass: "pointer",
+                                      attrs: { color: "warning" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.completeProject(
+                                            props.item.id
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("remove_circle")]
+                                  )
+                                ],
+                                1
+                              )
+                            : _vm._e()
                         ]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(props.item.name))]),
@@ -7324,9 +8768,6 @@ var render = function() {
                         _c("td", [_vm._v(_vm._s(props.item.client.name))]),
                         _vm._v(" "),
                         _c("td", { attrs: { width: "15%" } }, [
-                          _c("span", { staticClass: "hidden" }, [
-                            _vm._v(_vm._s(props.item.due_date))
-                          ]),
                           _vm._v(
                             "\n                        " +
                               _vm._s(_vm._f("fromNow")(props.item.due_date)) +

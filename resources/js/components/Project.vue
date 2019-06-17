@@ -214,6 +214,9 @@
             Event.$on('loadTasks', project_id => {
                 this.getTasks(project_id)
             })
+            Event.$on('loadIssues', project_id => {
+                this.getIssues(project_id)
+            })
         },
         mounted() {
             this.getProject()

@@ -120,12 +120,11 @@
             }
         },
         created() {
-            Event.$on('addContact', contacts => {
-                this.contacts = contacts
-            })
-
             Event.$on('loadContacts', client_id => {
                 this.getContacts(client_id)
+            })
+            Event.$on('loadProjects', client_id => {
+                this.getProjects(client_id)
             })
         },
         mounted() {

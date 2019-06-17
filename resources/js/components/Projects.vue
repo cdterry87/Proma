@@ -31,17 +31,19 @@
                 >
                     <template v-slot:items="props">
                         <td>
-                            <span v-if="parseInt(props.item.completed) == 0">
-                                <v-icon class="pointer" color="error" @click="completeProject(props.item.id)">remove_circle</v-icon>
-                            </span>
-                            <span v-else>
+                            <span v-if="parseInt(props.item.completed)">
                                 <v-icon class="pointer" color="success" @click="incompleteProject(props.item.id)">check_circle</v-icon>
+                            </span>
+                            <span v-else-if="!parseInt(props.item.completed) && props.item.due_date != '' && props.item.due_date != null && new Date(props.item.due_date) < Date.now()">
+                                <v-icon class="pointer" color="error" @click="completeProject(props.item.id)">warning</v-icon>
+                            </span>
+                            <span v-else-if="!parseInt(props.item.completed)">
+                                <v-icon class="pointer" color="warning" @click="completeProject(props.item.id)">remove_circle</v-icon>
                             </span>
                         </td>
                         <td>{{ props.item.name }}</td>
                         <td>{{ props.item.client.name }}</td>
                         <td width="15%">
-                            <span class="hidden">{{ props.item.due_date }}</span>
                             {{ props.item.due_date | fromNow() }}
                         </td>
                         <td width="25%">
