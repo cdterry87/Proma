@@ -71,7 +71,7 @@
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
-                                <v-textarea prepend-icon="notes" label="Description" v-model="description"></v-textarea>
+                                <v-textarea prepend-icon="notes" label="Description" v-model="description" required></v-textarea>
                                 <v-dialog
                                 ref="datePicker"
                                 v-model="date_dialog"

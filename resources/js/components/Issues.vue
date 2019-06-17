@@ -62,7 +62,7 @@
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
-                                <v-textarea prepend-icon="notes" label="Description" v-model="description"></v-textarea>
+                                <v-textarea prepend-icon="notes" label="Description" v-model="description" required></v-textarea>
                             </v-flex>
                             <v-flex xs12>
                                  <v-autocomplete
@@ -72,10 +72,11 @@
                                     label="Select a project"
                                     prepend-icon="work"
                                     v-model="project_id"
+                                    required
                                 ></v-autocomplete>
                             </v-flex>
                             <v-flex xs12>
-                                <v-radio-group v-model="priority" row>
+                                <v-radio-group v-model="priority" row required>
                                     <template v-slot:label>
                                         <div>Priority:</div>
                                     </template>

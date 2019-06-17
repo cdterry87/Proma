@@ -1526,6 +1526,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Issues',
@@ -1658,6 +1659,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../events */ "./resources/js/events.js");
 /* harmony import */ var _ProjectTasks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProjectTasks */ "./resources/js/components/ProjectTasks.vue");
 /* harmony import */ var _ProjectIssues__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ProjectIssues */ "./resources/js/components/ProjectIssues.vue");
+//
 //
 //
 //
@@ -2333,6 +2335,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../events */ "./resources/js/events.js");
+//
 //
 //
 //
@@ -4354,7 +4357,8 @@ var render = function() {
                                 attrs: {
                                   "prepend-icon": "business",
                                   label: "Client Name",
-                                  maxlength: "100"
+                                  maxlength: "100",
+                                  required: ""
                                 },
                                 model: {
                                   value: _vm.client.name,
@@ -4756,7 +4760,8 @@ var render = function() {
                                 attrs: {
                                   "prepend-icon": "person",
                                   label: "Contact Name",
-                                  maxlength: "100"
+                                  maxlength: "100",
+                                  required: ""
                                 },
                                 model: {
                                   value: _vm.name,
@@ -5277,7 +5282,8 @@ var render = function() {
                                 attrs: {
                                   "prepend-icon": "work",
                                   label: "Project Name",
-                                  maxlength: "100"
+                                  maxlength: "100",
+                                  required: ""
                                 },
                                 model: {
                                   value: _vm.name,
@@ -5694,7 +5700,8 @@ var render = function() {
                                 attrs: {
                                   "prepend-icon": "business",
                                   label: "Client Name",
-                                  maxlength: "100"
+                                  maxlength: "100",
+                                  required: ""
                                 },
                                 model: {
                                   value: _vm.name,
@@ -6019,7 +6026,8 @@ var render = function() {
                                 attrs: {
                                   "prepend-icon": "work",
                                   label: "Project Name",
-                                  maxlength: "100"
+                                  maxlength: "100",
+                                  required: ""
                                 },
                                 model: {
                                   value: _vm.issue.name,
@@ -6085,7 +6093,7 @@ var render = function() {
                               _c(
                                 "v-radio-group",
                                 {
-                                  attrs: { row: "" },
+                                  attrs: { row: "", required: "" },
                                   scopedSlots: _vm._u([
                                     {
                                       key: "label",
@@ -6501,7 +6509,8 @@ var render = function() {
                               _c("v-textarea", {
                                 attrs: {
                                   "prepend-icon": "notes",
-                                  label: "Description"
+                                  label: "Description",
+                                  required: ""
                                 },
                                 model: {
                                   value: _vm.description,
@@ -6856,7 +6865,8 @@ var render = function() {
                               _c("v-textarea", {
                                 attrs: {
                                   "prepend-icon": "notes",
-                                  label: "Description"
+                                  label: "Description",
+                                  required: ""
                                 },
                                 model: {
                                   value: _vm.description,
@@ -6880,7 +6890,8 @@ var render = function() {
                                   "item-text": "name",
                                   "item-value": "id",
                                   label: "Select a project",
-                                  "prepend-icon": "work"
+                                  "prepend-icon": "work",
+                                  required: ""
                                 },
                                 model: {
                                   value: _vm.project_id,
@@ -6901,7 +6912,7 @@ var render = function() {
                               _c(
                                 "v-radio-group",
                                 {
-                                  attrs: { row: "" },
+                                  attrs: { row: "", required: "" },
                                   scopedSlots: _vm._u([
                                     {
                                       key: "label",
@@ -7276,7 +7287,8 @@ var render = function() {
                                 attrs: {
                                   "prepend-icon": "work",
                                   label: "Project Name",
-                                  maxlength: "100"
+                                  maxlength: "100",
+                                  required: ""
                                 },
                                 model: {
                                   value: _vm.project.name,
@@ -7300,7 +7312,8 @@ var render = function() {
                                   "item-text": "name",
                                   "item-value": "id",
                                   label: "Select a client",
-                                  "prepend-icon": "person"
+                                  "prepend-icon": "person",
+                                  required: ""
                                 },
                                 model: {
                                   value: _vm.project.client_id,
@@ -7873,7 +7886,8 @@ var render = function() {
                               _c("v-textarea", {
                                 attrs: {
                                   "prepend-icon": "notes",
-                                  label: "Description"
+                                  label: "Description",
+                                  required: ""
                                 },
                                 model: {
                                   value: _vm.description,
@@ -7894,7 +7908,7 @@ var render = function() {
                               _c(
                                 "v-radio-group",
                                 {
-                                  attrs: { row: "" },
+                                  attrs: { row: "", required: "" },
                                   scopedSlots: _vm._u([
                                     {
                                       key: "label",
@@ -8404,7 +8418,8 @@ var render = function() {
                               _c("v-textarea", {
                                 attrs: {
                                   "prepend-icon": "notes",
-                                  label: "Description"
+                                  label: "Description",
+                                  required: ""
                                 },
                                 model: {
                                   value: _vm.description,
@@ -8884,7 +8899,8 @@ var render = function() {
                                 attrs: {
                                   "prepend-icon": "work",
                                   label: "Project Name",
-                                  maxlength: "100"
+                                  maxlength: "100",
+                                  required: ""
                                 },
                                 model: {
                                   value: _vm.name,
@@ -8908,7 +8924,8 @@ var render = function() {
                                   "item-text": "name",
                                   "item-value": "id",
                                   label: "Select a client",
-                                  "prepend-icon": "person"
+                                  "prepend-icon": "person",
+                                  required: ""
                                 },
                                 model: {
                                   value: _vm.client_id,

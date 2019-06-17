@@ -64,7 +64,7 @@
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
-                                <v-text-field prepend-icon="work" label="Project Name" v-model="name" maxlength="100"></v-text-field>
+                                <v-text-field prepend-icon="work" label="Project Name" v-model="name" maxlength="100" required></v-text-field>
                             </v-flex>
                             <v-flex xs12>
                                  <v-autocomplete
@@ -74,6 +74,7 @@
                                     label="Select a client"
                                     prepend-icon="person"
                                     v-model="client_id"
+                                    required
                                 ></v-autocomplete>
                             </v-flex>
                             <v-flex xs12>

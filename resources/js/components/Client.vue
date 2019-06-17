@@ -38,7 +38,7 @@
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
-                                <v-text-field prepend-icon="business" label="Client Name" v-model="client.name" maxlength="100"></v-text-field>
+                                <v-text-field prepend-icon="business" label="Client Name" v-model="client.name" maxlength="100" required></v-text-field>
                             </v-flex>
                             <v-flex xs12>
                                 <v-textarea prepend-icon="notes" label="Description" v-model="client.description"></v-textarea>
