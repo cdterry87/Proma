@@ -1402,7 +1402,7 @@ __webpack_require__.r(__webpack_exports__);
         value: 'priority'
       }, {
         text: 'Description',
-        value: 'desription'
+        value: 'description'
       }, {
         text: 'Project',
         value: 'project.name'

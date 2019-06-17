@@ -132,7 +132,7 @@ export default {
             headers: [
                 { text: 'Status', value: 'resolved' },
                 { text: 'Priority', value: 'priority' },
-                { text: 'Description', value: 'desription' },
+                { text: 'Description', value: 'description' },
                 { text: 'Project', value: 'project.name' },
                 { text: 'Created', value: 'created_at' },
                 { text: 'Actions', value: 'actions', sortable: false },
