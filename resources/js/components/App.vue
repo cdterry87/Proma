@@ -115,6 +115,8 @@
 </template>
 
 <script>
+import Event from './../events'
+
 export default {
     name: 'App',
     data() {
@@ -197,6 +199,23 @@ export default {
             });
         }
     },
+    created() {
+        Event.$on('success', message => {
+            this.snackbar.message = message
+            this.snackbar.color = 'success'
+            this.snackbar.enabled = true
+        })
+        Event.$on('warning', message => {
+            this.snackbar.message = message
+            this.snackbar.color = 'warning'
+            this.snackbar.enabled = true
+        })
+        Event.$on('error', message => {
+            this.snackbar.message = message
+            this.snackbar.color = 'error'
+            this.snackbar.enabled = true
+        })
+    }
 }
 </script>
 

@@ -53,16 +53,11 @@
                 </v-card>
             </v-form>
         </v-dialog>
-
-        <v-snackbar v-model="snackbar.enabled" :color="snackbar.color" :bottom="true" :right="true" :timeout="snackbar.timeout">
-            {{ snackbar.message }}
-            <v-btn color="white" flat @click="snackbar.enabled = false"><v-icon>close</v-icon></v-btn>
-        </v-snackbar>
     </div>
 </template>
 
 <script>
-    import EventBus from './../eventbus'
+    import Event from './../events'
     import ClientContacts from './ClientContacts'
 
     export default {
@@ -74,14 +69,6 @@
         data() {
             return {
                 dialog: false,
-                snackbar: {
-                    enabled: false,
-                    message: '',
-                    timeout: 5000,
-                    y: 'bottom',
-                    x: 'right',
-                    color: ''
-                },
                 client: '',
                 contacts: ''
             }
@@ -107,16 +94,10 @@
 
                 axios.put('/api/clients/' + this.client.id, { name, description })
                 .then(response => {
-                    // this.client = response.data.data
-
-                    this.snackbar.color = 'success'
-                    this.snackbar.message = "Client updated successfully!"
-                    this.snackbar.enabled = true
+                    Event.$emit('success', response.data.message)
                 })
                 .catch(function (error) {
-                    this.snackbar.color = 'error'
-                    this.snackbar.message = "Error updating client!"
-                    this.snackbar.enabled = true
+                    Event.$emit('error', response.data.message)
                 })
 
                 this.reset()
@@ -128,11 +109,11 @@
             }
         },
         created() {
-            EventBus.$on('addContact', contacts => {
+            Event.$on('addContact', contacts => {
                 this.contacts = contacts
             })
 
-            EventBus.$on('loadContacts', client_id => {
+            Event.$on('loadContacts', client_id => {
                 this.getClientContacts(client_id)
             })
         },

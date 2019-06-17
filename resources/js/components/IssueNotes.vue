@@ -73,16 +73,11 @@
                 </v-card>
             </v-form>
         </v-dialog>
-
-        <v-snackbar v-model="snackbar.enabled" :color="snackbar.color" :bottom="true" :right="true" :timeout="snackbar.timeout">
-            {{ snackbar.message }}
-            <v-btn color="white" flat @click="snackbar.enabled = false"><v-icon>close</v-icon></v-btn>
-        </v-snackbar>
     </v-container>
 </template>
 
 <script>
-    import EventBus from './../eventbus';
+    import Event from './../events';
 
     export default {
         name: 'IssueNotes',
@@ -90,14 +85,6 @@
         data() {
             return {
                 dialog: false,
-                snackbar: {
-                    enabled: false,
-                    message: '',
-                    timeout: 5000,
-                    y: 'bottom',
-                    x: 'right',
-                    color: ''
-                },
                 description: '',
                 note_id: '',
                 search: '',
@@ -139,16 +126,12 @@
                     data: { description, issue_id }
                 })
                 .then(response => {
-                    EventBus.$emit('loadNotes', issue_id)
+                    Event.$emit('loadNotes', issue_id)
 
-                    this.snackbar.color = 'success'
-                    this.snackbar.message = "Note added successfully!"
-                    this.snackbar.enabled = true
+                    Event.$emit('success', response.data.message)
                 })
                 .catch(function (error) {
-                    this.snackbar.color = 'error'
-                    this.snackbar.message = "Error adding note!"
-                    this.snackbar.enabled = true
+                    Event.$emit('error', response.data.message)
                 })
 
                 this.reset()
@@ -156,11 +139,12 @@
             deleteNote(issue_id, note_id) {
                 axios.delete('/api/notes/' + note_id)
                 .then(response => {
-                    EventBus.$emit('loadNotes', issue_id)
+                    Event.$emit('loadNotes', issue_id)
 
-                    this.snackbar.color = 'success'
-                    this.snackbar.message = "Note successfully removed!"
-                    this.snackbar.enabled = true
+                    Event.$emit('success', response.data.message)
+                })
+                .catch(function (error) {
+                    Event.$emit('error', response.data.message)
                 })
             },
             reset() {

@@ -114,29 +114,18 @@
                 </v-card>
             </v-form>
         </v-dialog>
-
-        <v-snackbar v-model="snackbar.enabled" :color="snackbar.color" :bottom="true" :right="true" :timeout="snackbar.timeout">
-            {{ snackbar.message }}
-            <v-btn color="white" flat @click="snackbar.enabled = false"><v-icon>close</v-icon></v-btn>
-        </v-snackbar>
     </v-container>
 </template>
 
 <script>
+import Event from './../events'
+
 export default {
     name: 'Projects',
     data() {
         return {
             dialog: false,
             date_dialog: false,
-            snackbar: {
-                enabled: false,
-                message: '',
-                timeout: 5000,
-                y: 'bottom',
-                x: 'right',
-                color: ''
-            },
             name: '',
             description: '',
             due_date: '',
@@ -184,14 +173,10 @@ export default {
             .then(response => {
                 this.getProjects()
 
-                this.snackbar.color = 'success'
-                this.snackbar.message = "Project successfully created!"
-                this.snackbar.enabled = true
+                Event.$emit('success', response.data.message)
             })
             .catch(function (error) {
-                this.snackbar.color = 'error'
-                this.snackbar.message = "Error creating project!"
-                this.snackbar.enabled = true
+                Event.$emit('error', response.data.message)
             })
 
             this.reset()
@@ -201,14 +186,10 @@ export default {
             .then(response => {
                 this.getProjects()
 
-                this.snackbar.color = 'success'
-                this.snackbar.message = "Project is now complete!"
-                this.snackbar.enabled = true
+                Event.$emit('success', response.data.message)
             })
             .catch(function (error) {
-                this.snackbar.color = 'danger'
-                this.snackbar.message = "Project could not be completed!"
-                this.snackbar.enabled = true
+                Event.$emit('error', response.data.message)
             })
         },
         incompleteProject(project_id) {
@@ -216,14 +197,10 @@ export default {
             .then(response => {
                 this.getProjects()
 
-                this.snackbar.color = 'warning'
-                this.snackbar.message = "Project is now incomplete!"
-                this.snackbar.enabled = true
+                Event.$emit('warning', response.data.message)
             })
             .catch(function (error) {
-                this.snackbar.color = 'danger'
-                this.snackbar.message = "Project could not be changed to incomplete!"
-                this.snackbar.enabled = true
+                Event.$emit('error', response.data.message)
             })
         },
         deleteProject(project_id) {
@@ -231,9 +208,10 @@ export default {
             .then(response => {
                 this.getProjects()
 
-                this.snackbar.color = 'success'
-                this.snackbar.message = "Project successfully deleted!"
-                this.snackbar.enabled = true
+                Event.$emit('error', response.data.message)
+            })
+            .catch(function (error) {
+                Event.$emit('success', response.data.message)
             })
         },
         reset() {

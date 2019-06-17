@@ -64,28 +64,17 @@
                 </v-card>
             </v-form>
         </v-dialog>
-
-        <v-snackbar v-model="snackbar.enabled" :color="snackbar.color" :bottom="true" :right="true" :timeout="snackbar.timeout">
-            {{ snackbar.message }}
-            <v-btn color="white" flat @click="snackbar.enabled = false"><v-icon>close</v-icon></v-btn>
-        </v-snackbar>
     </v-container>
 </template>
 
 <script>
+import Event from './../events'
+
 export default {
     name: 'Clients',
     data() {
         return {
             dialog: false,
-            snackbar: {
-                enabled: false,
-                message: '',
-                timeout: 5000,
-                y: 'bottom',
-                x: 'right',
-                color: ''
-            },
             name: '',
             description: '',
             clients: [],
@@ -113,16 +102,12 @@ export default {
 
             axios.post('/api/clients', { name, description })
             .then(response => {
-                this.clients.push(response.data.data)
+                this.getClients()
 
-                this.snackbar.color = 'success'
-                this.snackbar.message = "Client successfully created!"
-                this.snackbar.enabled = true
+                Event.$emit('success', response.data.message)
             })
             .catch(function (error) {
-                this.snackbar.color = 'error'
-                this.snackbar.message = "Error creating client!"
-                this.snackbar.enabled = true
+                Event.$emit('error', response.data.message)
             })
 
             this.reset()
@@ -132,9 +117,10 @@ export default {
             .then(response => {
                 this.getClients()
 
-                this.snackbar.color = 'success'
-                this.snackbar.message = "Client successfully deleted!"
-                this.snackbar.enabled = true
+                Event.$emit('success', response.data.message)
+            })
+            .catch(function (error) {
+                Event.$emit('error', response.data.message)
             })
         },
         reset() {

@@ -95,6 +95,7 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../events */ "./resources/js/events.js");
 //
 //
 //
@@ -211,6 +212,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'App',
   data: function data() {
@@ -295,6 +297,25 @@ __webpack_require__.r(__webpack_exports__);
         location.reload();
       });
     }
+  },
+  created: function created() {
+    var _this5 = this;
+
+    _events__WEBPACK_IMPORTED_MODULE_0__["default"].$on('success', function (message) {
+      _this5.snackbar.message = message;
+      _this5.snackbar.color = 'success';
+      _this5.snackbar.enabled = true;
+    });
+    _events__WEBPACK_IMPORTED_MODULE_0__["default"].$on('warning', function (message) {
+      _this5.snackbar.message = message;
+      _this5.snackbar.color = 'warning';
+      _this5.snackbar.enabled = true;
+    });
+    _events__WEBPACK_IMPORTED_MODULE_0__["default"].$on('error', function (message) {
+      _this5.snackbar.message = message;
+      _this5.snackbar.color = 'error';
+      _this5.snackbar.enabled = true;
+    });
   }
 });
 
@@ -309,13 +330,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _eventbus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../eventbus */ "./resources/js/eventbus.js");
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../events */ "./resources/js/events.js");
 /* harmony import */ var _ClientContacts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ClientContacts */ "./resources/js/components/ClientContacts.vue");
-//
-//
-//
-//
-//
 //
 //
 //
@@ -385,14 +401,6 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       dialog: false,
-      snackbar: {
-        enabled: false,
-        message: '',
-        timeout: 5000,
-        y: 'bottom',
-        x: 'right',
-        color: ''
-      },
       client: '',
       contacts: ''
     };
@@ -415,22 +423,15 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     updateClient: function updateClient() {
-      var _this3 = this;
-
       var name = this.client.name;
       var description = this.client.description;
       axios.put('/api/clients/' + this.client.id, {
         name: name,
         description: description
       }).then(function (response) {
-        // this.client = response.data.data
-        _this3.snackbar.color = 'success';
-        _this3.snackbar.message = "Client updated successfully!";
-        _this3.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
       })["catch"](function (error) {
-        this.snackbar.color = 'error';
-        this.snackbar.message = "Error updating client!";
-        this.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
       this.reset();
     },
@@ -441,13 +442,13 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    var _this4 = this;
+    var _this3 = this;
 
-    _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('addContact', function (contacts) {
-      _this4.contacts = contacts;
+    _events__WEBPACK_IMPORTED_MODULE_0__["default"].$on('addContact', function (contacts) {
+      _this3.contacts = contacts;
     });
-    _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('loadContacts', function (client_id) {
-      _this4.getClientContacts(client_id);
+    _events__WEBPACK_IMPORTED_MODULE_0__["default"].$on('loadContacts', function (client_id) {
+      _this3.getClientContacts(client_id);
     });
   },
   mounted: function mounted() {
@@ -466,12 +467,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _eventbus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../eventbus */ "./resources/js/eventbus.js");
-//
-//
-//
-//
-//
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../events */ "./resources/js/events.js");
 //
 //
 //
@@ -568,14 +564,6 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       dialog: false,
-      snackbar: {
-        enabled: false,
-        message: '',
-        timeout: 5000,
-        y: 'bottom',
-        x: 'right',
-        color: ''
-      },
       name: '',
       title: '',
       email: '',
@@ -619,8 +607,6 @@ __webpack_require__.r(__webpack_exports__);
       this.contact_id = contact.id;
     },
     saveContact: function saveContact() {
-      var _this = this;
-
       var name = this.name;
       var title = this.title;
       var email = this.email;
@@ -639,25 +625,19 @@ __webpack_require__.r(__webpack_exports__);
           client_id: client_id
         }
       }).then(function (response) {
-        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadContacts', client_id);
-        _this.snackbar.color = 'success';
-        _this.snackbar.message = "Contact successfully added!";
-        _this.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadContacts', client_id);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
       })["catch"](function (error) {
-        this.snackbar.color = 'error';
-        this.snackbar.message = "Error adding contact!";
-        this.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
       this.reset();
     },
     deleteContact: function deleteContact(client_id, contact_id) {
-      var _this2 = this;
-
       axios["delete"]('/api/contacts/' + contact_id).then(function (response) {
-        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadContacts', client_id);
-        _this2.snackbar.color = 'success';
-        _this2.snackbar.message = "Contact successfully removed!";
-        _this2.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadContacts', client_id);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
+      })["catch"](function (error) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
     },
     reset: function reset() {
@@ -682,6 +662,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../events */ "./resources/js/events.js");
 //
 //
 //
@@ -751,24 +732,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Clients',
   data: function data() {
     return {
       dialog: false,
-      snackbar: {
-        enabled: false,
-        message: '',
-        timeout: 5000,
-        y: 'bottom',
-        x: 'right',
-        color: ''
-      },
       name: '',
       description: '',
       clients: [],
@@ -804,15 +773,11 @@ __webpack_require__.r(__webpack_exports__);
         name: name,
         description: description
       }).then(function (response) {
-        _this2.clients.push(response.data.data);
+        _this2.getClients();
 
-        _this2.snackbar.color = 'success';
-        _this2.snackbar.message = "Client successfully created!";
-        _this2.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
       })["catch"](function (error) {
-        this.snackbar.color = 'error';
-        this.snackbar.message = "Error creating client!";
-        this.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
       this.reset();
     },
@@ -822,9 +787,9 @@ __webpack_require__.r(__webpack_exports__);
       axios["delete"]('/api/clients/' + client_id).then(function (response) {
         _this3.getClients();
 
-        _this3.snackbar.color = 'success';
-        _this3.snackbar.message = "Client successfully deleted!";
-        _this3.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
+      })["catch"](function (error) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
     },
     reset: function reset() {
@@ -849,13 +814,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _eventbus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../eventbus */ "./resources/js/eventbus.js");
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../events */ "./resources/js/events.js");
 /* harmony import */ var _IssueNotes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./IssueNotes */ "./resources/js/components/IssueNotes.vue");
-//
-//
-//
-//
-//
 //
 //
 //
@@ -961,14 +921,6 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       dialog: false,
-      snackbar: {
-        enabled: false,
-        message: '',
-        timeout: 5000,
-        y: 'bottom',
-        x: 'right',
-        color: ''
-      },
       issue: '',
       notes: '',
       projects: []
@@ -999,8 +951,6 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     updateIssue: function updateIssue() {
-      var _this4 = this;
-
       var description = this.issue.description;
       var priority = this.issue.priority;
       var project_id = this.issue.project_id;
@@ -1009,44 +959,32 @@ __webpack_require__.r(__webpack_exports__);
         description: description,
         project_id: project_id
       }).then(function (response) {
-        _this4.snackbar.color = 'success';
-        _this4.snackbar.message = "Issue updated successfully!";
-        _this4.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
       })["catch"](function (error) {
-        this.snackbar.color = 'error';
-        this.snackbar.message = "Error updating issue!";
-        this.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
       this.reset();
     },
     resolveIssue: function resolveIssue(issue_id) {
-      var _this5 = this;
+      var _this4 = this;
 
       axios.post('/api/issues/' + issue_id + '/resolve').then(function (response) {
-        _this5.getIssue();
+        _this4.getIssue();
 
-        _this5.snackbar.color = 'success';
-        _this5.snackbar.message = "Issue is now resolved!";
-        _this5.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
       })["catch"](function (error) {
-        this.snackbar.color = 'danger';
-        this.snackbar.message = "Issue could not be resolved!";
-        this.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
       });
     },
     unresolveIssue: function unresolveIssue(issue_id) {
-      var _this6 = this;
+      var _this5 = this;
 
       axios.post('/api/issues/' + issue_id + '/unresolve').then(function (response) {
-        _this6.getIssue();
+        _this5.getIssue();
 
-        _this6.snackbar.color = 'warning';
-        _this6.snackbar.message = "Issue is now unresolved!";
-        _this6.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('warning', response.data.message);
       })["catch"](function (error) {
-        this.snackbar.color = 'danger';
-        this.snackbar.message = "Issue could not be marked as unresolved!";
-        this.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
       });
     },
     reset: function reset() {
@@ -1057,10 +995,10 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    var _this7 = this;
+    var _this6 = this;
 
-    _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('loadNotes', function (issue_id) {
-      _this7.getIssueNotes(issue_id);
+    _events__WEBPACK_IMPORTED_MODULE_0__["default"].$on('loadNotes', function (issue_id) {
+      _this6.getIssueNotes(issue_id);
     });
   },
   mounted: function mounted() {
@@ -1080,12 +1018,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _eventbus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../eventbus */ "./resources/js/eventbus.js");
-//
-//
-//
-//
-//
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../events */ "./resources/js/events.js");
 //
 //
 //
@@ -1171,14 +1104,6 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       dialog: false,
-      snackbar: {
-        enabled: false,
-        message: '',
-        timeout: 5000,
-        y: 'bottom',
-        x: 'right',
-        color: ''
-      },
       description: '',
       note_id: '',
       search: '',
@@ -1211,8 +1136,6 @@ __webpack_require__.r(__webpack_exports__);
       this.note_id = note.id;
     },
     saveNote: function saveNote() {
-      var _this = this;
-
       var description = this.description;
       var issue_id = this.issueInfo.id;
       var note_id = this.note_id;
@@ -1225,25 +1148,19 @@ __webpack_require__.r(__webpack_exports__);
           issue_id: issue_id
         }
       }).then(function (response) {
-        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadNotes', issue_id);
-        _this.snackbar.color = 'success';
-        _this.snackbar.message = "Note added successfully!";
-        _this.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadNotes', issue_id);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
       })["catch"](function (error) {
-        this.snackbar.color = 'error';
-        this.snackbar.message = "Error adding note!";
-        this.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
       this.reset();
     },
     deleteNote: function deleteNote(issue_id, note_id) {
-      var _this2 = this;
-
       axios["delete"]('/api/notes/' + note_id).then(function (response) {
-        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadNotes', issue_id);
-        _this2.snackbar.color = 'success';
-        _this2.snackbar.message = "Note successfully removed!";
-        _this2.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadNotes', issue_id);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
+      })["catch"](function (error) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
     },
     reset: function reset() {
@@ -1366,24 +1283,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Issues',
   data: function data() {
     return {
       dialog: false,
-      snackbar: {
-        enabled: false,
-        message: '',
-        timeout: 5000,
-        y: 'bottom',
-        x: 'right',
-        color: ''
-      },
       description: '',
       projects: [],
       project_id: '',
@@ -1444,13 +1348,9 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this3.getIssues();
 
-        _this3.snackbar.color = 'success';
-        _this3.snackbar.message = "Issue successfully created!";
-        _this3.snackbar.enabled = true;
+        Event.$emit('success', response.data.message);
       })["catch"](function (error) {
-        this.snackbar.color = 'error';
-        this.snackbar.message = "Error creating issue!";
-        this.snackbar.enabled = true;
+        Event.$emit('error', response.data.message);
       });
       this.reset();
     },
@@ -1460,13 +1360,9 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/api/issues/' + issue_id + '/resolve').then(function (response) {
         _this4.getIssues();
 
-        _this4.snackbar.color = 'success';
-        _this4.snackbar.message = "Issue is now resolved!";
-        _this4.snackbar.enabled = true;
+        Event.$emit('success', response.data.message);
       })["catch"](function (error) {
-        this.snackbar.color = 'danger';
-        this.snackbar.message = "Issue could not be resolved!";
-        this.snackbar.enabled = true;
+        Event.$emit('error', response.data.message);
       });
     },
     unresolveIssue: function unresolveIssue(issue_id) {
@@ -1475,13 +1371,9 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/api/issues/' + issue_id + '/unresolve').then(function (response) {
         _this5.getIssues();
 
-        _this5.snackbar.color = 'warning';
-        _this5.snackbar.message = "Issue is now unresolved!";
-        _this5.snackbar.enabled = true;
+        Event.$emit('warning', response.data.message);
       })["catch"](function (error) {
-        this.snackbar.color = 'danger';
-        this.snackbar.message = "Issue could not be marked as unresolved!";
-        this.snackbar.enabled = true;
+        Event.$emit('error', response.data.message);
       });
     },
     deleteIssue: function deleteIssue(issue_id) {
@@ -1490,9 +1382,9 @@ __webpack_require__.r(__webpack_exports__);
       axios["delete"]('/api/issues/' + issue_id).then(function (response) {
         _this6.getIssues();
 
-        _this6.snackbar.color = 'success';
-        _this6.snackbar.message = "Issue successfully deleted!";
-        _this6.snackbar.enabled = true;
+        Event.$emit('success', response.data.message);
+      })["catch"](function (error) {
+        Event.$emit('error', response.data.message);
       });
     },
     reset: function reset() {
@@ -1519,13 +1411,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _eventbus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../eventbus */ "./resources/js/eventbus.js");
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../events */ "./resources/js/events.js");
 /* harmony import */ var _ProjectTasks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProjectTasks */ "./resources/js/components/ProjectTasks.vue");
-//
-//
-//
-//
-//
 //
 //
 //
@@ -1650,14 +1537,6 @@ __webpack_require__.r(__webpack_exports__);
     return {
       dialog: false,
       date_dialog: false,
-      snackbar: {
-        enabled: false,
-        message: '',
-        timeout: 5000,
-        y: 'bottom',
-        x: 'right',
-        color: ''
-      },
       project: '',
       tasks: '',
       clients: []
@@ -1692,8 +1571,6 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     updateProject: function updateProject() {
-      var _this4 = this;
-
       var name = this.project.name;
       var description = this.project.description;
       var due_date = this.project.due_date;
@@ -1704,44 +1581,32 @@ __webpack_require__.r(__webpack_exports__);
         due_date: due_date,
         client_id: client_id
       }).then(function (response) {
-        _this4.snackbar.color = 'success';
-        _this4.snackbar.message = "Project updated successfully!";
-        _this4.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
       })["catch"](function (error) {
-        this.snackbar.color = 'error';
-        this.snackbar.message = "Error updating project!";
-        this.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
       this.reset();
     },
     completeProject: function completeProject(project_id) {
-      var _this5 = this;
+      var _this4 = this;
 
       axios.post('/api/projects/' + project_id + '/complete').then(function (response) {
-        _this5.getProject();
+        _this4.getProject();
 
-        _this5.snackbar.color = 'success';
-        _this5.snackbar.message = "Project is now complete!";
-        _this5.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
       })["catch"](function (error) {
-        this.snackbar.color = 'danger';
-        this.snackbar.message = "Project could not be completed!";
-        this.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
     },
     incompleteProject: function incompleteProject(project_id) {
-      var _this6 = this;
+      var _this5 = this;
 
       axios.post('/api/projects/' + project_id + '/incomplete').then(function (response) {
-        _this6.getProject();
+        _this5.getProject();
 
-        _this6.snackbar.color = 'warning';
-        _this6.snackbar.message = "Project is now incomplete!";
-        _this6.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('warning', response.data.message);
       })["catch"](function (error) {
-        this.snackbar.color = 'danger';
-        this.snackbar.message = "Project could not be changed to incomplete!";
-        this.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
     },
     reset: function reset() {
@@ -1752,10 +1617,10 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    var _this7 = this;
+    var _this6 = this;
 
-    _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('loadTasks', function (project_id) {
-      _this7.getProjectTasks(project_id);
+    _events__WEBPACK_IMPORTED_MODULE_0__["default"].$on('loadTasks', function (project_id) {
+      _this6.getProjectTasks(project_id);
     });
   },
   mounted: function mounted() {
@@ -1775,12 +1640,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _eventbus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../eventbus */ "./resources/js/eventbus.js");
-//
-//
-//
-//
-//
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../events */ "./resources/js/events.js");
 //
 //
 //
@@ -1903,14 +1763,6 @@ __webpack_require__.r(__webpack_exports__);
     return {
       dialog: false,
       date_dialog: false,
-      snackbar: {
-        enabled: false,
-        message: '',
-        timeout: 5000,
-        y: 'bottom',
-        x: 'right',
-        color: ''
-      },
       description: '',
       due_date: '',
       task_id: '',
@@ -1953,8 +1805,6 @@ __webpack_require__.r(__webpack_exports__);
       this.$refs.datePicker.save(due_date);
     },
     saveTask: function saveTask() {
-      var _this = this;
-
       var due_date = this.due_date;
       var description = this.description;
       var project_id = this.projectInfo.id;
@@ -1969,53 +1819,35 @@ __webpack_require__.r(__webpack_exports__);
           project_id: project_id
         }
       }).then(function (response) {
-        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadTasks', project_id);
-        _this.snackbar.color = 'success';
-        _this.snackbar.message = "Task added successfully!";
-        _this.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadTasks', project_id);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
       })["catch"](function (error) {
-        this.snackbar.color = 'error';
-        this.snackbar.message = "Error adding task!";
-        this.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
       this.reset();
     },
     completeTask: function completeTask(project_id, task_id) {
-      var _this2 = this;
-
       axios.post('/api/tasks/' + project_id + '/complete/' + task_id).then(function (response) {
-        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadTasks', project_id);
-        _this2.snackbar.color = 'success';
-        _this2.snackbar.message = "Task is now complete!";
-        _this2.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadTasks', project_id);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
       })["catch"](function (error) {
-        this.snackbar.color = 'danger';
-        this.snackbar.message = "Task could not be completed!";
-        this.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
     },
     incompleteTask: function incompleteTask(project_id, task_id) {
-      var _this3 = this;
-
       axios.post('/api/tasks/' + project_id + '/incomplete/' + task_id).then(function (response) {
-        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadTasks', project_id);
-        _this3.snackbar.color = 'warning';
-        _this3.snackbar.message = "Task is now incomplete!";
-        _this3.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadTasks', project_id);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('warning', response.data.message);
       })["catch"](function (error) {
-        this.snackbar.color = 'danger';
-        this.snackbar.message = "Task could not be changed to incomplete!";
-        this.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
     },
     deleteTask: function deleteTask(project_id, task_id) {
-      var _this4 = this;
-
       axios["delete"]('/api/tasks/' + task_id).then(function (response) {
-        _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadTasks', project_id);
-        _this4.snackbar.color = 'success';
-        _this4.snackbar.message = "Task successfully removed!";
-        _this4.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadTasks', project_id);
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
+      })["catch"](function (error) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
     },
     reset: function reset() {
@@ -2036,6 +1868,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../events */ "./resources/js/events.js");
 //
 //
 //
@@ -2155,25 +1988,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Projects',
   data: function data() {
     return {
       dialog: false,
       date_dialog: false,
-      snackbar: {
-        enabled: false,
-        message: '',
-        timeout: 5000,
-        y: 'bottom',
-        x: 'right',
-        color: ''
-      },
       name: '',
       description: '',
       due_date: '',
@@ -2238,13 +2059,9 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this3.getProjects();
 
-        _this3.snackbar.color = 'success';
-        _this3.snackbar.message = "Project successfully created!";
-        _this3.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
       })["catch"](function (error) {
-        this.snackbar.color = 'error';
-        this.snackbar.message = "Error creating project!";
-        this.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
       this.reset();
     },
@@ -2254,13 +2071,9 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/api/projects/' + project_id + '/complete').then(function (response) {
         _this4.getProjects();
 
-        _this4.snackbar.color = 'success';
-        _this4.snackbar.message = "Project is now complete!";
-        _this4.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
       })["catch"](function (error) {
-        this.snackbar.color = 'danger';
-        this.snackbar.message = "Project could not be completed!";
-        this.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
     },
     incompleteProject: function incompleteProject(project_id) {
@@ -2269,13 +2082,9 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/api/projects/' + project_id + '/incomplete').then(function (response) {
         _this5.getProjects();
 
-        _this5.snackbar.color = 'warning';
-        _this5.snackbar.message = "Project is now incomplete!";
-        _this5.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('warning', response.data.message);
       })["catch"](function (error) {
-        this.snackbar.color = 'danger';
-        this.snackbar.message = "Project could not be changed to incomplete!";
-        this.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
       });
     },
     deleteProject: function deleteProject(project_id) {
@@ -2284,9 +2093,9 @@ __webpack_require__.r(__webpack_exports__);
       axios["delete"]('/api/projects/' + project_id).then(function (response) {
         _this6.getProjects();
 
-        _this6.snackbar.color = 'success';
-        _this6.snackbar.message = "Project successfully deleted!";
-        _this6.snackbar.enabled = true;
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
+      })["catch"](function (error) {
+        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
       });
     },
     reset: function reset() {
@@ -4162,42 +3971,6 @@ var render = function() {
           )
         ],
         1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-snackbar",
-        {
-          attrs: {
-            color: _vm.snackbar.color,
-            bottom: true,
-            right: true,
-            timeout: _vm.snackbar.timeout
-          },
-          model: {
-            value: _vm.snackbar.enabled,
-            callback: function($$v) {
-              _vm.$set(_vm.snackbar, "enabled", $$v)
-            },
-            expression: "snackbar.enabled"
-          }
-        },
-        [
-          _vm._v("\n        " + _vm._s(_vm.snackbar.message) + "\n        "),
-          _c(
-            "v-btn",
-            {
-              attrs: { color: "white", flat: "" },
-              on: {
-                click: function($event) {
-                  _vm.snackbar.enabled = false
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("close")])],
-            1
-          )
-        ],
-        1
       )
     ],
     1
@@ -4645,42 +4418,6 @@ var render = function() {
           )
         ],
         1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-snackbar",
-        {
-          attrs: {
-            color: _vm.snackbar.color,
-            bottom: true,
-            right: true,
-            timeout: _vm.snackbar.timeout
-          },
-          model: {
-            value: _vm.snackbar.enabled,
-            callback: function($$v) {
-              _vm.$set(_vm.snackbar, "enabled", $$v)
-            },
-            expression: "snackbar.enabled"
-          }
-        },
-        [
-          _vm._v("\n        " + _vm._s(_vm.snackbar.message) + "\n        "),
-          _c(
-            "v-btn",
-            {
-              attrs: { color: "white", flat: "" },
-              on: {
-                click: function($event) {
-                  _vm.snackbar.enabled = false
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("close")])],
-            1
-          )
-        ],
-        1
       )
     ],
     1
@@ -4983,42 +4720,6 @@ var render = function() {
                 1
               )
             ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-snackbar",
-        {
-          attrs: {
-            color: _vm.snackbar.color,
-            bottom: true,
-            right: true,
-            timeout: _vm.snackbar.timeout
-          },
-          model: {
-            value: _vm.snackbar.enabled,
-            callback: function($$v) {
-              _vm.$set(_vm.snackbar, "enabled", $$v)
-            },
-            expression: "snackbar.enabled"
-          }
-        },
-        [
-          _vm._v("\n        " + _vm._s(_vm.snackbar.message) + "\n        "),
-          _c(
-            "v-btn",
-            {
-              attrs: { color: "white", flat: "" },
-              on: {
-                click: function($event) {
-                  _vm.snackbar.enabled = false
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("close")])],
             1
           )
         ],
@@ -5427,42 +5128,6 @@ var render = function() {
           )
         ],
         1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-snackbar",
-        {
-          attrs: {
-            color: _vm.snackbar.color,
-            bottom: true,
-            right: true,
-            timeout: _vm.snackbar.timeout
-          },
-          model: {
-            value: _vm.snackbar.enabled,
-            callback: function($$v) {
-              _vm.$set(_vm.snackbar, "enabled", $$v)
-            },
-            expression: "snackbar.enabled"
-          }
-        },
-        [
-          _vm._v("\n        " + _vm._s(_vm.snackbar.message) + "\n        "),
-          _c(
-            "v-btn",
-            {
-              attrs: { color: "white", flat: "" },
-              on: {
-                click: function($event) {
-                  _vm.snackbar.enabled = false
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("close")])],
-            1
-          )
-        ],
-        1
       )
     ],
     1
@@ -5841,42 +5506,6 @@ var render = function() {
                 1
               )
             ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-snackbar",
-        {
-          attrs: {
-            color: _vm.snackbar.color,
-            bottom: true,
-            right: true,
-            timeout: _vm.snackbar.timeout
-          },
-          model: {
-            value: _vm.snackbar.enabled,
-            callback: function($$v) {
-              _vm.$set(_vm.snackbar, "enabled", $$v)
-            },
-            expression: "snackbar.enabled"
-          }
-        },
-        [
-          _vm._v("\n        " + _vm._s(_vm.snackbar.message) + "\n        "),
-          _c(
-            "v-btn",
-            {
-              attrs: { color: "white", flat: "" },
-              on: {
-                click: function($event) {
-                  _vm.snackbar.enabled = false
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("close")])],
             1
           )
         ],
@@ -6311,42 +5940,6 @@ var render = function() {
                 1
               )
             ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-snackbar",
-        {
-          attrs: {
-            color: _vm.snackbar.color,
-            bottom: true,
-            right: true,
-            timeout: _vm.snackbar.timeout
-          },
-          model: {
-            value: _vm.snackbar.enabled,
-            callback: function($$v) {
-              _vm.$set(_vm.snackbar, "enabled", $$v)
-            },
-            expression: "snackbar.enabled"
-          }
-        },
-        [
-          _vm._v("\n        " + _vm._s(_vm.snackbar.message) + "\n        "),
-          _c(
-            "v-btn",
-            {
-              attrs: { color: "white", flat: "" },
-              on: {
-                click: function($event) {
-                  _vm.snackbar.enabled = false
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("close")])],
             1
           )
         ],
@@ -6852,42 +6445,6 @@ var render = function() {
                 1
               )
             ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-snackbar",
-        {
-          attrs: {
-            color: _vm.snackbar.color,
-            bottom: true,
-            right: true,
-            timeout: _vm.snackbar.timeout
-          },
-          model: {
-            value: _vm.snackbar.enabled,
-            callback: function($$v) {
-              _vm.$set(_vm.snackbar, "enabled", $$v)
-            },
-            expression: "snackbar.enabled"
-          }
-        },
-        [
-          _vm._v("\n        " + _vm._s(_vm.snackbar.message) + "\n        "),
-          _c(
-            "v-btn",
-            {
-              attrs: { color: "white", flat: "" },
-              on: {
-                click: function($event) {
-                  _vm.snackbar.enabled = false
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("close")])],
             1
           )
         ],
@@ -7479,42 +7036,6 @@ var render = function() {
           )
         ],
         1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-snackbar",
-        {
-          attrs: {
-            color: _vm.snackbar.color,
-            bottom: true,
-            right: true,
-            timeout: _vm.snackbar.timeout
-          },
-          model: {
-            value: _vm.snackbar.enabled,
-            callback: function($$v) {
-              _vm.$set(_vm.snackbar, "enabled", $$v)
-            },
-            expression: "snackbar.enabled"
-          }
-        },
-        [
-          _vm._v("\n        " + _vm._s(_vm.snackbar.message) + "\n        "),
-          _c(
-            "v-btn",
-            {
-              attrs: { color: "white", flat: "" },
-              on: {
-                click: function($event) {
-                  _vm.snackbar.enabled = false
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("close")])],
-            1
-          )
-        ],
-        1
       )
     ],
     1
@@ -8012,42 +7533,6 @@ var render = function() {
                 1
               )
             ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-snackbar",
-        {
-          attrs: {
-            color: _vm.snackbar.color,
-            bottom: true,
-            right: true,
-            timeout: _vm.snackbar.timeout
-          },
-          model: {
-            value: _vm.snackbar.enabled,
-            callback: function($$v) {
-              _vm.$set(_vm.snackbar, "enabled", $$v)
-            },
-            expression: "snackbar.enabled"
-          }
-        },
-        [
-          _vm._v("\n        " + _vm._s(_vm.snackbar.message) + "\n        "),
-          _c(
-            "v-btn",
-            {
-              attrs: { color: "white", flat: "" },
-              on: {
-                click: function($event) {
-                  _vm.snackbar.enabled = false
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("close")])],
             1
           )
         ],
@@ -49597,10 +49082,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/eventbus.js":
-/*!**********************************!*\
-  !*** ./resources/js/eventbus.js ***!
-  \**********************************/
+/***/ "./resources/js/events.js":
+/*!********************************!*\
+  !*** ./resources/js/events.js ***!
+  \********************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -49609,8 +49094,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 
-var EventBus = new vue__WEBPACK_IMPORTED_MODULE_0___default.a();
-/* harmony default export */ __webpack_exports__["default"] = (EventBus);
+var Event = new vue__WEBPACK_IMPORTED_MODULE_0___default.a();
+/* harmony default export */ __webpack_exports__["default"] = (Event);
 
 /***/ }),
 

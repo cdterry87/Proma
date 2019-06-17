@@ -107,16 +107,11 @@
                 </v-card>
             </v-form>
         </v-dialog>
-
-        <v-snackbar v-model="snackbar.enabled" :color="snackbar.color" :bottom="true" :right="true" :timeout="snackbar.timeout">
-            {{ snackbar.message }}
-            <v-btn color="white" flat @click="snackbar.enabled = false"><v-icon>close</v-icon></v-btn>
-        </v-snackbar>
     </div>
 </template>
 
 <script>
-    import EventBus from './../eventbus'
+    import Event from './../events'
     import ProjectTasks from './ProjectTasks'
 
     export default {
@@ -129,14 +124,6 @@
             return {
                 dialog: false,
                 date_dialog: false,
-                snackbar: {
-                    enabled: false,
-                    message: '',
-                    timeout: 5000,
-                    y: 'bottom',
-                    x: 'right',
-                    color: ''
-                },
                 project: '',
                 tasks: '',
                 clients: []
@@ -175,14 +162,10 @@
 
                 axios.put('/api/projects/' + this.project.id, { name, description, due_date, client_id })
                 .then(response => {
-                    this.snackbar.color = 'success'
-                    this.snackbar.message = "Project updated successfully!"
-                    this.snackbar.enabled = true
+                    Event.$emit('success', response.data.message)
                 })
                 .catch(function (error) {
-                    this.snackbar.color = 'error'
-                    this.snackbar.message = "Error updating project!"
-                    this.snackbar.enabled = true
+                    Event.$emit('error', response.data.message)
                 })
 
                 this.reset()
@@ -192,14 +175,10 @@
                 .then(response => {
                     this.getProject()
 
-                    this.snackbar.color = 'success'
-                    this.snackbar.message = "Project is now complete!"
-                    this.snackbar.enabled = true
+                    Event.$emit('success', response.data.message)
                 })
                 .catch(function (error) {
-                    this.snackbar.color = 'danger'
-                    this.snackbar.message = "Project could not be completed!"
-                    this.snackbar.enabled = true
+                    Event.$emit('error', response.data.message)
                 })
             },
             incompleteProject(project_id) {
@@ -207,14 +186,10 @@
                 .then(response => {
                     this.getProject()
 
-                    this.snackbar.color = 'warning'
-                    this.snackbar.message = "Project is now incomplete!"
-                    this.snackbar.enabled = true
+                    Event.$emit('warning', response.data.message)
                 })
                 .catch(function (error) {
-                    this.snackbar.color = 'danger'
-                    this.snackbar.message = "Project could not be changed to incomplete!"
-                    this.snackbar.enabled = true
+                    Event.$emit('error', response.data.message)
                 })
             },
             reset() {
@@ -225,7 +200,7 @@
             }
         },
         created() {
-            EventBus.$on('loadTasks', project_id => {
+            Event.$on('loadTasks', project_id => {
                 this.getProjectTasks(project_id)
             })
         },

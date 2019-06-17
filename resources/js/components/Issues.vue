@@ -97,11 +97,6 @@
                 </v-card>
             </v-form>
         </v-dialog>
-
-        <v-snackbar v-model="snackbar.enabled" :color="snackbar.color" :bottom="true" :right="true" :timeout="snackbar.timeout">
-            {{ snackbar.message }}
-            <v-btn color="white" flat @click="snackbar.enabled = false"><v-icon>close</v-icon></v-btn>
-        </v-snackbar>
     </v-container>
 </template>
 
@@ -111,14 +106,6 @@ export default {
     data() {
         return {
             dialog: false,
-            snackbar: {
-                enabled: false,
-                message: '',
-                timeout: 5000,
-                y: 'bottom',
-                x: 'right',
-                color: ''
-            },
             description: '',
             projects: [],
             project_id: '',
@@ -161,14 +148,10 @@ export default {
             .then(response => {
                 this.getIssues()
 
-                this.snackbar.color = 'success'
-                this.snackbar.message = "Issue successfully created!"
-                this.snackbar.enabled = true
+                Event.$emit('success', response.data.message)
             })
             .catch(function (error) {
-                this.snackbar.color = 'error'
-                this.snackbar.message = "Error creating issue!"
-                this.snackbar.enabled = true
+                Event.$emit('error', response.data.message)
             })
 
             this.reset()
@@ -178,14 +161,10 @@ export default {
             .then(response => {
                 this.getIssues()
 
-                this.snackbar.color = 'success'
-                this.snackbar.message = "Issue is now resolved!"
-                this.snackbar.enabled = true
+                Event.$emit('success', response.data.message)
             })
             .catch(function (error) {
-                this.snackbar.color = 'danger'
-                this.snackbar.message = "Issue could not be resolved!"
-                this.snackbar.enabled = true
+                Event.$emit('error', response.data.message)
             })
         },
         unresolveIssue(issue_id) {
@@ -193,14 +172,10 @@ export default {
             .then(response => {
                 this.getIssues()
 
-                this.snackbar.color = 'warning'
-                this.snackbar.message = "Issue is now unresolved!"
-                this.snackbar.enabled = true
+                Event.$emit('warning', response.data.message)
             })
             .catch(function (error) {
-                this.snackbar.color = 'danger'
-                this.snackbar.message = "Issue could not be marked as unresolved!"
-                this.snackbar.enabled = true
+                Event.$emit('error', response.data.message)
             })
         },
         deleteIssue(issue_id) {
@@ -208,9 +183,10 @@ export default {
             .then(response => {
                 this.getIssues()
 
-                this.snackbar.color = 'success'
-                this.snackbar.message = "Issue successfully deleted!"
-                this.snackbar.enabled = true
+                Event.$emit('success', response.data.message)
+            })
+            .catch(function (error) {
+                Event.$emit('error', response.data.message)
             })
         },
         reset() {

@@ -89,16 +89,11 @@
                 </v-card>
             </v-form>
         </v-dialog>
-
-        <v-snackbar v-model="snackbar.enabled" :color="snackbar.color" :bottom="true" :right="true" :timeout="snackbar.timeout">
-            {{ snackbar.message }}
-            <v-btn color="white" flat @click="snackbar.enabled = false"><v-icon>close</v-icon></v-btn>
-        </v-snackbar>
     </div>
 </template>
 
 <script>
-    import EventBus from './../eventbus'
+    import Event from './../events'
     import IssueNotes from './IssueNotes'
 
     export default {
@@ -110,14 +105,6 @@
         data() {
             return {
                 dialog: false,
-                snackbar: {
-                    enabled: false,
-                    message: '',
-                    timeout: 5000,
-                    y: 'bottom',
-                    x: 'right',
-                    color: ''
-                },
                 issue: '',
                 notes: '',
                 projects: []
@@ -151,14 +138,10 @@
 
                 axios.put('/api/issues/' + this.issue.id, { priority, description, project_id })
                 .then(response => {
-                    this.snackbar.color = 'success'
-                    this.snackbar.message = "Issue updated successfully!"
-                    this.snackbar.enabled = true
+                    Event.$emit('success', response.data.message)
                 })
                 .catch(function (error) {
-                    this.snackbar.color = 'error'
-                    this.snackbar.message = "Error updating issue!"
-                    this.snackbar.enabled = true
+                    Event.$emit('error', response.data.message)
                 })
 
                 this.reset()
@@ -168,29 +151,20 @@
                 .then(response => {
                     this.getIssue()
 
-                    this.snackbar.color = 'success'
-                    this.snackbar.message = "Issue is now resolved!"
-                    this.snackbar.enabled = true
+                    Event.$emit('success', response.data.message)
                 })
                 .catch(function (error) {
-                    this.snackbar.color = 'danger'
-                    this.snackbar.message = "Issue could not be resolved!"
-                    this.snackbar.enabled = true
+                    Event.$emit('success', response.data.message)
                 })
             },
             unresolveIssue(issue_id) {
                 axios.post('/api/issues/' + issue_id + '/unresolve')
                 .then(response => {
                     this.getIssue()
-
-                    this.snackbar.color = 'warning'
-                    this.snackbar.message = "Issue is now unresolved!"
-                    this.snackbar.enabled = true
+                    Event.$emit('warning', response.data.message)
                 })
                 .catch(function (error) {
-                    this.snackbar.color = 'danger'
-                    this.snackbar.message = "Issue could not be marked as unresolved!"
-                    this.snackbar.enabled = true
+                    Event.$emit('success', response.data.message)
                 })
             },
             reset() {
@@ -201,7 +175,7 @@
             }
         },
         created() {
-            EventBus.$on('loadNotes', issue_id => {
+            Event.$on('loadNotes', issue_id => {
                 this.getIssueNotes(issue_id)
             })
         },
