@@ -37,13 +37,13 @@
                             >
                                 <template v-slot:items="props">
                                     <td>
-                                        <span v-if="props.item.completed">
+                                        <span v-if="parseInt(props.item.completed)">
                                             <v-icon class="pointer" color="success" @click="incompleteTask(props.item.project_id, props.item.id)">check_circle</v-icon>
                                         </span>
-                                        <span v-else-if="!props.item.completed && props.item.due_date != '' && props.item.due_date != null && new Date(props.item.due_date) < Date.now()">
+                                        <span v-else-if="!parseInt(props.item.completed) && props.item.due_date != '' && props.item.due_date != null && new Date(props.item.due_date) < Date.now()">
                                             <v-icon class="pointer" color="error" @click="completeTask(props.item.project_id, props.item.id)">warning</v-icon>
                                         </span>
-                                        <span v-else-if="!props.item.completed">
+                                        <span v-else-if="!parseInt(props.item.completed)">
                                             <v-icon class="pointer" color="warning" @click="completeTask(props.item.project_id, props.item.id)">remove_circle</v-icon>
                                         </span>
                                     </td>

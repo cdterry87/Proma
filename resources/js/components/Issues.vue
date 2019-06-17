@@ -30,11 +30,11 @@
                 >
                     <template v-slot:items="props">
                         <td>
-                            <span v-if="props.item.resolved">
-                                <v-icon class="pointer" color="success" @click="unresolveIssue(props.item.id)">check_circle</v-icon>
+                            <span v-if="parseInt(props.item.resolved) == 0">
+                                <v-icon class="pointer" color="error" @click="resolveIssue(props.item.id)">remove_circle</v-icon>
                             </span>
                             <span v-else>
-                                <v-icon class="pointer" color="error" @click="resolveIssue(props.item.id)">remove_circle</v-icon>
+                                <v-icon class="pointer" color="success" @click="unresolveIssue(props.item.id)">check_circle</v-icon>
                             </span>
                         </td>
                         <td>{{ props.item.priority }}</td>

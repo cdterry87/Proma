@@ -31,11 +31,11 @@
                 >
                     <template v-slot:items="props">
                         <td>
-                            <span v-if="props.item.completed">
-                                <v-icon class="pointer" color="success" @click="incompleteProject(props.item.id)">check_circle</v-icon>
+                            <span v-if="parseInt(props.item.completed) == 0">
+                                <v-icon class="pointer" color="error" @click="completeProject(props.item.id)">remove_circle</v-icon>
                             </span>
                             <span v-else>
-                                <v-icon class="pointer" color="error" @click="completeProject(props.item.id)">remove_circle</v-icon>
+                                <v-icon class="pointer" color="success" @click="incompleteProject(props.item.id)">check_circle</v-icon>
                             </span>
                         </td>
                         <td>{{ props.item.name }}</td>

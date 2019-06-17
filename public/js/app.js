@@ -5990,8 +5990,27 @@ var render = function() {
                     fn: function(props) {
                       return [
                         _c("td", [
-                          props.item.resolved
+                          parseInt(props.item.resolved) == 0
                             ? _c(
+                                "span",
+                                [
+                                  _c(
+                                    "v-icon",
+                                    {
+                                      staticClass: "pointer",
+                                      attrs: { color: "error" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.resolveIssue(props.item.id)
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("remove_circle")]
+                                  )
+                                ],
+                                1
+                              )
+                            : _c(
                                 "span",
                                 [
                                   _c(
@@ -6008,25 +6027,6 @@ var render = function() {
                                       }
                                     },
                                     [_vm._v("check_circle")]
-                                  )
-                                ],
-                                1
-                              )
-                            : _c(
-                                "span",
-                                [
-                                  _c(
-                                    "v-icon",
-                                    {
-                                      staticClass: "pointer",
-                                      attrs: { color: "error" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.resolveIssue(props.item.id)
-                                        }
-                                      }
-                                    },
-                                    [_vm._v("remove_circle")]
                                   )
                                 ],
                                 1
@@ -7025,7 +7025,7 @@ var render = function() {
                                       fn: function(props) {
                                         return [
                                           _c("td", [
-                                            props.item.completed
+                                            parseInt(props.item.completed)
                                               ? _c(
                                                   "span",
                                                   [
@@ -7053,7 +7053,9 @@ var render = function() {
                                                   ],
                                                   1
                                                 )
-                                              : !props.item.completed &&
+                                              : !parseInt(
+                                                  props.item.completed
+                                                ) &&
                                                 props.item.due_date != "" &&
                                                 props.item.due_date != null &&
                                                 new Date(props.item.due_date) <
@@ -7085,7 +7087,7 @@ var render = function() {
                                                   ],
                                                   1
                                                 )
-                                              : !props.item.completed
+                                              : !parseInt(props.item.completed)
                                               ? _c(
                                                   "span",
                                                   [
@@ -7210,7 +7212,7 @@ var render = function() {
                                   ],
                                   null,
                                   false,
-                                  1813946294
+                                  1343698481
                                 )
                               })
                             ],
@@ -7623,29 +7625,8 @@ var render = function() {
                     fn: function(props) {
                       return [
                         _c("td", [
-                          props.item.completed
+                          parseInt(props.item.completed) == 0
                             ? _c(
-                                "span",
-                                [
-                                  _c(
-                                    "v-icon",
-                                    {
-                                      staticClass: "pointer",
-                                      attrs: { color: "success" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.incompleteProject(
-                                            props.item.id
-                                          )
-                                        }
-                                      }
-                                    },
-                                    [_vm._v("check_circle")]
-                                  )
-                                ],
-                                1
-                              )
-                            : _c(
                                 "span",
                                 [
                                   _c(
@@ -7662,6 +7643,27 @@ var render = function() {
                                       }
                                     },
                                     [_vm._v("remove_circle")]
+                                  )
+                                ],
+                                1
+                              )
+                            : _c(
+                                "span",
+                                [
+                                  _c(
+                                    "v-icon",
+                                    {
+                                      staticClass: "pointer",
+                                      attrs: { color: "success" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.incompleteProject(
+                                            props.item.id
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("check_circle")]
                                   )
                                 ],
                                 1
