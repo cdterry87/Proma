@@ -27,6 +27,11 @@ class Project extends Model implements Searchable
         return $this->belongsTo('App\Client');
     }
 
+    public function issues()
+    {
+        return $this->hasMany('App\Issue');
+    }
+
     public function getSearchResult(): SearchResult
     {
         return new SearchResult(

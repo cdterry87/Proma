@@ -47,6 +47,7 @@
         </v-container>
 
         <ProjectTasks :projectInfo="project" :projectTasks="tasks" />
+        <ProjectIssues :projectInfo="project" :projectIssues="issues" />
 
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="editProjectForm" @submit.prevent="updateProject">
@@ -113,12 +114,14 @@
 <script>
     import Event from './../events'
     import ProjectTasks from './ProjectTasks'
+    import ProjectIssues from './ProjectIssues'
 
     export default {
         name: 'Project',
         props: ['id'],
         components: {
-            ProjectTasks
+            ProjectTasks,
+            ProjectIssues,
         },
         data() {
             return {
@@ -126,6 +129,7 @@
                 date_dialog: false,
                 project: '',
                 tasks: '',
+                issues: '',
                 clients: []
             }
         },
@@ -139,7 +143,8 @@
                 .then(response => {
                     this.project = response.data
 
-                    this.getProjectTasks(this.id);
+                    this.getTasks(this.id);
+                    this.getIssues(this.id);
                 })
             },
             getClients() {
@@ -148,10 +153,16 @@
                     this.clients = response.data
                 })
             },
-            getProjectTasks(project_id) {
+            getTasks(project_id) {
                 axios.get('/api/tasks/' + project_id)
                 .then(response => {
                     this.tasks = response.data
+                })
+            },
+            getIssues(project_id) {
+                axios.get('/api/projects/' + project_id + '/issues')
+                .then(response => {
+                    this.issues = response.data
                 })
             },
             updateProject() {
@@ -201,7 +212,7 @@
         },
         created() {
             Event.$on('loadTasks', project_id => {
-                this.getProjectTasks(project_id)
+                this.getTasks(project_id)
             })
         },
         mounted() {

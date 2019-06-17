@@ -39,9 +39,15 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/tasks/{project}/incomplete/{task}', 'ProjectTaskController@incomplete');
         Route::resource('/tasks', 'ProjectTaskController');
 
+        // Projects - Issues
+        Route::get('/projects/{project}/issues', 'ProjectController@issues');
+
         // Clients - Contacts
         Route::get('/contacts/{client}', 'ClientContactController@index');
         Route::resource('/contacts', 'ClientContactController');
+
+        // Clients - Projects
+        Route::get('/clients/{client}/projects', 'ClientController@projects');
 
         // Issues
         Route::post('/issues/{issue}/resolve', 'IssueController@resolve');

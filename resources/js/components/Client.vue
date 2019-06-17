@@ -29,6 +29,7 @@
         </v-container>
 
         <ClientContacts :clientInfo="client" :clientContacts="contacts" />
+        <ClientProjects :clientInfo="client" :clientProjects="projects" />
 
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="editClientForm" @submit.prevent="updateClient">
@@ -59,18 +60,21 @@
 <script>
     import Event from './../events'
     import ClientContacts from './ClientContacts'
+    import ClientProjects from './ClientProjects'
 
     export default {
         name: 'Client',
         props: ['id'],
         components: {
-            ClientContacts
+            ClientContacts,
+            ClientProjects,
         },
         data() {
             return {
                 dialog: false,
                 client: '',
-                contacts: ''
+                contacts: '',
+                projects: '',
             }
         },
         methods: {
@@ -79,13 +83,20 @@
                 .then(response => {
                     this.client = response.data
 
-                    this.getClientContacts(this.id);
+                    this.getContacts(this.id);
+                    this.getProjects(this.id);
                 })
             },
-            getClientContacts(client_id) {
+            getContacts(client_id) {
                 axios.get('/api/contacts/' + client_id)
                 .then(response => {
                     this.contacts = response.data
+                })
+            },
+            getProjects(client_id) {
+                axios.get('/api/clients/' + client_id + '/projects')
+                .then(response => {
+                    this.projects = response.data
                 })
             },
             updateClient() {
@@ -114,7 +125,7 @@
             })
 
             Event.$on('loadContacts', client_id => {
-                this.getClientContacts(client_id)
+                this.getContacts(client_id)
             })
         },
         mounted() {

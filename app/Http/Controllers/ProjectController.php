@@ -147,4 +147,15 @@ class ProjectController extends Controller
             'message' => $status ? 'Project is now incomplete!' : 'Project could not be marked as incomplete!'
         ]);
     }
+
+    /**
+     * Get a project's issues.
+     *
+     * @param  int  $project_id
+     * @return \Illuminate\Http\Response
+     */
+    public function issues(Project $project)
+    {
+        return response()->json($project->issues()->get());
+    }
 }

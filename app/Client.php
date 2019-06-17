@@ -22,7 +22,7 @@ class Client extends Model implements Searchable
         return $this->hasMany('App\ClientContact');
     }
 
-    public function project()
+    public function projects()
     {
         return $this->hasMany('App\Project');
     }

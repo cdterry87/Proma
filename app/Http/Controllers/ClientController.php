@@ -95,4 +95,15 @@ class ClientController extends Controller
             'message' => $status ? 'Client deleted successfully!' : 'Error deleting task!'
         ]);
     }
+
+    /**
+     * Get a client's projects.
+     *
+     * @param  \App\Client  $client
+     * @return \Illuminate\Http\Response
+     */
+    public function projects(Client $client)
+    {
+        return response()->json($client->projects()->get());
+    }
 }
