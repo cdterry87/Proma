@@ -45,13 +45,13 @@
         <IssueNotes :issueInfo="issue" :issueNotes="notes" />
 
         <v-dialog v-model="dialog" width="500">
-            <v-form method="POST" id="editIssueForm" @submit.prevent="updateIssue">
+            <v-form method="POST" id="editIssueForm" @submit.prevent="updateIssue" ref="form" lazy-validation>
                 <v-card>
                     <v-card-title class="blue darken-3 white--text py-4 title">Edit Issue</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
-                                <v-text-field prepend-icon="work" label="Project Name" v-model="issue.name" maxlength="100" required></v-text-field>
+                                <v-textarea prepend-icon="notes" label="Description" v-model="issue.description" :rules="[v => !!v || 'Description is required']" required></v-textarea>
                             </v-flex>
                             <v-flex xs12>
                                 <v-autocomplete
@@ -62,9 +62,6 @@
                                     prepend-icon="work"
                                     v-model="issue.project_id"
                                 ></v-autocomplete>
-                            </v-flex>
-                            <v-flex xs12>
-                                <v-textarea prepend-icon="notes" label="Description" v-model="issue.description"></v-textarea>
                             </v-flex>
                             <v-flex xs12>
                                 <v-radio-group v-model="issue.priority" row required>
@@ -132,19 +129,21 @@
                 })
             },
             updateIssue() {
-                let description = this.issue.description;
-                let priority = this.issue.priority;
-                let project_id = this.issue.project_id;
+                if (this.$refs.form.validate()) {
+                    let description = this.issue.description;
+                    let priority = this.issue.priority;
+                    let project_id = this.issue.project_id;
 
-                axios.put('/api/issues/' + this.issue.id, { priority, description, project_id })
-                .then(response => {
-                    Event.$emit('success', response.data.message)
-                })
-                .catch(function (error) {
-                    Event.$emit('error', response.data.message)
-                })
+                    axios.put('/api/issues/' + this.issue.id, { priority, description, project_id })
+                    .then(response => {
+                        Event.$emit('success', response.data.message)
+                    })
+                    .catch(function (error) {
+                        Event.$emit('error', response.data.message)
+                    })
 
-                this.reset()
+                    this.reset()
+                }
             },
             resolveIssue(issue_id) {
                 axios.post('/api/issues/' + issue_id + '/resolve')

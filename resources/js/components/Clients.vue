@@ -42,13 +42,13 @@
         </v-layout>
 
         <v-dialog v-model="dialog" width="500">
-            <v-form method="POST" id="clientForm" @submit.prevent="addClient">
+            <v-form method="POST" id="clientForm" @submit.prevent="addClient" ref="form" lazy-validation>
                 <v-card>
                     <v-card-title class="blue darken-3 white--text py-4 title">Add Client</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
-                                <v-text-field prepend-icon="business" label="Client Name" v-model="name" maxlength="100" required></v-text-field>
+                                <v-text-field prepend-icon="business" label="Client Name" v-model="name" maxlength="100" :rules="[v => !!v || 'Name is required']" required></v-text-field>
                             </v-flex>
                             <v-flex xs12>
                                 <v-textarea prepend-icon="notes" label="Description" v-model="description"></v-textarea>
@@ -97,20 +97,22 @@ export default {
             })
         },
         addClient() {
-            let name = this.name
-            let description = this.description
+            if (this.$refs.form.validate()) {
+                let name = this.name
+                let description = this.description
 
-            axios.post('/api/clients', { name, description })
-            .then(response => {
-                this.getClients()
+                axios.post('/api/clients', { name, description })
+                .then(response => {
+                    this.getClients()
 
-                Event.$emit('success', response.data.message)
-            })
-            .catch(function (error) {
-                Event.$emit('error', response.data.message)
-            })
+                    Event.$emit('success', response.data.message)
+                })
+                .catch(function (error) {
+                    Event.$emit('error', response.data.message)
+                })
 
-            this.reset()
+                this.reset()
+            }
         },
         deleteClient(client_id) {
             axios.delete('/api/clients/' + client_id)

@@ -437,17 +437,19 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     updateClient: function updateClient() {
-      var name = this.client.name;
-      var description = this.client.description;
-      axios.put('/api/clients/' + this.client.id, {
-        name: name,
-        description: description
-      }).then(function (response) {
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
-      })["catch"](function (error) {
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
-      });
-      this.reset();
+      if (this.$refs.form.validate()) {
+        var name = this.client.name;
+        var description = this.client.description;
+        axios.put('/api/clients/' + this.client.id, {
+          name: name,
+          description: description
+        }).then(function (response) {
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
+        })["catch"](function (error) {
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
+        });
+        this.reset();
+      }
     },
     reset: function reset() {
       this.dialog = false;
@@ -621,30 +623,32 @@ __webpack_require__.r(__webpack_exports__);
       this.contact_id = contact.id;
     },
     saveContact: function saveContact() {
-      var name = this.name;
-      var title = this.title;
-      var email = this.email;
-      var phone = this.phone;
-      var client_id = this.clientInfo.id;
-      var contact_id = this.contact_id;
-      var method = !_.isNumber(contact_id) ? 'post' : 'put';
-      axios({
-        method: method,
-        url: '/api/contacts/' + contact_id,
-        data: {
-          name: name,
-          title: title,
-          email: email,
-          phone: phone,
-          client_id: client_id
-        }
-      }).then(function (response) {
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadContacts', client_id);
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
-      })["catch"](function (error) {
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
-      });
-      this.reset();
+      if (this.$refs.form.validate()) {
+        var name = this.name;
+        var title = this.title;
+        var email = this.email;
+        var phone = this.phone;
+        var client_id = this.clientInfo.id;
+        var contact_id = this.contact_id;
+        var method = !_.isNumber(contact_id) ? 'post' : 'put';
+        axios({
+          method: method,
+          url: '/api/contacts/' + contact_id,
+          data: {
+            name: name,
+            title: title,
+            email: email,
+            phone: phone,
+            client_id: client_id
+          }
+        }).then(function (response) {
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadContacts', client_id);
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
+        })["catch"](function (error) {
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
+        });
+        this.reset();
+      }
     },
     deleteContact: function deleteContact(client_id, contact_id) {
       axios["delete"]('/api/contacts/' + contact_id).then(function (response) {
@@ -838,22 +842,24 @@ __webpack_require__.r(__webpack_exports__);
     addProject: function addProject() {
       var _this = this;
 
-      var name = this.name;
-      var description = this.description;
-      var due_date = this.due_date;
-      var client_id = this.clientInfo.id;
-      axios.post('/api/projects', {
-        name: name,
-        description: description,
-        due_date: due_date,
-        client_id: client_id
-      }).then(function (response) {
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadProjects', _this.clientInfo.id);
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
-      })["catch"](function (error) {
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
-      });
-      this.reset();
+      if (this.$refs.form.validate()) {
+        var name = this.name;
+        var description = this.description;
+        var due_date = this.due_date;
+        var client_id = this.clientInfo.id;
+        axios.post('/api/projects', {
+          name: name,
+          description: description,
+          due_date: due_date,
+          client_id: client_id
+        }).then(function (response) {
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadProjects', _this.clientInfo.id);
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
+        })["catch"](function (error) {
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
+        });
+        this.reset();
+      }
     },
     completeProject: function completeProject(project_id) {
       var _this2 = this;
@@ -1009,19 +1015,21 @@ __webpack_require__.r(__webpack_exports__);
     addClient: function addClient() {
       var _this2 = this;
 
-      var name = this.name;
-      var description = this.description;
-      axios.post('/api/clients', {
-        name: name,
-        description: description
-      }).then(function (response) {
-        _this2.getClients();
+      if (this.$refs.form.validate()) {
+        var name = this.name;
+        var description = this.description;
+        axios.post('/api/clients', {
+          name: name,
+          description: description
+        }).then(function (response) {
+          _this2.getClients();
 
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
-      })["catch"](function (error) {
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
-      });
-      this.reset();
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
+        })["catch"](function (error) {
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
+        });
+        this.reset();
+      }
     },
     deleteClient: function deleteClient(client_id) {
       var _this3 = this;
@@ -1058,9 +1066,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../events */ "./resources/js/events.js");
 /* harmony import */ var _IssueNotes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./IssueNotes */ "./resources/js/components/IssueNotes.vue");
-//
-//
-//
 //
 //
 //
@@ -1193,19 +1198,21 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     updateIssue: function updateIssue() {
-      var description = this.issue.description;
-      var priority = this.issue.priority;
-      var project_id = this.issue.project_id;
-      axios.put('/api/issues/' + this.issue.id, {
-        priority: priority,
-        description: description,
-        project_id: project_id
-      }).then(function (response) {
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
-      })["catch"](function (error) {
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
-      });
-      this.reset();
+      if (this.$refs.form.validate()) {
+        var description = this.issue.description;
+        var priority = this.issue.priority;
+        var project_id = this.issue.project_id;
+        axios.put('/api/issues/' + this.issue.id, {
+          priority: priority,
+          description: description,
+          project_id: project_id
+        }).then(function (response) {
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
+        })["catch"](function (error) {
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
+        });
+        this.reset();
+      }
     },
     resolveIssue: function resolveIssue(issue_id) {
       var _this4 = this;
@@ -1378,24 +1385,26 @@ __webpack_require__.r(__webpack_exports__);
       this.note_id = note.id;
     },
     saveNote: function saveNote() {
-      var description = this.description;
-      var issue_id = this.issueInfo.id;
-      var note_id = this.note_id;
-      var method = !_.isNumber(note_id) ? 'post' : 'put';
-      axios({
-        method: method,
-        url: '/api/notes/' + note_id,
-        data: {
-          description: description,
-          issue_id: issue_id
-        }
-      }).then(function (response) {
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadNotes', issue_id);
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
-      })["catch"](function (error) {
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
-      });
-      this.reset();
+      if (this.$refs.form.validate()) {
+        var description = this.description;
+        var issue_id = this.issueInfo.id;
+        var note_id = this.note_id;
+        var method = !_.isNumber(note_id) ? 'post' : 'put';
+        axios({
+          method: method,
+          url: '/api/notes/' + note_id,
+          data: {
+            description: description,
+            issue_id: issue_id
+          }
+        }).then(function (response) {
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadNotes', issue_id);
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
+        })["catch"](function (error) {
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
+        });
+        this.reset();
+      }
     },
     deleteNote: function deleteNote(issue_id, note_id) {
       axios["delete"]('/api/notes/' + note_id).then(function (response) {
@@ -1424,6 +1433,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../events */ "./resources/js/events.js");
+//
 //
 //
 //
@@ -1583,21 +1593,23 @@ __webpack_require__.r(__webpack_exports__);
     addIssue: function addIssue() {
       var _this3 = this;
 
-      var description = this.description;
-      var priority = this.priority;
-      var project_id = this.project_id;
-      axios.post('/api/issues', {
-        description: description,
-        priority: priority,
-        project_id: project_id
-      }).then(function (response) {
-        _this3.getIssues();
+      if (this.$refs.form.validate()) {
+        var description = this.description;
+        var priority = this.priority;
+        var project_id = this.project_id;
+        axios.post('/api/issues', {
+          description: description,
+          priority: priority,
+          project_id: project_id
+        }).then(function (response) {
+          _this3.getIssues();
 
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
-      })["catch"](function (error) {
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
-      });
-      this.reset();
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
+        })["catch"](function (error) {
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
+        });
+        this.reset();
+      }
     },
     resolveIssue: function resolveIssue(issue_id) {
       var _this4 = this;
@@ -1773,6 +1785,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -1831,21 +1846,23 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     updateProject: function updateProject() {
-      var name = this.project.name;
-      var description = this.project.description;
-      var due_date = this.project.due_date;
-      var client_id = this.project.client_id;
-      axios.put('/api/projects/' + this.project.id, {
-        name: name,
-        description: description,
-        due_date: due_date,
-        client_id: client_id
-      }).then(function (response) {
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
-      })["catch"](function (error) {
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
-      });
-      this.reset();
+      if (this.$refs.form.validate()) {
+        var name = this.project.name;
+        var description = this.project.description;
+        var due_date = this.project.due_date;
+        var client_id = this.project.client_id;
+        axios.put('/api/projects/' + this.project.id, {
+          name: name,
+          description: description,
+          due_date: due_date,
+          client_id: client_id
+        }).then(function (response) {
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
+        })["catch"](function (error) {
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
+        });
+        this.reset();
+      }
     },
     completeProject: function completeProject(project_id) {
       var _this5 = this;
@@ -2042,20 +2059,22 @@ __webpack_require__.r(__webpack_exports__);
     addIssue: function addIssue() {
       var _this = this;
 
-      var description = this.description;
-      var priority = this.priority;
-      var project_id = this.projectInfo.id;
-      axios.post('/api/issues', {
-        description: description,
-        priority: priority,
-        project_id: project_id
-      }).then(function (response) {
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadIssues', _this.projectInfo.id);
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
-      })["catch"](function (error) {
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
-      });
-      this.reset();
+      if (this.$refs.form.validate()) {
+        var description = this.description;
+        var priority = this.priority;
+        var project_id = this.projectInfo.id;
+        axios.post('/api/issues', {
+          description: description,
+          priority: priority,
+          project_id: project_id
+        }).then(function (response) {
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadIssues', _this.projectInfo.id);
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
+        })["catch"](function (error) {
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
+        });
+        this.reset();
+      }
     },
     resolveIssue: function resolveIssue(issue_id) {
       var _this2 = this;
@@ -2271,26 +2290,28 @@ __webpack_require__.r(__webpack_exports__);
       this.$refs.datePicker.save(due_date);
     },
     saveTask: function saveTask() {
-      var due_date = this.due_date;
-      var description = this.description;
-      var project_id = this.projectInfo.id;
-      var task_id = this.task_id;
-      var method = !_.isNumber(task_id) ? 'post' : 'put';
-      axios({
-        method: method,
-        url: '/api/tasks/' + task_id,
-        data: {
-          due_date: due_date,
-          description: description,
-          project_id: project_id
-        }
-      }).then(function (response) {
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadTasks', project_id);
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
-      })["catch"](function (error) {
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
-      });
-      this.reset();
+      if (this.$refs.form.validate()) {
+        var due_date = this.due_date;
+        var description = this.description;
+        var project_id = this.projectInfo.id;
+        var task_id = this.task_id;
+        var method = !_.isNumber(task_id) ? 'post' : 'put';
+        axios({
+          method: method,
+          url: '/api/tasks/' + task_id,
+          data: {
+            due_date: due_date,
+            description: description,
+            project_id: project_id
+          }
+        }).then(function (response) {
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('loadTasks', project_id);
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
+        })["catch"](function (error) {
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
+        });
+        this.reset();
+      }
     },
     completeTask: function completeTask(project_id, task_id) {
       axios.post('/api/tasks/' + project_id + '/complete/' + task_id).then(function (response) {
@@ -2335,6 +2356,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../events */ "./resources/js/events.js");
+//
 //
 //
 //
@@ -2516,23 +2538,25 @@ __webpack_require__.r(__webpack_exports__);
     addProject: function addProject() {
       var _this3 = this;
 
-      var name = this.name;
-      var description = this.description;
-      var due_date = this.due_date;
-      var client_id = this.client_id;
-      axios.post('/api/projects', {
-        name: name,
-        description: description,
-        due_date: due_date,
-        client_id: client_id
-      }).then(function (response) {
-        _this3.getProjects();
+      if (this.$refs.form.validate()) {
+        var name = this.name;
+        var description = this.description;
+        var due_date = this.due_date;
+        var client_id = this.client_id;
+        axios.post('/api/projects', {
+          name: name,
+          description: description,
+          due_date: due_date,
+          client_id: client_id
+        }).then(function (response) {
+          _this3.getProjects();
 
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
-      })["catch"](function (error) {
-        _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
-      });
-      this.reset();
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('success', response.data.message);
+        })["catch"](function (error) {
+          _events__WEBPACK_IMPORTED_MODULE_0__["default"].$emit('error', response.data.message);
+        });
+        this.reset();
+      }
     },
     completeProject: function completeProject(project_id) {
       var _this4 = this;
@@ -4323,7 +4347,12 @@ var render = function() {
           _c(
             "v-form",
             {
-              attrs: { method: "POST", id: "editClientForm" },
+              ref: "form",
+              attrs: {
+                method: "POST",
+                id: "editClientForm",
+                "lazy-validation": ""
+              },
               on: {
                 submit: function($event) {
                   $event.preventDefault()
@@ -4358,6 +4387,11 @@ var render = function() {
                                   "prepend-icon": "business",
                                   label: "Client Name",
                                   maxlength: "100",
+                                  rules: [
+                                    function(v) {
+                                      return !!v || "Name is required"
+                                    }
+                                  ],
                                   required: ""
                                 },
                                 model: {
@@ -4705,7 +4739,12 @@ var render = function() {
           _c(
             "v-form",
             {
-              attrs: { method: "POST", id: "contactForm" },
+              ref: "form",
+              attrs: {
+                method: "POST",
+                id: "contactForm",
+                "lazy-validation": ""
+              },
               on: {
                 submit: function($event) {
                   $event.preventDefault()
@@ -4761,6 +4800,11 @@ var render = function() {
                                   "prepend-icon": "person",
                                   label: "Contact Name",
                                   maxlength: "100",
+                                  rules: [
+                                    function(v) {
+                                      return !!v || "Name is required"
+                                    }
+                                  ],
                                   required: ""
                                 },
                                 model: {
@@ -5248,7 +5292,12 @@ var render = function() {
           _c(
             "v-form",
             {
-              attrs: { method: "POST", id: "projectForm" },
+              ref: "form",
+              attrs: {
+                method: "POST",
+                id: "projectForm",
+                "lazy-validation": ""
+              },
               on: {
                 submit: function($event) {
                   $event.preventDefault()
@@ -5283,6 +5332,11 @@ var render = function() {
                                   "prepend-icon": "work",
                                   label: "Project Name",
                                   maxlength: "100",
+                                  rules: [
+                                    function(v) {
+                                      return !!v || "Name is required"
+                                    }
+                                  ],
                                   required: ""
                                 },
                                 model: {
@@ -5666,7 +5720,12 @@ var render = function() {
           _c(
             "v-form",
             {
-              attrs: { method: "POST", id: "clientForm" },
+              ref: "form",
+              attrs: {
+                method: "POST",
+                id: "clientForm",
+                "lazy-validation": ""
+              },
               on: {
                 submit: function($event) {
                   $event.preventDefault()
@@ -5701,6 +5760,11 @@ var render = function() {
                                   "prepend-icon": "business",
                                   label: "Client Name",
                                   maxlength: "100",
+                                  rules: [
+                                    function(v) {
+                                      return !!v || "Name is required"
+                                    }
+                                  ],
                                   required: ""
                                 },
                                 model: {
@@ -5992,7 +6056,12 @@ var render = function() {
           _c(
             "v-form",
             {
-              attrs: { method: "POST", id: "editIssueForm" },
+              ref: "form",
+              attrs: {
+                method: "POST",
+                id: "editIssueForm",
+                "lazy-validation": ""
+              },
               on: {
                 submit: function($event) {
                   $event.preventDefault()
@@ -6022,19 +6091,23 @@ var render = function() {
                             "v-flex",
                             { attrs: { xs12: "" } },
                             [
-                              _c("v-text-field", {
+                              _c("v-textarea", {
                                 attrs: {
-                                  "prepend-icon": "work",
-                                  label: "Project Name",
-                                  maxlength: "100",
+                                  "prepend-icon": "notes",
+                                  label: "Description",
+                                  rules: [
+                                    function(v) {
+                                      return !!v || "Description is required"
+                                    }
+                                  ],
                                   required: ""
                                 },
                                 model: {
-                                  value: _vm.issue.name,
+                                  value: _vm.issue.description,
                                   callback: function($$v) {
-                                    _vm.$set(_vm.issue, "name", $$v)
+                                    _vm.$set(_vm.issue, "description", $$v)
                                   },
-                                  expression: "issue.name"
+                                  expression: "issue.description"
                                 }
                               })
                             ],
@@ -6059,27 +6132,6 @@ var render = function() {
                                     _vm.$set(_vm.issue, "project_id", $$v)
                                   },
                                   expression: "issue.project_id"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            { attrs: { xs12: "" } },
-                            [
-                              _c("v-textarea", {
-                                attrs: {
-                                  "prepend-icon": "notes",
-                                  label: "Description"
-                                },
-                                model: {
-                                  value: _vm.issue.description,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.issue, "description", $$v)
-                                  },
-                                  expression: "issue.description"
                                 }
                               })
                             ],
@@ -6455,7 +6507,8 @@ var render = function() {
           _c(
             "v-form",
             {
-              attrs: { method: "POST", id: "noteForm" },
+              ref: "form",
+              attrs: { method: "POST", id: "noteForm", "lazy-validation": "" },
               on: {
                 submit: function($event) {
                   $event.preventDefault()
@@ -6510,7 +6563,12 @@ var render = function() {
                                 attrs: {
                                   "prepend-icon": "notes",
                                   label: "Description",
-                                  required: ""
+                                  required: "",
+                                  rules: [
+                                    function(v) {
+                                      return !!v || "Description is required"
+                                    }
+                                  ]
                                 },
                                 model: {
                                   value: _vm.description,
@@ -6832,7 +6890,8 @@ var render = function() {
           _c(
             "v-form",
             {
-              attrs: { method: "POST", id: "issueForm" },
+              ref: "form",
+              attrs: { method: "POST", id: "issueForm", "lazy-validation": "" },
               on: {
                 submit: function($event) {
                   $event.preventDefault()
@@ -6866,6 +6925,11 @@ var render = function() {
                                 attrs: {
                                   "prepend-icon": "notes",
                                   label: "Description",
+                                  rules: [
+                                    function(v) {
+                                      return !!v || "Description is required"
+                                    }
+                                  ],
                                   required: ""
                                 },
                                 model: {
@@ -6891,7 +6955,12 @@ var render = function() {
                                   "item-value": "id",
                                   label: "Select a project",
                                   "prepend-icon": "work",
-                                  required: ""
+                                  required: "",
+                                  rules: [
+                                    function(v) {
+                                      return !!v || "Project is required"
+                                    }
+                                  ]
                                 },
                                 model: {
                                   value: _vm.project_id,
@@ -6912,7 +6981,15 @@ var render = function() {
                               _c(
                                 "v-radio-group",
                                 {
-                                  attrs: { row: "", required: "" },
+                                  attrs: {
+                                    row: "",
+                                    required: "",
+                                    rules: [
+                                      function(v) {
+                                        return !!v || "Priority is required"
+                                      }
+                                    ]
+                                  },
                                   scopedSlots: _vm._u([
                                     {
                                       key: "label",
@@ -7253,7 +7330,12 @@ var render = function() {
           _c(
             "v-form",
             {
-              attrs: { method: "POST", id: "editProjectForm" },
+              ref: "form",
+              attrs: {
+                method: "POST",
+                id: "editProjectForm",
+                "lazy-validation": ""
+              },
               on: {
                 submit: function($event) {
                   $event.preventDefault()
@@ -7285,6 +7367,11 @@ var render = function() {
                             [
                               _c("v-text-field", {
                                 attrs: {
+                                  rules: [
+                                    function(v) {
+                                      return !!v || "Name is required"
+                                    }
+                                  ],
                                   "prepend-icon": "work",
                                   label: "Project Name",
                                   maxlength: "100",
@@ -7313,6 +7400,11 @@ var render = function() {
                                   "item-value": "id",
                                   label: "Select a client",
                                   "prepend-icon": "person",
+                                  rules: [
+                                    function(v) {
+                                      return !!v || "Client is required"
+                                    }
+                                  ],
                                   required: ""
                                 },
                                 model: {
@@ -7853,7 +7945,8 @@ var render = function() {
           _c(
             "v-form",
             {
-              attrs: { method: "POST", id: "issueForm" },
+              ref: "form",
+              attrs: { method: "POST", id: "issueForm", "lazy-validation": "" },
               on: {
                 submit: function($event) {
                   $event.preventDefault()
@@ -7887,6 +7980,11 @@ var render = function() {
                                 attrs: {
                                   "prepend-icon": "notes",
                                   label: "Description",
+                                  rules: [
+                                    function(v) {
+                                      return !!v || "Description is required"
+                                    }
+                                  ],
                                   required: ""
                                 },
                                 model: {
@@ -7908,7 +8006,15 @@ var render = function() {
                               _c(
                                 "v-radio-group",
                                 {
-                                  attrs: { row: "", required: "" },
+                                  attrs: {
+                                    row: "",
+                                    required: "",
+                                    rules: [
+                                      function(v) {
+                                        return !!v || "Priority is required"
+                                      }
+                                    ]
+                                  },
                                   scopedSlots: _vm._u([
                                     {
                                       key: "label",
@@ -8364,7 +8470,8 @@ var render = function() {
           _c(
             "v-form",
             {
-              attrs: { method: "POST", id: "taskForm" },
+              ref: "form",
+              attrs: { method: "POST", id: "taskForm", "lazy-validation": "" },
               on: {
                 submit: function($event) {
                   $event.preventDefault()
@@ -8419,6 +8526,11 @@ var render = function() {
                                 attrs: {
                                   "prepend-icon": "notes",
                                   label: "Description",
+                                  rules: [
+                                    function(v) {
+                                      return !!v || "Description is required"
+                                    }
+                                  ],
                                   required: ""
                                 },
                                 model: {
@@ -8865,7 +8977,12 @@ var render = function() {
           _c(
             "v-form",
             {
-              attrs: { method: "POST", id: "projectForm" },
+              ref: "form",
+              attrs: {
+                method: "POST",
+                id: "projectForm",
+                "lazy-validation": ""
+              },
               on: {
                 submit: function($event) {
                   $event.preventDefault()
@@ -8900,6 +9017,11 @@ var render = function() {
                                   "prepend-icon": "work",
                                   label: "Project Name",
                                   maxlength: "100",
+                                  rules: [
+                                    function(v) {
+                                      return !!v || "Name is required"
+                                    }
+                                  ],
                                   required: ""
                                 },
                                 model: {
@@ -8925,7 +9047,12 @@ var render = function() {
                                   "item-value": "id",
                                   label: "Select a client",
                                   "prepend-icon": "person",
-                                  required: ""
+                                  required: "",
+                                  rules: [
+                                    function(v) {
+                                      return !!v || "Client is required"
+                                    }
+                                  ]
                                 },
                                 model: {
                                   value: _vm.client_id,

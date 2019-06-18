@@ -32,13 +32,13 @@
         <ClientProjects :clientInfo="client" :clientProjects="projects" />
 
         <v-dialog v-model="dialog" width="500">
-            <v-form method="POST" id="editClientForm" @submit.prevent="updateClient">
+            <v-form method="POST" id="editClientForm" @submit.prevent="updateClient" ref="form" lazy-validation>
                 <v-card>
                     <v-card-title class="blue darken-3 white--text py-4 title">Edit Client</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
-                                <v-text-field prepend-icon="business" label="Client Name" v-model="client.name" maxlength="100" required></v-text-field>
+                                <v-text-field prepend-icon="business" label="Client Name" v-model="client.name" maxlength="100" :rules="[v => !!v || 'Name is required']" required></v-text-field>
                             </v-flex>
                             <v-flex xs12>
                                 <v-textarea prepend-icon="notes" label="Description" v-model="client.description"></v-textarea>
@@ -100,18 +100,20 @@
                 })
             },
             updateClient() {
-                let name = this.client.name;
-                let description = this.client.description;
+                if (this.$refs.form.validate()) {
+                    let name = this.client.name;
+                    let description = this.client.description;
 
-                axios.put('/api/clients/' + this.client.id, { name, description })
-                .then(response => {
-                    Event.$emit('success', response.data.message)
-                })
-                .catch(function (error) {
-                    Event.$emit('error', response.data.message)
-                })
+                    axios.put('/api/clients/' + this.client.id, { name, description })
+                    .then(response => {
+                        Event.$emit('success', response.data.message)
+                    })
+                    .catch(function (error) {
+                        Event.$emit('error', response.data.message)
+                    })
 
-                this.reset()
+                    this.reset()
+                }
             },
             reset() {
                 this.dialog = false

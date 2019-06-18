@@ -55,14 +55,14 @@
         </v-layout>
 
         <v-dialog v-model="dialog" width="500">
-            <v-form method="POST" id="contactForm" @submit.prevent="saveContact">
+            <v-form method="POST" id="contactForm" @submit.prevent="saveContact" ref="form" lazy-validation>
                 <input type="hidden" name="contact_id" v-model="contact_id">
                 <v-card>
                     <v-card-title class="blue darken-3 white--text py-4 title">Save Contact</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
-                                <v-text-field prepend-icon="person" label="Contact Name" v-model="name" maxlength="100" required></v-text-field>
+                                <v-text-field prepend-icon="person" label="Contact Name" v-model="name" maxlength="100" :rules="[v => !!v || 'Name is required']" required></v-text-field>
                             </v-flex>
                             <v-flex xs12>
                                 <v-text-field prepend-icon="work" label="Contact Title" v-model="title" maxlength="100"></v-text-field>
@@ -131,31 +131,33 @@
                 this.contact_id = contact.id
             },
             saveContact() {
-                let name = this.name
-                let title = this.title
-                let email = this.email
-                let phone = this.phone
-                let client_id = this.clientInfo.id
+                if (this.$refs.form.validate()) {
+                    let name = this.name
+                    let title = this.title
+                    let email = this.email
+                    let phone = this.phone
+                    let client_id = this.clientInfo.id
 
-                let contact_id = this.contact_id
+                    let contact_id = this.contact_id
 
-                let method = (!_.isNumber(contact_id) ? 'post' : 'put')
+                    let method = (!_.isNumber(contact_id) ? 'post' : 'put')
 
-                axios({
-                    method: method,
-                    url: '/api/contacts/' + contact_id,
-                    data: { name, title, email, phone, client_id }
-                })
-                .then(response => {
-                    Event.$emit('loadContacts', client_id)
+                    axios({
+                        method: method,
+                        url: '/api/contacts/' + contact_id,
+                        data: { name, title, email, phone, client_id }
+                    })
+                    .then(response => {
+                        Event.$emit('loadContacts', client_id)
 
-                    Event.$emit('success', response.data.message)
-                })
-                .catch(function (error) {
-                    Event.$emit('error', response.data.message)
-                })
+                        Event.$emit('success', response.data.message)
+                    })
+                    .catch(function (error) {
+                        Event.$emit('error', response.data.message)
+                    })
 
-                this.reset()
+                    this.reset()
+                }
             },
             deleteContact(client_id, contact_id) {
                 axios.delete('/api/contacts/' + contact_id)

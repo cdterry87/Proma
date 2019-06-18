@@ -56,13 +56,13 @@
         </v-layout>
 
         <v-dialog v-model="dialog" width="500">
-            <v-form method="POST" id="issueForm" @submit.prevent="addIssue">
+            <v-form method="POST" id="issueForm" @submit.prevent="addIssue" ref="form" lazy-validation>
                 <v-card>
                     <v-card-title class="blue darken-3 white--text py-4 title">Add Issue</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
-                                <v-textarea prepend-icon="notes" label="Description" v-model="description" required></v-textarea>
+                                <v-textarea prepend-icon="notes" label="Description" v-model="description" :rules="[v => !!v || 'Description is required']" required></v-textarea>
                             </v-flex>
                             <v-flex xs12>
                                  <v-autocomplete
@@ -73,10 +73,11 @@
                                     prepend-icon="work"
                                     v-model="project_id"
                                     required
+                                    :rules="[v => !!v || 'Project is required']"
                                 ></v-autocomplete>
                             </v-flex>
                             <v-flex xs12>
-                                <v-radio-group v-model="priority" row required>
+                                <v-radio-group v-model="priority" row required :rules="[v => !!v || 'Priority is required']">
                                     <template v-slot:label>
                                         <div>Priority:</div>
                                     </template>
@@ -143,21 +144,23 @@ export default {
             })
         },
         addIssue() {
-            let description = this.description
-            let priority = this.priority
-            let project_id = this.project_id
+            if (this.$refs.form.validate()) {
+                let description = this.description
+                let priority = this.priority
+                let project_id = this.project_id
 
-            axios.post('/api/issues', { description, priority, project_id })
-            .then(response => {
-                this.getIssues()
+                axios.post('/api/issues', { description, priority, project_id })
+                .then(response => {
+                    this.getIssues()
 
-                Event.$emit('success', response.data.message)
-            })
-            .catch(function (error) {
-                Event.$emit('error', response.data.message)
-            })
+                    Event.$emit('success', response.data.message)
+                })
+                .catch(function (error) {
+                    Event.$emit('error', response.data.message)
+                })
 
-            this.reset()
+                this.reset()
+            }
         },
         resolveIssue(issue_id) {
             axios.post('/api/issues/' + issue_id + '/resolve')

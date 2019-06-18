@@ -53,14 +53,14 @@
         </v-layout>
 
         <v-dialog v-model="dialog" width="500">
-            <v-form method="POST" id="noteForm" @submit.prevent="saveNote">
+            <v-form method="POST" id="noteForm" @submit.prevent="saveNote" ref="form" lazy-validation>
                 <input type="hidden" name="note_id" v-model="note_id">
                 <v-card>
                     <v-card-title class="blue darken-3 white--text py-4 title">Save Note</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
-                                <v-textarea prepend-icon="notes" label="Description" v-model="description" required></v-textarea>
+                                <v-textarea prepend-icon="notes" label="Description" v-model="description" required :rules="[v => !!v || 'Description is required']"></v-textarea>
                             </v-flex>
                         </v-layout>
                     </v-container>
@@ -113,28 +113,30 @@
                 this.note_id = note.id
             },
             saveNote() {
-                let description = this.description
-                let issue_id = this.issueInfo.id
+                if (this.$refs.form.validate()) {
+                    let description = this.description
+                    let issue_id = this.issueInfo.id
 
-                let note_id = this.note_id
+                    let note_id = this.note_id
 
-                let method = (!_.isNumber(note_id) ? 'post' : 'put')
+                    let method = (!_.isNumber(note_id) ? 'post' : 'put')
 
-                axios({
-                    method: method,
-                    url: '/api/notes/' + note_id,
-                    data: { description, issue_id }
-                })
-                .then(response => {
-                    Event.$emit('loadNotes', issue_id)
+                    axios({
+                        method: method,
+                        url: '/api/notes/' + note_id,
+                        data: { description, issue_id }
+                    })
+                    .then(response => {
+                        Event.$emit('loadNotes', issue_id)
 
-                    Event.$emit('success', response.data.message)
-                })
-                .catch(function (error) {
-                    Event.$emit('error', response.data.message)
-                })
+                        Event.$emit('success', response.data.message)
+                    })
+                    .catch(function (error) {
+                        Event.$emit('error', response.data.message)
+                    })
 
-                this.reset()
+                    this.reset()
+                }
             },
             deleteNote(issue_id, note_id) {
                 axios.delete('/api/notes/' + note_id)

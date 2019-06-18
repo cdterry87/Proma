@@ -58,13 +58,13 @@
         </v-layout>
 
         <v-dialog v-model="dialog" width="500">
-            <v-form method="POST" id="projectForm" @submit.prevent="addProject">
+            <v-form method="POST" id="projectForm" @submit.prevent="addProject" ref="form" lazy-validation>
                 <v-card>
                     <v-card-title class="blue darken-3 white--text py-4 title">Add Project</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
-                                <v-text-field prepend-icon="work" label="Project Name" v-model="name" maxlength="100" required></v-text-field>
+                                <v-text-field prepend-icon="work" label="Project Name" v-model="name" maxlength="100" :rules="[v => !!v || 'Name is required']" required></v-text-field>
                             </v-flex>
                             <v-flex xs12>
                                  <v-autocomplete
@@ -75,6 +75,7 @@
                                     prepend-icon="person"
                                     v-model="client_id"
                                     required
+                                    :rules="[v => !!v || 'Client is required']"
                                 ></v-autocomplete>
                             </v-flex>
                             <v-flex xs12>
@@ -167,22 +168,24 @@ export default {
             })
         },
         addProject() {
-            let name = this.name
-            let description = this.description
-            let due_date = this.due_date
-            let client_id = this.client_id
+            if (this.$refs.form.validate()) {
+                let name = this.name
+                let description = this.description
+                let due_date = this.due_date
+                let client_id = this.client_id
 
-            axios.post('/api/projects', { name, description, due_date, client_id })
-            .then(response => {
-                this.getProjects()
+                axios.post('/api/projects', { name, description, due_date, client_id })
+                .then(response => {
+                    this.getProjects()
 
-                Event.$emit('success', response.data.message)
-            })
-            .catch(function (error) {
-                Event.$emit('error', response.data.message)
-            })
+                    Event.$emit('success', response.data.message)
+                })
+                .catch(function (error) {
+                    Event.$emit('error', response.data.message)
+                })
 
-            this.reset()
+                this.reset()
+            }
         },
         completeProject(project_id) {
             axios.post('/api/projects/' + project_id + '/complete')

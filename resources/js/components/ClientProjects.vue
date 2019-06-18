@@ -68,13 +68,13 @@
         </v-layout>
 
         <v-dialog v-model="dialog" width="500">
-            <v-form method="POST" id="projectForm" @submit.prevent="addProject">
+            <v-form method="POST" id="projectForm" @submit.prevent="addProject" ref="form" lazy-validation="">
                 <v-card>
                     <v-card-title class="blue darken-3 white--text py-4 title">Add Project</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
-                                <v-text-field prepend-icon="work" label="Project Name" v-model="name" maxlength="100" required></v-text-field>
+                                <v-text-field prepend-icon="work" label="Project Name" v-model="name" maxlength="100" :rules="[v => !!v || 'Name is required']" required></v-text-field>
                             </v-flex>
                             <v-flex xs12>
                                 <v-textarea prepend-icon="notes" label="Description" v-model="description"></v-textarea>
@@ -151,22 +151,24 @@
                 this.$refs.datePicker.save(due_date)
             },
             addProject() {
-                let name = this.name
-                let description = this.description
-                let due_date = this.due_date
-                let client_id = this.clientInfo.id
+                if (this.$refs.form.validate()) {
+                    let name = this.name
+                    let description = this.description
+                    let due_date = this.due_date
+                    let client_id = this.clientInfo.id
 
-                axios.post('/api/projects', { name, description, due_date, client_id })
-                .then(response => {
-                    Event.$emit('loadProjects', this.clientInfo.id)
+                    axios.post('/api/projects', { name, description, due_date, client_id })
+                    .then(response => {
+                        Event.$emit('loadProjects', this.clientInfo.id)
 
-                    Event.$emit('success', response.data.message)
-                })
-                .catch(function (error) {
-                    Event.$emit('error', response.data.message)
-                })
+                        Event.$emit('success', response.data.message)
+                    })
+                    .catch(function (error) {
+                        Event.$emit('error', response.data.message)
+                    })
 
-                this.reset()
+                    this.reset()
+                }
             },
             completeProject(project_id) {
                 axios.post('/api/projects/' + project_id + '/complete')

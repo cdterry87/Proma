@@ -50,13 +50,15 @@
         <ProjectIssues :projectInfo="project" :projectIssues="issues" />
 
         <v-dialog v-model="dialog" width="500">
-            <v-form method="POST" id="editProjectForm" @submit.prevent="updateProject">
+            <v-form method="POST" id="editProjectForm" @submit.prevent="updateProject" ref="form" lazy-validation>
                 <v-card>
                     <v-card-title class="blue darken-3 white--text py-4 title">Edit Project</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
-                                <v-text-field prepend-icon="work" label="Project Name" v-model="project.name" maxlength="100" required></v-text-field>
+                                <v-text-field
+                                :rules="[v => !!v || 'Name is required']"
+                                prepend-icon="work" label="Project Name" v-model="project.name" maxlength="100" required></v-text-field>
                             </v-flex>
                             <v-flex xs12>
                                  <v-autocomplete
@@ -66,6 +68,7 @@
                                     label="Select a client"
                                     prepend-icon="person"
                                     v-model="project.client_id"
+                                    :rules="[v => !!v || 'Client is required']"
                                     required
                                 ></v-autocomplete>
                             </v-flex>
@@ -167,20 +170,22 @@
                 })
             },
             updateProject() {
-                let name = this.project.name
-                let description = this.project.description
-                let due_date = this.project.due_date
-                let client_id = this.project.client_id
+                if (this.$refs.form.validate()) {
+                    let name = this.project.name
+                    let description = this.project.description
+                    let due_date = this.project.due_date
+                    let client_id = this.project.client_id
 
-                axios.put('/api/projects/' + this.project.id, { name, description, due_date, client_id })
-                .then(response => {
-                    Event.$emit('success', response.data.message)
-                })
-                .catch(function (error) {
-                    Event.$emit('error', response.data.message)
-                })
+                    axios.put('/api/projects/' + this.project.id, { name, description, due_date, client_id })
+                    .then(response => {
+                        Event.$emit('success', response.data.message)
+                    })
+                    .catch(function (error) {
+                        Event.$emit('error', response.data.message)
+                    })
 
-                this.reset()
+                    this.reset()
+                }
             },
             completeProject(project_id) {
                 axios.post('/api/projects/' + project_id + '/complete')

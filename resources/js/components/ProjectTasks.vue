@@ -64,14 +64,14 @@
         </v-layout>
 
         <v-dialog v-model="dialog" width="500">
-            <v-form method="POST" id="taskForm" @submit.prevent="saveTask">
+            <v-form method="POST" id="taskForm" @submit.prevent="saveTask" ref="form" lazy-validation>
                 <input type="hidden" name="task_id" v-model="task_id">
                 <v-card>
                     <v-card-title class="blue darken-3 white--text py-4 title">Save Task</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
-                                <v-textarea prepend-icon="notes" label="Description" v-model="description" required></v-textarea>
+                                <v-textarea prepend-icon="notes" label="Description" v-model="description" :rules="[v => !!v || 'Description is required']" required></v-textarea>
                                 <v-dialog
                                 ref="datePicker"
                                 v-model="date_dialog"
@@ -158,29 +158,31 @@
                 this.$refs.datePicker.save(due_date)
             },
             saveTask() {
-                let due_date = this.due_date
-                let description = this.description
-                let project_id = this.projectInfo.id
+                if (this.$refs.form.validate()) {
+                    let due_date = this.due_date
+                    let description = this.description
+                    let project_id = this.projectInfo.id
 
-                let task_id = this.task_id
+                    let task_id = this.task_id
 
-                let method = (!_.isNumber(task_id) ? 'post' : 'put')
+                    let method = (!_.isNumber(task_id) ? 'post' : 'put')
 
-                axios({
-                    method: method,
-                    url: '/api/tasks/' + task_id,
-                    data: { due_date, description, project_id }
-                })
-                .then(response => {
-                    Event.$emit('loadTasks', project_id)
+                    axios({
+                        method: method,
+                        url: '/api/tasks/' + task_id,
+                        data: { due_date, description, project_id }
+                    })
+                    .then(response => {
+                        Event.$emit('loadTasks', project_id)
 
-                    Event.$emit('success', response.data.message)
-                })
-                .catch(function (error) {
-                    Event.$emit('error', response.data.message)
-                })
+                        Event.$emit('success', response.data.message)
+                    })
+                    .catch(function (error) {
+                        Event.$emit('error', response.data.message)
+                    })
 
-                this.reset()
+                    this.reset()
+                }
             },
             completeTask(project_id, task_id) {
                 axios.post('/api/tasks/' + project_id + '/complete/' + task_id)
