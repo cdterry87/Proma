@@ -32,7 +32,6 @@
                                 :search="search"
                                 :pagination.sync="pagination"
                                 hide-actions
-                                class="elevation-1"
                                 no-data-text="This client does not currently have any contacts."
                             >
                                 <template v-slot:items="props">

@@ -572,7 +572,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ClientContacts',
@@ -681,7 +680,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../events */ "./resources/js/events.js");
-//
 //
 //
 //
@@ -4597,7 +4595,6 @@ var render = function() {
                               }),
                               _vm._v(" "),
                               _c("v-data-table", {
-                                staticClass: "elevation-1",
                                 attrs: {
                                   headers: _vm.headers,
                                   items: _vm.clientContacts,
@@ -5055,7 +5052,6 @@ var render = function() {
                               }),
                               _vm._v(" "),
                               _c("v-data-table", {
-                                staticClass: "elevation-1",
                                 attrs: {
                                   headers: _vm.headers,
                                   items: _vm.clientProjects,
