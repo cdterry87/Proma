@@ -16,6 +16,10 @@ body #app .application {
     color: white !important;
 }
 
+.v-alert {
+    margin: 0 !important;
+}
+
 #main {
     min-height: 100%;
 }
