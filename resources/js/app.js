@@ -35,6 +35,7 @@ Vue.filter('fromNow', function (date, format) {
 
 //Primary components
 import App from './components/App'
+import Errors from './auth/Errors'
 import Login from './auth/Login'
 import Register from './auth/Register'
 import Email from './auth/passwords/Email'
@@ -45,6 +46,7 @@ const app = new Vue({
     el: '#app',
     components: {
         App,
+        Errors,
         Login,
         Register,
         Email,

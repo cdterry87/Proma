@@ -12,7 +12,7 @@
                         <v-text-field color="white" label="Password" box prepend-inner-icon="lock" id="password" name="password" type="password"></v-text-field>
                         <v-checkbox color="white" id="remember" name="remember" label="Remember Me"></v-checkbox>
                         <div class="text-xs-center">
-                            <v-btn outline flat type="submit" color="white">Login</v-btn>
+                            <v-btn outline flat type="submit">Login</v-btn>
                             <v-btn flat href="/register">Register</v-btn>
                         </div>
                         <div class="text-xs-center mt-3">
@@ -23,7 +23,7 @@
                                 <v-flex xs12>
                                     <v-divider></v-divider>
                                     <div class="mt-4 text-xs-center">
-                                        &copy; Proma 2019. All Rights Reserved.
+                                        &copy; {{ title }} {{ new Date().getFullYear()}}
                                     </div>
                                 </v-flex>
                             </v-layout>
@@ -37,6 +37,7 @@
 
 <script>
     export default {
-        name: 'Login'
+        name: 'Login',
+        props: ['title'],
     }
 </script>

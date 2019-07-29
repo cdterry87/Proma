@@ -17,7 +17,7 @@
                             <v-flex xs12>
                                 <v-divider></v-divider>
                                 <div class="mt-4 text-xs-center">
-                                    &copy; Proma 2019. All Rights Reserved.
+                                    &copy; {{ title }} {{ new Date().getFullYear()}}
                                 </div>
                             </v-flex>
                         </v-layout>
@@ -30,6 +30,7 @@
 
 <script>
     export default {
-        name: 'Email'
+        name: 'Email',
+        props: ['title']
     }
 </script>
