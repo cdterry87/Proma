@@ -35,10 +35,20 @@ Vue.filter('fromNow', function (date, format) {
 
 //Primary components
 import App from './components/App'
+import Login from './auth/Login'
+import Register from './auth/Register'
+import Email from './auth/passwords/Email'
+import Reset from './auth/passwords/Reset'
 
 // App declaration
 const app = new Vue({
     el: '#app',
-    components: { App },
+    components: {
+        App,
+        Login,
+        Register,
+        Email,
+        Reset
+    },
     router,
 });

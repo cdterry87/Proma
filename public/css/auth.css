@@ -6,6 +6,12 @@ body {
     background-color: #fafafa;
 }
 
+body #app .application {
+    background: linear-gradient(15deg, rgba(98,240,190,1) 0%, rgba(21,101,192,1) 68%) !important;
+    background-size: 200% 200% !important;
+    color: white !important;
+}
+
 #main {
     min-height: 100%;
 }
