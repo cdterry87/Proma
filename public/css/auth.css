@@ -11,9 +11,13 @@ body {
 }
 
 body #app .application {
-    background: linear-gradient(15deg, rgba(98,240,190,1) 0%, rgba(21,101,192,1) 68%) !important;
-    background-size: 200% 200% !important;
     color: white !important;
+
+    background: rgb(114,213,174);
+    background: -moz-linear-gradient(10deg, rgba(114,213,174,1) 0%, rgba(26,107,191,1) 90%);
+    background: -webkit-linear-gradient(10deg, rgba(114,213,174,1) 0%, rgba(26,107,191,1) 90%);
+    background: linear-gradient(10deg, rgba(114,213,174,1) 0%, rgba(26,107,191,1) 90%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#72d5ae",endColorstr="#1a6bbf",GradientType=1);
 }
 
 .v-alert {
