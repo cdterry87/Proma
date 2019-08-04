@@ -2537,7 +2537,7 @@ __webpack_require__.r(__webpack_exports__);
         var description = this.description;
         var project_id = this.projectInfo.id;
         var task_id = this.task_id;
-        var url = '/api/contacts';
+        var url = '/api/tasks';
         var method = 'post';
 
         if (_.isNumber(task_id)) {

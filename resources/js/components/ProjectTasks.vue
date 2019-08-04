@@ -164,7 +164,7 @@
                     let project_id = this.projectInfo.id
                     let task_id = this.task_id
 
-                    let url = '/api/contacts'
+                    let url = '/api/tasks'
 
                     let method = 'post'
                     if (_.isNumber(task_id)) {
