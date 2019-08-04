@@ -119,11 +119,17 @@
 
                     let note_id = this.note_id
 
-                    let method = (!_.isNumber(note_id) ? 'post' : 'put')
+                    let url = '/api/notes'
+
+                    let method = 'post'
+                    if (_.isNumber(note_id)) {
+                        method = 'put'
+                        url += '/' + note_id
+                    }
 
                     axios({
                         method: method,
-                        url: '/api/notes/' + note_id,
+                        url: url,
                         data: { description, issue_id }
                     })
                     .then(response => {

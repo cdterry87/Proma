@@ -1631,10 +1631,17 @@ __webpack_require__.r(__webpack_exports__);
         var description = this.description;
         var issue_id = this.issueInfo.id;
         var note_id = this.note_id;
-        var method = !_.isNumber(note_id) ? 'post' : 'put';
+        var url = '/api/notes';
+        var method = 'post';
+
+        if (_.isNumber(note_id)) {
+          method = 'put';
+          url += '/' + note_id;
+        }
+
         axios({
           method: method,
-          url: '/api/notes/' + note_id,
+          url: url,
           data: {
             description: description,
             issue_id: issue_id
