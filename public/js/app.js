@@ -866,10 +866,17 @@ __webpack_require__.r(__webpack_exports__);
         var phone = this.phone;
         var client_id = this.clientInfo.id;
         var contact_id = this.contact_id;
-        var method = !_.isNumber(contact_id) ? 'post' : 'put';
+        var url = '/api/contacts';
+        var method = 'post';
+
+        if (_.isNumber(contact_id)) {
+          method = 'put';
+          url += '/' + contact_id;
+        }
+
         axios({
           method: method,
-          url: '/api/contacts/' + contact_id,
+          url: url,
           data: {
             name: name,
             title: title,
@@ -2530,10 +2537,17 @@ __webpack_require__.r(__webpack_exports__);
         var description = this.description;
         var project_id = this.projectInfo.id;
         var task_id = this.task_id;
-        var method = !_.isNumber(task_id) ? 'post' : 'put';
+        var url = '/api/contacts';
+        var method = 'post';
+
+        if (_.isNumber(task_id)) {
+          method = 'put';
+          url += '/' + task_id;
+        }
+
         axios({
           method: method,
-          url: '/api/tasks/' + task_id,
+          url: url,
           data: {
             due_date: due_date,
             description: description,
@@ -31401,7 +31415,7 @@ var __assign = undefined && undefined.__assign || function () {
             this.$emit('keydown', e);
         },
         onFocusin: function onFocusin(e) {
-            var target = event.target;
+            var target = e.target;
             if (
             // It isn't the document or the dialog body
             ![document, this.$refs.content].includes(target) &&
@@ -44164,7 +44178,7 @@ var Vuetify = {
             return false;
         })(opts.components);
     },
-    version: '1.5.14'
+    version: '1.5.15'
 };
 function checkVueVersion(Vue, requiredVue) {
     var vueDep = requiredVue || '^2.5.18';
@@ -45850,7 +45864,7 @@ var Vuetify = {
         Vue.use(_components_Vuetify__WEBPACK_IMPORTED_MODULE_1__["default"], __assign({ components: _components__WEBPACK_IMPORTED_MODULE_2__,
             directives: _directives__WEBPACK_IMPORTED_MODULE_3__["default"] }, args));
     },
-    version: '1.5.14'
+    version: '1.5.15'
 };
 if (typeof window !== 'undefined' && window.Vue) {
     window.Vue.use(Vuetify);
@@ -50446,7 +50460,7 @@ function createRange(length) {
 function getZIndex(el) {
     if (!el || el.nodeType !== Node.ELEMENT_NODE) return 0;
     var index = +window.getComputedStyle(el).getPropertyValue('z-index');
-    if (isNaN(index)) return getZIndex(el.parentNode);
+    if (!index) return getZIndex(el.parentNode);
     return index;
 }
 var tagsToReplace = {

@@ -136,14 +136,19 @@
                     let email = this.email
                     let phone = this.phone
                     let client_id = this.clientInfo.id
-
                     let contact_id = this.contact_id
 
-                    let method = (!_.isNumber(contact_id) ? 'post' : 'put')
+                    let url = '/api/contacts'
+
+                    let method = 'post'
+                    if (_.isNumber(contact_id)) {
+                        method = 'put'
+                        url += '/' + contact_id
+                    }
 
                     axios({
                         method: method,
-                        url: '/api/contacts/' + contact_id,
+                        url: url,
                         data: { name, title, email, phone, client_id }
                     })
                     .then(response => {

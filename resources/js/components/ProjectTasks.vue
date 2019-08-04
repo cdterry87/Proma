@@ -162,14 +162,20 @@
                     let due_date = this.due_date
                     let description = this.description
                     let project_id = this.projectInfo.id
-
                     let task_id = this.task_id
 
-                    let method = (!_.isNumber(task_id) ? 'post' : 'put')
+                    let url = '/api/contacts'
+
+                    let method = 'post'
+                    if (_.isNumber(task_id)) {
+                        method = 'put'
+                        url += '/' + task_id
+                    }
+
 
                     axios({
                         method: method,
-                        url: '/api/tasks/' + task_id,
+                        url: url,
                         data: { due_date, description, project_id }
                     })
                     .then(response => {
