@@ -10,7 +10,7 @@
                         </div>
                         <v-text-field color="white" label="Email" box prepend-inner-icon="mail" id="email" name="email" type="text"></v-text-field>
                         <v-text-field color="white" label="Password" box prepend-inner-icon="lock" id="password" name="password" type="password"></v-text-field>
-                        <v-checkbox color="white" id="remember" name="remember" label="Remember Me"></v-checkbox>
+                        <v-checkbox color="white" id="remember" name="remember" label="Remember Me" value="on"></v-checkbox>
                         <div class="text-xs-center">
                             <v-btn outline flat type="submit">Login</v-btn>
                             <v-btn flat href="/register">Register</v-btn>
