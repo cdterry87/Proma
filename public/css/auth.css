@@ -20,6 +20,10 @@ body #app .application {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#72d5ae",endColorstr="#1a6bbf",GradientType=1);
 }
 
+.logo {
+    font-size: 4rem !important;
+}
+
 .v-alert {
     margin: 0 !important;
 }

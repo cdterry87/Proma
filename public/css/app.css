@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Playball&display=swap);/*!
+@import url(https://fonts.googleapis.com/css?family=Kaushan+Script&display=swap);/*!
 * Vuetify v1.5.15
 * Forged by John Leider
 * Released under the MIT License.
@@ -47,7 +47,7 @@ a {
 }
 
 .logo {
-  font-family: "Playball", "Roboto", sans-serif !important;
+  font-family: "Kaushan Script", "Roboto", sans-serif !important;
   font-size: 3rem !important;
 }
 
