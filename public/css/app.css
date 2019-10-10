@@ -1,4 +1,4 @@
-/*!
+@import url(https://fonts.googleapis.com/css?family=Playball&display=swap);/*!
 * Vuetify v1.5.15
 * Forged by John Leider
 * Released under the MIT License.
@@ -44,5 +44,10 @@ a {
 
 .hidden {
   display: none;
+}
+
+.logo {
+  font-family: "Playball", "Roboto", sans-serif !important;
+  font-size: 3rem !important;
 }
 

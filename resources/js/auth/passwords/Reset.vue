@@ -5,7 +5,7 @@
                 <v-layout align-center justify-center wrap>
                     <v-flex xs12 sm10 md5>
                         <div class="text-xs-center mb-3">
-                            <h1 class="display-1">Proma</h1>
+                            <h1 class="display-1 logo">Proma</h1>
                             <h2 class="subheading mt-2">Reset your password using the form below.</h2>
                         </div>
                         <v-text-field prepend-icon="lock" id="password" name="password" label="Password" type="password"></v-text-field>

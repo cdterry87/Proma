@@ -5,7 +5,7 @@
                 <v-layout align-center justify-center wrap>
                     <v-flex xs12 sm10 md5>
                         <div class="text-xs-center mb-3">
-                            <h1 class="display-1">Proma</h1>
+                            <h1 class="display-1 logo">Proma</h1>
                             <h2 class="subheading mt-2">Sign in to start managing your projects!</h2>
                         </div>
                         <v-text-field color="white" label="Email" box prepend-inner-icon="mail" id="email" name="email" type="text"></v-text-field>

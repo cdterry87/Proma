@@ -3,7 +3,7 @@
         <v-app class="inspire">
             <v-toolbar color="blue darken-3" dark tabs>
                 <v-toolbar-title>
-                    <a href="/">Proma</a>
+                    <a href="/" class="logo">Proma</a>
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
 
