@@ -84,10 +84,6 @@
         data() {
             return {
                 dialog: false,
-                date_dialog: false,
-                description: '',
-                due_date: '',
-                task_id: '',
                 search: '',
                 file: '',
                 uploadFileName: '',
