@@ -48,6 +48,7 @@
 
         <ProjectTasks :projectInfo="project" :projectTasks="tasks" />
         <ProjectIssues :projectInfo="project" :projectIssues="issues" />
+        <FileUpload :projectInfo="project" :projectFiles="files" />
 
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="editProjectForm" @submit.prevent="updateProject" ref="form" lazy-validation>
@@ -119,6 +120,7 @@
     import Event from './../events'
     import ProjectTasks from './ProjectTasks'
     import ProjectIssues from './ProjectIssues'
+    import FileUpload from './FileUpload'
 
     export default {
         name: 'Project',
@@ -126,6 +128,7 @@
         components: {
             ProjectTasks,
             ProjectIssues,
+            FileUpload
         },
         data() {
             return {
@@ -134,6 +137,7 @@
                 project: '',
                 tasks: '',
                 issues: '',
+                files: '',
                 clients: []
             }
         },
@@ -149,6 +153,7 @@
 
                     this.getTasks(this.id);
                     this.getIssues(this.id);
+                    this.getFiles(this.id);
                 })
             },
             getClients() {
@@ -167,6 +172,12 @@
                 axios.get('/api/projects/' + project_id + '/issues')
                 .then(response => {
                     this.issues = response.data
+                })
+            },
+            getFiles(project_id) {
+                axios.get('/api/uploads/project/' + project_id)
+                .then(response => {
+                    this.files = response.data
                 })
             },
             updateProject() {
@@ -222,6 +233,9 @@
             })
             Event.$on('loadIssues', project_id => {
                 this.getIssues(project_id)
+            })
+            Event.$on('loadFiles', project_id => {
+                this.getFiles(project_id)
             })
         },
         mounted() {

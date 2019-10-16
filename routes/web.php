@@ -71,6 +71,12 @@ Route::group(['middleware' => 'auth'], function () {
 
         // Notifications
         Route::get('/notifications', 'HomeController@notifications')->name('notifications');
+
+        // Uploads
+        Route::get('/uploads/project/{project}', 'UploadController@getProjectUploads');
+        Route::post('/uploads/project/{project}', 'UploadController@storeProjectUpload');
+
+        Route::delete('/uploads/{upload}', 'UploadController@destroy');
     });
 
     // Catch-all route
