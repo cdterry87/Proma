@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Issue;
 use App\Project;
 use App\Upload;
+use App\Client;
+use Illuminate\Http\Request;
 
 class UploadController extends Controller
 {
@@ -15,40 +17,34 @@ class UploadController extends Controller
 
     public function storeProjectUpload(Request $request, Project $project)
     {
-        $upload = null;
+        return $this->storeUploadedFile($request, $project);
+    }
 
-        if ($request->hasFile('fileUpload')) {
-            $file = $request->file('fileUpload');
-            $originalFileName = $file->getClientOriginalName();
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $filePath = '/storage/projects/' . $project->id . '/' . $filename;
-            $file->move(storage_path('app/public/projects/' . $project->id), $filename);
+    public function getIssueUploads(Issue $issue)
+    {
+        return response()->json($issue->uploads()->get());
+    }
 
-            $upload = new Upload([
-                'name' => $originalFileName,
-                'filepath' => $filePath
-            ]);
+    public function storeIssueUpload(Request $request, Issue $issue)
+    {
+        return $this->storeUploadedFile($request, $issue);
+    }
 
-            $upload = $project->uploads()->save($upload);
-        }
+    public function getClientUploads(Client $client)
+    {
+        return response()->json($client->uploads()->get());
+    }
 
-        return response()->json([
-            'status' => (bool)$upload,
-            'data' => $upload,
-            'message' => $upload ? 'File uploaded successfully!' : 'Error uploading file!'
-        ]);
+    public function storeClientUpload(Request $request, Client $client)
+    {
+        return $this->storeUploadedFile($request, $client);
     }
 
     public function destroy(Upload $upload)
     {
         $uploadFolder = '';
         $filePathParts = explode('/', $upload->filepath);
-        
-        switch ($upload->uploadable_type) {
-            case 'App\Project':
-                $uploadFolder = 'projects';
-                break;
-        }
+        $uploadFolder = $this->getUploadFolder($upload->uploadable_type); 
 
         $fileToDelete = storage_path('app/public/' . $uploadFolder . '/' . $upload->uploadable_id . '/' . end($filePathParts));
         unlink($fileToDelete);
@@ -59,5 +55,47 @@ class UploadController extends Controller
             'status' => $status,
             'message' => $status ? 'Upload deleted successfully!' : 'Error deleting upload!'
         ]);
+    }
+
+    protected function storeUploadedFile($request, $model)
+    {
+        $upload = null;
+
+        if ($request->hasFile('fileUpload')) {
+            $uploadFolder = $this->getUploadFolder(get_class($model));
+            $file = $request->file('fileUpload');
+            $originalFileName = $file->getClientOriginalName();
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $filePath = '/storage/' . $uploadFolder . '/' . $model->id . '/' . $filename;
+            $file->move(storage_path('app/public/projects/' . $model->id), $filename);
+
+            $upload = new Upload([
+                'name' => $originalFileName,
+                'filepath' => $filePath
+            ]);
+
+            $upload = $model->uploads()->save($upload);
+        }
+
+        return response()->json([
+            'status' => (bool)$upload,
+            'data' => $upload,
+            'message' => $upload ? 'File uploaded successfully!' : 'Error uploading file!'
+        ]);
+    }
+
+    protected function getUploadFolder($className)
+    {
+        switch ($className) {
+            case 'App\Project':
+                return 'projects';
+                break;
+            case 'App\Issue':
+                return 'issues';
+                break;
+            case 'App\Client':
+                return 'clients';
+                break;
+        }
     }
 }

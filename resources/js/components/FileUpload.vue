@@ -18,7 +18,7 @@
                             </v-flex>
                         </v-layout>
 
-                        <v-content v-if="projectFiles">
+                        <v-content v-if="uploadFiles">
                             <v-text-field
                                 v-model="search"
                                 append-icon="search"
@@ -29,11 +29,11 @@
                             ></v-text-field>
                             <v-data-table
                                 :headers="headers"
-                                :items="projectFiles"
+                                :items="uploadFiles"
                                 :search="search"
                                 :pagination.sync="pagination"
                                 hide-actions
-                                no-data-text="This project does not currently have any files."
+                                no-data-text="No files have bene uploaded"
                             >
                                 <template v-slot:items="props">
                                     <td><a :href="props.item.filepath">{{ props.item.name | truncate(150) }}</a></td>
@@ -80,7 +80,7 @@
 
     export default {
         name: 'FileUpload',
-        props: ['projectInfo', 'projectFiles'],
+        props: ['uploadInfo', 'uploadFiles', 'uploadType'],
         data() {
             return {
                 dialog: false,
@@ -114,13 +114,13 @@
                     let fileUploadForm = new FormData()
                     fileUploadForm.append('fileUpload', this.file);
 
-                    axios.post('/api/uploads/project/' + this.projectInfo.id, fileUploadForm, {
+                    axios.post('/api/uploads/' + this.uploadType + '/' + this.uploadInfo.id, fileUploadForm, {
                         headers: {
                             'content-type': 'multipart/form-data'
                         }
                     })
                     .then(response => {
-                        Event.$emit('loadFiles', this.projectInfo.id)
+                        Event.$emit('loadFiles', this.uploadInfo.id)
 
                         Event.$emit('success', response.data.message)
 
@@ -136,7 +136,7 @@
             deleteFile(file) {
                 axios.delete('/api/uploads/' + file)
                 .then(response => {
-                    Event.$emit('loadFiles', this.projectInfo.id)
+                    Event.$emit('loadFiles', this.uploadInfo.id)
 
                     Event.$emit('success', response.data.message) 
                 })

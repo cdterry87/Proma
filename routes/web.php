@@ -74,7 +74,11 @@ Route::group(['middleware' => 'auth'], function () {
 
         // Uploads
         Route::get('/uploads/project/{project}', 'UploadController@getProjectUploads');
+        Route::get('/uploads/issue/{issue}', 'UploadController@getIssueUploads');
+        Route::get('/uploads/client/{client}', 'UploadController@getClientUploads');
         Route::post('/uploads/project/{project}', 'UploadController@storeProjectUpload');
+        Route::post('/uploads/issue/{issue}', 'UploadController@storeIssueUpload');
+        Route::post('/uploads/client/{client}', 'UploadController@storeClientUpload');
 
         Route::delete('/uploads/{upload}', 'UploadController@destroy');
     });

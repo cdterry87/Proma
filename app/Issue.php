@@ -35,4 +35,9 @@ class Issue extends Model implements Searchable
             '/issue/' . $this->id
         );
     }
+
+    public function uploads()
+    {
+        return $this->morphMany('App\Upload', 'uploadable');
+    }
 }

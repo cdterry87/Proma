@@ -30,6 +30,7 @@
 
         <ClientContacts :clientInfo="client" :clientContacts="contacts" />
         <ClientProjects :clientInfo="client" :clientProjects="projects" />
+        <FileUpload :uploadInfo="client" :uploadFiles="files" uploadType="client" />
 
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="editClientForm" @submit.prevent="updateClient" ref="form" lazy-validation>
@@ -61,6 +62,7 @@
     import Event from './../events'
     import ClientContacts from './ClientContacts'
     import ClientProjects from './ClientProjects'
+    import FileUpload from './FileUpload'
 
     export default {
         name: 'Client',
@@ -68,6 +70,7 @@
         components: {
             ClientContacts,
             ClientProjects,
+            FileUpload
         },
         data() {
             return {
@@ -75,6 +78,7 @@
                 client: '',
                 contacts: '',
                 projects: '',
+                files: '',
             }
         },
         methods: {
@@ -85,6 +89,7 @@
 
                     this.getContacts(this.id);
                     this.getProjects(this.id);
+                    this.getFiles(this.id);
                 })
             },
             getContacts(client_id) {
@@ -97,6 +102,12 @@
                 axios.get('/api/clients/' + client_id + '/projects')
                 .then(response => {
                     this.projects = response.data
+                })
+            },
+            getFiles(client_id) {
+                axios.get('/api/uploads/client/' + client_id)
+                .then(response => {
+                    this.files = response.data
                 })
             },
             updateClient() {
@@ -127,6 +138,9 @@
             })
             Event.$on('loadProjects', client_id => {
                 this.getProjects(client_id)
+            })
+            Event.$on('loadFiles', client_id => {
+                this.getFiles(client_id)
             })
         },
         mounted() {

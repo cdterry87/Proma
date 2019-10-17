@@ -48,7 +48,7 @@
 
         <ProjectTasks :projectInfo="project" :projectTasks="tasks" />
         <ProjectIssues :projectInfo="project" :projectIssues="issues" />
-        <FileUpload :projectInfo="project" :projectFiles="files" />
+        <FileUpload :uploadInfo="project" :uploadFiles="files" uploadType="project" />
 
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="editProjectForm" @submit.prevent="updateProject" ref="form" lazy-validation>
