@@ -35,4 +35,9 @@ class Client extends Model implements Searchable
             '/client/' . $this->id
         );
     }
+
+    public function uploads()
+    {
+        return $this->morphMany('App\Upload', 'uploadable');
+    }
 }

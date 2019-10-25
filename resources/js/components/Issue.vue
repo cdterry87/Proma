@@ -43,6 +43,7 @@
         </v-container>
 
         <IssueNotes :issueInfo="issue" :issueNotes="notes" />
+        <FileUpload :uploadInfo="issue" :uploadFiles="files" uploadType="issue" />
 
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="editIssueForm" @submit.prevent="updateIssue" ref="form" lazy-validation>
@@ -92,18 +93,21 @@
 <script>
     import Event from './../events'
     import IssueNotes from './IssueNotes'
+    import FileUpload from './FileUpload'
 
     export default {
         name: 'Issue',
         props: ['id'],
         components: {
-            IssueNotes
+            IssueNotes,
+            FileUpload
         },
         data() {
             return {
                 dialog: false,
                 issue: '',
                 notes: '',
+                files: '',
                 projects: []
             }
         },
@@ -114,6 +118,7 @@
                     this.issue = response.data
 
                     this.getIssueNotes(this.id);
+                    this.getFiles(this.id);
                 })
             },
             getProjects() {
@@ -126,6 +131,12 @@
                 axios.get('/api/notes/' + issue_id)
                 .then(response => {
                     this.notes = response.data
+                })
+            },
+            getFiles(issue_id) {
+                axios.get('/api/uploads/issue/' + issue_id)
+                .then(response => {
+                    this.files = response.data
                 })
             },
             updateIssue() {
@@ -176,6 +187,10 @@
         created() {
             Event.$on('loadNotes', issue_id => {
                 this.getIssueNotes(issue_id)
+            })
+
+            Event.$on('loadFiles', issue_id => {
+                this.getFiles(issue_id)
             })
         },
         mounted() {

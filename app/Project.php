@@ -40,4 +40,9 @@ class Project extends Model implements Searchable
             '/project/' . $this->id
         );
     }
+
+    public function uploads()
+    {
+        return $this->morphMany('App\Upload', 'uploadable');
+    }
 }
