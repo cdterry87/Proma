@@ -54,7 +54,7 @@
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="taskForm" @submit.prevent="uploadFile" ref="form" lazy-validation>
                 <v-card>
-                    <v-card-title class="blue darken-3 white--text py-4 title">Save Task</v-card-title>
+                    <v-card-title class="blue darken-3 white--text py-4 title">Upload File</v-card-title>
                     <v-container grid-list-sm class="pa-4">
                         <v-layout row wrap>
                             <v-flex xs12>
@@ -138,7 +138,7 @@
                 .then(response => {
                     Event.$emit('loadFiles', this.uploadInfo.id)
 
-                    Event.$emit('success', response.data.message) 
+                    Event.$emit('success', response.data.message)
                 })
             },
         },
