@@ -11,7 +11,7 @@
                                 </span>
                             </v-flex>
                             <v-flex xs6 text-xs-right>
-                                <v-btn color="primary" @click="dialog = true" small>
+                                <v-btn color="primary" @click="addContact" small>
                                     <v-icon left dark>add</v-icon>
                                     Add Contact
                                 </v-btn>
@@ -128,6 +128,10 @@
                 this.email = contact.email
                 this.phone = contact.phone
                 this.contact_id = contact.id
+            },
+            addContact() {
+                this.reset()
+                this.dialog = true
             },
             saveContact() {
                 if (this.$refs.form.validate()) {
