@@ -227,6 +227,12 @@
                 this.description = ''
             }
         },
+        watch: {
+            '$route' (to, from) {
+                this.getProject()
+                this.getClients()
+            }
+        },
         created() {
             Event.$on('loadTasks', project_id => {
                 this.getTasks(project_id)

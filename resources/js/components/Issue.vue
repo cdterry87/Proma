@@ -184,6 +184,12 @@
                 this.description = ''
             }
         },
+        watch: {
+            '$route' (to, from) {
+                this.getIssue()
+                this.getProjects()
+            }
+        },
         created() {
             Event.$on('loadNotes', issue_id => {
                 this.getIssueNotes(issue_id)

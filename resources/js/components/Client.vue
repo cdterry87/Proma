@@ -132,6 +132,11 @@
                 this.description = ''
             }
         },
+        watch: {
+            '$route' (to, from) {
+                this.getClient()
+            }
+        },
         created() {
             Event.$on('loadContacts', client_id => {
                 this.getContacts(client_id)
