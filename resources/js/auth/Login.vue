@@ -8,6 +8,13 @@
                             <h1 class="display-1 logo">Proma</h1>
                             <h2 class="subheading mt-2">Sign in to start managing your projects!</h2>
                         </div>
+                        <div class="mb-3">
+                            <v-alert type="info" :value="true">
+                                <div class="subheading">To demo this application, use the following credentials:</div>
+                                <div>Username: admin</div>
+                                <div>Password: password</div>
+                            </v-alert>
+                        </div>
                         <v-text-field color="white" label="Email" box prepend-inner-icon="mail" id="email" name="email" type="text"></v-text-field>
                         <v-text-field color="white" label="Password" box prepend-inner-icon="lock" id="password" name="password" type="password"></v-text-field>
                         <v-checkbox color="white" id="remember" name="remember" label="Remember Me" value="on"></v-checkbox>
