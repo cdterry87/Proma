@@ -11,7 +11,7 @@
                         <div class="mb-3">
                             <v-alert type="info" :value="true">
                                 <div class="subheading">To demo this application, use the following credentials:</div>
-                                <div>Username: admin</div>
+                                <div>Username: admin@example.com</div>
                                 <div>Password: password</div>
                             </v-alert>
                         </div>
