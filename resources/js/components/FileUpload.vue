@@ -18,7 +18,7 @@
                             </v-flex>
                         </v-layout>
 
-                        <v-content v-if="uploadFiles">
+                        <v-content v-if="uploadInfo.uploads">
                             <v-text-field
                                 v-model="search"
                                 append-icon="search"
@@ -29,7 +29,7 @@
                             ></v-text-field>
                             <v-data-table
                                 :headers="headers"
-                                :items="uploadFiles"
+                                :items="uploadInfo.uploads"
                                 :search="search"
                                 :pagination.sync="pagination"
                                 hide-actions
@@ -80,7 +80,7 @@
 
     export default {
         name: 'FileUpload',
-        props: ['uploadInfo', 'uploadFiles', 'uploadType'],
+        props: ['uploadInfo', 'uploadType'],
         data() {
             return {
                 dialog: false,
@@ -120,7 +120,7 @@
                         }
                     })
                     .then(response => {
-                        Event.$emit('loadFiles', this.uploadInfo.id)
+                        Event.$emit('reloadProject', this.uploadInfo.id)
 
                         Event.$emit('success', response.data.message)
 
@@ -136,7 +136,7 @@
             deleteFile(file) {
                 axios.delete('/api/uploads/' + file)
                 .then(response => {
-                    Event.$emit('loadFiles', this.uploadInfo.id)
+                    Event.$emit('reloadProject', this.uploadInfo.id)
 
                     Event.$emit('success', response.data.message)
                 })

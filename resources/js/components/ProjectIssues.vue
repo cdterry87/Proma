@@ -18,7 +18,7 @@
                             </v-flex>
                         </v-layout>
 
-                        <v-content v-if="projectIssues">
+                        <v-content v-if="project.issues">
                             <v-text-field
                                 v-model="search"
                                 append-icon="search"
@@ -29,7 +29,7 @@
                             ></v-text-field>
                             <v-data-table
                                 :headers="headers"
-                                :items="projectIssues"
+                                :items="project.issues"
                                 :search="search"
                                 :pagination.sync="pagination"
                                 hide-actions
@@ -104,7 +104,7 @@
 
     export default {
         name: 'ProjectIssues',
-        props: ['projectInfo', 'projectIssues'],
+        props: ['project'],
         data() {
             return {
                 dialog: false,
@@ -129,11 +129,11 @@
                 if (this.$refs.form.validate()) {
                     let description = this.description
                     let priority = this.priority
-                    let project_id = this.projectInfo.id
+                    let project_id = this.project.id
 
                     axios.post('/api/issues', { description, priority, project_id })
                     .then(response => {
-                        Event.$emit('loadIssues', this.projectInfo.id)
+                        Event.$emit('reloadProject', this.project.id)
 
                         Event.$emit('success', response.data.message)
                     })
@@ -147,7 +147,7 @@
             resolveIssue(issue_id) {
                 axios.post('/api/issues/' + issue_id + '/resolve')
                 .then(response => {
-                    Event.$emit('loadIssues', this.projectInfo.id)
+                    Event.$emit('reloadProject', this.project.id)
 
                     Event.$emit('success', response.data.message)
                 })
@@ -158,7 +158,7 @@
             unresolveIssue(issue_id) {
                 axios.post('/api/issues/' + issue_id + '/unresolve')
                 .then(response => {
-                    Event.$emit('loadIssues', this.projectInfo.id)
+                    Event.$emit('reloadProject', this.project.id)
 
                     Event.$emit('warning', response.data.message)
                 })
@@ -169,7 +169,7 @@
             deleteIssue(issue_id) {
                 axios.delete('/api/issues/' + issue_id)
                 .then(response => {
-                    Event.$emit('loadIssues', this.projectInfo.id)
+                    Event.$emit('reloadProject', this.project.id)
 
                     Event.$emit('success', response.data.message)
                 })

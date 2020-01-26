@@ -1,118 +1,138 @@
 <template>
     <div>
-        <v-container fluid grid-list-md>
-            <v-layout row>
-                <v-flex xs12>
-                    <v-card>
-                        <v-alert :value="true" v-if="project.completed" type="success" @click="incompleteProject(project.id)" class="clickable">
-                            Project completed {{ project.completed_date }}.
-                        </v-alert>
-                        <v-alert :value="true" v-else-if="!project.completed && project.due_date != '' && project.due_date != null && new Date(project.due_date) < Date.now()" type="error" @click="completeProject(project.id)" class="clickable">
-                            Project was due {{ project.due_date }}.
-                        </v-alert>
-                        <v-alert :value="true" v-else-if="!project.completed" type="warning" @click="completeProject(project.id)" class="clickable">
-                            <span v-if="project.due_date">Project is due {{ project.due_date }}.</span>
-                            <span v-else>Project is incomplete.</span>
-                        </v-alert>
-                        <v-card-text>
-                             <v-layout align-baseline>
-                                <v-flex xs6>
+        <div v-if="project.id">
+            <v-container fluid grid-list-md>
+                <v-layout row>
+                    <v-flex xs12>
+                        <v-card>
+                            <v-alert :value="true" v-if="project.completed" type="success" @click="incompleteProject(project.id)" class="clickable">
+                                Project completed {{ project.completed_date }}.
+                            </v-alert>
+                            <v-alert :value="true" v-else-if="!project.completed && project.due_date != '' && project.due_date != null && new Date(project.due_date) < Date.now()" type="error" @click="completeProject(project.id)" class="clickable">
+                                Project was due {{ project.due_date }}.
+                            </v-alert>
+                            <v-alert :value="true" v-else-if="!project.completed" type="warning" @click="completeProject(project.id)" class="clickable">
+                                <span v-if="project.due_date">Project is due {{ project.due_date }}.</span>
+                                <span v-else>Project is incomplete.</span>
+                            </v-alert>
+                            <v-card-text>
+                                <v-layout align-baseline>
+                                    <v-flex xs6>
+                                        <span class="title">
+                                            <v-icon>work</v-icon>
+                                            {{ project.name }}
+                                        </span>
+                                    </v-flex>
+                                    <v-flex xs6 text-xs-right>
+                                        <v-btn color="primary" @click="dialog = true" small>
+                                            <v-icon left dark>edit</v-icon>
+                                            Edit
+                                        </v-btn>
+                                    </v-flex>
+                                </v-layout>
+                                <div>
+                                    {{ project.description }}
+                                </div>
+                                <div class="mt-4" v-if="project.client">
                                     <span class="title">
-                                        <v-icon>work</v-icon>
-                                        {{ project.name }}
+                                        <v-icon>person</v-icon> Client
                                     </span>
+                                    <div>
+                                        {{ project.client.name }}
+                                    </div>
+                                </div>
+                            </v-card-text>
+                        </v-card>
+                    </v-flex>
+                </v-layout>
+            </v-container>
+
+            <ProjectTasks :project="project" />
+            <ProjectIssues :project="project" />
+            <FileUpload :uploadInfo="project" uploadType="project" />
+
+            <v-dialog v-model="dialog" width="500">
+                <v-form method="POST" id="editProjectForm" @submit.prevent="updateProject" ref="form" lazy-validation>
+                    <v-card>
+                        <v-card-title class="blue darken-3 white--text py-4 title">Edit Project</v-card-title>
+                        <v-container grid-list-sm class="pa-4">
+                            <v-layout row wrap>
+                                <v-flex xs12>
+                                    <v-text-field
+                                    :rules="[v => !!v || 'Name is required']"
+                                    prepend-icon="work" label="Project Name" v-model="project.name" maxlength="100" required></v-text-field>
                                 </v-flex>
-                                <v-flex xs6 text-xs-right>
-                                    <v-btn color="primary" @click="dialog = true" small>
-                                        <v-icon left dark>edit</v-icon>
-                                        Edit
-                                    </v-btn>
+                                <v-flex xs12>
+                                    <v-autocomplete
+                                        :items="clients"
+                                        item-text="name"
+                                        item-value="id"
+                                        label="Select a client"
+                                        prepend-icon="person"
+                                        v-model="project.client_id"
+                                        :rules="[v => !!v || 'Client is required']"
+                                        required
+                                    ></v-autocomplete>
+                                </v-flex>
+                                <v-flex xs12>
+                                    <v-textarea prepend-icon="notes" label="Description" v-model="project.description"></v-textarea>
+
+                                    <v-dialog
+                                    ref="datePicker"
+                                    v-model="date_dialog"
+                                    :return-value.sync="project.due_date"
+                                    persistent
+                                    lazy
+                                    full-width
+                                    width="290px"
+                                    >
+                                        <template v-slot:activator="{ on }">
+                                            <v-text-field
+                                            v-model="project.due_date"
+                                            label="Due Date"
+                                            prepend-icon="event"
+                                            readonly
+                                            v-on="on"
+                                            ></v-text-field>
+                                        </template>
+                                        <v-date-picker v-model="project.due_date" scrollable @change="dueDate">
+                                            <v-spacer></v-spacer>
+                                            <v-btn flat color="primary" @click="date_dialog = false">Cancel</v-btn>
+                                            <v-btn flat color="primary" @click="$refs.dialog.save(due_date)">OK</v-btn>
+                                            <v-spacer></v-spacer>
+                                        </v-date-picker>
+                                    </v-dialog>
                                 </v-flex>
                             </v-layout>
-                            <div>
-                                {{ project.description }}
-                            </div>
-                            <div class="mt-4" v-if="project.client">
-                                <span class="title">
-                                    <v-icon>person</v-icon> Client
-                                </span>
-                                <div>
-                                    {{ project.client.name }}
-                                </div>
-                            </div>
-                        </v-card-text>
+                        </v-container>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn type="submit" flat color="blue darken-2">Save</v-btn>
+                            <v-btn flat color="red darken-2" form="editProjectForm" @click="dialog = false">Cancel</v-btn>
+                            <v-spacer></v-spacer>
+                        </v-card-actions>
                     </v-card>
-                </v-flex>
-            </v-layout>
-        </v-container>
+                </v-form>
+            </v-dialog>
+        </div>
+        <div v-else>
+            <v-container fluid grid-list-md>
+                <v-layout row>
+                    <v-flex xs12 class="text-sm-center mt-3">
+                        <p class="headline">
+                            <v-icon>warning</v-icon>
+                            Sorry, we could not load this project.
+                        </p>
+                        <p class="subheading">This project either does not exist or you do not have access to it.</p>
 
-        <ProjectTasks :projectInfo="project" :projectTasks="tasks" />
-        <ProjectIssues :projectInfo="project" :projectIssues="issues" />
-        <FileUpload :uploadInfo="project" :uploadFiles="files" uploadType="project" />
-
-        <v-dialog v-model="dialog" width="500">
-            <v-form method="POST" id="editProjectForm" @submit.prevent="updateProject" ref="form" lazy-validation>
-                <v-card>
-                    <v-card-title class="blue darken-3 white--text py-4 title">Edit Project</v-card-title>
-                    <v-container grid-list-sm class="pa-4">
-                        <v-layout row wrap>
-                            <v-flex xs12>
-                                <v-text-field
-                                :rules="[v => !!v || 'Name is required']"
-                                prepend-icon="work" label="Project Name" v-model="project.name" maxlength="100" required></v-text-field>
-                            </v-flex>
-                            <v-flex xs12>
-                                 <v-autocomplete
-                                    :items="clients"
-                                    item-text="name"
-                                    item-value="id"
-                                    label="Select a client"
-                                    prepend-icon="person"
-                                    v-model="project.client_id"
-                                    :rules="[v => !!v || 'Client is required']"
-                                    required
-                                ></v-autocomplete>
-                            </v-flex>
-                            <v-flex xs12>
-                                <v-textarea prepend-icon="notes" label="Description" v-model="project.description"></v-textarea>
-
-                                <v-dialog
-                                ref="datePicker"
-                                v-model="date_dialog"
-                                :return-value.sync="project.due_date"
-                                persistent
-                                lazy
-                                full-width
-                                width="290px"
-                                >
-                                    <template v-slot:activator="{ on }">
-                                        <v-text-field
-                                        v-model="project.due_date"
-                                        label="Due Date"
-                                        prepend-icon="event"
-                                        readonly
-                                        v-on="on"
-                                        ></v-text-field>
-                                    </template>
-                                    <v-date-picker v-model="project.due_date" scrollable @change="dueDate">
-                                        <v-spacer></v-spacer>
-                                        <v-btn flat color="primary" @click="date_dialog = false">Cancel</v-btn>
-                                        <v-btn flat color="primary" @click="$refs.dialog.save(due_date)">OK</v-btn>
-                                        <v-spacer></v-spacer>
-                                    </v-date-picker>
-                                </v-dialog>
-                            </v-flex>
-                        </v-layout>
-                    </v-container>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn type="submit" flat color="blue darken-2">Save</v-btn>
-                        <v-btn flat color="red darken-2" form="editProjectForm" @click="dialog = false">Cancel</v-btn>
-                        <v-spacer></v-spacer>
-                    </v-card-actions>
-                </v-card>
-            </v-form>
-        </v-dialog>
+                        <v-btn type="submit" flat color="blue darken-2" to="/">
+                            <v-icon left>home</v-icon>
+                            Return to Projects
+                        </v-btn>
+                    </v-flex>
+                </v-layout>
+            </v-container>
+        </div>
     </div>
 </template>
 
@@ -135,9 +155,6 @@
                 dialog: false,
                 date_dialog: false,
                 project: '',
-                tasks: '',
-                issues: '',
-                files: '',
                 clients: []
             }
         },
@@ -150,34 +167,12 @@
                 axios.get('/api/projects/' + this.id)
                 .then(response => {
                     this.project = response.data
-
-                    this.getTasks(this.id);
-                    this.getIssues(this.id);
-                    this.getFiles(this.id);
                 })
             },
             getClients() {
                 axios.get('/api/clients')
                 .then(response => {
                     this.clients = response.data
-                })
-            },
-            getTasks(project_id) {
-                axios.get('/api/tasks/' + project_id)
-                .then(response => {
-                    this.tasks = response.data
-                })
-            },
-            getIssues(project_id) {
-                axios.get('/api/projects/' + project_id + '/issues')
-                .then(response => {
-                    this.issues = response.data
-                })
-            },
-            getFiles(project_id) {
-                axios.get('/api/uploads/project/' + project_id)
-                .then(response => {
-                    this.files = response.data
                 })
             },
             updateProject() {
@@ -234,14 +229,8 @@
             }
         },
         created() {
-            Event.$on('loadTasks', project_id => {
-                this.getTasks(project_id)
-            })
-            Event.$on('loadIssues', project_id => {
-                this.getIssues(project_id)
-            })
-            Event.$on('loadFiles', project_id => {
-                this.getFiles(project_id)
+            Event.$on('reloadProject', project_id => {
+                this.getProject()
             })
         },
         mounted() {

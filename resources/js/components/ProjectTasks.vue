@@ -18,7 +18,7 @@
                             </v-flex>
                         </v-layout>
 
-                        <v-content v-if="projectTasks">
+                        <v-content v-if="project.tasks">
                             <v-text-field
                                 v-model="search"
                                 append-icon="search"
@@ -29,7 +29,7 @@
                             ></v-text-field>
                             <v-data-table
                                 :headers="headers"
-                                :items="projectTasks"
+                                :items="project.tasks"
                                 :search="search"
                                 :pagination.sync="pagination"
                                 hide-actions
@@ -117,7 +117,7 @@
 
     export default {
         name: 'ProjectTasks',
-        props: ['projectInfo', 'projectTasks'],
+        props: ['project'],
         data() {
             return {
                 dialog: false,
@@ -161,7 +161,7 @@
                 if (this.$refs.form.validate()) {
                     let due_date = this.due_date
                     let description = this.description
-                    let project_id = this.projectInfo.id
+                    let project_id = this.project.id
                     let task_id = this.task_id
 
                     let url = '/api/tasks'
@@ -179,7 +179,7 @@
                         data: { due_date, description, project_id }
                     })
                     .then(response => {
-                        Event.$emit('loadTasks', project_id)
+                        Event.$emit('reloadProject', project_id)
 
                         Event.$emit('success', response.data.message)
                     })
@@ -193,7 +193,7 @@
             completeTask(project_id, task_id) {
                 axios.post('/api/tasks/' + project_id + '/complete/' + task_id)
                 .then(response => {
-                    Event.$emit('loadTasks', project_id)
+                    Event.$emit('reloadProject', project_id)
 
                     Event.$emit('success', response.data.message)
                 })
@@ -204,7 +204,7 @@
             incompleteTask(project_id, task_id) {
                 axios.post('/api/tasks/' + project_id + '/incomplete/' + task_id)
                 .then(response => {
-                    Event.$emit('loadTasks', project_id)
+                    Event.$emit('reloadProject', project_id)
 
                     Event.$emit('warning', response.data.message)
                 })
@@ -215,7 +215,7 @@
             deleteTask(project_id, task_id) {
                 axios.delete('/api/tasks/' + task_id)
                 .then(response => {
-                    Event.$emit('loadTasks', project_id)
+                    Event.$emit('reloadProject', project_id)
 
                     Event.$emit('success', response.data.message)
                 })

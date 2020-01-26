@@ -44,7 +44,7 @@ class ProjectController extends Controller
         $notification->createNotification("Project '" . $project->name . "' created.");
 
         return response()->json([
-            'status' => (bool)$project,
+            'status' => (bool) $project,
             'data' => $project,
             'message' => $project ? 'Project created successfully!' : 'Error adding project!'
         ]);
@@ -62,6 +62,8 @@ class ProjectController extends Controller
             'client'
         ])
             ->where('id', $project->id)
+            ->where('user_id', auth()->user()->id)
+            ->with(['tasks', 'issues', 'uploads'])
             ->first());
     }
 
