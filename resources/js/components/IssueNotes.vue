@@ -18,7 +18,7 @@
                             </v-flex>
                         </v-layout>
 
-                        <v-content v-if="issueNotes">
+                        <v-content v-if="issue.notes">
                             <v-text-field
                                 v-model="search"
                                 append-icon="search"
@@ -29,7 +29,7 @@
                             ></v-text-field>
                             <v-data-table
                                 :headers="headers"
-                                :items="issueNotes"
+                                :items="issue.notes"
                                 :search="search"
                                 :pagination.sync="pagination"
                                 hide-actions
@@ -81,7 +81,7 @@
 
     export default {
         name: 'IssueNotes',
-        props: ['issueInfo', 'issueNotes'],
+        props: ['issue'],
         data() {
             return {
                 dialog: false,
@@ -133,7 +133,7 @@
                         data: { description, issue_id }
                     })
                     .then(response => {
-                        Event.$emit('loadNotes', issue_id)
+                        Event.$emit('reloadIssue', issue_id)
 
                         Event.$emit('success', response.data.message)
                     })
@@ -147,7 +147,7 @@
             deleteNote(issue_id, note_id) {
                 axios.delete('/api/notes/' + note_id)
                 .then(response => {
-                    Event.$emit('loadNotes', issue_id)
+                    Event.$emit('reloadIssue', issue_id)
 
                     Event.$emit('success', response.data.message)
                 })

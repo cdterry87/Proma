@@ -41,7 +41,7 @@ class IssueController extends Controller
         $notification->createNotification("Issue #" . $issue->id . " created.");
 
         return response()->json([
-            'status' => (bool)$issue,
+            'status' => (bool) $issue,
             'data' => $issue,
             'message' => $issue ? 'Issue created successfully!' : 'Error adding issue!'
         ]);
@@ -57,6 +57,8 @@ class IssueController extends Controller
     {
         return response()->json($issue->with('project')
             ->where('id', $issue->id)
+            ->where('user_id', auth()->user()->id)
+            ->with(['notes', 'uploads'])
             ->first());
     }
 
