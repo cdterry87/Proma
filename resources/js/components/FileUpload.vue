@@ -33,7 +33,7 @@
                                 :search="search"
                                 :pagination.sync="pagination"
                                 hide-actions
-                                no-data-text="No files have bene uploaded"
+                                no-data-text="No files have been uploaded"
                             >
                                 <template v-slot:items="props">
                                     <td><a :href="props.item.filepath">{{ props.item.name | truncate(150) }}</a></td>
