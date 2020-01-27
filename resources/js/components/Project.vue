@@ -126,7 +126,7 @@
                         <p class="subheading">This project either does not exist or you do not have access to it.</p>
 
                         <v-btn type="submit" flat color="blue darken-2" to="/">
-                            <v-icon left>home</v-icon>
+                            <v-icon left>work</v-icon>
                             Return to Projects
                         </v-btn>
                     </v-flex>
