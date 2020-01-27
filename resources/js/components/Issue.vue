@@ -33,8 +33,10 @@
                                     <span class="title">
                                         <v-icon>work</v-icon> Project
                                     </span>
-                                    <div>
-                                        {{ issue.project.name }}
+                                    <div class="mt-2">
+                                        <router-link :to="'/project/' + issue.project.id" class="primary--text">
+                                            {{ issue.project.name }}
+                                        </router-link>
                                     </div>
                                 </div>
                             </v-card-text>

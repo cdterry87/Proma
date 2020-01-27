@@ -38,7 +38,11 @@
                                         <v-icon>person</v-icon> Client
                                     </span>
                                     <div>
-                                        {{ project.client.name }}
+                                        <div class="mt-2">
+                                            <router-link :to="'/client/' + project.client.id" class="primary--text">
+                                                {{ project.client.name }}
+                                            </router-link>
+                                        </div>
                                     </div>
                                 </div>
                             </v-card-text>
