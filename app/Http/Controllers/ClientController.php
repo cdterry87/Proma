@@ -37,7 +37,7 @@ class ClientController extends Controller
         $notification->createNotification("Client '" . $client->name . "' created.");
 
         return response()->json([
-            'status' => (bool)$client,
+            'status' => (bool) $client,
             'data' => $client,
             'message' => $client ? 'Client created successfully!' : 'Error adding client!'
         ]);

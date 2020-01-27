@@ -158,7 +158,7 @@
             unresolveIssue(issue_id) {
                 axios.post('/api/issues/' + issue_id + '/unresolve')
                 .then(response => {
-                    Event.$emit('reloadProject', this.project.id)
+                    Event.$emit('dataRefresh', this.project.id)
 
                     Event.$emit('warning', response.data.message)
                 })
@@ -169,7 +169,7 @@
             deleteIssue(issue_id) {
                 axios.delete('/api/issues/' + issue_id)
                 .then(response => {
-                    Event.$emit('reloadProject', this.project.id)
+                    Event.$emit('dataRefresh', this.project.id)
 
                     Event.$emit('success', response.data.message)
                 })

@@ -120,7 +120,7 @@
                         }
                     })
                     .then(response => {
-                        Event.$emit('reloadProject', this.uploadInfo.id)
+                        Event.$emit('dataRefresh', this.uploadInfo.id)
 
                         Event.$emit('success', response.data.message)
 
@@ -136,7 +136,7 @@
             deleteFile(file) {
                 axios.delete('/api/uploads/' + file)
                 .then(response => {
-                    Event.$emit('reloadProject', this.uploadInfo.id)
+                    Event.$emit('dataRefresh', this.uploadInfo.id)
 
                     Event.$emit('success', response.data.message)
                 })

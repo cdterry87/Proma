@@ -229,7 +229,7 @@
             }
         },
         created() {
-            Event.$on('reloadProject', project_id => {
+            Event.$on('dataRefresh', project_id => {
                 this.getProject()
             })
         },

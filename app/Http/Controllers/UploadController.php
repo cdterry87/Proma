@@ -44,7 +44,7 @@ class UploadController extends Controller
     {
         $uploadFolder = '';
         $filePathParts = explode('/', $upload->filepath);
-        $uploadFolder = $this->getUploadFolder($upload->uploadable_type); 
+        $uploadFolder = $this->getUploadFolder($upload->uploadable_type);
 
         $fileToDelete = storage_path('app/public/' . $uploadFolder . '/' . $upload->uploadable_id . '/' . end($filePathParts));
         unlink($fileToDelete);
@@ -61,13 +61,15 @@ class UploadController extends Controller
     {
         $upload = null;
 
+        $uploadFolder = $this->getUploadFolder($model);
+
         if ($request->hasFile('fileUpload')) {
             $uploadFolder = $this->getUploadFolder(get_class($model));
             $file = $request->file('fileUpload');
             $originalFileName = $file->getClientOriginalName();
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $filePath = '/storage/' . $uploadFolder . '/' . $model->id . '/' . $filename;
-            $file->move(storage_path('app/public/projects/' . $model->id), $filename);
+            $file->move(storage_path('app/public/' . $uploadFolder . '/' . $model->id), $filename);
 
             $upload = new Upload([
                 'name' => $originalFileName,
@@ -78,7 +80,7 @@ class UploadController extends Controller
         }
 
         return response()->json([
-            'status' => (bool)$upload,
+            'status' => (bool) $upload,
             'data' => $upload,
             'message' => $upload ? 'File uploaded successfully!' : 'Error uploading file!'
         ]);

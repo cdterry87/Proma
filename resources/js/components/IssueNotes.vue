@@ -133,7 +133,7 @@
                         data: { description, issue_id }
                     })
                     .then(response => {
-                        Event.$emit('reloadIssue', issue_id)
+                        Event.$emit('dataRefresh', issue_id)
 
                         Event.$emit('success', response.data.message)
                     })
@@ -147,7 +147,7 @@
             deleteNote(issue_id, note_id) {
                 axios.delete('/api/notes/' + note_id)
                 .then(response => {
-                    Event.$emit('reloadIssue', issue_id)
+                    Event.$emit('dataRefresh', issue_id)
 
                     Event.$emit('success', response.data.message)
                 })

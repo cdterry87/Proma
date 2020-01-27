@@ -179,7 +179,7 @@
                         data: { due_date, description, project_id }
                     })
                     .then(response => {
-                        Event.$emit('reloadProject', project_id)
+                        Event.$emit('dataRefresh', project_id)
 
                         Event.$emit('success', response.data.message)
                     })
@@ -193,7 +193,7 @@
             completeTask(project_id, task_id) {
                 axios.post('/api/tasks/' + project_id + '/complete/' + task_id)
                 .then(response => {
-                    Event.$emit('reloadProject', project_id)
+                    Event.$emit('dataRefresh', project_id)
 
                     Event.$emit('success', response.data.message)
                 })
@@ -204,7 +204,7 @@
             incompleteTask(project_id, task_id) {
                 axios.post('/api/tasks/' + project_id + '/incomplete/' + task_id)
                 .then(response => {
-                    Event.$emit('reloadProject', project_id)
+                    Event.$emit('dataRefresh', project_id)
 
                     Event.$emit('warning', response.data.message)
                 })
@@ -215,7 +215,7 @@
             deleteTask(project_id, task_id) {
                 axios.delete('/api/tasks/' + task_id)
                 .then(response => {
-                    Event.$emit('reloadProject', project_id)
+                    Event.$emit('dataRefresh', project_id)
 
                     Event.$emit('success', response.data.message)
                 })

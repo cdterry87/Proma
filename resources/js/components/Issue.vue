@@ -174,7 +174,7 @@
             }
         },
         created() {
-            Event.$on('reloadIssue', issue_id => {
+            Event.$on('dataRefresh', issue_id => {
                 this.getIssue()
             })
         },
