@@ -133,7 +133,7 @@
 
                     axios.post('/api/issues', { description, priority, project_id })
                     .then(response => {
-                        Event.$emit('reloadProject', this.project.id)
+                        Event.$emit('dataRefresh', this.project.id)
 
                         Event.$emit('success', response.data.message)
                     })
@@ -147,7 +147,7 @@
             resolveIssue(issue_id) {
                 axios.post('/api/issues/' + issue_id + '/resolve')
                 .then(response => {
-                    Event.$emit('reloadProject', this.project.id)
+                    Event.$emit('dataRefresh', this.project.id)
 
                     Event.$emit('success', response.data.message)
                 })
