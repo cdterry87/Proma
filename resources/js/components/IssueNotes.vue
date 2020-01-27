@@ -115,7 +115,7 @@
             saveNote() {
                 if (this.$refs.form.validate()) {
                     let description = this.description
-                    let issue_id = this.issueInfo.id
+                    let issue_id = this.issue.id
 
                     let note_id = this.note_id
 

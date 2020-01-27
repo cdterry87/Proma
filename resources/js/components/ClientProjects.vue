@@ -17,7 +17,7 @@
                                 </v-btn>
                             </v-flex>
                         </v-layout>
-                        <v-content v-if="clientProjects">
+                        <v-content v-if="client.projects">
                             <v-text-field
                                 v-model="search"
                                 append-icon="search"
@@ -28,7 +28,7 @@
                             ></v-text-field>
                             <v-data-table
                                 :headers="headers"
-                                :items="clientProjects"
+                                :items="client.projects"
                                 :search="search"
                                 :pagination.sync="pagination"
                                 hide-actions
@@ -123,7 +123,7 @@
 
     export default {
         name: 'ClientProjects',
-        props: ['clientInfo', 'clientProjects'],
+        props: ['client'],
         data() {
             return {
                 dialog: false,
@@ -154,11 +154,11 @@
                     let name = this.name
                     let description = this.description
                     let due_date = this.due_date
-                    let client_id = this.clientInfo.id
+                    let client_id = this.client.id
 
                     axios.post('/api/projects', { name, description, due_date, client_id })
                     .then(response => {
-                        Event.$emit('loadProjects', this.clientInfo.id)
+                        Event.$emit('dataRefresh', this.client.id)
 
                         Event.$emit('success', response.data.message)
                     })
@@ -172,7 +172,7 @@
             completeProject(project_id) {
                 axios.post('/api/projects/' + project_id + '/complete')
                 .then(response => {
-                    Event.$emit('loadProjects', this.clientInfo.id)
+                    Event.$emit('dataRefresh', this.client.id)
 
                     Event.$emit('success', response.data.message)
                 })
@@ -183,7 +183,7 @@
             incompleteProject(project_id) {
                 axios.post('/api/projects/' + project_id + '/incomplete')
                 .then(response => {
-                    Event.$emit('loadProjects', this.clientInfo.id)
+                    Event.$emit('dataRefresh', this.client.id)
 
                     Event.$emit('warning', response.data.message)
                 })
@@ -194,7 +194,7 @@
             deleteProject(project_id) {
                 axios.delete('/api/projects/' + project_id)
                 .then(response => {
-                    Event.$emit('loadProjects', this.clientInfo.id)
+                    Event.$emit('dataRefresh', this.client.id)
 
                     Event.$emit('error', response.data.message)
                 })

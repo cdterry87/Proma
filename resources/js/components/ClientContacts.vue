@@ -17,7 +17,7 @@
                                 </v-btn>
                             </v-flex>
                         </v-layout>
-                        <v-content v-if="clientContacts">
+                        <v-content v-if="client.contacts">
                             <v-text-field
                                 v-model="search"
                                 append-icon="search"
@@ -28,7 +28,7 @@
                             ></v-text-field>
                             <v-data-table
                                 :headers="headers"
-                                :items="clientContacts"
+                                :items="client.contacts"
                                 :search="search"
                                 :pagination.sync="pagination"
                                 hide-actions
@@ -91,7 +91,7 @@
 
     export default {
         name: 'ClientContacts',
-        props: ['clientInfo', 'clientContacts'],
+        props: ['client'],
         data() {
             return {
                 dialog: false,
@@ -139,7 +139,7 @@
                     let title = this.title
                     let email = this.email
                     let phone = this.phone
-                    let client_id = this.clientInfo.id
+                    let client_id = this.client.id
                     let contact_id = this.contact_id
 
                     let url = '/api/contacts'
@@ -156,7 +156,7 @@
                         data: { name, title, email, phone, client_id }
                     })
                     .then(response => {
-                        Event.$emit('loadContacts', client_id)
+                        Event.$emit('dataRefresh', client_id)
 
                         Event.$emit('success', response.data.message)
                     })
@@ -170,7 +170,7 @@
             deleteContact(client_id, contact_id) {
                 axios.delete('/api/contacts/' + contact_id)
                 .then(response => {
-                    Event.$emit('loadContacts', client_id)
+                    Event.$emit('dataRefresh', client_id)
 
                     Event.$emit('error', response.data.message)
                 })

@@ -28,9 +28,9 @@
             </v-layout>
         </v-container>
 
-        <ClientContacts :clientInfo="client" :clientContacts="contacts" />
-        <ClientProjects :clientInfo="client" :clientProjects="projects" />
-        <FileUpload :uploadInfo="client" :uploadFiles="files" uploadType="client" />
+        <ClientContacts :client="client" />
+        <ClientProjects :client="client" />
+        <FileUpload :uploadInfo="client" uploadType="client" />
 
         <v-dialog v-model="dialog" width="500">
             <v-form method="POST" id="editClientForm" @submit.prevent="updateClient" ref="form" lazy-validation>
@@ -76,9 +76,6 @@
             return {
                 dialog: false,
                 client: '',
-                contacts: '',
-                projects: '',
-                files: '',
             }
         },
         methods: {
@@ -86,28 +83,6 @@
                 axios.get('/api/clients/' + this.id)
                 .then(response => {
                     this.client = response.data
-
-                    this.getContacts(this.id);
-                    this.getProjects(this.id);
-                    this.getFiles(this.id);
-                })
-            },
-            getContacts(client_id) {
-                axios.get('/api/contacts/' + client_id)
-                .then(response => {
-                    this.contacts = response.data
-                })
-            },
-            getProjects(client_id) {
-                axios.get('/api/clients/' + client_id + '/projects')
-                .then(response => {
-                    this.projects = response.data
-                })
-            },
-            getFiles(client_id) {
-                axios.get('/api/uploads/client/' + client_id)
-                .then(response => {
-                    this.files = response.data
                 })
             },
             updateClient() {
@@ -138,14 +113,8 @@
             }
         },
         created() {
-            Event.$on('loadContacts', client_id => {
-                this.getContacts(client_id)
-            })
-            Event.$on('loadProjects', client_id => {
-                this.getProjects(client_id)
-            })
-            Event.$on('loadFiles', client_id => {
-                this.getFiles(client_id)
+            Event.$on('dataRefresh', client_id => {
+                this.getClient(client_id)
             })
         },
         mounted() {

@@ -51,7 +51,13 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        return response()->json($client);
+        // return response()->json($client);
+        return response()->json($client->with([
+            'contacts', 'projects', 'uploads'
+        ])
+            ->where('id', $client->id)
+            ->where('user_id', auth()->user()->id)
+            ->first());
     }
 
     /**
