@@ -1,6 +1,7 @@
 # Proma
 A simple project manager, issue tracker, and client manager application written with Laravel and VueJS + Vuetify.
 
+
 ## Requirements:
 PHP 7.1
 
