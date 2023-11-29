@@ -17,13 +17,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('title')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('avatar')->nullable();
-            $table->boolean('active')->default(true);
             $table->rememberToken();
-            $table->foreignId('created_by')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('updated_by')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('current_team_id')->nullable();
+            $table->string('profile_photo_path', 2048)->nullable();
             $table->timestamps();
         });
     }
