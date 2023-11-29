@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->boolean('active')->default(true);
             $table->rememberToken();
+            $table->foreignId('created_by')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('updated_by')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }
