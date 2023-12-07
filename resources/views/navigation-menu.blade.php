@@ -40,6 +40,12 @@
                         {{ __('Clients') }}
                     </x-nav-link>
                     <x-nav-link
+                        href="{{ route('users') }}"
+                        :active="request()->routeIs('users')"
+                    >
+                        {{ __('Users') }}
+                    </x-nav-link>
+                    <x-nav-link
                         href="{{ route('teams') }}"
                         :active="request()->routeIs('teams')"
                     >
@@ -194,6 +200,12 @@
                 :active="request()->routeIs('clients')"
             >
                 {{ __('Clients') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link
+                href="{{ route('users') }}"
+                :active="request()->routeIs('users')"
+            >
+                {{ __('Users') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link
                 href="{{ route('teams') }}"

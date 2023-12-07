@@ -1,10 +1,11 @@
 <?php
 
+use App\Livewire\Teams;
+use App\Livewire\Users;
 use App\Livewire\Issues;
 use App\Livewire\Clients;
 use App\Livewire\Projects;
 use App\Livewire\Dashboard;
-use App\Livewire\Teams;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +39,9 @@ Route::middleware([
 
     Route::get('/clients', Clients::class)
         ->name('clients');
+
+    Route::get('/users', Users::class)
+        ->name('users');
 
     Route::get('/teams', Teams::class)
         ->name('teams');
