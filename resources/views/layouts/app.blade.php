@@ -16,9 +16,19 @@
 
     <!-- Fonts -->
     <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,600"
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+    <link
+        href="https://fonts.googleapis.com/css2?family=Afacad&family=Hedvig+Letters+Serif:opsz@12..24&display=swap"
         rel="stylesheet"
     >
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -32,8 +42,7 @@
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
         @livewire('navigation-menu')
 
-        <!-- Page Content -->
-        <main>
+        <main class="m-4 xl:m-8">
             {{ $slot }}
         </main>
     </div>

@@ -14,11 +14,11 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                sans: ['Afacad', ...defaultTheme.fontFamily.sans],
                 'display': ['"Kaushan Script"'],
             },
         },
     },
-
+    // darkMode: 'class', // Allows toggling dark mode
     plugins: [forms, typography],
 };
