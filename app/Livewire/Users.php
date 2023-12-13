@@ -4,10 +4,12 @@ namespace App\Livewire;
 
 use App\Models\User;
 use Livewire\Component;
+use App\Traits\WithDrawer;
 use App\Traits\WithSearch;
 
 class Users extends Component
 {
+    use WithDrawer;
     use WithSearch;
 
     public function render()

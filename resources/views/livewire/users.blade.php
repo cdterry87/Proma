@@ -2,7 +2,12 @@
     <div class="w-full">
         <div class="bg-indigo-600 text-gray-100 flex items-center justify-between gap-4 p-4 rounded-t-xl">
             <h1 class="font-bold text-2xl">Manage Users</h1>
-            <x-icons.plus class="h-8 w-8" />
+            <button
+                class="rounded-full p-1 hover:bg-indigo-500 transition duration-200 ease-in-out"
+                wire:click.prevent="openDrawer"
+            >
+                <x-icons.plus class="h-8 w-8" />
+            </button>
         </div>
         <div
             class="flex flex-col divide-y p-4 rounded-b-xl divide-gray-700 bg-base-200 text-gray-900 dark:bg-gray-800 dark:text-gray-100">
@@ -42,4 +47,8 @@
             @endforeach
         </div>
     </div>
+
+    <x-drawer>
+        <livewire:users-form />
+    </x-drawer>
 </div>
