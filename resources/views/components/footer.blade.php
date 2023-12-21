@@ -13,5 +13,6 @@
             https://chaseterry.com
         </a>
     </div>
-    <x-alert />
+
+    @livewire('alert')
 </div>

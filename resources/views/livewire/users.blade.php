@@ -197,6 +197,4 @@
             </form>
         </x-drawer-form-container>
     </x-drawer>
-
-    <x-alert />
 </div>

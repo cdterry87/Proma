@@ -3,8 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use App\Livewire\Alert;
 use Livewire\Component;
-use App\Traits\WithAlert;
 use App\Traits\WithDrawer;
 use App\Traits\WithSearch;
 use App\Traits\ConfirmsDeletes;
@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Hash;
 class Users extends Component
 {
     use ConfirmsDeletes;
-    use WithAlert;
     use WithDrawer;
     use WithSearch;
 
@@ -109,6 +108,7 @@ class Users extends Component
     {
         // User::find($id)->delete();
 
-        $this->showAlert('User deleted successfully.');
+        $this->dispatch('showAlert', 'User deleted successfully.')
+            ->to(Alert::class);
     }
 }
