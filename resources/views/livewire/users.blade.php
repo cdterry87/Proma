@@ -60,19 +60,18 @@
                             {{ $result->getFormattedPhoneNumber() }}
                         </td>
                         <td>{{ $result->title }}</td>
-                        <td>
+                        <td class="space-x-2">
                             <button
-                                class="rounded-full p-2 hover:bg-indigo-600 transition duration-200 ease-in-out"
+                                class="rounded-full p-2 hover:bg-gray-900 transition duration-200 ease-in-out"
                                 wire:click.prevent="edit({{ $result->id }})"
                             >
                                 <x-icons.edit class="h-6 w-6" />
                             </button>
-                            <button
-                                class="rounded-full p-2 hover:bg-indigo-600 transition duration-200 ease-in-out"
-                                wire:click.prevent="delete({{ $result->id }})"
-                            >
-                                <x-icons.delete class="h-6 w-6" />
-                            </button>
+                            <x-confirms-delete wire:then="delete({{ $result->id }})">
+                                <button class="rounded-full p-2 hover:bg-gray-900 transition duration-200 ease-in-out">
+                                    <x-icons.delete class="h-6 w-6" />
+                                </button>
+                            </x-confirms-delete>
                         </td>
                     </tr>
                 @endforeach
@@ -198,4 +197,6 @@
             </form>
         </x-drawer-form-container>
     </x-drawer>
+
+    <x-alert />
 </div>

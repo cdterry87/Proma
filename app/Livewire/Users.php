@@ -4,12 +4,16 @@ namespace App\Livewire;
 
 use App\Models\User;
 use Livewire\Component;
+use App\Traits\WithAlert;
 use App\Traits\WithDrawer;
 use App\Traits\WithSearch;
+use App\Traits\ConfirmsDeletes;
 use Illuminate\Support\Facades\Hash;
 
 class Users extends Component
 {
+    use ConfirmsDeletes;
+    use WithAlert;
     use WithDrawer;
     use WithSearch;
 
@@ -101,14 +105,10 @@ class Users extends Component
         $this->openDrawer();
     }
 
-    public function delete()
+    public function delete($id)
     {
-        User::find($this->model_id)->delete();
+        // User::find($id)->delete();
 
-        // Alert message
-        $this->showDrawerAlert('User deleted successfully.');
-
-        // Dispatch event
-        $this->dispatch('userDeleted');
+        $this->showAlert('User deleted successfully.');
     }
 }
