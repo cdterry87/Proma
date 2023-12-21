@@ -13,6 +13,7 @@ trait WithDrawer
 
     public function closeDrawer()
     {
+        $this->reset();
         $this->isDrawerOpen = false;
     }
 

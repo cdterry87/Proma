@@ -61,4 +61,9 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function getFormattedPhoneNumber()
+    {
+        return $this->phone ? '(' . substr($this->phone, 0, 3) . ') ' . substr($this->phone, 3, 3) . '-' . substr($this->phone, 6, 4) . ($this->phone_ext ? ' Ext. ' . $this->phone_ext : '') : null;
+    }
 }

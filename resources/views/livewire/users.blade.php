@@ -57,10 +57,7 @@
                         <td>{{ $result->name }}</td>
                         <td>{{ $result->email }}</td>
                         <td>
-                            {{ $result->phone }}
-                            @if ($result->phone_ext)
-                                (Ext. {{ $result->phone_ext }})
-                            @endif
+                            {{ $result->getFormattedPhoneNumber() }}
                         </td>
                         <td>{{ $result->title }}</td>
                         <td>

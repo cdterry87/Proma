@@ -24,14 +24,14 @@ class Users extends Component
             'title' => 'nullable|min:3|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $this->model_id,
             'phone' => 'nullable|numeric|digits:10',
-            'phone_ext' => 'nullable|numeric|digits:4',
+            'phone_ext' => 'nullable|numeric|min:1|max:9999',
         ] : [
             'name' => 'required|min:3|max:255',
             'title' => 'nullable|min:3|max:255',
             'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|confirmed',
             'phone' => 'nullable|numeric|digits:10',
-            'phone_ext' => 'nullable|numeric|digits:4',
+            'phone_ext' => 'nullable|numeric|min:1|max:9999',
         ];
     }
 
