@@ -3,8 +3,6 @@
     <x-bars.header
         title="Manage Users"
         button="Add User"
-        button-icon="icons.plus"
-        action="openDrawer"
     />
 
     {{-- Filter, Search, Sort --}}

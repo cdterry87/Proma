@@ -4,30 +4,20 @@
     <table class="w-full text-white">
         <thead>
             <tr>
-                <th>Image</th>
                 <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Title</th>
+                <th>Description</th>
+                <th>Manager</th>
+                <th>Members</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody class="dark:text-gray-400 dark:bg-gray-800">
             @foreach ($results as $result)
                 <tr>
-                    <td>
-                        <img
-                            class="h-8 w-8 rounded-full object-cover"
-                            src="{{ $result->profile_photo_url }}"
-                            alt="{{ $result->name }}"
-                        />
-                    </td>
                     <td>{{ $result->name }}</td>
-                    <td>{{ $result->email }}</td>
-                    <td>
-                        {{ $result->getFormattedPhoneNumber() }}
-                    </td>
-                    <td>{{ $result->title }}</td>
+                    <td>{{ $result->description }}</td>
+                    <td>{{ $result->getManagerName() }}</td>
+                    <td>0</td>
                     <td>
                         <button
                             class="rounded-full p-2 hover:bg-gray-900 transition duration-200 ease-in-out"

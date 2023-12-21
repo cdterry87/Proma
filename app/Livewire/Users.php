@@ -72,7 +72,7 @@ class Users extends Component
                 'phone_ext' => $this->phone_ext,
             ]);
         } else {
-            User::create([
+            $result = User::create([
                 'name' => $this->name,
                 'title' => $this->title,
                 'email' => $this->email,
@@ -80,26 +80,26 @@ class Users extends Component
                 'phone' => $this->phone,
                 'phone_ext' => $this->phone_ext,
             ]);
+
+            $this->model_id = $result->id;
         }
 
         $this->showDrawerAlert('User saved successfully.');
-
-        $this->dispatch('userSaved');
     }
 
     public function edit($id)
     {
-        $user = User::find($id);
-        if (!$user) {
+        $result = User::find($id);
+        if (!$result) {
             return;
         }
 
-        $this->model_id = $user->id;
-        $this->name = $user->name;
-        $this->title = $user->title;
-        $this->email = $user->email;
-        $this->phone = $user->phone;
-        $this->phone_ext = $user->phone_ext;
+        $this->model_id = $result->id;
+        $this->name = $result->name;
+        $this->title = $result->title;
+        $this->email = $result->email;
+        $this->phone = $result->phone;
+        $this->phone_ext = $result->phone_ext;
 
         $this->openDrawer();
     }

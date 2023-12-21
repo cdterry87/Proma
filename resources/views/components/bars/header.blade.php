@@ -1,4 +1,4 @@
-@props(['title', 'button' => null, 'buttonIcon' => null, 'action' => null])
+@props(['title', 'button' => null, 'buttonIcon' => 'icons.plus', 'action' => 'openDrawer'])
 
 <div class="flex items-center justify-between gap-4">
     <h1 class="font-bold text-4xl text-white">{{ $title }}</h1>

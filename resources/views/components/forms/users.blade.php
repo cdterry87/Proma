@@ -18,7 +18,7 @@
                     id="name"
                     class="w-full"
                     type="text"
-                    wire:model.defer="name"
+                    wire:model="name"
                     autofocus
                 />
                 <x-input-error for="name" />
@@ -33,7 +33,7 @@
                     id="title"
                     class="w-full"
                     type="text"
-                    wire:model.defer="title"
+                    wire:model="title"
                 />
                 <x-input-error for="title" />
             </div>
@@ -47,7 +47,7 @@
                     id="email"
                     class="w-full"
                     type="email"
-                    wire:model.defer="email"
+                    wire:model="email"
                 />
                 <x-input-error for="email" />
             </div>
@@ -63,7 +63,7 @@
                             id="phone"
                             class="w-full"
                             type="text"
-                            wire:model.defer="phone"
+                            wire:model="phone"
                         />
                         <x-input-error for="phone" />
                     </div>
@@ -78,7 +78,7 @@
                             id="phone_ext"
                             class="w-full"
                             type="text"
-                            wire:model.defer="phone_ext"
+                            wire:model="phone_ext"
                         />
                         <x-input-error for="phone_ext" />
                     </div>
@@ -95,7 +95,7 @@
                         id="password"
                         class="w-full"
                         type="password"
-                        wire:model.defer="password"
+                        wire:model="password"
                     />
                     <x-input-error for="password" />
                 </div>
@@ -109,7 +109,7 @@
                         id="password_confirmation"
                         class="w-full"
                         type="password"
-                        wire:model.defer="password_confirmation"
+                        wire:model="password_confirmation"
                     />
                     <x-input-error for="password_confirmation" />
                 </div>
