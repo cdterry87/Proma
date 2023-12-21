@@ -106,7 +106,7 @@ class Users extends Component
 
     public function delete($id)
     {
-        // User::find($id)->delete();
+        User::find($id)->delete();
 
         $this->dispatch('showAlert', 'User deleted successfully.')
             ->to(Alert::class);
