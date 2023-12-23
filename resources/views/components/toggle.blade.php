@@ -7,8 +7,6 @@
         @endif
         <div class="relative">
             <input
-                type="checkbox"
-                class="peer sr-only"
                 {{ $attributes->merge([
                     'class' => 'peer sr-only',
                     'type' => 'checkbox',

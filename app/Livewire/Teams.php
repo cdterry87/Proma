@@ -9,7 +9,6 @@ use Livewire\Component;
 use App\Traits\WithDrawer;
 use App\Traits\WithSearch;
 use App\Traits\ConfirmsDeletes;
-use Illuminate\Support\Facades\Hash;
 
 class Teams extends Component
 {
