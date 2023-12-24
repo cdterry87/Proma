@@ -37,6 +37,7 @@ class Teams extends Component
     public function render()
     {
         $managers = User::query()
+            ->where('manager', true)
             ->orderBy('name')
             ->get();
 

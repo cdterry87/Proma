@@ -19,6 +19,8 @@ class Users extends Component
     public $model_id;
     public $name, $title, $email, $password, $password_confirmation;
     public $phone, $phone_ext;
+    public $active = true;
+    public $manager = false;
 
     public function rules()
     {
@@ -63,24 +65,21 @@ class Users extends Component
     {
         $this->validate();
 
-        if ($this->model_id) {
-            User::find($this->model_id)->update([
-                'name' => $this->name,
-                'title' => $this->title,
-                'email' => $this->email,
-                'phone' => $this->phone,
-                'phone_ext' => $this->phone_ext,
-            ]);
-        } else {
-            $result = User::create([
-                'name' => $this->name,
-                'title' => $this->title,
-                'email' => $this->email,
-                'password' => Hash::make($this->password),
-                'phone' => $this->phone,
-                'phone_ext' => $this->phone_ext,
-            ]);
+        $data = [
+            'name' => $this->name,
+            'title' => $this->title,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'phone_ext' => $this->phone_ext,
+            'active' => $this->active,
+            'manager' => $this->manager
+        ];
 
+        if ($this->model_id) {
+            User::find($this->model_id)->update($data);
+        } else {
+            $data['password'] = Hash::make($this->password);
+            $result = User::create($data);
             $this->model_id = $result->id;
         }
 
@@ -100,6 +99,8 @@ class Users extends Component
         $this->email = $result->email;
         $this->phone = $result->phone;
         $this->phone_ext = $result->phone_ext;
+        $this->active = !!$result->active;
+        $this->manager = !!$result->manager;
 
         $this->openDrawer();
     }

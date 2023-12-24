@@ -9,6 +9,12 @@
         secondary-method="closeDrawer"
     >
         <form class="flex flex-col gap-4">
+            <div class="flex justify-end">
+                <x-toggle
+                    label="Active"
+                    wire:model="active"
+                />
+            </div>
             <div class="flex flex-col gap-1">
                 <x-label
                     for="name"
@@ -114,6 +120,18 @@
                     <x-input-error for="password_confirmation" />
                 </div>
             @endif
+            <div class="flex justify-end">
+                <div class="flex items-center gap-2">
+                    <x-label for="manager">
+                        Manager?
+                    </x-label>
+                    <x-checkbox
+                        id="manager"
+                        wire:model="manager"
+                    />
+                </div>
+
+            </div>
         </form>
     </x-drawer-form-container>
 </x-drawer>

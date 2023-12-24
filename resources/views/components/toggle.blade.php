@@ -12,7 +12,7 @@
                     'type' => 'checkbox',
                 ]) }}
             />
-            <div class="block h-8 rounded-full dark:bg-gray-900 bg-gray-300 w-14 peer-checked:bg-green-600"></div>
+            <div class="block h-8 rounded-full dark:bg-gray-900 bg-gray-300 w-14 peer-checked:bg-indigo-600"></div>
             <div
                 class="absolute w-6 h-6 transition bg-white rounded-full dot left-1 top-1 peer-checked:translate-x-full">
             </div>
