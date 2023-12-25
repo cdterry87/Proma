@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\User;
 use App\Livewire\Alert;
 use App\Models\Team;
+use App\Models\TeamUser;
 use Livewire\Component;
 use App\Traits\WithDrawer;
 use App\Traits\WithSearch;
@@ -16,16 +17,23 @@ class Teams extends Component
     use WithDrawer;
     use WithSearch;
 
+    // Team form
     public $model_id;
-    public $name, $description, $manager_id;
+    public $name, $description;
     public $active = true;
+
+    // Team Members form
+    public $isAlternateForm = false;
+    public $user_id;
+    public $manager = false;
 
     public function rules()
     {
-        return [
+        return $this->isAlternateForm ? [
+            'user_id' => 'required|numeric|exists:users,id',
+        ] : [
             'name' => 'required|min:3|max:255',
             'description' => 'nullable|min:3|max:255',
-            'manager_id' => 'required|numeric|exists:users,id',
         ];
     }
 
@@ -36,11 +44,6 @@ class Teams extends Component
 
     public function render()
     {
-        $managers = User::query()
-            ->where('manager', true)
-            ->orderBy('name')
-            ->get();
-
         $results = Team::query()
             ->when($this->search && strlen($this->search) >= 3, function ($query) {
                 $query->where('name', 'like', '%' . $this->search . '%')
@@ -51,9 +54,31 @@ class Teams extends Component
             })
             ->paginate($this->perPage);
 
+        $users = null;
+        $members = null;
+        if ($this->model_id) {
+            $users = User::query()
+                ->where('active', true)
+                ->whereNotIn('id', function ($query) {
+                    $query->select('user_id')
+                        ->from('teams_users')
+                        ->where('team_id', $this->model_id);
+                })
+                ->orderBy('name')
+                ->get();
+
+            $members = TeamUser::query()
+                ->where('team_id', $this->model_id)
+                ->orderBy('manager', 'desc')
+                ->orderBy('user_id')
+                ->get();
+        }
+
+
         return view('livewire.teams', [
-            'managers' => $managers,
             'results' => $results,
+            'users' => $users,
+            'members' => $members,
         ]);
     }
 
@@ -65,7 +90,6 @@ class Teams extends Component
             Team::find($this->model_id)->update([
                 'name' => $this->name,
                 'description' => $this->description,
-                'manager_id' => $this->manager_id,
                 'active' => $this->active,
                 'updated_by' => auth()->user()->id,
             ]);
@@ -73,7 +97,6 @@ class Teams extends Component
             $result = Team::create([
                 'name' => $this->name,
                 'description' => $this->description,
-                'manager_id' => $this->manager_id,
                 'active' => $this->active,
                 'created_by' => $this->model_id ? null : auth()->user()->id,
                 'updated_by' => auth()->user()->id,
@@ -95,7 +118,6 @@ class Teams extends Component
         $this->model_id = $result->id;
         $this->name = $result->name;
         $this->description = $result->description;
-        $this->manager_id = $result->manager_id;
 
         $this->openDrawer();
     }
@@ -106,5 +128,41 @@ class Teams extends Component
 
         $this->dispatch('showAlert', 'Team deleted successfully.')
             ->to(Alert::class);
+    }
+
+    public function openMembersDrawer($id)
+    {
+        $this->model_id = $id;
+        $this->isAlternateForm = true;
+        $this->openDrawer();
+    }
+
+    public function closeMembersDrawer()
+    {
+        $this->isAlternateForm = false;
+        $this->closeDrawer();
+    }
+
+    public function addMember()
+    {
+        $this->validate();
+
+        TeamUser::create([
+            'team_id' => $this->model_id,
+            'user_id' => $this->user_id,
+            'manager' => $this->manager,
+            'created_by' => auth()->user()->id,
+        ]);
+
+        $this->showDrawerAlert('Team Member added successfully.');
+
+        $this->reset(['user_id', 'manager']);
+    }
+
+    public function deleteMember($id)
+    {
+        TeamUser::find($id)->delete();
+
+        $this->showDrawerAlert('Team Member deleted successfully.');
     }
 }

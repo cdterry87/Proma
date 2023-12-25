@@ -11,9 +11,13 @@
     {{-- Content --}}
     <x-tables.teams :results="$results" />
 
-    {{-- Drawer --}}
-    <x-forms.teams
-        :id="$model_id"
-        :managers="$managers"
-    />
+    {{-- Drawers --}}
+    @if ($isAlternateForm)
+        <x-forms.teams-members
+            :users="$users"
+            :members="$members"
+        />
+    @else
+        <x-forms.teams />
+    @endif
 </div>

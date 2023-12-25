@@ -31,9 +31,4 @@ class Team extends Model
     {
         return $this->hasMany(Project::class);
     }
-
-    public function getManagerName()
-    {
-        return $this->manager_id ? User::find($this->manager_id)->name : '';
-    }
 }

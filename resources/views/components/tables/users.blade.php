@@ -28,7 +28,7 @@
                         {{ $result->getFormattedPhoneNumber() }}
                     </td>
                     <td>{{ $result->title }}</td>
-                    <td>
+                    <td class="w-32">
                         <button
                             class="rounded-full p-2 hover:bg-gray-900 transition duration-200 ease-in-out"
                             wire:click.prevent="edit({{ $result->id }})"

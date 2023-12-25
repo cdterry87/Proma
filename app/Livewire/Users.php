@@ -20,7 +20,6 @@ class Users extends Component
     public $name, $title, $email, $password, $password_confirmation;
     public $phone, $phone_ext;
     public $active = true;
-    public $manager = false;
 
     public function rules()
     {
@@ -72,7 +71,6 @@ class Users extends Component
             'phone' => $this->phone,
             'phone_ext' => $this->phone_ext,
             'active' => $this->active,
-            'manager' => $this->manager
         ];
 
         if ($this->model_id) {
@@ -100,7 +98,6 @@ class Users extends Component
         $this->phone = $result->phone;
         $this->phone_ext = $result->phone_ext;
         $this->active = !!$result->active;
-        $this->manager = !!$result->manager;
 
         $this->openDrawer();
     }

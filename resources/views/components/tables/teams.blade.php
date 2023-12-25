@@ -6,7 +6,6 @@
             <tr>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Manager</th>
                 <th>Members</th>
                 <th>Actions</th>
             </tr>
@@ -16,17 +15,30 @@
                 <tr>
                     <td>{{ $result->name }}</td>
                     <td>{{ $result->description }}</td>
-                    <td>{{ $result->getManagerName() }}</td>
-                    <td>0</td>
-                    <td>
+                    <td class="w-16">0</td>
+                    <td class="w-40">
                         <button
                             class="rounded-full p-2 hover:bg-gray-900 transition duration-200 ease-in-out"
                             wire:click.prevent="edit({{ $result->id }})"
+                            alt="Edit"
+                            title="Edit"
                         >
                             <x-icons.edit class="h-6 w-6" />
                         </button>
+                        <button
+                            class="rounded-full p-2 hover:bg-gray-900 transition duration-200 ease-in-out"
+                            wire:click.prevent="openMembersDrawer({{ $result->id }})"
+                            alt="Members"
+                            title="Members"
+                        >
+                            <x-icons.users class="h-6 w-6" />
+                        </button>
                         <x-confirms-delete wire:then="delete({{ $result->id }})">
-                            <button class="rounded-full p-2 hover:bg-gray-900 transition duration-200 ease-in-out">
+                            <button
+                                class="rounded-full p-2 hover:bg-gray-900 transition duration-200 ease-in-out"
+                                alt="Delete"
+                                title="Delete"
+                            >
                                 <x-icons.delete class="h-6 w-6" />
                             </button>
                         </x-confirms-delete>

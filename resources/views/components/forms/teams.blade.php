@@ -38,24 +38,6 @@
                 />
                 <x-input-error for="description" />
             </div>
-
-            <div class="flex flex-col gap-1">
-                <x-label
-                    for="manager_id"
-                    :value="__('Manager')"
-                />
-                <x-select
-                    id="manager_id"
-                    class="w-full"
-                    type="text"
-                    wire:model="manager_id"
-                >
-                    @foreach ($managers as $manager)
-                        <option value="{{ $manager->id }}">{{ $manager->name }}</option>
-                    @endforeach
-                </x-select>
-                <x-input-error for="description" />
-            </div>
         </form>
     </x-drawer-form-container>
 </x-drawer>
