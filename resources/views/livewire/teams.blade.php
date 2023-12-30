@@ -9,7 +9,7 @@
     <x-bars.filters />
 
     {{-- Content --}}
-    <x-tables.teams :results="$results" />
+    <x-rows.teams :results="$results" />
 
     {{-- Drawers --}}
     @if ($isAlternateForm)

@@ -17,11 +17,6 @@ class Team extends Model
         return $this->hasMany(TeamUpload::class);
     }
 
-    public function users()
-    {
-        return $this->hasMany(User::class);
-    }
-
     public function issues()
     {
         return $this->hasMany(Issue::class);
@@ -30,5 +25,10 @@ class Team extends Model
     public function projects()
     {
         return $this->hasMany(Project::class);
+    }
+
+    public function members()
+    {
+        return $this->hasMany(TeamUser::class);
     }
 }

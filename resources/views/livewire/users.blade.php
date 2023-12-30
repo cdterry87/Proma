@@ -9,7 +9,7 @@
     <x-bars.filters />
 
     {{-- Content --}}
-    <x-tables.users :results="$results" />
+    <x-rows.users :results="$results" />
 
     {{-- Drawer --}}
     <x-forms.users :id="$model_id" />

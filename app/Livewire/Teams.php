@@ -45,6 +45,7 @@ class Teams extends Component
     public function render()
     {
         $results = Team::query()
+            ->withCount('members')
             ->when($this->search && strlen($this->search) >= 3, function ($query) {
                 $query->where('name', 'like', '%' . $this->search . '%')
                     ->orWhere('description', 'like', '%' . $this->search . '%');
