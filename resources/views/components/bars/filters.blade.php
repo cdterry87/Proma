@@ -20,5 +20,5 @@
         </div>
     </div>
 
-    <hr class="border-gray-800 mt-6 mb-2">
+    <x-hr class="mt-6 mb-2" />
 </div>

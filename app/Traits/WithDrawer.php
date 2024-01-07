@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 
+use Livewire\Attributes\On;
+
 trait WithDrawer
 {
     public $isDrawerOpen = false;
@@ -22,6 +24,7 @@ trait WithDrawer
         session()->flash('drawer-alert--message', $message);
     }
 
+    #[On('hideDrawerAlert')]
     public function hideDrawerAlert()
     {
         session()->forget('drawer-alert--message');

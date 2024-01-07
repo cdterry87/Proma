@@ -22,9 +22,16 @@
                         type="text"
                         wire:model="user_id"
                     >
-                        @foreach ($users as $user)
-                            <option value="{{ $user->id }}">{{ $user->name }}</option>
-                        @endforeach
+                        @if ($users && $users->isNotEmpty())
+                            @foreach ($users as $user)
+                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            @endforeach
+                        @else
+                            <option
+                                value=""
+                                disabled
+                            >No users found.</option>
+                        @endif
                     </x-select>
                     <x-input-error for="user_id" />
                 </div>
@@ -41,9 +48,9 @@
                 </div>
             </form>
 
-            <hr>
+            <x-hr />
 
-            <div class="flex flex-col gap-4">
+            <x-rows.container>
                 @if ($members->isNotEmpty())
                     @foreach ($members as $result)
                         <div class="flex items-center justify-between gap-2 px-4 py-2 bg-gray-700 rounded-lg">
@@ -74,7 +81,7 @@
                         description="Use the form above to add a member."
                     />
                 @endif
-            </div>
+            </x-rows.container>
         </div>
     </x-drawer-form-container>
 </x-drawer>

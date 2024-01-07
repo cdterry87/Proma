@@ -22,7 +22,13 @@
 
     {{-- Drawer Alert --}}
     @if (session()->has('drawer-alert--message'))
-        <div class="relative w-full py-4 pr-10 pl-4 bg-indigo-600 text-white rounded-lg">
+        <div
+            x-data
+            x-init="setTimeout(() => {
+                $dispatch('hideDrawerAlert')
+            }, 10000)"
+            class="relative w-full py-4 pr-10 pl-4 bg-indigo-600 text-white rounded-lg"
+        >
             <p>
                 {{ session('drawer-alert--message') }}
             </p>

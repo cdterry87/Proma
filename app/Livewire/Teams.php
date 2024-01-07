@@ -39,7 +39,11 @@ class Teams extends Component
 
     public function messages()
     {
-        return [];
+        return $this->isAlternateForm ? [
+            'user_id.required' => 'The user field is required.',
+            'user_id.numeric' => 'The user field must be a number.',
+            'user_id.exists' => 'The selected user is invalid.',
+        ] : [];
     }
 
     public function render()
@@ -74,7 +78,6 @@ class Teams extends Component
                 ->orderBy('user_id')
                 ->get();
         }
-
 
         return view('livewire.teams', [
             'results' => $results,
