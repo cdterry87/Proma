@@ -6,20 +6,31 @@ use App\Models\User;
 use App\Livewire\Alert;
 use Livewire\Component;
 use App\Traits\WithDrawer;
-use App\Traits\WithSearch;
+use App\Traits\WithFiltersAndSorting;
 use App\Traits\ConfirmsDeletes;
 use Illuminate\Support\Facades\Hash;
+use Livewire\Attributes\On;
 
 class Users extends Component
 {
     use ConfirmsDeletes;
     use WithDrawer;
-    use WithSearch;
+    use WithFiltersAndSorting;
 
     public $model_id;
     public $name, $title, $email, $password, $password_confirmation;
     public $phone, $phone_ext;
     public $active = true;
+
+    public function mount()
+    {
+        $this->sortByOptions = [
+            'name' => 'Name',
+            'title' => 'Title',
+        ];
+        $this->sortBy = 'name';
+        $this->sortType = 'asc';
+    }
 
     public function rules()
     {
@@ -50,8 +61,13 @@ class Users extends Component
             ->when($this->search && strlen($this->search) >= 3, function ($query) {
                 $query->where('name', 'like', '%' . $this->search . '%');
             })
-            ->when($this->orderBy, function ($query) {
-                $query->orderBy($this->orderBy, $this->orderType);
+            ->when($this->filters, function ($query) {
+                if ($this->filters['active']) {
+                    $query->where('active', $this->filters['active'] === 'A' ? true : false);
+                }
+            })
+            ->when($this->sortBy, function ($query) {
+                $query->orderBy($this->sortBy, $this->sortType);
             })
             ->paginate($this->perPage);
 
@@ -108,5 +124,13 @@ class Users extends Component
 
         $this->dispatch('showAlert', 'User deleted successfully.')
             ->to(Alert::class);
+    }
+
+    #[On('resetForm')]
+    public function resetForm()
+    {
+        $this->resetErrorBag();
+        $this->resetValidation();
+        $this->reset(['model_id', 'name', 'title', 'email', 'password', 'password_confirmation', 'phone', 'phone_ext', 'active']);
     }
 }

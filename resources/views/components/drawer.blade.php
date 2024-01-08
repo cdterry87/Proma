@@ -22,7 +22,7 @@
         x-transition:leave="transition ease-in duration-300"
         x-transition:leave-start="opacity-0 translate-x-0"
         x-transition:leave-end="translate-x-full"
-        class="bg-white dark:bg-gray-800 dark:text-gray-100 h-screen overflow-y-auto w-full md:w-2/3 xl:w-1/2 absolute top-0 right-0 transform duration-200 ease-in-out z-40 p-4 rounded-l-xl sm:p-10 border-l-4 dark:border-indigo-600"
+        class="bg-white dark:bg-gray-800 dark:text-gray-100 h-screen overflow-y-auto w-full md:w-2/3 xl:w-1/2 fixed top-0 right-0 transform duration-200 ease-in-out z-40 p-4 rounded-l-xl sm:p-10 border-l-4 dark:border-indigo-600"
     >
         {{ $slot }}
     </div>

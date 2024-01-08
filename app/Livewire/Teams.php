@@ -2,20 +2,21 @@
 
 namespace App\Livewire;
 
+use App\Models\Team;
 use App\Models\User;
 use App\Livewire\Alert;
-use App\Models\Team;
-use App\Models\TeamUser;
 use Livewire\Component;
+use App\Models\TeamUser;
 use App\Traits\WithDrawer;
-use App\Traits\WithSearch;
 use App\Traits\ConfirmsDeletes;
+use App\Traits\WithFiltersAndSorting;
+use Livewire\Attributes\On;
 
 class Teams extends Component
 {
     use ConfirmsDeletes;
     use WithDrawer;
-    use WithSearch;
+    use WithFiltersAndSorting;
 
     // Team form
     public $model_id;
@@ -26,6 +27,15 @@ class Teams extends Component
     public $isAlternateForm = false;
     public $user_id;
     public $manager = false;
+
+    public function mount()
+    {
+        $this->sortByOptions = [
+            'name' => 'Name',
+        ];
+        $this->sortBy = 'name';
+        $this->sortType = 'asc';
+    }
 
     public function rules()
     {
@@ -54,8 +64,13 @@ class Teams extends Component
                 $query->where('name', 'like', '%' . $this->search . '%')
                     ->orWhere('description', 'like', '%' . $this->search . '%');
             })
-            ->when($this->orderBy, function ($query) {
-                $query->orderBy($this->orderBy, $this->orderType);
+            ->when($this->filters, function ($query) {
+                if ($this->filters['active']) {
+                    $query->where('active', $this->filters['active'] === 'A' ? true : false);
+                }
+            })
+            ->when($this->sortBy, function ($query) {
+                $query->orderBy($this->sortBy, $this->sortType);
             })
             ->paginate($this->perPage);
 
@@ -168,5 +183,13 @@ class Teams extends Component
         TeamUser::find($id)->delete();
 
         $this->showDrawerAlert('Team Member deleted successfully.');
+    }
+
+    #[On('resetForm')]
+    public function resetForm()
+    {
+        $this->resetErrorBag();
+        $this->resetValidation();
+        $this->reset(['model_id', 'name', 'description', 'active', 'user_id', 'manager']);
     }
 }

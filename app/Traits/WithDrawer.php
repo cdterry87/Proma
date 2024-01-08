@@ -15,8 +15,8 @@ trait WithDrawer
 
     public function closeDrawer()
     {
-        $this->reset();
         $this->isDrawerOpen = false;
+        $this->dispatch('resetForm');
     }
 
     public function showDrawerAlert($message)
