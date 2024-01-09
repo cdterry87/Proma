@@ -4,7 +4,7 @@
     <div class="dark:bg-gray-800 p-4 rounded-lg flex flex-col gap-2">
         <h4 class="font-bold text-lg uppercase text-gray-500">Filters and Sorting</h4>
         <div class="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between lg:gap-4">
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 flex-wrap">
                 <div class="flex flex-col gap-1">
                     <x-label
                         for="perPage"
