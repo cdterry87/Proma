@@ -1,18 +1,36 @@
 <?php
 
+use App\Livewire\Home;
+use App\Livewire\Login;
+use App\Livewire\Teams;
+use App\Livewire\Users;
+use App\Livewire\Issues;
+use App\Livewire\Clients;
+use App\Livewire\Projects;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+Route::get('/login', Login::class)
+    ->name('login');
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware([
+    'auth:sanctum',
+    'verified',
+])->group(function () {
+    Route::get('/', Home::class)
+        ->name('home');
+
+    Route::get('/projects', Projects::class)
+        ->name('projects');
+
+    Route::get('/issues', Issues::class)
+        ->name('issues');
+
+    Route::get('/clients', Clients::class)
+        ->name('clients');
+
+    Route::get('/users', Users::class)
+        ->name('users');
+
+    Route::get('/teams', Teams::class)
+        ->name('teams');
 });
