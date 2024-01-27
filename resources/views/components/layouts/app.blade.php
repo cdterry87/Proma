@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html
+    lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+    data-theme="dark"
+>
 
 <head>
     <meta charset="utf-8">
@@ -37,7 +40,13 @@
 </head>
 
 <body class="font-sans antialiased">
-    {{ $slot }}
+    <x-layouts.header />
+
+    <main>
+        {{ $slot }}
+    </main>
+
+    <x-layouts.footer />
 
     @livewireScripts
 </body>

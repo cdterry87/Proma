@@ -1,3 +1,1 @@
-<div>
-    {{-- Success is as dangerous as failure. --}}
-</div>
+<div>Login</div>
