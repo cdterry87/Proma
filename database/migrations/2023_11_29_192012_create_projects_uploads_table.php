@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('projects_uploads', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('name');
             $table->string('path');
             $table->string('type');
             $table->string('size');
-            $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('created_by')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });

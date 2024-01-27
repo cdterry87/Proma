@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('teams_users', function (Blueprint $table) {
             $table->id();
-            $table->boolean('active')->default(true);
             $table->foreignId('team_id')->constrained('teams')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->boolean('manager')->default(false);
+            $table->boolean('active')->default(true);
             $table->foreignId('created_by')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });

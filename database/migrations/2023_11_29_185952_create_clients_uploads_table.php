@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('clients_uploads', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('client_id')->constrained('clients')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('name');
             $table->string('path');
             $table->string('type');
             $table->string('size');
-            $table->foreignId('client_id')->constrained('clients')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('created_by')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });

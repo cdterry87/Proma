@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('clients_contacts', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('client_id')->constrained('clients')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('name')->index();
             $table->string('title')->nullable();
             $table->string('email')->nullable();
             $table->string('phone', 30)->nullable();
+            $table->string('phone_ext', 5)->nullable();
             $table->boolean('active')->default(true);
-            $table->foreignId('client_id')->constrained('clients')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('created_by')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('updated_by')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();

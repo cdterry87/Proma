@@ -1,11 +1,5 @@
 <?php
 
-use App\Livewire\Teams;
-use App\Livewire\Users;
-use App\Livewire\Issues;
-use App\Livewire\Clients;
-use App\Livewire\Projects;
-use App\Livewire\Dashboard;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,29 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect(config('fortify.home'));
-});
-
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', Dashboard::class)
-        ->name('dashboard');
-
-    Route::get('/projects', Projects::class)
-        ->name('projects');
-
-    Route::get('/issues', Issues::class)
-        ->name('issues');
-
-    Route::get('/clients', Clients::class)
-        ->name('clients');
-
-    Route::get('/users', Users::class)
-        ->name('users');
-
-    Route::get('/teams', Teams::class)
-        ->name('teams');
+    return view('welcome');
 });
