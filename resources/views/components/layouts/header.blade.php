@@ -24,7 +24,15 @@
                 tabindex="0"
                 class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-                <li><a>Profile</a></li>
+                <li>
+                    <a
+                        class="flex items-center gap-1"
+                        href="{{ route('settings') }}"
+                    >
+                        <x-icons.settings />
+                        Settings
+                    </a>
+                </li>
                 <li>
                     <form
                         method="POST"
@@ -33,11 +41,14 @@
                     >
                         @csrf
                         <a
+                            class="flex items-center gap-1"
                             href="{{ route('logout') }}"
                             @click.prevent="$root.submit();"
                         >
+                            <x-icons.logout />
                             {{ __('Log Out') }}
                         </a>
+                    </form>
                 </li>
             </ul>
         </div>
