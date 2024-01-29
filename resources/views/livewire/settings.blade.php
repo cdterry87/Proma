@@ -1,3 +1,13 @@
 <div>
-    {{-- To attain knowledge, add things every day; To attain wisdom, subtract things every day. --}}
+    <h1>Account Settings</h1>
+
+    {{-- Edit Name --}}
+
+    {{-- Edit Email --}}
+
+    {{-- Change Password --}}
+
+    {{-- Notification Settings --}}
+
+    {{-- My Teams --}}
 </div>
