@@ -1,6 +1,12 @@
+@import url("https://fonts.googleapis.com/css?family=Kaushan+Script&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.logo {
+    font-family: "Kaushan Script", sans-serif !important;
+}
 
 .login--video-container {
     position: fixed;
@@ -30,7 +36,7 @@
         0,
         0,
         0,
-        0.5
+        0.55
     ); /* Adjust the last value (0.5) for the darkness level */
     z-index: 1; /* Place the overlay above the video */
 }

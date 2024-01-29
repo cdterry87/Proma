@@ -16,17 +16,47 @@
     </div>
 
     {{-- Login Form --}}
-    <div class="flex items-center justify-center h-full mx-2">
-        <div class="card w-96 bg-white text-black">
-            <div class="card-body items-center text-center flex flex-col gap-4">
-                <h2 class="card-title">Sign In</h2>
+    <div class="flex flex-col gap-4 items-center justify-center h-full mx-2">
+        <div class="text-center">
+            <h2 class="text-5xl font-bold logo">Proma</h2>
+            <p>Simplify your project management.</p>
+        </div>
 
-                {{-- Login Form Fields --}}
+        <div class="card w-96 bg-neutral text-neutral-content bg-opacity-95">
+            <form wire:submit.prevent="login">
+                <div class="card-body items-center text-center flex flex-col gap-4">
+                    <h2 class="card-title">Sign In</h2>
 
-                <div class="card-actions justify-end">
-                    <button class="btn btn-primary">Login</button>
+                    <div class="flex flex-col gap-2 w-full">
+                        <x-inputs.text
+                            label="Email"
+                            name="email"
+                            placeholder="Email address"
+                            wire:model="email"
+                        />
+                        <x-inputs.text
+                            label="Password"
+                            name="password"
+                            placeholder="Password"
+                            type="password"
+                            wire:model="password"
+                        />
+                        <x-inputs.checkbox
+                            label="Remember Me"
+                            name="remember"
+                            id="remember"
+                            class="checkbox-primary"
+                            wire:model="remember"
+                        />
+                    </div>
+
+                    <div class="card-actions justify-end w-full">
+                        <x-inputs.button class="btn-primary w-full">
+                            Login
+                        </x-inputs.button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
