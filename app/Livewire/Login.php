@@ -26,5 +26,7 @@ class Login extends Component
         if (auth()->attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
             return redirect()->intended(route('home'));
         }
+
+        session()->flash('error', 'Email or password is incorrect.');
     }
 }

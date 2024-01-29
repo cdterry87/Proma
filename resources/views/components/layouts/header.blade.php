@@ -25,7 +25,20 @@
                 class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
                 <li><a>Profile</a></li>
-                <li><a>Logout</a></li>
+                <li>
+                    <form
+                        method="POST"
+                        action="{{ route('logout') }}"
+                        x-data
+                    >
+                        @csrf
+                        <a
+                            href="{{ route('logout') }}"
+                            @click.prevent="$root.submit();"
+                        >
+                            {{ __('Log Out') }}
+                        </a>
+                </li>
             </ul>
         </div>
     </div>

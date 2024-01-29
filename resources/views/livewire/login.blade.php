@@ -17,15 +17,36 @@
 
     {{-- Login Form --}}
     <div class="flex flex-col gap-4 items-center justify-center h-full mx-2">
-        <div class="text-center">
+        <div class="text-center text-white">
             <h2 class="text-5xl font-bold logo">Proma</h2>
             <p>Simplify your project management.</p>
         </div>
 
-        <div class="card w-96 bg-neutral text-neutral-content bg-opacity-95">
+        <div class="w-96">
             <form wire:submit.prevent="login">
-                <div class="card-body items-center text-center flex flex-col gap-4">
+                <div
+                    class="card-body items-center text-center flex flex-col gap-4 rounded-3xl"
+                    data-theme="light"
+                >
                     <h2 class="card-title">Sign In</h2>
+
+                    @if (session()->has('error'))
+                        <x-elements.alert
+                            class="alert-error"
+                            icon="error"
+                        >
+                            {{ session('error') }}
+                        </x-elements.alert>
+                    @endif
+
+                    @if (session()->has('success'))
+                        <x-elements.alert
+                            class="alert-success"
+                            icon="success"
+                        >
+                            {{ session('success') }}
+                        </x-elements.alert>
+                    @endif
 
                     <div class="flex flex-col gap-2 w-full">
                         <x-inputs.text
@@ -33,6 +54,7 @@
                             name="email"
                             placeholder="Email address"
                             wire:model="email"
+                            required
                         />
                         <x-inputs.text
                             label="Password"
@@ -40,6 +62,7 @@
                             placeholder="Password"
                             type="password"
                             wire:model="password"
+                            required
                         />
                         <x-inputs.checkbox
                             label="Remember Me"
@@ -57,6 +80,15 @@
                     </div>
                 </div>
             </form>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <p>Copyright © {{ date('Y') }}. All rights reserved.</p>
+            <span>|</span>
+            <a
+                href="{{ route('privacy-policy') }}"
+                class="font-bold text-primary"
+            >Privacy Policy</a>
         </div>
     </div>
 </div>

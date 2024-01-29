@@ -21,8 +21,8 @@
         type="checkbox"
         class="theme-controller"
         x-model="light"
-        @change="themeToggle()"
+        @change.prevent="themeToggle()"
     />
-    <x-icons.light />
-    <x-icons.dark />
+    <x-icons.light class="swap-on" />
+    <x-icons.dark class="swap-off" />
 </label>
