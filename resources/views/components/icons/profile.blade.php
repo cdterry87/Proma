@@ -1,6 +1,6 @@
 <svg
     {{ $attributes->merge([
-        'class' => 'stroke-current shrink-0 h-8 w-8',
+        'class' => 'stroke-current shrink-0 h-6 w-6 sm:h-7 sm:w-7',
         'fill' => 'none',
         'viewBox' => '0 0 24 24',
         'stroke-width' => '1.5',

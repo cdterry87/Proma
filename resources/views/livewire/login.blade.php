@@ -18,11 +18,13 @@
     {{-- Login Form --}}
     <div class="flex flex-col gap-4 items-center justify-center h-full mx-2">
         <div class="text-center text-white">
-            <h2 class="text-5xl font-bold logo">Proma</h2>
+            <h2 class="text-5xl font-bold logo">
+                {{ config('app.name') }}
+            </h2>
             <p>Simplify your project management.</p>
         </div>
 
-        <div class="w-96">
+        <div class="w-full sm:w-96">
             <form wire:submit.prevent="login">
                 <div
                     class="card-body items-center text-center flex flex-col gap-4 rounded-3xl"
@@ -82,9 +84,9 @@
             </form>
         </div>
 
-        <div class="flex items-center gap-2">
+        <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-2">
             <p>Copyright © {{ date('Y') }}. All rights reserved.</p>
-            <span>|</span>
+            <span class="hidden sm:block">|</span>
             <a
                 href="{{ route('privacy-policy') }}"
                 class="font-bold text-primary"

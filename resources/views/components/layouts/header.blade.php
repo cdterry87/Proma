@@ -1,17 +1,31 @@
 <div class="navbar bg-base-100">
     <div class="flex-1">
-        <a class="btn btn-ghost text-xl">daisyUI</a>
+        <a
+            href="{{ route('home') }}"
+            class="btn btn-ghost text-3xl logo"
+        >
+            {{ config('app.name') }}
+        </a>
     </div>
-    <div class="flex-none gap-2">
-        <div class="dropdown dropdown-end">
-            <label
-                tabindex="0"
-                role="button"
-                class="btn btn-ghost btn-circle"
-            >
-                <x-layouts.theme-controller />
-            </label>
-        </div>
+    <div class="flex-none gap-1">
+        <label
+            tabindex="0"
+            role="button"
+            class="btn btn-ghost btn-circle"
+        >
+            <x-layouts.theme-controller />
+        </label>
+        <a
+            href="{{ route('notifications') }}"
+            tabindex="0"
+            role="button"
+            class="btn btn-ghost btn-circle"
+        >
+            <div class="indicator">
+                <x-icons.notifications />
+                <span class="badge badge-xs badge-primary indicator-item"></span>
+            </div>
+        </a>
         <div class="dropdown dropdown-end">
             <div
                 tabindex="0"

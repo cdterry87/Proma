@@ -1,8 +1,14 @@
 <svg
     {{ $attributes->merge([
-        'class' => 'stroke-current shrink-0 h-6 w-6',
+        'class' => 'stroke-current shrink-0 w-5 h-5 sm:h-6 sm:w-6',
         'fill' => 'none',
         'viewBox' => '0 0 24 24',
+        'stroke' => 'currentColor',
+        'stroke-width' => '1.5',
     ]) }}>
-    <path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"></path>
+    <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M15.75 19.5 8.25 12l7.5-7.5"
+    />
 </svg>
