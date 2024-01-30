@@ -39,16 +39,33 @@
     @livewireStyles
 </head>
 
-<body class="font-sans antialiased">
-    <x-layouts.header />
+<body
+    class="font-sans antialiased"
+    style="visibility: hidden;"
+>
+    <div class="flex flex-col gap-6">
+        <x-layouts.header />
 
-    <main>
-        {{ $slot }}
-    </main>
+        <main class="w-full max-w-5xl mx-auto px-6">
+            {{ $slot }}
+        </main>
 
-    <x-layouts.footer />
+        <x-layouts.footer />
+    </div>
 
+    <!-- Styles -->
     @livewireScripts
+
+    <script>
+        let domReady = (cb) => {
+            document.readyState === 'interactive' || document.readyState === 'complete' ?
+                cb() :
+                document.addEventListener('DOMContentLoaded', cb);
+        };
+        domReady(() => {
+            document.body.style.visibility = 'visible';
+        });
+    </script>
 </body>
 
 </html>

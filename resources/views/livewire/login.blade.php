@@ -32,28 +32,13 @@
                 >
                     <h2 class="card-title">Sign In</h2>
 
-                    @if (session()->has('error'))
-                        <x-elements.alert
-                            class="alert-error"
-                            icon="error"
-                        >
-                            {{ session('error') }}
-                        </x-elements.alert>
-                    @endif
-
-                    @if (session()->has('success'))
-                        <x-elements.alert
-                            class="alert-success"
-                            icon="success"
-                        >
-                            {{ session('success') }}
-                        </x-elements.alert>
-                    @endif
+                    <x-alerts.container />
 
                     <div class="flex flex-col gap-2 w-full">
                         <x-inputs.text
                             label="Email"
                             name="email"
+                            type="email"
                             placeholder="Email address"
                             wire:model="email"
                             required
@@ -76,9 +61,10 @@
                     </div>
 
                     <div class="card-actions justify-end w-full">
-                        <x-inputs.button class="btn-primary w-full">
-                            Login
-                        </x-inputs.button>
+                        <x-inputs.button
+                            class="btn-primary w-full"
+                            label="Login"
+                        />
                     </div>
                 </div>
             </form>
