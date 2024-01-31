@@ -46,7 +46,7 @@
     <div class="flex flex-col gap-6">
         <x-layouts.header />
 
-        <main class="w-full max-w-5xl mx-auto px-6">
+        <main class="w-full max-w-6xl mx-auto px-6">
             {{ $slot }}
         </main>
 

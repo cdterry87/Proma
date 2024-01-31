@@ -1,4 +1,4 @@
-<div class="alerts-container flex flex-col gap-2">
+<div class="alerts-container flex flex-col gap-2 w-full">
     @if (session()->has('error'))
         <x-alerts.base
             class="alert-error"

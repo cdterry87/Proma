@@ -1,5 +1,5 @@
 <div class="navbar bg-base-300">
-    <div class="w-full max-w-5xl mx-auto">
+    <div class="w-full max-w-6xl mx-auto">
         <div class="flex-1">
             <a
                 href="{{ route('home') }}"
@@ -37,11 +37,11 @@
                 </div>
                 <ul
                     tabindex="0"
-                    class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+                    class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-300 rounded-box w-52"
                 >
                     <li>
                         <a
-                            class="flex items-center gap-1"
+                            class="flex items-center gap-1 w-full"
                             href="{{ route('settings') }}"
                         >
                             <x-icons.settings />
@@ -56,7 +56,7 @@
                         >
                             @csrf
                             <a
-                                class="flex items-center gap-1"
+                                class="flex items-center gap-1 w-full"
                                 href="{{ route('logout') }}"
                                 @click.prevent="$root.submit();"
                             >
