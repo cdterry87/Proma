@@ -4,77 +4,13 @@
             <div class="flex-1 flex items-center gap-1">
                 <a
                     href="{{ route('home') }}"
-                    class="btn btn-ghost text-3xl logo"
+                    class="logo btn btn-ghost text-3xl"
                 >
                     {{ config('app.name') }}
                 </a>
-                <ul class="menu menu-horizontal px-1">
-                    <li>
-                        <a
-                            href="{{ route('projects') }}"
-                            class="flex items-center gap-1"
-                        >
-                            <x-icons.projects />
-                            <span class="hidden md:block">
-                                Projects
-                            </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="{{ route('issues') }}"
-                            class="flex items-center gap-1"
-                        >
-                            <x-icons.issues />
-                            <span class="hidden md:block">
-                                Issues
-                            </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="{{ route('clients') }}"
-                            class="flex items-center gap-1"
-                        >
-                            <x-icons.clients />
-                            <span class="hidden md:block">
-                                Clients
-                            </span>
-                        </a>
-                    </li>
-                    <li>
-                        <details>
-                            <summary class="flex items-center gap-1">
-                                <x-icons.admin />
-                                <span class="hidden md:block">
-                                    Administration
-                                </span>
-                            </summary>
-                            <ul class="p-2 bg-base-300">
-                                <li>
-                                    <a
-                                        href="{{ route('users') }}"
-                                        class="flex items-center gap-1"
-                                    >
-                                        <x-icons.users />
-                                        Users
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="{{ route('teams') }}"
-                                        class="flex items-center gap-1"
-                                    >
-                                        <x-icons.teams />
-                                        Teams
-                                    </a>
-                                </li>
-                            </ul>
-                        </details>
-                    </li>
-                </ul>
+                <x-layouts.navigation class="hidden sm:flex" />
             </div>
-            <div class="flex-none gap-1">
+            <div class="flex-none">
                 <label
                     tabindex="0"
                     role="button"
@@ -84,13 +20,11 @@
                 </label>
                 <a
                     href="{{ route('notifications') }}"
-                    tabindex="0"
-                    role="button"
                     class="btn btn-ghost btn-circle"
                 >
                     <div class="indicator">
                         <x-icons.notifications />
-                        <span class="badge badge-xs badge-primary indicator-item"></span>
+                        <span class="badge badge-primary badge-xs"></span>
                     </div>
                 </a>
                 <div class="dropdown dropdown-end">
@@ -135,5 +69,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="bg-base-300 w-full flex items-center justify-center sm:hidden">
+        <x-layouts.navigation />
     </div>
 </div>
