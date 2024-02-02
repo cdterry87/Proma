@@ -8,6 +8,7 @@
         },
         setTheme(theme) {
             document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.classList[theme === 'dark' ? 'add' : 'remove']('dark');
         },
         init() {
             const theme = localStorage.getItem('theme') || 'dark';
