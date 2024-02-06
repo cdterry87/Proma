@@ -57,6 +57,8 @@
     <!-- Styles -->
     @livewireScripts
 
+    @stack('modals')
+
     <script>
         let domReady = (cb) => {
             document.readyState === 'interactive' || document.readyState === 'complete' ?

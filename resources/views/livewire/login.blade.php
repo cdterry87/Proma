@@ -24,7 +24,7 @@
             <p>Simplify your project management.</p>
         </div>
 
-        <div class="w-full sm:w-96">
+        <div class="card w-full sm:w-96">
             <form wire:submit.prevent="login">
                 <div
                     class="card-body items-center text-center flex flex-col gap-4 rounded-3xl"
