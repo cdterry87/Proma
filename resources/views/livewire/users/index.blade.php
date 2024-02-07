@@ -7,6 +7,6 @@
             class="btn-primary btn-sm"
         />
     </x-slot:action-button>
-    <livewire:users-table />
-    <livewire:users-form />
+    <livewire:users.table />
+    <livewire:users.form />
 </x-layouts.page>

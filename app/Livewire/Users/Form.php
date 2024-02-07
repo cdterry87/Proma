@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Users;
 
 use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
 
-class UsersForm extends Component
+class Form extends Component
 {
     public $active, $name, $email, $password;
 
     public function render()
     {
-        return view('livewire.users-form');
+        return view('livewire.users.form');
     }
 
     public function save()

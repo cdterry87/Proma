@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Users;
 
 use App\Models\User;
 use Illuminate\Support\Carbon;
@@ -13,7 +13,7 @@ use PowerComponents\LivewirePowerGrid\Exportable;
 use PowerComponents\LivewirePowerGrid\PowerGridColumns;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
-final class UsersTable extends PowerGridComponent
+final class Table extends PowerGridComponent
 {
     public function datasource(): ?Collection
     {

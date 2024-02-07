@@ -2,18 +2,16 @@
 
 use App\Livewire\Home;
 use App\Livewire\Login;
-use App\Livewire\Teams;
-use App\Livewire\Users;
-use App\Livewire\Issues;
-use App\Livewire\Clients;
-use App\Livewire\Projects;
-use App\Livewire\Settings;
-use App\Livewire\TeamsForm;
-use App\Livewire\TeamsView;
-use App\Livewire\UsersForm;
-use App\Livewire\UsersView;
 use App\Livewire\Notifications;
 use App\Livewire\PrivacyPolicy;
+use App\Livewire\Settings;
+use App\Livewire\Issues\Index as Issues;
+use App\Livewire\Clients\Index as Clients;
+use App\Livewire\Projects\Index as Projects;
+use App\Livewire\Users\Index as Users;
+use App\Livewire\Users\View as UsersView;
+use App\Livewire\Teams\Index as Teams;
+use App\Livewire\Teams\View as TeamsView;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', Login::class)
