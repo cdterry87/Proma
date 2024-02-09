@@ -27,14 +27,15 @@
                 placeholder="Email address"
                 wire:model="email"
             />
-            <x-inputs.text
-                label="Password"
-                name="password"
-                placeholder="Password"
-                type="password"
-                wire:model="password"
-            />
-
+            @if (!$model_id)
+                <x-inputs.text
+                    label="Password"
+                    name="password"
+                    placeholder="Password"
+                    type="password"
+                    wire:model="password"
+                />
+            @endif
             <div class="mt-4">
                 <x-inputs.button
                     class="btn-primary btn-block"

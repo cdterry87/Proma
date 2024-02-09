@@ -4,31 +4,61 @@ namespace App\Livewire\Users;
 
 use App\Models\User;
 use Livewire\Component;
+use App\Traits\WithModal;
+use Livewire\Attributes\On;
 use Illuminate\Support\Facades\Hash;
 
 class Form extends Component
 {
-    public $active, $name, $email, $password;
+    use WithModal;
+
+    public $model_id;
+    public $active = true;
+    public $name, $email, $password;
 
     public function render()
     {
         return view('livewire.users.form');
     }
 
+    #[On('edit')]
+    public function edit($id)
+    {
+        $user = User::find($id);
+        if ($user) {
+            $this->model_id = $id;
+            $this->active = !!$user->active;
+            $this->name = $user->name;
+            $this->email = $user->email;
+        }
+    }
+
     public function save()
     {
         $this->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users,email', // @todo - add unique validation when user is being edited
-            'password' => 'required|min:6',
+            'email' => 'required|email|unique:users,id,' . $this->model_id,
+            'password' => 'required_if:!modelId,true',
         ]);
 
-        // @todo - add user update logic
-        User::create([
-            'name' => $this->name,
-            'email' => $this->email,
-            'password' => Hash::make($this->password),
-        ]);
+        if ($this->model_id) {
+            User::where('id', $this->model_id)
+                ->update([
+                    'active' => $this->active,
+                    'name' => $this->name,
+                    'email' => $this->email,
+                ]);
+        } else {
+            User::create([
+                'active' => $this->active,
+                'name' => $this->name,
+                'email' => $this->email,
+                'password' => Hash::make($this->password),
+            ]);
+        }
+
+        // Reload the table
+        $this->dispatch('refreshTable');
 
         session()->flash('success', 'User saved successfully.');
     }

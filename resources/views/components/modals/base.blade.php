@@ -19,6 +19,7 @@
                 <label
                     for="{{ $id }}"
                     class="modal-close cursor-pointer flex items-center gap-1 hover:brightness-75 transition duration-200 ease-in-out"
+                    wire:click="$dispatch('closeModal')"
                 >
                     <x-icons.close />
                 </label>
@@ -31,6 +32,7 @@
         <label
             class="modal-backdrop"
             for="{{ $id }}"
+            wire:click="$dispatch('closeModal')"
         >Close</label>
     </div>
 </div>
