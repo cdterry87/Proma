@@ -1,4 +1,4 @@
-@props(['id', 'title' => null])
+@props(['id', 'title' => null, 'subtitle' => null])
 
 <div>
     <input
@@ -11,20 +11,25 @@
         role="dialog"
     >
         <div class="modal-box flex flex-col gap-4">
-            <div class="flex items-center justify-between">
-
-                <h3 class="font-bold text-2xl">
-                    {{ $title ?? null }}
-                </h3>
-                <label
-                    for="{{ $id }}"
-                    class="modal-close cursor-pointer flex items-center gap-1 hover:brightness-75 transition duration-200 ease-in-out"
-                    wire:click="$dispatch('closeModal')"
-                >
-                    <x-icons.close />
-                </label>
+            <div>
+                <div class="flex items-center justify-between">
+                    <h3 class="font-bold text-2xl">
+                        {{ $title ?? null }}
+                    </h3>
+                    <label
+                        for="{{ $id }}"
+                        class="modal-close cursor-pointer flex items-center gap-1 hover:brightness-75 transition duration-200 ease-in-out"
+                        wire:click="$dispatch('closeModal')"
+                    >
+                        <x-icons.close />
+                    </label>
+                </div>
+                @if ($subtitle)
+                    <h4 class="font-semibold text-lg text-gray-500">
+                        {{ $subtitle }}
+                    </h4>
+                @endif
             </div>
-
             <section>
                 {{ $slot }}
             </section>

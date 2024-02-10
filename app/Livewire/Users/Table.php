@@ -27,9 +27,9 @@ final class Table extends PowerGridComponent
     public function setUp(): array
     {
         return [
-            Exportable::make('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
+            // Exportable::make('export')
+            //     ->striped()
+            //     ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage()
@@ -73,7 +73,7 @@ final class Table extends PowerGridComponent
     public function actions(User $row): array
     {
         return [
-            Button::add('user-edit--button')
+            Button::add('user-form--button')
                 ->slot('<x-modals.trigger
                     id="users_form__modal"
                     label="Edit"
@@ -82,10 +82,13 @@ final class Table extends PowerGridComponent
                 />')
                 ->dispatchTo('users.form', 'edit', ['id' => $row->id]),
             Button::add('user-permissions--button')
-                ->slot('<x-icons.key /> Permissions')
-                ->class('btn btn-sm btn-accent')
-                ->dispatch('edit', ['key' => $row->id]),
-            //...
+                ->slot('<x-modals.trigger
+                    id="users_permissions__modal"
+                    label="Permissions"
+                    icon="key"
+                    class="btn-accent btn-sm"
+                />')
+                ->dispatchTo('users.permissions', 'edit', ['id' => $row->id]),
         ];
     }
 }

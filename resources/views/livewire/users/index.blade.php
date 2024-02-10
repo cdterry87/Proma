@@ -9,4 +9,5 @@
     </x-slot:action-button>
     <livewire:users.table />
     <livewire:users.form />
+    <livewire:users.permissions />
 </x-layouts.page>

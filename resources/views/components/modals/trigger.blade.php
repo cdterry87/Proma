@@ -2,7 +2,9 @@
 
 <label
     for="{{ $id }}"
-    class="btn btn-sm btn-primary flex items-center gap-1"
+    {{ $attributes->merge([
+        'class' => 'btn flex items-center gap-1',
+    ]) }}
 >
     @if ($icon)
         <x-dynamic-component :component="'icons.' . $icon" />
