@@ -10,7 +10,6 @@ use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
-use PowerComponents\LivewirePowerGrid\Exportable;
 use PowerComponents\LivewirePowerGrid\PowerGridColumns;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
@@ -27,9 +26,6 @@ final class Table extends PowerGridComponent
     public function setUp(): array
     {
         return [
-            // Exportable::make('export')
-            //     ->striped()
-            //     ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage()
@@ -77,16 +73,20 @@ final class Table extends PowerGridComponent
                 ->slot('<x-modals.trigger
                     id="users_form__modal"
                     label="Edit"
+                    label-classes="hidden sm:block"
                     icon="edit"
                     class="btn-secondary btn-sm"
+                    title="Edit User"
                 />')
                 ->dispatchTo('users.form', 'edit', ['id' => $row->id]),
             Button::add('user-permissions--button')
                 ->slot('<x-modals.trigger
                     id="users_permissions__modal"
                     label="Permissions"
+                    label-classes="hidden sm:block"
                     icon="key"
                     class="btn-accent btn-sm"
+                    title="Edit Permissions"
                 />')
                 ->dispatchTo('users.permissions', 'edit', ['id' => $row->id]),
         ];

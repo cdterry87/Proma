@@ -1,4 +1,4 @@
-@props(['label' => null, 'icon' => null])
+@props(['label' => null, 'labelClasses' => '', 'icon' => null])
 
 <button {{ $attributes->merge([
     'class' => 'btn uppercase font-bold flex items-center gap-1',
@@ -6,5 +6,7 @@
     @if ($icon)
         <x-dynamic-component :component="'icons.' . $icon" />
     @endif
-    {{ $label ?? $slot }}
+    <span class="{{ $labelClasses }}">
+        {{ $label ?? $slot }}
+    </span>
 </button>

@@ -62,25 +62,26 @@
     @livewireStyles
 </head>
 
+{{-- Hide body until page is fully loaded --}}
+
 <body
     class="font-sans antialiased"
     style="visibility: hidden;"
 >
-    <div class="flex flex-col gap-6">
-        <x-layouts.header />
-
-        <main class="w-full max-w-6xl mx-auto px-6">
-            {{ $slot }}
-        </main>
-
+    <div class="flex flex-col gap-6 justify-between min-h-screen">
+        <div class="flex flex-col gap-6">
+            <x-layouts.header />
+            <main class="w-full max-w-6xl mx-auto px-6">
+                {{ $slot }}
+            </main>
+        </div>
         <x-layouts.footer />
     </div>
 
-    <!-- Styles -->
+    <!-- Livewire Scripts -->
     @livewireScripts
 
-    @stack('modals')
-
+    {{-- Prevent flash of unstyled content (FOUC) --}}
     <script>
         let domReady = (cb) => {
             document.readyState === 'interactive' || document.readyState === 'complete' ?

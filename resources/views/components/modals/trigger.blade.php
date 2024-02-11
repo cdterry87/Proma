@@ -1,4 +1,4 @@
-@props(['id', 'label', 'icon' => null])
+@props(['id', 'label' => null, 'labelClasses' => null, 'icon' => null])
 
 <label
     for="{{ $id }}"
@@ -9,5 +9,7 @@
     @if ($icon)
         <x-dynamic-component :component="'icons.' . $icon" />
     @endif
-    {{ $label ?? $slot }}
+    <span class="{{ $labelClasses }}">
+        {{ $label ?? $slot }}
+    </span>
 </label>
