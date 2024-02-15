@@ -10,7 +10,7 @@ export default {
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
         "./resources/**/*.css",
-        './app/Http/Livewire/**/Table.php',
+        './app/Http/Livewire/**/**Table.php',
         './vendor/power-components/livewire-powergrid/resources/views/**/*.php',
         './vendor/power-components/livewire-powergrid/src/Themes/Tailwind.php'
     ],

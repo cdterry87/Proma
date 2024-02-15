@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('issues', function (Blueprint $table) {
             $table->id();
             $table->text('description');
-            $table->text('priority')->nullable();
+            $table->smallInteger('priority');
             $table->date('resolve_date')->nullable();
             $table->boolean('active')->default(true);
             $table->foreignId('client_id')->constrained('clients')->cascadeOnDelete()->cascadeOnUpdate();

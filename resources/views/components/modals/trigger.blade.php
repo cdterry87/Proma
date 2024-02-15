@@ -3,7 +3,7 @@
 <label
     for="{{ $id }}"
     {{ $attributes->merge([
-        'class' => 'btn flex items-center gap-1',
+        'class' => 'btn uppercase flex items-center gap-1',
     ]) }}
 >
     @if ($icon)

@@ -20,12 +20,10 @@
                 </label>
                 <a
                     href="{{ route('notifications') }}"
-                    class="btn btn-ghost btn-circle"
+                    class="btn btn-ghost btn-circle relative"
                 >
-                    <div class="indicator">
-                        <x-icons.notifications />
-                        <span class="badge badge-primary badge-xs"></span>
-                    </div>
+                    <x-icons.notifications />
+                    <span class="badge badge-primary badge-xs absolute top-1 right-1"></span>
                 </a>
                 <div class="dropdown dropdown-end">
                     <div

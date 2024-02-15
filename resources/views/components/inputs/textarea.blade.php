@@ -15,9 +15,7 @@
             'class' => 'textarea textarea-bordered w-full',
             'rows' => $rows,
         ]) }}
-    >
-        {{ $value ?? $slot }}
-    </textarea>
+    >{{ $value ?? $slot }}</textarea>
     @error($name)
         <x-inputs.error :message="$message" />
     @enderror

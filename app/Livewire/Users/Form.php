@@ -41,20 +41,19 @@ class Form extends Component
             'password' => 'required_if:!modelId,true',
         ]);
 
+        $data = [
+            'active' => $this->active,
+            'name' => $this->name,
+            'email' => $this->email,
+            'updated_by' => auth()->id(),
+        ];
+
         if ($this->model_id) {
-            User::where('id', $this->model_id)
-                ->update([
-                    'active' => $this->active,
-                    'name' => $this->name,
-                    'email' => $this->email,
-                ]);
+            User::where('id', $this->model_id)->update($data);
         } else {
-            User::create([
-                'active' => $this->active,
-                'name' => $this->name,
-                'email' => $this->email,
-                'password' => Hash::make($this->password),
-            ]);
+            $data['password'] = Hash::make($this->password);
+            $data['created_by'] = auth()->id();
+            User::create($data);
         }
 
         // Reload the table

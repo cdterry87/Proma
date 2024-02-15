@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Livewire\Users;
+namespace App\Livewire\Teams;
 
-use App\Models\User;
+use App\Models\Team;
+use Livewire\Attributes\On;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -10,22 +11,25 @@ use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
+use PowerComponents\LivewirePowerGrid\Exportable;
+
 use PowerComponents\LivewirePowerGrid\PowerGridColumns;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
-
-use Livewire\Attributes\On;
 
 final class Table extends PowerGridComponent
 {
     #[On('refreshTable')]
     public function datasource(): ?Collection
     {
-        return User::all();
+        return Team::all();
     }
 
     public function setUp(): array
     {
         return [
+            Exportable::make('export')
+                ->striped()
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage()
@@ -37,9 +41,8 @@ final class Table extends PowerGridComponent
     {
         return PowerGrid::columns()
             ->addColumn('name')
-            ->addColumn('email')
-            ->addColumn('active', function ($entry) {
-                return $entry->active ? 'Yes' : 'No';
+            ->addColumn('user_count', function ($entry) {
+                return $entry->users->count() ?? 0;
             })
             ->addColumn('created_at_formatted', function ($entry) {
                 return Carbon::parse($entry->created_at)->format('m/d/Y');
@@ -53,43 +56,39 @@ final class Table extends PowerGridComponent
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Email', 'email')
-                ->sortable(),
-
-            Column::make('Active', 'active')
+            Column::make('Members', 'user_count')
                 ->sortable(),
 
             Column::make('Created', 'created_at_formatted'),
 
-            Column::action('Actions')
-
+            Column::action('Action')
         ];
     }
 
-    public function actions(User $row): array
+    public function actions(Team $row): array
     {
         return [
             // @todo - Add view button/link. Remove labels and use icons only.
-            Button::add('user-form--button')
+            Button::add('team-form--button')
                 ->slot('<x-modals.trigger
-                    id="users_form__modal"
+                    id="teams_form__modal"
                     label="Edit"
                     label-classes="hidden sm:block"
                     icon="edit"
                     class="btn-primary btn-sm"
-                    title="Edit User"
+                    title="Edit Team"
                 />')
-                ->dispatchTo('users.form', 'edit', ['id' => $row->id]),
-            Button::add('user-permissions--button')
+                ->dispatchTo('teams.form', 'edit', ['id' => $row->id]),
+            Button::add('team-users--button')
                 ->slot('<x-modals.trigger
-                    id="users_permissions__modal"
-                    label="Permissions"
+                    id="teams_users__modal"
+                    label="Members"
                     label-classes="hidden sm:block"
-                    icon="key"
+                    icon="users"
                     class="btn-secondary btn-sm"
-                    title="Edit Permissions"
+                    title="Edit Members"
                 />')
-                ->dispatchTo('users.permissions', 'edit', ['id' => $row->id]),
+                ->dispatchTo('teams.users', 'edit', ['id' => $row->id]),
         ];
     }
 }

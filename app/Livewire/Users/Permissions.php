@@ -13,11 +13,6 @@ class Permissions extends Component
 
     public $user_id, $user_name;
 
-    public function render()
-    {
-        return view('livewire.users.permissions');
-    }
-
     #[On('edit')]
     public function edit($id)
     {
@@ -26,6 +21,11 @@ class Permissions extends Component
             $this->user_id = $user->id;
             $this->user_name = $user->name;
         }
+    }
+
+    public function render()
+    {
+        return view('livewire.users.permissions');
     }
 
     public function save()

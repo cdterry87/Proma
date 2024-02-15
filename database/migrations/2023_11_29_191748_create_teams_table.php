@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
             $table->string('name')->index();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->boolean('active')->default(true);
             $table->foreignId('created_by')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('updated_by')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();

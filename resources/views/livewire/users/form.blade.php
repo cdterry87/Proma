@@ -19,6 +19,7 @@
                 name="name"
                 placeholder="Name"
                 wire:model="name"
+                required
             />
             <x-inputs.text
                 label="Email"
@@ -26,6 +27,7 @@
                 type="email"
                 placeholder="Email address"
                 wire:model="email"
+                required
             />
             @if (!$model_id)
                 <x-inputs.text
@@ -34,6 +36,7 @@
                     placeholder="Password"
                     type="password"
                     wire:model="password"
+                    required
                 />
             @endif
             <div class="mt-4">

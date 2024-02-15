@@ -15,10 +15,7 @@
         ]) }}
     >
         @if ($defaultOption)
-            <option
-                disabled
-                value=""
-            >
+            <option value="">
                 {{ $defaultOption }}
             </option>
         @endif
