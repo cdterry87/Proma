@@ -1,6 +1,6 @@
 @props(['label', 'name', 'id' => null, 'hiddenLabel' => false])
 
-<div class="form-control">
+<div class="form-control w-full">
     <label
         class="label cursor-pointer"
         aria-label="{{ $label }}"

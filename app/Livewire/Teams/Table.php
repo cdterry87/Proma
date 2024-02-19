@@ -75,7 +75,7 @@ final class Table extends PowerGridComponent
                     label="Edit"
                     label-classes="hidden sm:block"
                     icon="edit"
-                    class="btn-primary btn-sm"
+                    class="btn-secondary btn-sm"
                     title="Edit Team"
                 />')
                 ->dispatchTo('teams.form', 'edit', ['id' => $row->id]),
@@ -85,7 +85,7 @@ final class Table extends PowerGridComponent
                     label="Members"
                     label-classes="hidden sm:block"
                     icon="users"
-                    class="btn-secondary btn-sm"
+                    class="btn-accent btn-sm"
                     title="Edit Members"
                 />')
                 ->dispatchTo('teams.users', 'edit', ['id' => $row->id]),
