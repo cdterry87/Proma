@@ -1,0 +1,3 @@
+<p>
+    {!! $row->description !!}
+</p>

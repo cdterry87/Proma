@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Users;
 
+use App\Models\Team;
 use App\Models\User;
+use Livewire\Attributes\On;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use PowerComponents\LivewirePowerGrid\Button;
@@ -10,10 +12,10 @@ use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
+
+use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\PowerGridColumns;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
-
-use Livewire\Attributes\On;
 
 final class Table extends PowerGridComponent
 {
@@ -39,7 +41,7 @@ final class Table extends PowerGridComponent
             ->addColumn('name')
             ->addColumn('email')
             ->addColumn('active', function ($entry) {
-                return $entry->active ? 'Yes' : 'No';
+                return Team::getActiveCodes()->firstWhere('value', $entry->active)['label'];
             })
             ->addColumn('created_at_formatted', function ($entry) {
                 return Carbon::parse($entry->created_at)->format('m/d/Y');
@@ -90,6 +92,16 @@ final class Table extends PowerGridComponent
                     title="Edit Permissions"
                 />')
                 ->dispatchTo('users.permissions', 'edit', ['id' => $row->id]),
+        ];
+    }
+
+    public function filters(): array
+    {
+        return [
+            Filter::select('active', 'active')
+                ->dataSource(Team::getActiveCodes())
+                ->optionValue('value')
+                ->optionLabel('label'),
         ];
     }
 }
