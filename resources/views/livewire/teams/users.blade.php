@@ -3,7 +3,7 @@
     title="Team Members"
     :subtitle="$team_name ? 'For ' . $team_name : null"
 >
-    <form wire:submit.prevent="addToTeam">
+    <form wire:submit.prevent="addMember">
         <x-alerts.container />
 
         <div class="flex flex-col gap-6">
@@ -18,7 +18,7 @@
                 />
                 <x-inputs.button
                     class="btn-primary btn-block"
-                    label="Add to Team"
+                    label="Add Member"
                 />
             </div>
 
@@ -32,7 +32,7 @@
                                 <div class="stat-figure text-error">
                                     <button
                                         class="btn btn-ghost btn-circle"
-                                        wire:click="deleteFromTeam({{ $teamUser->id }})"
+                                        wire:click="deleteMember({{ $teamUser->id }})"
                                     >
                                         <x-icons.delete />
                                     </button>

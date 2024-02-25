@@ -9,4 +9,5 @@
     </x-slot:action-button>
     <livewire:clients.table />
     <livewire:clients.form />
+    <livewire:clients.contacts />
 </x-layouts.page>

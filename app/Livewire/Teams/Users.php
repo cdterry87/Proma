@@ -47,7 +47,7 @@ class Users extends Component
         ]);
     }
 
-    public function addToTeam()
+    public function addMember()
     {
         $this->validate([
             'user_id' => 'required|exists:users,id',
@@ -62,7 +62,7 @@ class Users extends Component
         $this->user_id = null;
     }
 
-    public function deleteFromTeam($id)
+    public function deleteMember($id)
     {
         TeamUser::destroy($id);
     }

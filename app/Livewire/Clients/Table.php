@@ -52,7 +52,7 @@ final class Table extends PowerGridComponent
                 return Client::getActiveCodes()->firstWhere('value', $entry->active)['label'];
             })
             ->addColumn('created_at_formatted', function ($entry) {
-                return Carbon::parse($entry->created_at)->format('d/m/Y');
+                return Carbon::parse($entry->created_at)->format('m/d/Y');
             });
     }
 
