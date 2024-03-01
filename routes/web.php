@@ -6,8 +6,11 @@ use App\Livewire\Notifications;
 use App\Livewire\PrivacyPolicy;
 use App\Livewire\Settings;
 use App\Livewire\Issues\Index as Issues;
+use App\Livewire\Issues\View as IssuesView;
 use App\Livewire\Clients\Index as Clients;
+use App\Livewire\Clients\View as ClientsView;
 use App\Livewire\Projects\Index as Projects;
+use App\Livewire\Projects\View as ProjectsView;
 use App\Livewire\Users\Index as Users;
 use App\Livewire\Users\View as UsersView;
 use App\Livewire\Teams\Index as Teams;
@@ -53,11 +56,20 @@ Route::middleware([
     Route::get('/projects', Projects::class)
         ->name('projects');
 
+    Route::get('/projects/view/{project}', ProjectsView::class)
+        ->name('projects.view');
+
     Route::get('/issues', Issues::class)
         ->name('issues');
 
+    Route::get('/issues/view/{issue}', IssuesView::class)
+        ->name('issues.view');
+
     Route::get('/clients', Clients::class)
         ->name('clients');
+
+    Route::get('/clients/view/{client}', ClientsView::class)
+        ->name('clients.view');
 
     Route::get('/notifications', Notifications::class)
         ->name('notifications');

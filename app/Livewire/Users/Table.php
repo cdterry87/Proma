@@ -12,13 +12,16 @@ use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
-
+use PowerComponents\LivewirePowerGrid\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
-use PowerComponents\LivewirePowerGrid\PowerGridColumns;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
+use PowerComponents\LivewirePowerGrid\PowerGridFields;
 
 final class Table extends PowerGridComponent
 {
+    use WithExport;
+
     #[On('refreshTable')]
     public function datasource(): ?Collection
     {
@@ -28,6 +31,9 @@ final class Table extends PowerGridComponent
     public function setUp(): array
     {
         return [
+            Exportable::make('export')
+                ->striped()
+                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage()
@@ -35,15 +41,15 @@ final class Table extends PowerGridComponent
         ];
     }
 
-    public function addColumns(): PowerGridColumns
+    public function fields(): PowerGridFields
     {
-        return PowerGrid::columns()
-            ->addColumn('name')
-            ->addColumn('email')
-            ->addColumn('active', function ($entry) {
+        return PowerGrid::fields()
+            ->add('name')
+            ->add('email')
+            ->add('active', function ($entry) {
                 return Team::getActiveCodes()->firstWhere('value', $entry->active)['label'];
             })
-            ->addColumn('created_at_formatted', function ($entry) {
+            ->add('created_at_formatted', function ($entry) {
                 return Carbon::parse($entry->created_at)->format('m/d/Y');
             });
     }

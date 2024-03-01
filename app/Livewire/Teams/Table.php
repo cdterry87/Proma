@@ -14,11 +14,14 @@ use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
 use PowerComponents\LivewirePowerGrid\Exportable;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
-use PowerComponents\LivewirePowerGrid\PowerGridColumns;
+use PowerComponents\LivewirePowerGrid\PowerGridFields;
+use PowerComponents\LivewirePowerGrid\Traits\WithExport;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
 final class Table extends PowerGridComponent
 {
+    use WithExport;
+
     #[On('refreshTable')]
     public function datasource(): ?Collection
     {
@@ -41,17 +44,15 @@ final class Table extends PowerGridComponent
         ];
     }
 
-    public function addColumns(): PowerGridColumns
+    public function fields(): PowerGridFields
     {
-        return PowerGrid::columns()
-            ->addColumn('name')
-            ->addColumn('user_count', function ($entry) {
-                return $entry->users->count() ?? 0;
-            })
-            ->addColumn('active', function ($entry) {
+        return PowerGrid::fields()
+            ->add('name')
+            ->add('user_count')
+            ->add('active', function ($entry) {
                 return Team::getActiveCodes()->firstWhere('value', $entry->active)['label'];
             })
-            ->addColumn('created_at_formatted', function ($entry) {
+            ->add('created_at_formatted', function ($entry) {
                 return Carbon::parse($entry->created_at)->format('m/d/Y');
             });
     }
