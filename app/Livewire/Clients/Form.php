@@ -53,8 +53,8 @@ class Form extends Component
             Client::create($data);
         }
 
-        // Reload the table
-        $this->dispatch('refreshTable');
+        // Refresh the data
+        $this->dispatch('refreshData');
 
         session()->flash('success', 'Client saved successfully.');
     }

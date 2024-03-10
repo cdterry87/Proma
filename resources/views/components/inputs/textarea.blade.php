@@ -1,4 +1,4 @@
-@props(['label', 'name', 'id' => null, 'placeholder' => null, 'value', 'hideLabel' => false, 'rows' => 5])
+@props(['label', 'name', 'id' => null, 'placeholder' => null, 'value', 'hideLabel' => false, 'rows' => 4])
 
 <label
     class="form-control w-full"

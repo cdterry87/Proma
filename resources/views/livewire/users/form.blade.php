@@ -20,6 +20,7 @@
                 placeholder="Name"
                 wire:model="name"
                 required
+                maxlength="255"
             />
             <x-inputs.text
                 label="Email"
@@ -28,6 +29,15 @@
                 placeholder="Email address"
                 wire:model="email"
                 required
+                maxlength="255"
+            />
+            <x-inputs.text
+                label="Title"
+                name="title"
+                placeholder="Title"
+                wire:model="title"
+                required
+                maxlength="255"
             />
             @if (!$model_id)
                 <x-inputs.text

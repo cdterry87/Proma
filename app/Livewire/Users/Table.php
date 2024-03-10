@@ -22,7 +22,7 @@ final class Table extends PowerGridComponent
 {
     use WithExport;
 
-    #[On('refreshTable')]
+    #[On('refreshData')]
     public function datasource(): ?Collection
     {
         return User::all();
@@ -77,27 +77,11 @@ final class Table extends PowerGridComponent
     public function actions(User $row): array
     {
         return [
-            // @todo - Add view button/link. Remove labels and use icons only.
-            Button::add('user-form--button')
-                ->slot('<x-modals.trigger
-                    id="users_form__modal"
-                    label="Edit"
-                    label-classes="hidden sm:block"
-                    icon="edit"
-                    class="btn-secondary btn-sm"
-                    title="Edit User"
-                />')
-                ->dispatchTo('users.form', 'edit', ['id' => $row->id]),
-            Button::add('user-permissions--button')
-                ->slot('<x-modals.trigger
-                    id="users_permissions__modal"
-                    label="Permissions"
-                    label-classes="hidden sm:block"
-                    icon="key"
-                    class="btn-accent btn-sm"
-                    title="Edit Permissions"
-                />')
-                ->dispatchTo('users.permissions', 'edit', ['id' => $row->id]),
+            Button::add('user-view--button')
+                ->slot('<a href="' . route('users.view', $row->id) . '" class="btn btn-accent btn-sm">
+                    <x-icons.eye />
+                    View
+                </a>'),
         ];
     }
 

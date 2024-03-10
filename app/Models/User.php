@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         return $this->hasPermission('administrator');
     }
+
+    public function permissions()
+    {
+        return $this->hasManyThrough(Permission::class, UserPermission::class, 'user_id', 'id', 'id', 'permission_id');
+    }
 }

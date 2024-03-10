@@ -1,16 +1,25 @@
-@props(['title' => null, $actions => null])
+@props(['title' => null, 'topActions' => null, 'bottomActions' => null])
 
 <div {{ $attributes->merge([
-    'class' => 'card shadow-xl',
+    'class' => 'card bg-base-300 shadow-xl',
 ]) }}>
     <div class="card-body">
-        @if ($title)
-            <h2 class="card-title">{{ $title }}</h2>
-        @endif
+        <div class="flex items-center justify-between gap-4 mb-2">
+            @if ($title)
+                <h2 class="card-title">{{ $title }}</h2>
+            @endif
+            @if ($topActions)
+                <div>
+                    {{ $topActions }}
+                </div>
+            @endif
+        </div>
+
         {{ $slot }}
-        @if ($actions)
-            <div class="card-actions justify-end">
-                {{ $actions }}
+
+        @if ($bottomActions)
+            <div class="card-actions justify-end mt-6">
+                {{ $bottomActions }}
             </div>
         @endif
     </div>

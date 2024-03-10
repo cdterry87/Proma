@@ -42,7 +42,7 @@
                     Administration
                 </span>
             </summary>
-            <ul class="p-2 bg-base-300">
+            <ul class="p-2 bg-base-300 z-50">
                 <li>
                     <a
                         href="{{ route('users') }}"

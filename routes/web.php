@@ -39,13 +39,13 @@ Route::middleware([
         Route::get('/users', Users::class)
             ->name('users');
 
-        Route::get('/users/view/{user}', UsersView::class)
+        Route::get('/users/{user}', UsersView::class)
             ->name('users.view');
 
         Route::get('/teams', Teams::class)
             ->name('teams');
 
-        Route::get('/teams/view/{team}', TeamsView::class)
+        Route::get('/teams/{team}', TeamsView::class)
             ->name('teams.view');
     });
 
@@ -56,19 +56,19 @@ Route::middleware([
     Route::get('/projects', Projects::class)
         ->name('projects');
 
-    Route::get('/projects/view/{project}', ProjectsView::class)
+    Route::get('/projects/{project}', ProjectsView::class)
         ->name('projects.view');
 
     Route::get('/issues', Issues::class)
         ->name('issues');
 
-    Route::get('/issues/view/{issue}', IssuesView::class)
+    Route::get('/issues/{issue}', IssuesView::class)
         ->name('issues.view');
 
     Route::get('/clients', Clients::class)
         ->name('clients');
 
-    Route::get('/clients/view/{client}', ClientsView::class)
+    Route::get('/clients/{client}', ClientsView::class)
         ->name('clients.view');
 
     Route::get('/notifications', Notifications::class)

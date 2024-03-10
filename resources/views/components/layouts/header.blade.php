@@ -35,7 +35,7 @@
                     </div>
                     <ul
                         tabindex="0"
-                        class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-300 rounded-box w-52"
+                        class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-300 rounded-box w-52 z-50"
                     >
                         <li>
                             <a

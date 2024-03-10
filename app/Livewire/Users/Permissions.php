@@ -67,6 +67,9 @@ class Permissions extends Component
             UserPermission::insert($permissions);
         }
 
+        // Refresh the data
+        $this->dispatch('refreshData');
+
         session()->flash('success', 'Permissions saved successfully.');
     }
 }

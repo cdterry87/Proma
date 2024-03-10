@@ -22,7 +22,7 @@ final class Table extends PowerGridComponent
 {
     use WithExport;
 
-    #[On('refreshTable')]
+    #[On('refreshData')]
     public function datasource(): ?Collection
     {
         return Client::all();

@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Livewire\Teams;
+namespace App\Livewire\Issues;
 
-use App\Models\Team;
+use App\Models\Issue;
 use Livewire\Attributes\On;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Detail;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
 use PowerComponents\LivewirePowerGrid\Exportable;
+use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\Traits\WithExport;
@@ -21,12 +21,6 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 final class Table extends PowerGridComponent
 {
     use WithExport;
-
-    #[On('refreshData')]
-    public function datasource(): ?Collection
-    {
-        return Team::all();
-    }
 
     public function setUp(): array
     {
@@ -38,62 +32,72 @@ final class Table extends PowerGridComponent
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount(),
-            Detail::make()
-                ->view('livewire.teams.details')
-                ->showCollapseIcon(),
         ];
+    }
+
+    #[On('refreshData')]
+    public function datasource(): Builder
+    {
+        return Issue::query();
     }
 
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('name')
-            ->add('user_count')
-            ->add('active', function ($entry) {
-                return Team::getActiveCodes()->firstWhere('value', $entry->active)['label'];
-            })
-            ->add('created_at_formatted', function ($entry) {
-                return Carbon::parse($entry->created_at)->format('m/d/Y');
-            });
+            ->add('description')
+            ->add('priority')
+            ->add('client')
+            ->add('team')
+            ->add('project')
+            ->add('assigned_to_name')
+            ->add('created_at');
     }
 
     public function columns(): array
     {
         return [
-            Column::make('Name', 'name')
+            Column::make('Description', 'description')
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Members', 'user_count')
+            Column::make('Priority', 'priority')
+                ->searchable()
                 ->sortable(),
 
-            Column::make('Active', 'active')
+            Column::make('Client', 'client')
+                ->searchable()
                 ->sortable(),
 
-            Column::make('Created', 'created_at_formatted'),
+            Column::make('Team', 'team')
+                ->searchable()
+                ->sortable(),
+
+            Column::make('Project', 'project')
+                ->searchable()
+                ->sortable(),
+
+            Column::make('Assigned To', 'assigned_to_name')
+                ->searchable()
+                ->sortable(),
+
+            Column::make('Created at', 'created_at')
+                ->hidden(),
 
             Column::action('Action')
         ];
     }
 
-    public function actions(Team $row): array
+    public function actions(Issue $row): array
     {
         return [
-            Button::add('team-view--button')
-                ->slot('<a href="' . route('teams.view', $row->id) . '" class="btn btn-accent btn-sm">
-                    <x-icons.eye />
-                    View
-                </a>'),
+            // @todo - Add view button/link. Remove labels and use icons only.
         ];
     }
 
     public function filters(): array
     {
         return [
-            Filter::select('active', 'active')
-                ->dataSource(Team::getActiveCodes())
-                ->optionValue('value')
-                ->optionLabel('label'),
+            //
         ];
     }
 }

@@ -14,7 +14,7 @@ class Form extends Component
 
     public $model_id;
     public $active = true;
-    public $name, $email, $password;
+    public $name, $email, $title, $password;
 
     public function render()
     {
@@ -30,6 +30,7 @@ class Form extends Component
             $this->active = !!$user->active;
             $this->name = $user->name;
             $this->email = $user->email;
+            $this->title = $user->title;
         }
     }
 
@@ -45,6 +46,7 @@ class Form extends Component
             'active' => $this->active,
             'name' => $this->name,
             'email' => $this->email,
+            'title' => $this->title,
             'updated_by' => auth()->id(),
         ];
 
@@ -56,8 +58,8 @@ class Form extends Component
             User::create($data);
         }
 
-        // Reload the table
-        $this->dispatch('refreshTable');
+        // Refresh the data
+        $this->dispatch('refreshData');
 
         session()->flash('success', 'User saved successfully.');
     }
