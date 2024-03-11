@@ -70,10 +70,10 @@
             <x-slot:top-actions>
                 <x-modals.trigger
                     id="teams_users__modal"
-                    label="Edit"
-                    icon="edit"
-                    class="btn-primary btn-sm"
-                    wire:click="$dispatchTo('teams.teams-users', 'edit', { id: {{ $team->id }}})"
+                    label="Add Members"
+                    icon="plus"
+                    class="btn-secondary btn-sm"
+                    wire:click="$dispatchTo('teams.teams-users', 'addMembers', { id: {{ $team->id }}})"
                 />
             </x-slot:top-actions>
 

@@ -16,8 +16,8 @@ class TeamsUsers extends Component
     public $team_id, $team_name;
     public $user_id;
 
-    #[On('edit')]
-    public function edit($id)
+    #[On('addMembers')]
+    public function addMembers($id)
     {
         $team = Team::find($id);
         if ($team) {
@@ -62,13 +62,13 @@ class TeamsUsers extends Component
     #[On('removeMember')]
     public function removeMember($userId, $teamId)
     {
-        $team = TeamUser::query()
+        $teamUser = TeamUser::query()
             ->where('user_id', $userId)
             ->where('team_id', $teamId)
             ->first();
 
-        if ($team) {
-            $team->delete();
+        if ($teamUser) {
+            $teamUser->delete();
         }
 
         $this->dispatch('refreshData');

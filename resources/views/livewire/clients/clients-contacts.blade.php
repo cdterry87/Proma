@@ -3,7 +3,7 @@
     title="Client Contacts"
     :subtitle="$client_name ? 'For ' . $client_name : null"
 >
-    <form wire:submit.prevent="addContact">
+    <form wire:submit.prevent="saveContact">
         <x-alerts.container />
 
         <div class="flex flex-col gap-6">
@@ -62,33 +62,8 @@
                 </div>
                 <x-inputs.button
                     class="btn-primary btn-block"
-                    label="Add Contact"
+                    label="Save Contact"
                 />
-            </div>
-
-            <hr>
-
-            <div class="flex flex-col gap-2 w-full">
-                @if ($clientContacts->isNotEmpty())
-                    @foreach ($clientContacts as $clientContact)
-                        <div class="stats shadow bg-gray-200 dark:bg-gray-800">
-                            <div class="stat">
-                                <div class="stat-figure text-error">
-                                    <button
-                                        class="btn btn-ghost btn-circle"
-                                        wire:click="deleteContact({{ $clientContact->id }})"
-                                    >
-                                        <x-icons.delete />
-                                    </button>
-                                </div>
-                                <div class="text-lg text-primary">{{ $clientContact->name }}</div>
-                                <div class="stat-desc">{{ $clientContact->email }}</div>
-                            </div>
-                        </div>
-                    @endforeach
-                @else
-                    <p class="text-center">No contacts for this client.</p>
-                @endif
             </div>
         </div>
     </form>

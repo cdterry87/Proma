@@ -13,11 +13,11 @@ class ClientsContacts extends Component
     use WithModal;
 
     public $client_id, $client_name;
-    public $name, $title, $email, $phone, $phone_ext;
+    public $contact_id, $name, $title, $email, $phone, $phone_ext;
     public $active = true;
 
-    #[On('edit')]
-    public function edit($id)
+    #[On('addContacts')]
+    public function addContacts($id)
     {
         $client = Client::find($id);
         if ($client) {
@@ -37,7 +37,7 @@ class ClientsContacts extends Component
         ]);
     }
 
-    public function addContact()
+    public function saveContact()
     {
         $this->validate([
             'name' => 'required|max:255',
@@ -47,21 +47,58 @@ class ClientsContacts extends Component
             'phone_ext' => 'nullable|max:5',
         ]);
 
-        ClientContact::create([
-            'client_id' => $this->client_id,
-            'name' => $this->name,
-            'title' => $this->title,
-            'email' => $this->email,
-            'phone' => $this->phone,
-            'phone_ext' => $this->phone_ext,
-            'active' => $this->active,
-            'created_by' => auth()->id(),
-            'updated_by' => auth()->id(),
-        ]);
+        if ($this->contact_id) {
+            $clientContact = ClientContact::find($this->contact_id);
+        } else {
+            $clientContact = new ClientContact();
+            $clientContact->client_id = $this->client_id;
+            $clientContact->created_by = auth()->id();
+        }
+
+        $clientContact->name = $this->name;
+        $clientContact->title = $this->title;
+        $clientContact->email = $this->email;
+        $clientContact->phone = $this->phone;
+        $clientContact->phone_ext = $this->phone_ext;
+        $clientContact->active = $this->active;
+        $clientContact->updated_by = auth()->id();
+        $clientContact->save();
+
+        $this->contact_id = $clientContact->id;
+
+        $this->dispatch('refreshData');
     }
 
-    public function deleteContact($id)
+    #[On('editContact')]
+    public function editContact($id)
     {
-        ClientContact::destroy($id);
+        $clientContact = ClientContact::find($id);
+        if ($clientContact) {
+            $this->contact_id = $clientContact->id;
+            $this->client_id = $clientContact->client_id;
+            $this->name = $clientContact->name;
+            $this->title = $clientContact->title;
+            $this->email = $clientContact->email;
+            $this->phone = $clientContact->phone;
+            $this->phone_ext = $clientContact->phone_ext;
+            $this->active = !!$clientContact->active;
+        }
+
+        $this->dispatch('refreshData');
+    }
+
+    #[On('deleteContact')]
+    public function deleteContact($contactId, $clientId)
+    {
+        $clientContact = ClientContact::query()
+            ->where('id', $contactId)
+            ->where('client_id', $clientId)
+            ->first();
+
+        if ($clientContact) {
+            $clientContact->delete();
+        }
+
+        $this->dispatch('refreshData');
     }
 }

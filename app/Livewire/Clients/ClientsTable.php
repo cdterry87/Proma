@@ -87,27 +87,11 @@ final class ClientsTable extends PowerGridComponent
     public function actions(Client $row): array
     {
         return [
-            // @todo - Add view button/link. Remove labels and use icons only.
-            Button::add('client-form--button')
-                ->slot('<x-modals.trigger
-                    id="clients_form__modal"
-                    label="Edit"
-                    label-classes="hidden sm:block"
-                    icon="edit"
-                    class="btn-secondary btn-sm"
-                    title="Edit Client"
-                />')
-                ->dispatchTo('clients.clients-form', 'edit', ['id' => $row->id]),
-            Button::add('client-contacts--button')
-                ->slot('<x-modals.trigger
-                    id="clients_contacts__modal"
-                    label="Contacts"
-                    label-classes="hidden sm:block"
-                    icon="phone"
-                    class="btn-accent btn-sm"
-                    title="Edit Contacts"
-                />')
-                ->dispatchTo('clients.clients-contacts', 'edit', ['id' => $row->id]),
+            Button::add('client-view--button')
+                ->slot('<a href="' . route('clients.view', $row->id) . '" class="btn btn-accent btn-sm">
+                    <x-icons.eye />
+                    View
+                </a>'),
         ];
     }
 
