@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
     {
         $permissions = [
             // Administrator Permissions
-            ['name' => 'administrator', 'label' => 'Administrator', 'section' => 'Administion'],
+            ['name' => 'administrator', 'label' => 'Administrator', 'section' => 'Administration'],
 
             // Projects Permissions
             ['name' => 'projects_create', 'label' => 'Create Projects', 'section' => 'Projects'],

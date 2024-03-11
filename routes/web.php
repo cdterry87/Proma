@@ -5,16 +5,16 @@ use App\Livewire\Login;
 use App\Livewire\Notifications;
 use App\Livewire\PrivacyPolicy;
 use App\Livewire\Settings;
-use App\Livewire\Issues\Index as Issues;
-use App\Livewire\Issues\View as IssuesView;
-use App\Livewire\Clients\Index as Clients;
-use App\Livewire\Clients\View as ClientsView;
-use App\Livewire\Projects\Index as Projects;
-use App\Livewire\Projects\View as ProjectsView;
-use App\Livewire\Users\Index as Users;
-use App\Livewire\Users\View as UsersView;
-use App\Livewire\Teams\Index as Teams;
-use App\Livewire\Teams\View as TeamsView;
+use App\Livewire\Issues\Issues;
+use App\Livewire\Issues\IssuesView;
+use App\Livewire\Clients\Clients;
+use App\Livewire\Clients\ClientsView;
+use App\Livewire\Projects\Projects;
+use App\Livewire\Projects\ProjectsView;
+use App\Livewire\Users\Users;
+use App\Livewire\Users\UsersView;
+use App\Livewire\Teams\Teams;
+use App\Livewire\Teams\TeamsView;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', Login::class)

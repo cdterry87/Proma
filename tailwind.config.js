@@ -16,6 +16,7 @@ export default {
     ],
     safelist: [
         'btn-accent',
+        'btn-error'
     ],
     theme: {
         extend: {
