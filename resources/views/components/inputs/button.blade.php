@@ -2,6 +2,7 @@
 
 <button {{ $attributes->merge([
     'class' => 'btn uppercase font-bold',
+    'wire:loading.attr' => 'disabled',
 ]) }}>
     @if ($icon)
         <x-dynamic-component :component="'icons.' . $icon" />

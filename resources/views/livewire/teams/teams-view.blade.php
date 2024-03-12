@@ -1,7 +1,25 @@
 <div>
     <div class="flex flex-col gap-8">
+        <div
+            role="tablist"
+            class="tabs tabs-bordered"
+        >
+            <a
+                role="tab"
+                class="tab tab-active"
+            >Details</a>
+            <a
+                role="tab"
+                class="tab"
+            >Members</a>
+            <a
+                role="tab"
+                class="tab"
+            >Uploads</a>
+        </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
-            <div class="lg:col-span-3">
+            <div class="lg:col-span-3 flex flex-col gap-8">
                 <x-layouts.card title="Team Details">
                     <x-slot:top-actions>
                         <x-modals.trigger
@@ -30,10 +48,9 @@
                         />
                     </div>
                 </x-layouts.card>
-            </div>
-            <div class="lg:col-span-2">
+
                 <x-layouts.card title="Team Stats">
-                    <div class="stats stats-vertical shadow">
+                    <div class="stats stats-vertical sm:stats-horizontal shadow">
                         <div class="stat">
                             <div class="stat-figure">
                                 <x-icons.users />
@@ -60,6 +77,24 @@
                             <div class="stat-value text-secondary">0</div>
                             <div class="stat-desc text-accent">0 Issues Closed</div>
                         </div>
+
+                    </div>
+                </x-layouts.card>
+            </div>
+            <div class="lg:col-span-2">
+                <x-layouts.card title="Team Uploads">
+                    <x-slot:top-actions>
+                        <x-modals.trigger
+                            id="teams_uploads__modal"
+                            label="Upload Files"
+                            icon="file"
+                            class="btn-secondary btn-sm"
+                            wire:click="$dispatchTo('teams.teams-uploads', 'uploadFiles', { id: {{ $team->id }}})"
+                        />
+                    </x-slot:top-actions>
+
+                    <div class="max-h-96 overflow-auto">
+                        Team has no files.
 
                     </div>
                 </x-layouts.card>

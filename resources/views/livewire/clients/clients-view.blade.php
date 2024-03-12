@@ -1,5 +1,27 @@
 <div>
     <div class="flex flex-col gap-8">
+        <div
+            role="tablist"
+            class="tabs tabs-bordered"
+        >
+            <a
+                role="tab"
+                class="tab tab-active"
+            >Details</a>
+            <a
+                role="tab"
+                class="tab"
+            >Contacts</a>
+            <a
+                role="tab"
+                class="tab"
+            >Notes</a>
+            <a
+                role="tab"
+                class="tab"
+            >Uploads</a>
+        </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
             <div class="lg:col-span-3">
                 <x-layouts.card title="Client Details">

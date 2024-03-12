@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 
 class Settings extends Component
 {
-    public $name, $email, $password, $password_confirmation;
+    public $name, $email, $title, $password, $password_confirmation;
 
     public function render()
     {
@@ -15,6 +15,7 @@ class Settings extends Component
         if ($user) {
             $this->name = $user->name;
             $this->email = $user->email;
+            $this->title = $user->title;
         }
 
         return view('livewire.settings', [
@@ -25,7 +26,7 @@ class Settings extends Component
     public function saveName()
     {
         $this->validate([
-            'name' => 'required|min:6',
+            'name' => 'required|min:6|max:255',
         ]);
 
         auth()->user()->update([
@@ -38,7 +39,7 @@ class Settings extends Component
     public function saveEmail()
     {
         $this->validate([
-            'email' => 'required|email|unique:users,email,' . auth()->id(),
+            'email' => 'required|max:255|email|unique:users,email,' . auth()->id(),
         ]);
 
         auth()->user()->update([
@@ -46,6 +47,19 @@ class Settings extends Component
         ]);
 
         session()->flash('success', 'Email saved successfully.');
+    }
+
+    public function saveTitle()
+    {
+        $this->validate([
+            'title' => 'nullable|max:255',
+        ]);
+
+        auth()->user()->update([
+            'title' => $this->title
+        ]);
+
+        session()->flash('success', 'Title saved successfully.');
     }
 
     public function changePassword()

@@ -44,7 +44,7 @@
                     </x-slot:bottom-actions>
                 </x-layouts.card>
                 <x-layouts.card title="User Stats">
-                    <div class="stats shadow">
+                    <div class="stats stats-vertical sm:stats-horizontal shadow">
                         <div class="stat">
                             <div class="stat-figure text-primary">
                                 <x-icons.projects />

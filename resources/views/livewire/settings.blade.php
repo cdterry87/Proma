@@ -113,18 +113,78 @@
             </div>
         </div>
 
+        {{-- Edit Title --}}
+        <div
+            x-data="{ isEditing: false }"
+            class=" card card-compact bg-base-200"
+        >
+            <div class="card-body flex flex-col gap-2">
+                <h2 class="font-bold text-2xl text-accent">Title</h2>
+                <div
+                    x-show="!isEditing"
+                    class="flex items-center justify-between gap-4"
+                >
+                    <span class="text-xl">
+                        {{ $user->title }}
+                    </span>
+                    <span>
+                        <x-inputs.button
+                            icon="edit"
+                            label="Edit"
+                            class="btn-sm btn-primary w-full"
+                            @click.prevent="isEditing = !isEditing"
+                        />
+                    </span>
+                </div>
+                <div
+                    x-show="isEditing"
+                    class="flex flex-col gap-4"
+                >
+                    <x-inputs.text
+                        label="Edit Your Title"
+                        name="title"
+                        placeholder="Edit Your Title"
+                        wire:model="title"
+                        required
+                    />
+                    <div class="flex items-center gap-4">
+                        <div>
+                            <x-inputs.button
+                                label="Save"
+                                class="btn-sm btn-primary w-full"
+                                wire:click.prevent="saveTitle"
+                            />
+                        </div>
+                        <div>
+                            <x-inputs.button
+                                label="Cancel"
+                                class="btn-sm btn-secondary w-full"
+                                @click.prevent="isEditing = !isEditing"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {{-- Change Password --}}
         <div
             x-data="{ isEditing: false }"
             class="card card-compact bg-base-200"
         >
-            <div class="card-body flex flex-col gap-2">
-                <h2 class="font-bold text-2xl text-accent">Change Password</h2>
-                <div x-show="!isEditing">
+            <div class="card-body flex flex-col gap-4">
+                <h2 class="font-bold text-2xl text-accent">Password</h2>
+                <div
+                    x-show="!isEditing"
+                    class="flex items-center justify-between gap-4"
+                >
+                    <div class="text-xl">
+                        ********
+                    </div>
                     <x-inputs.button
                         icon="lock"
                         label="Change Password"
-                        class="btn-primary"
+                        class="btn-primary btn-sm"
                         @click.prevent="isEditing = !isEditing"
                     />
                 </div>
