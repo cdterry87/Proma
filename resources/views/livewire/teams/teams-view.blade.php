@@ -116,9 +116,30 @@
                 <livewire:teams.teams-users-table :team-id="$team->id" />
             </x-layouts.card>
         </div>
+
+        {{-- Uploads --}}
+        <div
+            x-show="activeTab === 'uploads'"
+            role="tabpanel"
+        >
+            <x-layouts.card title="Team Uploads">
+                <x-slot:top-actions>
+                    <x-modals.trigger
+                        id="teams_uploads__modal"
+                        label="Upload Files"
+                        icon="plus"
+                        class="btn-secondary btn-sm"
+                        wire:click="$dispatchTo('teams.teams-uploads', 'uploadFiles', { id: {{ $team->id }}})"
+                    />
+                </x-slot:top-actions>
+
+                <livewire:teams.teams-uploads-table :team-id="$team->id" />
+            </x-layouts.card>
+        </div>
     </div>
 
     {{-- Components --}}
     <livewire:teams.teams-form />
     <livewire:teams.teams-users />
+    <livewire:teams.teams-uploads />
 </div>
