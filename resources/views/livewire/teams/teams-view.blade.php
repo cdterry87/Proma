@@ -109,7 +109,7 @@
                         label="Add Members"
                         icon="plus"
                         class="btn-secondary btn-sm"
-                        wire:click="$dispatchTo('teams.teams-users', 'addMembers', { id: {{ $team->id }}})"
+                        wire:click="$dispatchTo('teams.teams-users', 'getTeam', { id: {{ $team->id }}})"
                     />
                 </x-slot:top-actions>
 
@@ -129,7 +129,7 @@
                         label="Upload Files"
                         icon="plus"
                         class="btn-secondary btn-sm"
-                        wire:click="$dispatchTo('teams.teams-uploads', 'uploadFiles', { id: {{ $team->id }}})"
+                        wire:click="$dispatchTo('teams.teams-uploads', 'getTeam', { id: {{ $team->id }}})"
                     />
                 </x-slot:top-actions>
 

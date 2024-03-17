@@ -27,8 +27,8 @@ class TeamsUploads extends Component
         ];
     }
 
-    #[On('uploadFiles')]
-    public function uploadFiles($id)
+    #[On('getTeam')]
+    public function getTeam($id)
     {
         $team = Team::find($id);
         if ($team) {

@@ -16,8 +16,8 @@ class ClientsContacts extends Component
     public $contact_id, $name, $title, $email, $phone, $phone_ext;
     public $active = true;
 
-    #[On('addContacts')]
-    public function addContacts($id)
+    #[On('getClient')]
+    public function getClient($id)
     {
         $client = Client::find($id);
         if ($client) {
@@ -72,7 +72,9 @@ class ClientsContacts extends Component
     #[On('editContact')]
     public function editContact($id)
     {
-        $clientContact = ClientContact::find($id);
+        $clientContact = ClientContact::query()
+            ->with('client')
+            ->find($id);
         if ($clientContact) {
             $this->contact_id = $clientContact->id;
             $this->client_id = $clientContact->client_id;
@@ -82,6 +84,8 @@ class ClientsContacts extends Component
             $this->phone = $clientContact->phone;
             $this->phone_ext = $clientContact->phone_ext;
             $this->active = !!$clientContact->active;
+
+            $this->client_name = $clientContact->client->name;
         }
 
         $this->dispatch('refreshData');

@@ -106,11 +106,31 @@
                         label="Add Contacts"
                         icon="plus"
                         class="btn-secondary btn-sm"
-                        wire:click="$dispatchTo('clients.clients-contacts', 'addContacts', { id: {{ $client->id }}})"
+                        wire:click="$dispatchTo('clients.clients-contacts', 'getClient', { id: {{ $client->id }}})"
                     />
                 </x-slot:top-actions>
 
                 <livewire:clients.clients-contacts-table :client-id="$client->id" />
+            </x-layouts.card>
+        </div>
+
+        {{-- Notes --}}
+        <div
+            x-show="activeTab === 'notes'"
+            role="tabpanel"
+        >
+            <x-layouts.card title="Client Notes">
+                <x-slot:top-actions>
+                    <x-modals.trigger
+                        id="clients_notes__modal"
+                        label="Add Note"
+                        icon="plus"
+                        class="btn-secondary btn-sm"
+                        wire:click="$dispatchTo('clients.clients-notes', 'getClient', { id: {{ $client->id }}})"
+                    />
+                </x-slot:top-actions>
+
+                <livewire:clients.clients-notes-table :client-id="$client->id" />
             </x-layouts.card>
         </div>
 
@@ -126,7 +146,7 @@
                         label="Upload Files"
                         icon="plus"
                         class="btn-secondary btn-sm"
-                        wire:click="$dispatchTo('clients.clients-uploads', 'uploadFiles', { id: {{ $client->id }}})"
+                        wire:click="$dispatchTo('clients.clients-uploads', 'getClient', { id: {{ $client->id }}})"
                     />
                 </x-slot:top-actions>
 
@@ -138,5 +158,6 @@
     {{-- Components --}}
     <livewire:clients.clients-form />
     <livewire:clients.clients-contacts />
+    <livewire:clients.clients-notes />
     <livewire:clients.clients-uploads />
 </div>

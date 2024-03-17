@@ -27,8 +27,8 @@ class ClientsUploads extends Component
         ];
     }
 
-    #[On('uploadFiles')]
-    public function uploadFiles($id)
+    #[On('getClient')]
+    public function getClient($id)
     {
         $client = Client::find($id);
         if ($client) {

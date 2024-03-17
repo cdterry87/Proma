@@ -46,7 +46,7 @@ final class ClientsUploadsTable extends PowerGridComponent
             ->add('name')
             ->add('type')
             ->add('size')
-            ->add('created_at_formatted', fn (ClientUpload $model) => Carbon::parse($model->created_at)->format('m/d/Y H:i:s'));
+            ->add('created_at', fn (ClientUpload $model) => Carbon::parse($model->created_at)->format('m/d/Y H:i:s'));
     }
 
     public function columns(): array

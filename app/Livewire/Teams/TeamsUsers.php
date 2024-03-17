@@ -16,8 +16,8 @@ class TeamsUsers extends Component
     public $team_id, $team_name;
     public $user_id;
 
-    #[On('addMembers')]
-    public function addMembers($id)
+    #[On('getTeam')]
+    public function getTeam($id)
     {
         $team = Team::find($id);
         if ($team) {

@@ -6,13 +6,13 @@ use App\Traits\HasActiveToggle;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class ClientUpload extends Model
+class ClientNote extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
 
-    protected $table = 'clients_uploads';
+    protected $table = 'clients_notes';
 
     public function client()
     {
