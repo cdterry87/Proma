@@ -8,7 +8,6 @@ use App\Traits\WithModal;
 use App\Models\TeamUpload;
 use Livewire\Attributes\On;
 use Livewire\WithFileUploads;
-use Livewire\Attributes\Validate;
 
 class TeamsUploads extends Component
 {

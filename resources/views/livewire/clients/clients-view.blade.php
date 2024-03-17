@@ -113,9 +113,30 @@
                 <livewire:clients.clients-contacts-table :client-id="$client->id" />
             </x-layouts.card>
         </div>
+
+        {{-- Uploads --}}
+        <div
+            x-show="activeTab === 'uploads'"
+            role="tabpanel"
+        >
+            <x-layouts.card title="Client Uploads">
+                <x-slot:top-actions>
+                    <x-modals.trigger
+                        id="clients_uploads__modal"
+                        label="Upload Files"
+                        icon="plus"
+                        class="btn-secondary btn-sm"
+                        wire:click="$dispatchTo('clients.clients-uploads', 'uploadFiles', { id: {{ $client->id }}})"
+                    />
+                </x-slot:top-actions>
+
+                <livewire:clients.clients-uploads-table :client-id="$client->id" />
+            </x-layouts.card>
+        </div>
     </div>
 
     {{-- Components --}}
     <livewire:clients.clients-form />
     <livewire:clients.clients-contacts />
+    <livewire:clients.clients-uploads />
 </div>

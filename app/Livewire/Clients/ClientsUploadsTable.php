@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Livewire\Teams;
+namespace App\Livewire\Clients;
 
+use App\Models\ClientUpload;
 use App\Models\TeamUpload;
 use Livewire\Attributes\On;
 use Illuminate\Support\Carbon;
@@ -12,14 +13,12 @@ use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
 use PowerComponents\LivewirePowerGrid\Exportable;
-use PowerComponents\LivewirePowerGrid\Facades\Rule;
-use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
-final class TeamsUploadsTable extends PowerGridComponent
+final class ClientsUploadsTable extends PowerGridComponent
 {
-    public $teamId;
+    public $clientId;
 
     public function setUp(): array
     {
@@ -37,8 +36,8 @@ final class TeamsUploadsTable extends PowerGridComponent
     #[On('refreshData')]
     public function datasource(): Builder
     {
-        return TeamUpload::query()
-            ->where('team_id', $this->teamId);
+        return ClientUpload::query()
+            ->where('client_id', $this->clientId);
     }
 
     public function fields(): PowerGridFields
@@ -47,7 +46,7 @@ final class TeamsUploadsTable extends PowerGridComponent
             ->add('name')
             ->add('type')
             ->add('size')
-            ->add('created_at_formatted', fn (TeamUpload $model) => Carbon::parse($model->created_at)->format('m/d/Y H:i:s'));
+            ->add('created_at_formatted', fn (ClientUpload $model) => Carbon::parse($model->created_at)->format('m/d/Y H:i:s'));
     }
 
     public function columns(): array
@@ -77,13 +76,13 @@ final class TeamsUploadsTable extends PowerGridComponent
         ];
     }
 
-    public function actions(TeamUpload $row): array
+    public function actions(ClientUpload $row): array
     {
         return [
             Button::add('download--button')
                 ->slot('<x-icons.download /> Download')
                 ->class('btn btn-accent btn-sm')
-                ->dispatchTo('teams.teams-view', 'download', ['id' => $row->id]),
+                ->dispatchTo('clients.clients-view', 'download', ['id' => $row->id]),
         ];
     }
 }
