@@ -19,4 +19,9 @@ class Team extends Model
     {
         return $this->belongsToMany(User::class, 'teams_users', 'team_id', 'user_id');
     }
+
+    public function uploads()
+    {
+        return $this->hasMany(TeamUpload::class);
+    }
 }

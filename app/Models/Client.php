@@ -14,4 +14,19 @@ class Client extends Model
     protected $guarded = [];
 
     protected $table = 'clients';
+
+    public function contacts()
+    {
+        return $this->hasMany(ClientContact::class);
+    }
+
+    public function notes()
+    {
+        return $this->hasMany(ClientNote::class);
+    }
+
+    public function uploads()
+    {
+        return $this->hasMany(ClientUpload::class);
+    }
 }

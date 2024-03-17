@@ -24,7 +24,9 @@ final class TeamsTable extends PowerGridComponent
 
     public function datasource(): ?Collection
     {
-        return Team::all();
+        return Team::query()
+            ->withCount(['users', 'uploads'])
+            ->get();
     }
 
     public function setUp(): array
@@ -47,7 +49,8 @@ final class TeamsTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('name')
-            ->add('user_count')
+            ->add('users_count')
+            ->add('uploads_count')
             ->add('active', function ($entry) {
                 return Team::getActiveCodes()->firstWhere('value', $entry->active)['label'];
             })
@@ -63,7 +66,10 @@ final class TeamsTable extends PowerGridComponent
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Members', 'user_count')
+            Column::make('Members', 'users_count')
+                ->sortable(),
+
+            Column::make('Uploads', 'uploads_count')
                 ->sortable(),
 
             Column::make('Active', 'active')

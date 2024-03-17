@@ -108,7 +108,7 @@
                         id="teams_users__modal"
                         label="Add Members"
                         icon="plus"
-                        class="btn-secondary btn-sm"
+                        class="btn-primary btn-sm"
                         wire:click="$dispatchTo('teams.teams-users', 'getTeam', { id: {{ $team->id }}})"
                     />
                 </x-slot:top-actions>
@@ -128,7 +128,7 @@
                         id="teams_uploads__modal"
                         label="Upload Files"
                         icon="plus"
-                        class="btn-secondary btn-sm"
+                        class="btn-primary btn-sm"
                         wire:click="$dispatchTo('teams.teams-uploads', 'getTeam', { id: {{ $team->id }}})"
                     />
                 </x-slot:top-actions>

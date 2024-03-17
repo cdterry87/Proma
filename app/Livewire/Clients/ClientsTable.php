@@ -25,7 +25,9 @@ final class ClientsTable extends PowerGridComponent
     #[On('refreshData')]
     public function datasource(): ?Collection
     {
-        return Client::all();
+        return Client::query()
+            ->withCount(['contacts', 'notes', 'uploads'])
+            ->get();
     }
 
     public function setUp(): array

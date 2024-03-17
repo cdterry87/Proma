@@ -105,7 +105,7 @@
                         id="clients_contacts__modal"
                         label="Add Contacts"
                         icon="plus"
-                        class="btn-secondary btn-sm"
+                        class="btn-primary btn-sm"
                         wire:click="$dispatchTo('clients.clients-contacts', 'getClient', { id: {{ $client->id }}})"
                     />
                 </x-slot:top-actions>
@@ -125,7 +125,7 @@
                         id="clients_notes__modal"
                         label="Add Note"
                         icon="plus"
-                        class="btn-secondary btn-sm"
+                        class="btn-primary btn-sm"
                         wire:click="$dispatchTo('clients.clients-notes', 'getClient', { id: {{ $client->id }}})"
                     />
                 </x-slot:top-actions>
@@ -145,7 +145,7 @@
                         id="clients_uploads__modal"
                         label="Upload Files"
                         icon="plus"
-                        class="btn-secondary btn-sm"
+                        class="btn-primary btn-sm"
                         wire:click="$dispatchTo('clients.clients-uploads', 'getClient', { id: {{ $client->id }}})"
                     />
                 </x-slot:top-actions>
