@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Issue extends Model
 {
-    use HasActiveToggle;
     use HasFactory;
 
     protected $guarded = [];

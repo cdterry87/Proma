@@ -50,7 +50,10 @@ final class UsersTable extends PowerGridComponent
                 return Team::getActiveCodes()->firstWhere('value', $entry->active)['label'];
             })
             ->add('created_at_formatted', function ($entry) {
-                return Carbon::parse($entry->created_at)->format('m/d/Y');
+                return $entry->created_at->diffForHumans();
+            })
+            ->add('updated_at_formatted', function ($entry) {
+                return $entry->updated_at->diffForHumans();
             });
     }
 
@@ -67,7 +70,16 @@ final class UsersTable extends PowerGridComponent
             Column::make('Active', 'active')
                 ->sortable(),
 
-            Column::make('Created', 'created_at_formatted'),
+            Column::add()
+                ->title('Created')
+                ->field('created_at_formatted', 'created_at')
+                ->sortable(),
+
+            Column::add()
+                ->title('Updated')
+                ->field('updated_at_formatted', 'updated_at')
+                ->sortable(),
+
 
             Column::action('Actions')
 
@@ -78,10 +90,9 @@ final class UsersTable extends PowerGridComponent
     {
         return [
             Button::add('user-view--button')
-                ->slot('<a href="' . route('users.view', $row->id) . '" class="btn btn-accent btn-sm">
-                    <x-icons.eye />
-                    View
-                </a>'),
+                ->slot('<x-icons.eye /> View')
+                ->class('btn btn-accent btn-sm')
+                ->route('users.view', ['user' => $row->id])
         ];
     }
 

@@ -54,7 +54,12 @@ final class ClientsNotesTable extends PowerGridComponent
             ->add('created_by', function ($entry) {
                 return User::find($entry->created_by)->name;
             })
-            ->add('created_at', fn (ClientNote $model) => Carbon::parse($model->created_at)->format('m/d/Y H:i:s'));
+            ->add('created_at_formatted', function ($entry) {
+                return $entry->created_at->diffForHumans();
+            })
+            ->add('updated_at_formatted', function ($entry) {
+                return $entry->updated_at->diffForHumans();
+            });
     }
 
     public function columns(): array
@@ -68,7 +73,14 @@ final class ClientsNotesTable extends PowerGridComponent
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Created At', 'created_at')
+            Column::add()
+                ->title('Created')
+                ->field('created_at_formatted', 'created_at')
+                ->sortable(),
+
+            Column::add()
+                ->title('Updated')
+                ->field('updated_at_formatted', 'updated_at')
                 ->sortable(),
 
             Column::action('Action')
@@ -96,10 +108,8 @@ final class ClientsNotesTable extends PowerGridComponent
                 />')
                 ->dispatchTo('clients.clients-notes', 'editNote', ['id' => $row->id]),
             Button::add('client-notes-delete--button')
-                ->slot('<span class="btn btn-sm btn-error uppercase">
-                    <x-icons.delete />
-                    Delete
-                </span>')
+                ->slot('<x-icons.delete /> Delete')
+                ->class('btn btn-sm btn-error uppercase')
                 ->dispatchTo('clients.clients-notes', 'deleteNote', ['noteId' => $row->id, 'clientId' => $row->client_id]),
         ];
     }

@@ -47,7 +47,9 @@ final class TeamsUploadsTable extends PowerGridComponent
             ->add('name')
             ->add('type')
             ->add('size')
-            ->add('created_at_formatted', fn (TeamUpload $model) => Carbon::parse($model->created_at)->format('m/d/Y H:i:s'));
+            ->add('created_at_formatted', function ($entry) {
+                return $entry->created_at->diffForHumans();
+            });
     }
 
     public function columns(): array
@@ -64,7 +66,10 @@ final class TeamsUploadsTable extends PowerGridComponent
             Column::make('Size', 'size')
                 ->sortable(),
 
-            Column::make('Created at', 'created_at'),
+            Column::add()
+                ->title('Uploaded')
+                ->field('created_at_formatted', 'created_at')
+                ->sortable(),
 
             Column::action('Action')
         ];

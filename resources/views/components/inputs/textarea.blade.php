@@ -1,4 +1,17 @@
-@props(['label', 'name', 'id' => null, 'placeholder' => null, 'value', 'hideLabel' => false, 'rows' => 4])
+@props([
+    'label',
+    'name',
+    'id' => null,
+    'placeholder' => null,
+    'value',
+    'hideLabel' => false,
+    'rows' => 4,
+    'required' => false,
+])
+
+@php
+    $label = $required ? "{$label} *" : "{$label} (Optional)";
+@endphp
 
 <label
     class="form-control w-full"
@@ -12,7 +25,7 @@
             'name' => $name,
             'id' => $id ?? $name,
             'placeholder' => $placeholder,
-            'class' => 'textarea textarea-bordered w-full',
+            'class' => 'textarea textarea-bordered w-full ' . ($errors->has($name) ? 'textarea-error' : ''),
             'rows' => $rows,
         ]) }}
     >{{ $value ?? $slot }}</textarea>

@@ -2,25 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Project extends Model
+class ProjectTask extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
+    protected $table = 'projects_tasks';
 
-    protected $table = 'projects';
-
-    public function client()
+    public function project()
     {
-        return $this->belongsTo(Client::class);
-    }
-
-    public function team()
-    {
-        return $this->belongsTo(Team::class);
+        return $this->belongsTo(Project::class);
     }
 
     public function assignedTo()
@@ -41,20 +35,5 @@ class Project extends Model
     public function updatedBy()
     {
         return $this->belongsTo(User::class, 'updated_by');
-    }
-
-    public function issues()
-    {
-        return $this->hasMany(Issue::class);
-    }
-
-    public function tasks()
-    {
-        return $this->hasMany(ProjectTask::class);
-    }
-
-    public function uploads()
-    {
-        return $this->hasMany(ProjectUpload::class);
     }
 }

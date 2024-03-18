@@ -49,7 +49,7 @@ final class IssuesTable extends PowerGridComponent
             ->add('team')
             ->add('project')
             ->add('assigned_to_name')
-            ->add('created_at');
+            ->add('created_at_formatted', fn (Issue $model) => $model->created_at->format('m/d/Y'));
     }
 
     public function columns(): array
@@ -79,7 +79,7 @@ final class IssuesTable extends PowerGridComponent
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Created at', 'created_at')
+            Column::make('Created', 'created_at_formatted')
                 ->hidden(),
 
             Column::action('Action')

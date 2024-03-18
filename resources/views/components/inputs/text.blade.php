@@ -1,4 +1,16 @@
-@props(['label', 'name', 'id' => null, 'placeholder' => null, 'type' => 'text', 'hideLabel' => false])
+@props([
+    'label',
+    'name',
+    'id' => null,
+    'placeholder' => null,
+    'type' => 'text',
+    'hideLabel' => false,
+    'required' => false,
+])
+
+@php
+    $label = $required ? "{$label} *" : "{$label} (Optional)";
+@endphp
 
 <label
     class="form-control w-full"
@@ -12,7 +24,7 @@
             'name' => $name,
             'id' => $id ?? $name,
             'placeholder' => $placeholder,
-            'class' => 'input input-bordered w-full',
+            'class' => 'input input-bordered w-full ' . ($errors->has($name) ? 'input-error' : ''),
             'type' => $type,
         ]) }}
     />

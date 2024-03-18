@@ -39,6 +39,7 @@
                     placeholder="Email"
                     wire:model="email"
                     maxlength="255"
+                    required
                 />
                 <div class="flex gap-2">
                     <div class="flex-1">

@@ -50,7 +50,9 @@ final class TeamsUsersTable extends PowerGridComponent
             ->add('user.active', function ($entry) {
                 return User::getActiveCodes()->firstWhere('value', $entry->user->active)['label'];
             })
-            ->add('created_at');
+            ->add('created_at_formatted', function ($entry) {
+                return $entry->created_at->diffForHumans();
+            });
     }
 
     public function columns(): array
@@ -71,8 +73,10 @@ final class TeamsUsersTable extends PowerGridComponent
             Column::make('Active', 'user.active')
                 ->sortable(),
 
-            Column::make('Created at', 'created_at')
-                ->hidden(),
+            Column::add()
+                ->title('Added')
+                ->field('created_at_formatted', 'created_at')
+                ->sortable(),
 
             Column::action('Action')
         ];
@@ -89,10 +93,8 @@ final class TeamsUsersTable extends PowerGridComponent
     {
         return [
             Button::add('team-users-remove--button')
-                ->slot('<span class="btn btn-sm btn-error">
-                    <x-icons.delete />
-                    Remove
-                </span>')
+                ->slot('<x-icons.delete /> Remove')
+                ->class('btn btn-sm btn-error')
                 ->dispatchTo('teams.teams-users', 'removeMember', ['userId' => $row->user_id, 'teamId' => $row->team_id]),
         ];
     }

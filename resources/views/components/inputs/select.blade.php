@@ -1,4 +1,16 @@
-@props(['label', 'name', 'id' => null, 'hideLabel' => false, 'defaultOption' => null, 'options' => null])
+@props([
+    'label',
+    'name',
+    'id' => null,
+    'hideLabel' => false,
+    'defaultOption' => null,
+    'options' => null,
+    'required' => false,
+])
+
+@php
+    $label = $required ? "{$label} *" : "{$label} (Optional)";
+@endphp
 
 <label
     class="form-control w-full"
@@ -11,7 +23,7 @@
         {{ $attributes->merge([
             'name' => $name,
             'id' => $id ?? $name,
-            'class' => 'select select-bordered w-full',
+            'class' => 'select select-bordered w-full ' . ($errors->has($name) ? 'select-error' : ''),
         ]) }}
     >
         @if ($defaultOption)

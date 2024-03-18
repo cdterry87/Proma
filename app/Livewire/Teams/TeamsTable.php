@@ -54,8 +54,8 @@ final class TeamsTable extends PowerGridComponent
             ->add('active', function ($entry) {
                 return Team::getActiveCodes()->firstWhere('value', $entry->active)['label'];
             })
-            ->add('created_at_formatted', function ($entry) {
-                return Carbon::parse($entry->created_at)->format('m/d/Y');
+            ->add('updated_at_formatted', function ($entry) {
+                return $entry->updated_at->diffForHumans();
             });
     }
 
@@ -75,7 +75,10 @@ final class TeamsTable extends PowerGridComponent
             Column::make('Active', 'active')
                 ->sortable(),
 
-            Column::make('Created', 'created_at_formatted'),
+            Column::add()
+                ->title('Updated')
+                ->field('updated_at_formatted', 'updated_at')
+                ->sortable(),
 
             Column::action('Action')
         ];
@@ -85,10 +88,9 @@ final class TeamsTable extends PowerGridComponent
     {
         return [
             Button::add('team-view--button')
-                ->slot('<a href="' . route('teams.view', $row->id) . '" class="btn btn-accent btn-sm">
-                    <x-icons.eye />
-                    View
-                </a>'),
+                ->slot('<x-icons.eye /> View')
+                ->class('btn btn-accent btn-sm')
+                ->route('teams.view', ['team' => $row->id]),
         ];
     }
 

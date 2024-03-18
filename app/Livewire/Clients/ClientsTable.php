@@ -56,8 +56,8 @@ final class ClientsTable extends PowerGridComponent
             ->add('active', function ($entry) {
                 return Client::getActiveCodes()->firstWhere('value', $entry->active)['label'];
             })
-            ->add('created_at_formatted', function ($entry) {
-                return Carbon::parse($entry->created_at)->format('m/d/Y');
+            ->add('updated_at_formatted', function ($entry) {
+                return $entry->updated_at->diffForHumans();
             });
     }
 
@@ -80,7 +80,10 @@ final class ClientsTable extends PowerGridComponent
             Column::make('Active', 'active')
                 ->sortable(),
 
-            Column::make('Created', 'created_at_formatted'),
+            Column::add()
+                ->title('Updated')
+                ->field('updated_at_formatted', 'updated_at')
+                ->sortable(),
 
             Column::action('Action')
         ];

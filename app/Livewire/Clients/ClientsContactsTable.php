@@ -102,10 +102,8 @@ final class ClientsContactsTable extends PowerGridComponent
                 />')
                 ->dispatchTo('clients.clients-contacts', 'editContact', ['id' => $row->id]),
             Button::add('client-contacts-delete--button')
-                ->slot('<span class="btn btn-sm btn-error uppercase">
-                    <x-icons.delete />
-                    Delete
-                </span>')
+                ->slot('<x-icons.delete /> Delete')
+                ->class('btn btn-sm btn-error uppercase')
                 ->dispatchTo('clients.clients-contacts', 'deleteContact', ['contactId' => $row->id, 'clientId' => $row->client_id]),
         ];
     }
