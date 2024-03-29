@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('clients_notes', function (Blueprint $table) {
             $table->id();
-            $table->text('note');
             $table->foreignId('client_id')->constrained('clients')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('title');
+            $table->text('note');
             $table->foreignId('created_by')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('updated_by')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();

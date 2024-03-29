@@ -59,10 +59,12 @@
                             <x-inputs.display
                                 label="Name"
                                 value="{{ $client->name }}"
+                                class="text-3xl"
                             />
                             <x-inputs.display
                                 label="Description"
                                 value="{{ $client->description }}"
+                                class="text-xl"
                             />
                         </div>
                     </x-layouts.card>

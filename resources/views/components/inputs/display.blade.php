@@ -5,7 +5,9 @@
     aria-label="{{ $label }}"
 >
     <x-inputs.label :label="$label" />
-    <div>
-        <p class="textarea textarea-bordered w-full flex items-center text-gray-400">{!! $value !!}</p>
+    <div {{ $attributes->merge([
+        'class' => 'font-bold w-full px-1',
+    ]) }}>
+        {!! $value !!}
     </div>
 </label>

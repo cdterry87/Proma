@@ -14,7 +14,7 @@ class ClientsNotes extends Component
     use WithModal;
 
     public $client_id, $client_name;
-    public $note_id, $note;
+    public $note_id, $title, $note;
 
     #[On('getClient')]
     public function getClient($id)
@@ -34,6 +34,7 @@ class ClientsNotes extends Component
     public function saveNote()
     {
         $this->validate([
+            'title' => 'required|max:255',
             'note' => 'required',
         ]);
 
@@ -45,6 +46,7 @@ class ClientsNotes extends Component
             $clientNote->created_by = auth()->id();
         }
 
+        $clientNote->title = $this->title;
         $clientNote->note = $this->note;
         $clientNote->updated_by = auth()->id();
         $clientNote->save();
@@ -61,6 +63,7 @@ class ClientsNotes extends Component
         if ($clientNote) {
             $this->note_id = $clientNote->id;
             $this->note = $clientNote->note;
+            $this->title = $clientNote->title;
 
             $this->client_name = $clientNote->client->name;
         }

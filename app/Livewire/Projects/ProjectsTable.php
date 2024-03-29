@@ -14,6 +14,7 @@ use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
 use PowerComponents\LivewirePowerGrid\Exportable;
+use PowerComponents\LivewirePowerGrid\Responsive;
 use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
@@ -27,7 +28,9 @@ final class ProjectsTable extends PowerGridComponent
             Exportable::make('export')
                 ->striped()
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
-            Header::make()->showSearchInput(),
+            Header::make()
+                ->showToggleColumns()
+                ->showSearchInput(),
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount(),
@@ -41,7 +44,6 @@ final class ProjectsTable extends PowerGridComponent
     public function datasource(): Collection
     {
         return Project::query()
-            ->withCount(['tasks', 'issues'])
             ->get();
     }
 
@@ -51,10 +53,14 @@ final class ProjectsTable extends PowerGridComponent
             ->add('name')
             ->add('client', fn (Project $model) => $model->client->name ?? 'N/A')
             ->add('team', fn (Project $model) => $model->team->name ?? 'N/A')
-            ->add('due_date', fn (Project $model) => $model->due_date ? Carbon::parse($model->due_date)->format('m/d/Y') : 'N/A')
+            ->add('start_date')
+            ->add('start_date_formatted', fn (Project $model) => $model->start_date ? Carbon::parse($model->start_date)->format('m/d/Y') : 'Not Started')
+            ->add('due_date')
+            ->add('due_date_formatted', fn (Project $model) => $model->due_date ? Carbon::parse($model->due_date)->format('m/d/Y') : 'N/A')
+            ->add('completed_date')
+            ->add('completed_date_formatted', fn (Project $model) => $model->completed_date ? Carbon::parse($model->completed_date)->format('m/d/Y') : 'Incomplete')
             ->add('assigned_to', fn (Project $model) => $model->assignedTo->name ?? 'N/A')
-            ->add('tasks_count')
-            ->add('issues_count')
+            ->add('updated_at')
             ->add('updated_at_formatted', fn (Project $model) => $model->updated_at->diffForHumans());
     }
 
@@ -73,23 +79,18 @@ final class ProjectsTable extends PowerGridComponent
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Due Date', 'due_date')
-                ->searchable()
+            Column::add()
+                ->title('Due')
+                ->field('due_date_formatted', 'due_date')
+                ->sortable(),
+
+            Column::add()
+                ->title('Completed')
+                ->field('completed_date_formatted', 'completed_date')
                 ->sortable(),
 
             Column::make('Assigned To', 'assigned_to')
                 ->searchable()
-                ->sortable(),
-
-            Column::make('Tasks', 'tasks_count')
-                ->sortable(),
-
-            Column::make('Issues', 'issues_count')
-                ->sortable(),
-
-            Column::add()
-                ->title('Updated')
-                ->field('updated_at_formatted', 'updated_at')
                 ->sortable(),
 
             Column::action('Action')
@@ -107,9 +108,10 @@ final class ProjectsTable extends PowerGridComponent
     {
         return [
             Button::add('project-view--button')
-                ->slot('<x-icons.eye /> View')
-                ->route('projects.view', ['project' => $row->id],)
-                ->class('btn btn-accent btn-sm'),
+                ->slot('<x-icons.eye />')
+                ->route('projects.view', ['project' => $row->id])
+                ->class('btn btn-accent btn-sm')
+                ->tooltip('View Project'),
         ];
     }
 }

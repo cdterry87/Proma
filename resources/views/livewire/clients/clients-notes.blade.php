@@ -8,6 +8,13 @@
 
         <div class="flex flex-col gap-6">
             <div class="flex flex-col gap-4 w-full">
+                <x-inputs.text
+                    label="Title"
+                    name="title"
+                    placeholder="Title"
+                    wire:model="title"
+                    required
+                />
                 <x-inputs.textarea
                     label="Note"
                     name="note"

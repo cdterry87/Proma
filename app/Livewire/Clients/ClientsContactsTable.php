@@ -94,16 +94,15 @@ final class ClientsContactsTable extends PowerGridComponent
             Button::add('client-contacts--button')
                 ->slot('<x-modals.trigger
                     id="clients_contacts__modal"
-                    label="Edit"
-                    label-classes="hidden sm:block"
                     icon="edit"
                     class="btn-accent btn-sm"
                     title="Edit Contact"
                 />')
                 ->dispatchTo('clients.clients-contacts', 'editContact', ['id' => $row->id]),
             Button::add('client-contacts-delete--button')
-                ->slot('<x-icons.delete /> Delete')
-                ->class('btn btn-sm btn-error uppercase')
+                ->slot('<x-icons.delete />')
+                ->class('btn btn-sm btn-error')
+                ->tooltip('Delete Contact')
                 ->dispatchTo('clients.clients-contacts', 'deleteContact', ['contactId' => $row->id, 'clientId' => $row->client_id]),
         ];
     }

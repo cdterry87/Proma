@@ -10,7 +10,7 @@
             @foreach ($permissions as $permission)
                 @if ($loop->first || $permission->section !== $permissions[$loop->index - 1]->section)
                     @if ($permission->section)
-                        <div class="font-bold text-xl mt-4 text-accent">{{ $permission->section }}</div>
+                        <div class="font-bold text-3xl mt-4 text-accent">{{ $permission->section }}</div>
                     @endif
                 @endif
                 <div class="flex items-center gap-2">

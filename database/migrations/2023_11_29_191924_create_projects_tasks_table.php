@@ -14,12 +14,11 @@ return new class extends Migration
         Schema::create('projects_tasks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->text('description');
+            $table->string('title')->index();
+            $table->text('description')->nullable();
             $table->date('start_date')->nullable();
             $table->date('due_date')->nullable();
             $table->date('completed_date')->nullable();
-            $table->foreignId('assigned_to')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('assigned_by')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('created_by')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('updated_by')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();

@@ -9,7 +9,9 @@
     @if ($icon)
         <x-dynamic-component :component="'icons.' . $icon" />
     @endif
-    <span class="{{ $labelClasses }}">
-        {{ $label ?? $slot }}
-    </span>
+    @if ($label)
+        <span class="{{ $labelClasses }}">
+            {{ $label ?? $slot }}
+        </span>
+    @endif
 </label>

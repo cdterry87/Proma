@@ -34,18 +34,20 @@
                 :options="$teams"
                 default-option="Select Team"
             />
-            <x-inputs.text
-                label="Start Date"
-                name="start_date"
-                wire:model="start_date"
-                type="date"
-            />
-            <x-inputs.text
-                label="Due Date"
-                name="due_date"
-                wire:model="due_date"
-                type="date"
-            />
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <x-inputs.text
+                    label="Start Date"
+                    name="start_date"
+                    wire:model="start_date"
+                    type="date"
+                />
+                <x-inputs.text
+                    label="Due Date"
+                    name="due_date"
+                    wire:model="due_date"
+                    type="date"
+                />
+            </div>
             <div class="mt-4">
                 <x-inputs.button
                     class="btn-primary btn-block"

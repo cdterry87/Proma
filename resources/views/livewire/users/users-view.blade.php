@@ -48,15 +48,18 @@
                                 <x-inputs.display
                                     label="Name"
                                     value="{{ $user->name }}"
+                                    class="text-3xl"
+                                />
+                                <x-inputs.display
+                                    label="Title"
+                                    value="{{ $user->title }}"
+                                    class="text-xl"
                                 />
                                 <x-inputs.display
                                     label="Email"
                                     value="{{ $user->email }}"
                                 />
-                                <x-inputs.display
-                                    label="Title"
-                                    value="{{ $user->title }}"
-                                />
+
                             </div>
                             <x-slot:bottom-actions>
                                 <x-inputs.button
@@ -114,7 +117,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
                         @foreach ($userPermissions as $section => $permissions)
                             <div>
-                                <h3 class="text-lg font-semibold text-accent">{{ $section }}</h3>
+                                <h3 class="text-3xl font-semibold text-accent">{{ $section }}</h3>
                                 <ul class="list-inside list-disc">
                                     @foreach ($permissions as $permission)
                                         <li>{{ $permission->label }}</li>

@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('issues_notes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('issue_id')->constrained('issues')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->text('description');
+            $table->string('title')->index();
+            $table->text('description')->nullable();
             $table->foreignId('created_by')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('updated_by')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();

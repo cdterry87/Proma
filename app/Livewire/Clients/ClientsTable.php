@@ -93,10 +93,10 @@ final class ClientsTable extends PowerGridComponent
     {
         return [
             Button::add('client-view--button')
-                ->slot('<a href="' . route('clients.view', $row->id) . '" class="btn btn-accent btn-sm">
-                    <x-icons.eye />
-                    View
-                </a>'),
+                ->slot('<x-icons.eye />')
+                ->route('clients.view', ['client' => $row->id])
+                ->class('btn btn-accent btn-sm')
+                ->tooltip('View Client'),
         ];
     }
 

@@ -50,12 +50,10 @@ final class ClientsNotesTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
+            ->add('title')
             ->add('note')
-            ->add('created_by', function ($entry) {
-                return User::find($entry->created_by)->name;
-            })
-            ->add('created_at_formatted', function ($entry) {
-                return $entry->created_at->diffForHumans();
+            ->add('updated_by', function ($entry) {
+                return User::find($entry->updated_by)->name;
             })
             ->add('updated_at_formatted', function ($entry) {
                 return $entry->updated_at->diffForHumans();
@@ -65,17 +63,16 @@ final class ClientsNotesTable extends PowerGridComponent
     public function columns(): array
     {
         return [
+            Column::make('Title', 'title')
+                ->searchable()
+                ->sortable(),
+
             Column::make('Note', 'note')
                 ->searchable()
                 ->hidden(),
 
-            Column::make('Created By', 'created_by')
+            Column::make('Updated By', 'updated_by')
                 ->searchable()
-                ->sortable(),
-
-            Column::add()
-                ->title('Created')
-                ->field('created_at_formatted', 'created_at')
                 ->sortable(),
 
             Column::add()
@@ -100,16 +97,15 @@ final class ClientsNotesTable extends PowerGridComponent
             Button::add('client-notes--button')
                 ->slot('<x-modals.trigger
                     id="clients_notes__modal"
-                    label="Edit"
-                    label-classes="hidden sm:block"
                     icon="edit"
                     class="btn-accent btn-sm"
                     title="Edit Note"
                 />')
                 ->dispatchTo('clients.clients-notes', 'editNote', ['id' => $row->id]),
             Button::add('client-notes-delete--button')
-                ->slot('<x-icons.delete /> Delete')
-                ->class('btn btn-sm btn-error uppercase')
+                ->slot('<x-icons.delete />')
+                ->class('btn btn-sm btn-error')
+                ->tooltip('Delete Note')
                 ->dispatchTo('clients.clients-notes', 'deleteNote', ['noteId' => $row->id, 'clientId' => $row->client_id]),
         ];
     }

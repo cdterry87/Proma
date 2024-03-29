@@ -85,8 +85,9 @@ final class ClientsUploadsTable extends PowerGridComponent
     {
         return [
             Button::add('download--button')
-                ->slot('<x-icons.download /> Download')
+                ->slot('<x-icons.download />')
                 ->class('btn btn-accent btn-sm')
+                ->tooltip('Download File')
                 ->dispatchTo('clients.clients-view', 'download', ['id' => $row->id]),
         ];
     }

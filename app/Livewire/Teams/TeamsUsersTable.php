@@ -93,8 +93,9 @@ final class TeamsUsersTable extends PowerGridComponent
     {
         return [
             Button::add('team-users-remove--button')
-                ->slot('<x-icons.delete /> Remove')
+                ->slot('<x-icons.delete />')
                 ->class('btn btn-sm btn-error')
+                ->tooltip('Remove Member')
                 ->dispatchTo('teams.teams-users', 'removeMember', ['userId' => $row->user_id, 'teamId' => $row->team_id]),
         ];
     }

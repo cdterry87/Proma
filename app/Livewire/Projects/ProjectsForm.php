@@ -40,6 +40,8 @@ class ProjectsForm extends Component
             $this->model_id = $id;
             $this->name = $project->name;
             $this->description = $project->description;
+            $this->client_id = $project->client_id;
+            $this->team_id = $project->team_id;
             $this->start_date = $project->start_date;
             $this->due_date = $project->due_date;
             $this->completed_date = $project->completed_date;
@@ -67,6 +69,8 @@ class ProjectsForm extends Component
         $data = [
             'name' => $this->name,
             'description' => $this->description,
+            'client_id' => $this->client_id ? $this->client_id : null,
+            'team_id' => $this->team_id ? $this->client_id : null,
             'start_date' => $this->start_date,
             'due_date' => $this->due_date,
             'completed_date' => $this->completed_date,

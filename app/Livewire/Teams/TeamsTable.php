@@ -88,9 +88,10 @@ final class TeamsTable extends PowerGridComponent
     {
         return [
             Button::add('team-view--button')
-                ->slot('<x-icons.eye /> View')
+                ->slot('<x-icons.eye />')
+                ->route('teams.view', ['team' => $row->id])
                 ->class('btn btn-accent btn-sm')
-                ->route('teams.view', ['team' => $row->id]),
+                ->tooltip('View Team'),
         ];
     }
 

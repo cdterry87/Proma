@@ -90,9 +90,10 @@ final class UsersTable extends PowerGridComponent
     {
         return [
             Button::add('user-view--button')
-                ->slot('<x-icons.eye /> View')
-                ->class('btn btn-accent btn-sm')
+                ->slot('<x-icons.eye />')
                 ->route('users.view', ['user' => $row->id])
+                ->class('btn btn-accent btn-sm')
+                ->tooltip('View User'),
         ];
     }
 
