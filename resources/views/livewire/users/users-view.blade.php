@@ -48,12 +48,10 @@
                                 <x-inputs.display
                                     label="Name"
                                     value="{{ $user->name }}"
-                                    class="text-3xl"
                                 />
                                 <x-inputs.display
                                     label="Title"
                                     value="{{ $user->title }}"
-                                    class="text-xl"
                                 />
                                 <x-inputs.display
                                     label="Email"

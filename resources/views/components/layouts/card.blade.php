@@ -4,12 +4,6 @@
     'class' => 'card bg-base-300 shadow-xl',
 ]) }}>
     <div class="card-body">
-        @if ($top)
-            <div class="mb-2">
-                {{ $top }}
-            </div>
-        @endif
-
         <div class="flex items-center justify-between gap-4 mb-2">
             @if ($title)
                 <h2 class="card-title text-2xl">{{ $title }}</h2>

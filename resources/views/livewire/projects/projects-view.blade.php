@@ -33,24 +33,6 @@
             <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
                 <div class="lg:col-span-3">
                     <x-layouts.card title="Project Details">
-                        <x-slot:top>
-                            @if ($project->completed_date)
-                                <x-alerts.base
-                                    class="alert-success"
-                                    icon="success"
-                                >
-                                    Project completed on {{ $project->completed_date }}.
-                                </x-alerts.base>
-                            @else
-                                <x-alerts.base
-                                    class="alert-error"
-                                    icon="error"
-                                >
-                                    Project is incomplete.
-                                </x-alerts.base>
-                            @endif
-                        </x-slot:top>
-
                         <x-slot:top-actions>
                             <x-modals.trigger
                                 id="projects_form__modal"
@@ -62,15 +44,17 @@
                         </x-slot:top-actions>
 
                         <div class="flex flex-col gap-4">
+                            <x-elements.badge
+                                label="{{ $project->completed_date ? 'Completed ' . $project->completed_date : 'Incomplete' }}"
+                                class="{{ $project->completed_date ? 'badge-success' : 'badge-error' }}"
+                            />
                             <x-inputs.display
                                 label="Name"
                                 value="{{ $project->name }}"
-                                class="text-3xl"
                             />
                             <x-inputs.display
                                 label="Description"
                                 value="{{ $project->description }}"
-                                class="text-xl"
                             />
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <x-inputs.display

@@ -1,7 +1,9 @@
 @props(['label'])
 
 <div class="label">
-    <span class="label-text">
+    <span {{ $attributes->merge([
+        'class' => 'label-text',
+    ]) }}>
         {{ $label }}
     </span>
 </div>

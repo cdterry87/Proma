@@ -6,7 +6,7 @@
 >
     <x-inputs.label :label="$label" />
     <div {{ $attributes->merge([
-        'class' => 'font-bold w-full px-1',
+        'class' => 'font-semibold w-full px-1 text-2xl',
     ]) }}>
         {!! $value !!}
     </div>

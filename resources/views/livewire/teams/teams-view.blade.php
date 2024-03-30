@@ -53,12 +53,10 @@
                             <x-inputs.display
                                 label="Name"
                                 value="{{ $team->name }}"
-                                class="text-3xl"
                             />
                             <x-inputs.display
                                 label="Description"
                                 value="{{ $team->description }}"
-                                class="text-xl"
                             />
                         </div>
                     </x-layouts.card>

@@ -4,7 +4,6 @@ namespace App\Livewire\Clients;
 
 use App\Models\Client;
 use App\Models\ClientNote;
-use App\Models\User;
 use App\Traits\WithModal;
 use Livewire\Component;
 use Livewire\Attributes\On;
