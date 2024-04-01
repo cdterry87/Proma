@@ -8,6 +8,7 @@ use App\Traits\WithModal;
 use App\Models\TeamUpload;
 use Livewire\Attributes\On;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class TeamsUploads extends Component
 {
@@ -74,11 +75,11 @@ class TeamsUploads extends Component
         $this->dispatch('refreshData');
     }
 
-    #[On('deleteUpload')]
-    public function deleteUpload($uploadId, $teamId)
+    #[On('deleteFile')]
+    public function deleteFile($fileId, $teamId)
     {
         $teamUpload = TeamUpload::query()
-            ->where('id', $uploadId)
+            ->where('id', $fileId)
             ->where('team_id', $teamId)
             ->first();
 
@@ -87,5 +88,18 @@ class TeamsUploads extends Component
         }
 
         $this->dispatch('refreshData');
+    }
+
+    #[On('downloadFile')]
+    public function downloadFile($fileId, $teamId)
+    {
+        $file = TeamUpload::query()
+            ->where('team_id', $teamId)
+            ->where('id', $fileId)
+            ->first();
+
+        if (!$file) return;
+
+        return Storage::download($file->path, $file->name);
     }
 }

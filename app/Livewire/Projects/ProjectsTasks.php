@@ -57,6 +57,8 @@ class ProjectsTasks extends Component
         $projectTask->save();
 
         $this->dispatch('refreshData');
+
+        session()->flash('success', 'Task saved successfully.');
     }
 
     #[On('editTask')]

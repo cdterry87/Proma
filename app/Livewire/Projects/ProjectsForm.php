@@ -17,7 +17,7 @@ class ProjectsForm extends Component
     public $model_id;
     public $client_id, $team_id;
     public $name, $description, $start_date, $due_date, $completed_date;
-    public $assigned_to, $assigned_by, $created_by, $updated_by;
+    public $created_by, $updated_by;
 
     public function render()
     {
@@ -45,8 +45,6 @@ class ProjectsForm extends Component
             $this->start_date = $project->start_date;
             $this->due_date = $project->due_date;
             $this->completed_date = $project->completed_date;
-            $this->assigned_to = $project->assigned_to;
-            $this->assigned_by = $project->assigned_by;
             $this->created_by = $project->created_by;
             $this->updated_by = $project->updated_by;
         }
@@ -62,8 +60,6 @@ class ProjectsForm extends Component
             'start_date' => 'nullable|date',
             'due_date' => 'nullable|date',
             'completed_date' => 'nullable|date',
-            'assigned_to' => 'nullable|exists:users,id',
-            'assigned_by' => 'nullable|exists:users,id',
         ]);
 
         $data = [
@@ -74,8 +70,6 @@ class ProjectsForm extends Component
             'start_date' => $this->start_date,
             'due_date' => $this->due_date,
             'completed_date' => $this->completed_date,
-            'assigned_to' => $this->assigned_to,
-            'assigned_by' => $this->assigned_by,
             'updated_by' => auth()->id(),
         ];
 

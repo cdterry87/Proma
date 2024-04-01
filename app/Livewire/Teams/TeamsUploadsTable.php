@@ -85,11 +85,16 @@ final class TeamsUploadsTable extends PowerGridComponent
     public function actions(TeamUpload $row): array
     {
         return [
-            Button::add('download--button')
+            Button::add('file-download--button')
                 ->slot('<x-icons.download />')
                 ->class('btn btn-accent btn-sm')
                 ->tooltip('Download File')
-                ->dispatchTo('teams.teams-view', 'download', ['id' => $row->id]),
+                ->dispatchTo('teams.teams-uploads', 'downloadFile', ['fileId' => $row->id, 'teamId' => $row->team_id]),
+            Button::add('file-delete--button')
+                ->slot('<x-icons.delete />')
+                ->class('btn btn-error btn-sm')
+                ->tooltip('Delete File')
+                ->dispatchTo('teams.teams-uploads', 'deleteFile', ['fileId' => $row->id, 'teamId' => $row->team_id]),
         ];
     }
 }

@@ -84,11 +84,16 @@ final class ClientsUploadsTable extends PowerGridComponent
     public function actions(ClientUpload $row): array
     {
         return [
-            Button::add('download--button')
+            Button::add('file-download--button')
                 ->slot('<x-icons.download />')
                 ->class('btn btn-accent btn-sm')
                 ->tooltip('Download File')
-                ->dispatchTo('clients.clients-view', 'download', ['id' => $row->id]),
+                ->dispatchTo('clients.clients-uploads', 'downloadFile', ['fileId' => $row->id, 'clientId' => $row->client_id]),
+            Button::add('file-delete--button')
+                ->slot('<x-icons.delete />')
+                ->class('btn btn-error btn-sm')
+                ->tooltip('Delete File')
+                ->dispatchTo('clients.clients-uploads', 'deleteFile', ['fileId' => $row->id, 'clientId' => $row->client_id]),
         ];
     }
 }

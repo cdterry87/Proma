@@ -22,6 +22,7 @@ final class TeamsTable extends PowerGridComponent
 {
     use WithExport;
 
+    #[On('refreshData')]
     public function datasource(): ?Collection
     {
         return Team::query()

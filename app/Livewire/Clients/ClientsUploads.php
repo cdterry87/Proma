@@ -3,11 +3,12 @@
 namespace App\Livewire\Clients;
 
 use App\Models\Client;
-use App\Models\ClientUpload;
 use Livewire\Component;
 use App\Traits\WithModal;
 use Livewire\Attributes\On;
+use App\Models\ClientUpload;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class ClientsUploads extends Component
 {
@@ -74,11 +75,11 @@ class ClientsUploads extends Component
         $this->dispatch('refreshData');
     }
 
-    #[On('deleteUpload')]
-    public function deleteUpload($uploadId, $clientId)
+    #[On('deleteFile')]
+    public function deleteUpload($fileId, $clientId)
     {
         $clientUpload = ClientUpload::query()
-            ->where('id', $uploadId)
+            ->where('id', $fileId)
             ->where('client_id', $clientId)
             ->first();
 
@@ -87,5 +88,18 @@ class ClientsUploads extends Component
         }
 
         $this->dispatch('refreshData');
+    }
+
+    #[On('downloadFile')]
+    public function downloadFile($fileId, $clientId)
+    {
+        $file = ClientUpload::query()
+            ->where('client_id', $clientId)
+            ->where('id', $fileId)
+            ->first();
+
+        if (!$file) return;
+
+        return Storage::download($file->path, $file->name);
     }
 }
