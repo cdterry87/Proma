@@ -1,3 +1,1 @@
-<p>
-    {!! $row->note !!}
-</p>
+<p class="whitespace-pre-line">{!! $row->note !!}</p>

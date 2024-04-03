@@ -1,3 +1,1 @@
-<p>
-    {!! $row->description !!}
-</p>
+<p class="whitespace-pre-line">{!! $row->description !!}</p>
