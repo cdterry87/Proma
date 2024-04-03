@@ -2,33 +2,27 @@
 
 namespace App\Livewire\Projects;
 
+use Livewire\Attributes\On;
+use App\Models\ProjectUpload;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
+use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
-use PowerComponents\LivewirePowerGrid\Exportable;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
+use PowerComponents\LivewirePowerGrid\Exportable;
+use PowerComponents\LivewirePowerGrid\Facades\Rule;
+use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
 final class ProjectsUploadsTable extends PowerGridComponent
 {
-    public function datasource(): ?Collection
-    {
-        return collect([
-            ['id' => 1, 'name' => 'Name 1', 'price' => 1.58, 'created_at' => now(),],
-            ['id' => 2, 'name' => 'Name 2', 'price' => 1.68, 'created_at' => now(),],
-            ['id' => 3, 'name' => 'Name 3', 'price' => 1.78, 'created_at' => now(),],
-            ['id' => 4, 'name' => 'Name 4', 'price' => 1.88, 'created_at' => now(),],
-            ['id' => 5, 'name' => 'Name 5', 'price' => 1.98, 'created_at' => now(),],
-        ]);
-    }
+    public $projectId;
 
     public function setUp(): array
     {
-        $this->showCheckBox();
-
         return [
             Exportable::make('export')
                 ->striped()
@@ -40,34 +34,67 @@ final class ProjectsUploadsTable extends PowerGridComponent
         ];
     }
 
+    #[On('refreshData')]
+    public function datasource(): Builder
+    {
+        return ProjectUpload::query()
+            ->where('project_id', $this->projectId);
+    }
+
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('id')
             ->add('name')
-            ->add('price')
+            ->add('type')
+            ->add('size')
             ->add('created_at_formatted', function ($entry) {
-                return Carbon::parse($entry->created_at)->format('d/m/Y');
+                return $entry->created_at->diffForHumans();
             });
     }
 
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id')
-                ->searchable()
-                ->sortable(),
-
             Column::make('Name', 'name')
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Price', 'price')
+            Column::make('Type', 'type')
+                ->searchable()
                 ->sortable(),
 
-            Column::make('Created', 'created_at_formatted'),
+            Column::make('Size', 'size')
+                ->sortable(),
+
+            Column::add()
+                ->title('Uploaded')
+                ->field('created_at_formatted', 'created_at')
+                ->sortable(),
 
             Column::action('Action')
+        ];
+    }
+
+    public function filters(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    public function actions(ProjectUpload $row): array
+    {
+        return [
+            Button::add('file-download--button')
+                ->slot('<x-icons.download />')
+                ->class('btn btn-accent btn-sm')
+                ->tooltip('Download File')
+                ->dispatchTo('projects.projects-uploads', 'downloadFile', ['fileId' => $row->id, 'projectId' => $row->project_id]),
+            Button::add('file-delete--button')
+                ->slot('<x-icons.delete />')
+                ->class('btn btn-error btn-sm')
+                ->tooltip('Delete File')
+                ->dispatchTo('projects.projects-uploads', 'deleteFile', ['fileId' => $row->id, 'projectId' => $row->project_id]),
         ];
     }
 }
