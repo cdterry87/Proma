@@ -15,7 +15,7 @@
     >
         <x-inputs.label :label="$label" />
         <div {{ $attributes->merge([
-            'class' => 'font-semibold w-full px-1 text-2xl',
+            'class' => 'font-bold w-full px-1 text-2xl',
         ]) }}>
             <p
                 x-show="!isExpanded"

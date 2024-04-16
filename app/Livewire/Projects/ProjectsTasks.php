@@ -2,18 +2,19 @@
 
 namespace App\Livewire\Projects;
 
+use App\Models\User;
 use App\Models\Project;
-use App\Models\ProjectTask;
-use App\Traits\WithModal;
 use Livewire\Component;
+use App\Traits\WithModal;
+use App\Models\ProjectTask;
 use Livewire\Attributes\On;
 
 class ProjectsTasks extends Component
 {
     use WithModal;
 
-    public $project_id, $project_name;
-    public $task_id, $title, $description, $start_date, $due_date, $completed_date;
+    public $project_id, $project_name, $project_team_id;
+    public $task_id, $title, $description, $start_date, $due_date, $completed_date, $assigned_to;
 
     #[On('getProject')]
     public function getProject($id)
@@ -22,12 +23,24 @@ class ProjectsTasks extends Component
         if ($project) {
             $this->project_id = $project->id;
             $this->project_name = $project->name;
+            $this->project_team_id = $project->team_id;
         }
     }
 
     public function render()
     {
-        return view('livewire.projects.projects-tasks');
+        $assignableUsers = User::query()
+            ->when($this->project_team_id, function ($query) {
+                $query->whereHas('teams', function ($query) {
+                    $query->where('team_id', $this->project_team_id);
+                });
+            })
+            ->orderBy('name')
+            ->get();
+
+        return view('livewire.projects.projects-tasks', [
+            'assignableUsers' => $assignableUsers
+        ]);
     }
 
     public function saveTask()
@@ -38,6 +51,7 @@ class ProjectsTasks extends Component
             'start_date' => 'nullable|date',
             'due_date' => 'nullable|date',
             'completed_date' => 'nullable|date',
+            'assigned_to' => 'nullable|exists:users,id'
         ]);
 
         if ($this->task_id) {
@@ -50,6 +64,7 @@ class ProjectsTasks extends Component
 
         $projectTask->title = $this->title;
         $projectTask->description = $this->description;
+        $projectTask->assigned_to = $this->assigned_to;
         $projectTask->start_date = $this->start_date;
         $projectTask->due_date = $this->due_date;
         $projectTask->completed_date = $this->completed_date;
@@ -71,6 +86,7 @@ class ProjectsTasks extends Component
             $this->task_id = $projectTask->id;
             $this->title = $projectTask->title;
             $this->description = $projectTask->description;
+            $this->assigned_to = $projectTask->assigned_to;
             $this->start_date = $projectTask->start_date;
             $this->due_date = $projectTask->due_date;
             $this->completed_date = $projectTask->completed_date;

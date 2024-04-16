@@ -25,7 +25,7 @@
             'name' => $name,
             'id' => $id ?? $name,
             'placeholder' => $placeholder,
-            'class' => 'textarea textarea-bordered w-full ' . ($errors->has($name) ? 'textarea-error' : ''),
+            'class' => 'textarea textarea-bordered w-full text-base ' . ($errors->has($name) ? 'textarea-error' : ''),
             'rows' => $rows,
         ]) }}
     >{{ $value ?? $slot }}</textarea>

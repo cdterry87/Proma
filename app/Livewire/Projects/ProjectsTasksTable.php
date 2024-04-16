@@ -19,12 +19,15 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 final class ProjectsTasksTable extends PowerGridComponent
 {
     public $projectId;
+    public $orderBy = 'due_date';
+    public $orderType = 'desc';
 
     #[On('refreshData')]
     public function datasource(): ?Collection
     {
         return ProjectTask::query()
             ->where('project_id', $this->projectId)
+            ->orderBy($this->orderBy, $this->orderType)
             ->get();
     }
 

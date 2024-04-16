@@ -44,3 +44,17 @@
     ); /* Adjust the last value (0.5) for the darkness level */
     z-index: 1; /* Place the overlay above the video */
 }
+
+.table.power-grid-table {
+    @apply bg-white rounded-none;
+}
+
+#power-grid-table-base thead,
+#power-grid-table-base #pg-footer {
+    @apply bg-pg-primary-200;
+}
+
+.dark #power-grid-table-base thead,
+.dark #power-grid-table-base #pg-footer {
+    @apply bg-pg-primary-900;
+}

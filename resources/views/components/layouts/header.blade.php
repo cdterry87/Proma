@@ -1,5 +1,5 @@
 <div>
-    <div class="navbar bg-base-300">
+    <div class="navbar bg-base-300 py-0">
         <div class="w-full max-w-6xl mx-auto">
             <div class="flex-1 flex items-center gap-1">
                 <a
