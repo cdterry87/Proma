@@ -24,7 +24,7 @@ class IssuesForm extends Component
     {
         $clients = Client::where('active', true)->get();
         $teams = Team::where('active', true)->get();
-        $projects = Project::where('active', true)->get();
+        $projects = Project::where('completed_date', '<=', now())->get();
         $users = User::where('active', true)->get();
 
         return view('livewire.issues.issues-form', [

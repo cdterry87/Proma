@@ -61,4 +61,9 @@ class User extends Authenticatable
     {
         return $this->hasManyThrough(Permission::class, UserPermission::class, 'user_id', 'id', 'id', 'permission_id');
     }
+
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class, 'teams_users');
+    }
 }

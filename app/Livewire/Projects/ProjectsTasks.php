@@ -91,7 +91,11 @@ class ProjectsTasks extends Component
             $this->due_date = $projectTask->due_date;
             $this->completed_date = $projectTask->completed_date;
 
-            $this->project_name = $projectTask->project->name;
+            if ($projectTask->project) {
+                $this->project_id = $projectTask->project->id;
+                $this->project_name = $projectTask->project->name;
+                $this->project_team_id = $projectTask->project->team_id;
+            }
         }
 
         $this->dispatch('refreshData');

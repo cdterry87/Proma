@@ -4,7 +4,7 @@
     <li>
         <a
             href="{{ route('projects') }}"
-            class="flex items-center gap-1"
+            class="flex items-center gap-1 {{ request()->routeIs('projects') || request()->routeIs('projects.*') ? 'active' : '' }}"
         >
             <x-icons.projects />
             <span class="hidden md:block">
@@ -15,7 +15,7 @@
     <li>
         <a
             href="{{ route('issues') }}"
-            class="flex items-center gap-1"
+            class="flex items-center gap-1 {{ request()->routeIs('issues') || request()->routeIs('issues.*') ? 'active' : '' }}"
         >
             <x-icons.issues />
             <span class="hidden md:block">
@@ -26,7 +26,7 @@
     <li>
         <a
             href="{{ route('clients') }}"
-            class="flex items-center gap-1"
+            class="flex items-center gap-1 {{ request()->routeIs('clients') || request()->routeIs('clients.*') ? 'active' : '' }}"
         >
             <x-icons.clients />
             <span class="hidden md:block">
@@ -46,7 +46,7 @@
                 <li>
                     <a
                         href="{{ route('users') }}"
-                        class="flex items-center gap-1"
+                        class="flex items-center gap-1 {{ request()->routeIs('users') || request()->routeIs('users.*') ? 'active' : '' }}"
                     >
                         <x-icons.users />
                         Users
@@ -55,7 +55,7 @@
                 <li>
                     <a
                         href="{{ route('teams') }}"
-                        class="flex items-center gap-1"
+                        class="flex items-center gap-1 {{ request()->routeIs('teams') || request()->routeIs('teams.*') ? 'active' : '' }}"
                     >
                         <x-icons.teams />
                         Teams

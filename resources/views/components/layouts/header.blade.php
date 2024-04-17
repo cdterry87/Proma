@@ -35,11 +35,11 @@
                     </div>
                     <ul
                         tabindex="0"
-                        class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-300 rounded-box w-52 z-50"
+                        class="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-300 rounded-box w-52 z-50"
                     >
                         <li>
                             <a
-                                class="flex items-center gap-1 w-full"
+                                class="flex items-center gap-1 w-full {{ request()->routeIs('settings') ? 'active' : '' }}"
                                 href="{{ route('settings') }}"
                             >
                                 <x-icons.settings />
