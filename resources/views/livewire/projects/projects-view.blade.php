@@ -78,9 +78,7 @@
                     </x-layouts.card>
                 </div>
                 <div class="lg:col-span-2">
-                    <x-layouts.card title="Assignment">
-                        {{--  --}}
-                    </x-layouts.card>
+                    <livewire:projects.projects-assignments :project-id="$project->id" />
                 </div>
             </div>
         </div>
@@ -128,6 +126,7 @@
 
     {{-- Components --}}
     <livewire:projects.projects-form />
+    <livewire:projects.projects-assignments-form />
     <livewire:projects.projects-tasks />
     <livewire:projects.projects-uploads />
 </div>

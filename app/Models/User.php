@@ -66,4 +66,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Team::class, 'teams_users');
     }
+
+    public function projects_assignments()
+    {
+        return $this->hasMany(ProjectAssignment::class, 'assigned_to');
+    }
 }

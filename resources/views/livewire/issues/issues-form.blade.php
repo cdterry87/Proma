@@ -26,46 +26,48 @@
                 <option value="4">High</option>
                 <option value="5">Highest</option>
             </x-inputs.select>
-            <x-inputs.select
-                label="Client"
-                name="client_id"
-                wire:model="client_id"
-            >
-                <option value="">Select Client</option>
-                @foreach ($clients as $client)
-                    <option value="{{ $client->id }}">{{ $client->name }}</option>
-                @endforeach
-            </x-inputs.select>
-            <x-inputs.select
-                label="Team"
-                name="team_id"
-                wire:model="team_id"
-            >
-                <option value="">Select Team</option>
-                @foreach ($teams as $team)
-                    <option value="{{ $team->id }}">{{ $team->name }}</option>
-                @endforeach
-            </x-inputs.select>
-            <x-inputs.select
-                label="Project"
-                name="project_id"
-                wire:model="project_id"
-            >
-                <option value="">Select Project</option>
-                @foreach ($projects as $project)
-                    <option value="{{ $project->id }}">{{ $project->name }}</option>
-                @endforeach
-            </x-inputs.select>
-            <x-inputs.select
-                label="Assigned To"
-                name="assigned_to"
-                wire:model="assigned_to"
-            >
-                <option value="">Select Assigned To</option>
-                @foreach ($users as $user)
-                    <option value="{{ $user->id }}">{{ $user->name }}</option>
-                @endforeach
-            </x-inputs.select>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <x-inputs.select
+                    label="Client"
+                    name="client_id"
+                    wire:model="client_id"
+                >
+                    <option value="">Select Client</option>
+                    @foreach ($clients as $client)
+                        <option value="{{ $client->id }}">{{ $client->name }}</option>
+                    @endforeach
+                </x-inputs.select>
+                <x-inputs.select
+                    label="Team"
+                    name="team_id"
+                    wire:model="team_id"
+                >
+                    <option value="">Select Team</option>
+                    @foreach ($teams as $team)
+                        <option value="{{ $team->id }}">{{ $team->name }}</option>
+                    @endforeach
+                </x-inputs.select>
+                <x-inputs.select
+                    label="Project"
+                    name="project_id"
+                    wire:model="project_id"
+                >
+                    <option value="">Select Project</option>
+                    @foreach ($projects as $project)
+                        <option value="{{ $project->id }}">{{ $project->name }}</option>
+                    @endforeach
+                </x-inputs.select>
+                <x-inputs.select
+                    label="Assigned To"
+                    name="assigned_to"
+                    wire:model="assigned_to"
+                >
+                    <option value="">Select Assigned To</option>
+                    @foreach ($users as $user)
+                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    @endforeach
+                </x-inputs.select>
+            </div>
             <div class="mt-4">
                 <x-inputs.button
                     class="btn-primary btn-block"
