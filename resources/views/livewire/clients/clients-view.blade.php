@@ -7,28 +7,28 @@
         >
             <a
                 role="tab"
-                class="tab"
+                class="tab flex items-center gap-1"
                 :class="{ 'tab-active': activeTab === 'details' }"
                 @click.prevent="activeTab = 'details'"
-            >Details</a>
+            ><x-icons.details /> Details</a>
             <a
                 role="tab"
-                class="tab"
+                class="tab flex items-center gap-1"
                 :class="{ 'tab-active': activeTab === 'contacts' }"
                 @click.prevent="activeTab = 'contacts'"
-            >Contacts</a>
+            ><x-icons.phone /> Contacts</a>
             <a
                 role="tab"
-                class="tab"
+                class="tab flex items-center gap-1"
                 :class="{ 'tab-active': activeTab === 'notes' }"
                 @click.prevent="activeTab = 'notes'"
-            >Notes</a>
+            ><x-icons.notes /> Notes</a>
             <a
                 role="tab"
-                class="tab"
+                class="tab flex items-center gap-1"
                 :class="{ 'tab-active': activeTab === 'uploads' }"
                 @click.prevent="activeTab = 'uploads'"
-            >Uploads</a>
+            ><x-icons.uploads /> Uploads</a>
         </div>
 
         {{-- Details --}}

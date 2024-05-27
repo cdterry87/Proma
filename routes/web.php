@@ -34,21 +34,6 @@ Route::middleware([
     'auth:sanctum',
     'verified',
 ])->group(function () {
-    // Administrator Routes
-    Route::middleware('administrator')->group(function () {
-        Route::get('/users', Users::class)
-            ->name('users');
-
-        Route::get('/users/{user}', UsersView::class)
-            ->name('users.view');
-
-        Route::get('/teams', Teams::class)
-            ->name('teams');
-
-        Route::get('/teams/{team}', TeamsView::class)
-            ->name('teams.view');
-    });
-
     // Standard Routes
     Route::get('/', Home::class)
         ->name('home');

@@ -18,9 +18,7 @@ return new class extends Migration
             $table->string('title')->nullable()->default('User');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->boolean('active')->default(true);
-            $table->foreignId('created_by')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('updated_by')->nullable()->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->boolean('guest')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -10,7 +10,7 @@
     </x-slot:top-actions>
 
     @if ($assignments->isNotEmpty())
-        <ul class="menu bg-base-200 w-full">
+        <ul class="menu bg-base-300 dark:bg-base-200 w-full">
             @foreach ($assignments as $assignment)
                 <li>
                     <a class="flex items-center justify-between gap-2">

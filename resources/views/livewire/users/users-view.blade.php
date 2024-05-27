@@ -7,16 +7,16 @@
         >
             <a
                 role="tab"
-                class="tab"
+                class="tab flex items-center gap-1"
                 :class="{ 'tab-active': activeTab === 'details' }"
                 @click.prevent="activeTab = 'details'"
-            >Details</a>
+            ><x-icons.details /> Details</a>
             <a
                 role="tab"
-                class="tab"
+                class="tab flex items-center gap-1"
                 :class="{ 'tab-active': activeTab === 'permissions' }"
                 @click.prevent="activeTab = 'permissions'"
-            >Permissions</a>
+            ><x-icons.key /> Permissions</a>
         </div>
 
         {{-- Details --}}

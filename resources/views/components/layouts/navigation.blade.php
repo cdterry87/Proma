@@ -1,5 +1,5 @@
 <ul {{ $attributes->merge([
-    'class' => 'menu menu-horizontal px-1',
+    'class' => 'flex items-center justify-between',
 ]) }}>
     <li>
         <a
@@ -33,35 +33,5 @@
                 Clients
             </span>
         </a>
-    </li>
-    <li>
-        <details>
-            <summary class="flex items-center gap-1">
-                <x-icons.admin />
-                <span class="hidden md:block">
-                    Administration
-                </span>
-            </summary>
-            <ul class="p-2 bg-base-300 z-50">
-                <li>
-                    <a
-                        href="{{ route('users') }}"
-                        class="flex items-center gap-1 {{ request()->routeIs('users') || request()->routeIs('users.*') ? 'active' : '' }}"
-                    >
-                        <x-icons.users />
-                        Users
-                    </a>
-                </li>
-                <li>
-                    <a
-                        href="{{ route('teams') }}"
-                        class="flex items-center gap-1 {{ request()->routeIs('teams') || request()->routeIs('teams.*') ? 'active' : '' }}"
-                    >
-                        <x-icons.teams />
-                        Teams
-                    </a>
-                </li>
-            </ul>
-        </details>
     </li>
 </ul>
