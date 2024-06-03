@@ -1,5 +1,5 @@
 <x-modals.base
-    id="clients_uploads__modal"
+    id="clients_uploads_form__modal"
     title="Client Uploads"
     :subtitle="$client_name ? 'For ' . $client_name : null"
 >

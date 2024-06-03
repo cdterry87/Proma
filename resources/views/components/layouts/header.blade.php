@@ -1,3 +1,5 @@
+@props(['headerActions' => null])
+
 <div>
     <div class="navbar bg-base-200 py-0">
         <div class="w-full">

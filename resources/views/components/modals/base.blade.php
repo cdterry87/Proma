@@ -10,7 +10,7 @@
         class="modal modal-bottom sm:modal-middle"
         role="dialog"
     >
-        <div class="modal-box flex flex-col gap-2">
+        <div class="modal-box flex flex-col gap-2 w-full md:w-11/12 md:max-w-5xl">
             <div>
                 <div class="flex items-center justify-between">
                     <h3 class="font-bold text-2xl">

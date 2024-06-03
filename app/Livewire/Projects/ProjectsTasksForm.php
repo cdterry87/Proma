@@ -9,7 +9,7 @@ use App\Traits\WithModal;
 use App\Models\ProjectTask;
 use Livewire\Attributes\On;
 
-class ProjectsTasks extends Component
+class ProjectsTasksForm extends Component
 {
     use WithModal;
 
@@ -38,7 +38,7 @@ class ProjectsTasks extends Component
             ->orderBy('name')
             ->get();
 
-        return view('livewire.projects.projects-tasks', [
+        return view('livewire.projects.projects-tasks-form', [
             'assignableUsers' => $assignableUsers
         ]);
     }

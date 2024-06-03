@@ -1,5 +1,5 @@
 <x-modals.base
-    id="projects_tasks__modal"
+    id="projects_tasks_form__modal"
     title="Project Tasks"
     :subtitle="$project_name ? 'For ' . $project_name : null"
 >

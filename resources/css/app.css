@@ -58,3 +58,7 @@
 .dark #power-grid-table-base #pg-footer {
     @apply bg-pg-primary-900;
 }
+
+#power-grid-table-container {
+    @apply -mx-6;
+}

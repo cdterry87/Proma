@@ -8,7 +8,7 @@ use App\Traits\WithModal;
 use Livewire\Attributes\On;
 use App\Models\ClientContact;
 
-class ClientsContacts extends Component
+class ClientsContactsForm extends Component
 {
     use WithModal;
 
@@ -32,7 +32,7 @@ class ClientsContacts extends Component
             ->where('client_id', $this->client_id)
             ->get();
 
-        return view('livewire.clients.clients-contacts', [
+        return view('livewire.clients.clients-contacts-form', [
             'clientContacts' => $clientContacts,
         ]);
     }

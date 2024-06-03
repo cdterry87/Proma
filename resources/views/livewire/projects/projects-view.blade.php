@@ -1,132 +1,98 @@
-<div x-data="{ activeTab: 'details' }">
-    <div class="flex flex-col gap-8">
-        {{-- Tabs --}}
-        <div
-            role="tablist"
-            class="tabs tabs-bordered"
-        >
-            <a
-                role="tab"
-                class="tab flex items-center gap-1"
-                :class="{ 'tab-active': activeTab === 'details' }"
-                @click.prevent="activeTab = 'details'"
-            ><x-icons.details /> Details</a>
-            <a
-                role="tab"
-                class="tab flex items-center gap-1"
-                :class="{ 'tab-active': activeTab === 'tasks' }"
-                @click.prevent="activeTab = 'tasks'"
-            ><x-icons.tasks /> Tasks</a>
-            <a
-                role="tab"
-                class="tab flex items-center gap-1"
-                :class="{ 'tab-active': activeTab === 'uploads' }"
-                @click.prevent="activeTab = 'uploads'"
-            ><x-icons.uploads /> Uploads</a>
-        </div>
+<x-layouts.page title="Project Details">
+    <x-slot:action-button>
+        <x-modals.trigger
+            id="projects_form__modal"
+            label="Edit Details"
+            icon="edit"
+            class="btn-primary btn-sm"
+            wire:click="$dispatchTo('projects.projects-form', 'edit', { id: {{ $project->id }}})"
+        />
+    </x-slot:action-button>
 
-        {{-- Details --}}
-        <div
-            x-show="activeTab === 'details'"
-            role="tabpanel"
-        >
-            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
-                <div class="lg:col-span-3">
-                    <x-layouts.card title="Project Details">
-                        <x-slot:top-actions>
-                            <x-modals.trigger
-                                id="projects_form__modal"
-                                icon="edit"
-                                label="Edit"
-                                class="btn-primary btn-sm"
-                                wire:click="$dispatchTo('projects.projects-form', 'edit', { id: {{ $project->id }}})"
-                            />
-                        </x-slot:top-actions>
-
-                        <div class="flex flex-col gap-4">
-                            <x-elements.badge
-                                label="{{ $project->completed_date ? 'Completed ' . $project->completed_date : 'Incomplete' }}"
-                                class="{{ $project->completed_date ? 'badge-success' : 'badge-error' }}"
-                            />
-                            <x-inputs.display
-                                label="Name"
-                                value="{{ $project->name }}"
-                            />
-                            <x-inputs.display
-                                label="Description"
-                                value="{{ $project->description }}"
-                            />
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <x-inputs.display
-                                    label="Client"
-                                    value="{{ $project->client->name ?? 'N/A' }}"
-                                />
-                                <x-inputs.display
-                                    label="Team"
-                                    value="{{ $project->team->name ?? 'N/A' }}"
-                                />
-                                <x-inputs.display
-                                    label="Start Date"
-                                    value="{{ $project->start_date }}"
-                                />
-                                <x-inputs.display
-                                    label="Due Date"
-                                    value="{{ $project->due_date }}"
-                                />
-                            </div>
-                        </div>
-                    </x-layouts.card>
-                </div>
-                <div class="lg:col-span-2">
-                    <livewire:projects.projects-assignments :project-id="$project->id" />
-                </div>
-            </div>
-        </div>
-
-        {{-- Tasks --}}
-        <div
-            x-show="activeTab === 'tasks'"
-            role="tabpanel"
-        >
-            <x-layouts.card title="Project Tasks">
-                <x-slot:top-actions>
-                    <x-modals.trigger
-                        id="projects_tasks__modal"
-                        label="Add Task"
-                        icon="plus"
-                        class="btn-primary btn-sm"
-                        wire:click="$dispatchTo('projects.projects-tasks', 'getProject', { id: {{ $project->id }}})"
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div class="lg:col-span-3">
+            <x-layouts.card>
+                <div class="flex flex-col gap-4">
+                    <x-elements.badge
+                        label="{{ $project->completed_date ? 'Completed ' . $project->completed_date : 'Incomplete' }}"
+                        class="{{ $project->completed_date ? 'badge-success' : 'badge-error' }}"
                     />
-                </x-slot:top-actions>
-
-                <livewire:projects.projects-tasks-table :project-id="$project->id" />
+                    <x-inputs.display
+                        label="Name"
+                        value="{{ $project->name }}"
+                    />
+                    <x-inputs.display
+                        label="Description"
+                        value="{{ $project->description }}"
+                    />
+                    <x-inputs.display
+                        label="Client"
+                        value="{{ $project->client->name ?? 'N/A' }}"
+                    />
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <x-inputs.display
+                            label="Start Date"
+                            value="{{ $project->start_date }}"
+                        />
+                        <x-inputs.display
+                            label="Due Date"
+                            value="{{ $project->due_date }}"
+                        />
+                    </div>
+                </div>
             </x-layouts.card>
         </div>
+        <div class="lg:col-span-2">
+            <x-layouts.card title="Project Stats">
+                <div class="stats stats-vertical shadow">
+                    <div class="stat">
+                        <div class="stat-figure text-secondary">
+                            <x-icons.issues />
+                        </div>
+                        <div class="stat-title">Active Issues</div>
+                        <div class="stat-value text-secondary">0</div>
+                        <div class="stat-desc text-accent">0 Issues Closed</div>
+                    </div>
 
-        {{-- Uploads --}}
-        <div
-            x-show="activeTab === 'uploads'"
-            role="tabpanel"
-        >
-            <x-layouts.card title="Project Uploads">
-                <x-slot:top-actions>
-                    <x-modals.trigger
-                        id="projects_uploads__modal"
-                        label="Upload Files"
-                        icon="plus"
-                        class="btn-primary btn-sm"
-                        wire:click="$dispatchTo('projects.projects-uploads', 'getProject', { id: {{ $project->id }}})"
-                    />
-                </x-slot:top-actions>
-
-                <livewire:projects.projects-uploads-table :project-id="$project->id" />
+                </div>
             </x-layouts.card>
         </div>
     </div>
 
-    {{-- Components --}}
+    <hr class="dark:border-gray-600 my-4">
+
+    <div class="flex items-center justify-between gap-4">
+        <h2 class="font-bold text-3xl">Tasks</h2>
+
+        <x-modals.trigger
+            id="projects_tasks_form__modal"
+            label="Add Tasks"
+            icon="plus"
+            class="btn-primary btn-sm"
+            wire:click="$dispatchTo('projects.projects-tasks', 'getProject', { id: {{ $project->id }}})"
+        />
+    </div>
+
+    <livewire:projects.projects-tasks-table :project-id="$project->id" />
+
+    <hr class="dark:border-gray-600 my-4">
+
+    <div class="flex items-center justify-between gap-4">
+        <h2 class="font-bold text-3xl">Uploads</h2>
+
+        <x-modals.trigger
+            id="projects_uploads_form__modal"
+            label="Upload Files"
+            icon="file"
+            class="btn-primary btn-sm"
+            wire:click="$dispatchTo('projects.projects-uploads', 'getProject', { id: {{ $project->id }}})"
+        />
+    </div>
+
+    <livewire:projects.projects-uploads-table :project-id="$project->id" />
+
+    {{-- Modal Forms --}}
     <livewire:projects.projects-form />
-    <livewire:projects.projects-assignments-form />
-    <livewire:projects.projects-tasks />
-    <livewire:projects.projects-uploads />
-</div>
+    <livewire:projects.projects-tasks-form />
+    <livewire:projects.projects-uploads-form />
+</x-layouts.page>

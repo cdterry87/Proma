@@ -10,7 +10,7 @@ use App\Models\ClientUpload;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
 
-class ClientsUploads extends Component
+class ClientsUploadsForm extends Component
 {
     use WithModal;
     use WithFileUploads;
@@ -40,7 +40,7 @@ class ClientsUploads extends Component
 
     public function render()
     {
-        return view('livewire.clients.clients-uploads');
+        return view('livewire.clients.clients-uploads-form');
     }
 
     public function uploadFile()

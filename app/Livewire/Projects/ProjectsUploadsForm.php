@@ -12,7 +12,7 @@ use Livewire\Attributes\On;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
 
-class ProjectsUploads extends Component
+class ProjectsUploadsForm extends Component
 {
     use WithModal;
     use WithFileUploads;
@@ -42,7 +42,7 @@ class ProjectsUploads extends Component
 
     public function render()
     {
-        return view('livewire.projects.projects-uploads');
+        return view('livewire.projects.projects-uploads-form');
     }
 
     public function uploadFile()

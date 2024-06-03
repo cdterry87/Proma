@@ -46,9 +46,7 @@ final class IssuesTable extends PowerGridComponent
             ->add('description')
             ->add('priority')
             ->add('client')
-            ->add('team')
             ->add('project')
-            ->add('assigned_to_name')
             ->add('created_at_formatted', fn (Issue $model) => $model->created_at->format('m/d/Y'));
     }
 
@@ -67,15 +65,7 @@ final class IssuesTable extends PowerGridComponent
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Team', 'team')
-                ->searchable()
-                ->sortable(),
-
             Column::make('Project', 'project')
-                ->searchable()
-                ->sortable(),
-
-            Column::make('Assigned To', 'assigned_to_name')
                 ->searchable()
                 ->sortable(),
 

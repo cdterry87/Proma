@@ -20,22 +20,13 @@
                 wire:model="description"
                 required
             />
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <x-inputs.select
-                    label="Client"
-                    name="client_id"
-                    wire:model="client_id"
-                    :options="$clients"
-                    default-option="Select Client"
-                />
-                <x-inputs.select
-                    label="Team"
-                    name="team_id"
-                    wire:model="team_id"
-                    :options="$teams"
-                    default-option="Select Team"
-                />
-            </div>
+            <x-inputs.select
+                label="Client"
+                name="client_id"
+                wire:model="client_id"
+                :options="$clients"
+                default-option="Select Client"
+            />
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <x-inputs.text
                     label="Start Date"
