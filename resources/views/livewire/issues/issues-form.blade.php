@@ -6,6 +6,13 @@
         <x-alerts.container />
 
         <div class="flex flex-col gap-2 w-full">
+            <x-inputs.text
+                label="Name"
+                name="name"
+                placeholder="Name"
+                wire:model="name"
+                required
+            />
             <x-inputs.textarea
                 label="Description"
                 name="description"
@@ -31,6 +38,7 @@
                     label="Client"
                     name="client_id"
                     wire:model="client_id"
+                    required
                 >
                     <option value="">Select Client</option>
                     @foreach ($clients as $client)
@@ -38,33 +46,14 @@
                     @endforeach
                 </x-inputs.select>
                 <x-inputs.select
-                    label="Team"
-                    name="team_id"
-                    wire:model="team_id"
-                >
-                    <option value="">Select Team</option>
-                    @foreach ($teams as $team)
-                        <option value="{{ $team->id }}">{{ $team->name }}</option>
-                    @endforeach
-                </x-inputs.select>
-                <x-inputs.select
                     label="Project"
                     name="project_id"
                     wire:model="project_id"
+                    required
                 >
                     <option value="">Select Project</option>
                     @foreach ($projects as $project)
                         <option value="{{ $project->id }}">{{ $project->name }}</option>
-                    @endforeach
-                </x-inputs.select>
-                <x-inputs.select
-                    label="Assigned To"
-                    name="assigned_to"
-                    wire:model="assigned_to"
-                >
-                    <option value="">Select Assigned To</option>
-                    @foreach ($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->name }}</option>
                     @endforeach
                 </x-inputs.select>
             </div>

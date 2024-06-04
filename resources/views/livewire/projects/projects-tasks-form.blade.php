@@ -21,16 +21,6 @@
                     wire:model="description"
                     required
                 />
-                <x-inputs.select
-                    label="Assigned To"
-                    name="assigned_to"
-                    wire:model="assigned_to"
-                >
-                    <option value="">Select User</option>
-                    @foreach ($assignableUsers as $assignableUser)
-                        <option value="{{ $assignableUser->id }}">{{ $assignableUser->name }}</option>
-                    @endforeach
-                </x-inputs.select>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <x-inputs.text
                         label="Start Date"

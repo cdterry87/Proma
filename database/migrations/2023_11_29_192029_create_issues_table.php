@@ -13,14 +13,12 @@ return new class extends Migration
     {
         Schema::create('issues', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->index();
             $table->text('description');
             $table->smallInteger('priority');
-            $table->date('resolve_date')->nullable();
+            $table->date('resolved_date')->nullable();
             $table->foreignId('client_id')->nullable()->constrained('clients')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('team_id')->nullable()->constrained('teams')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('created_by')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('updated_by')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

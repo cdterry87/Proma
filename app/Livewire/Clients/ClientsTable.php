@@ -26,7 +26,7 @@ final class ClientsTable extends PowerGridComponent
     public function datasource(): ?Collection
     {
         return Client::query()
-            ->withCount(['contacts', 'notes', 'uploads'])
+            ->withCount(['contacts', 'uploads'])
             ->get();
     }
 
@@ -51,7 +51,6 @@ final class ClientsTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('name')
             ->add('contacts_count')
-            ->add('notes_count')
             ->add('uploads_count')
             ->add('active', function ($entry) {
                 return Client::getActiveCodes()->firstWhere('value', $entry->active)['label'];
@@ -69,9 +68,6 @@ final class ClientsTable extends PowerGridComponent
                 ->sortable(),
 
             Column::make('Contacts', 'contacts_count')
-                ->sortable(),
-
-            Column::make('Notes', 'notes_count')
                 ->sortable(),
 
             Column::make('Uploads', 'uploads_count')

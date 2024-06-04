@@ -24,12 +24,8 @@ class Login extends Component
     {
         $this->validate();
 
-        // User must be active to login
+        // Get the user
         $user = User::where('email', $this->email)->first();
-        if ($user && !$user->active) {
-            session()->flash('error', 'Your account is not active. Please contact your administrator.');
-            return;
-        }
 
         // Attempt login
         if (auth()->attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {

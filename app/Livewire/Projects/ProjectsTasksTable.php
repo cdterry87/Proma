@@ -58,7 +58,6 @@ final class ProjectsTasksTable extends PowerGridComponent
             ->add('due_date_formatted', fn (ProjectTask $model) => $model->due_date ? Carbon::parse($model->due_date)->format('m/d/Y') : 'N/A')
             ->add('completed_date')
             ->add('completed_date_formatted', fn (ProjectTask $model) => $model->completed_date ? Carbon::parse($model->completed_date)->format('m/d/Y') : 'Incomplete')
-            ->add('assigned_to', fn (ProjectTask $model) => $model->assignedTo->name ?? 'N/A')
             ->add('updated_at')
             ->add('updated_at_formatted', fn (ProjectTask $model) => $model->updated_at->diffForHumans());
     }
@@ -80,10 +79,6 @@ final class ProjectsTasksTable extends PowerGridComponent
                 ->field('completed_date_formatted', 'completed_date')
                 ->sortable(),
 
-            Column::make('Assigned To', 'assigned_to')
-                ->searchable()
-                ->sortable(),
-
             Column::action('Action')
         ];
     }
@@ -98,12 +93,12 @@ final class ProjectsTasksTable extends PowerGridComponent
                     class="btn-accent btn-sm"
                     title="Edit Task"
                 />')
-                ->dispatchTo('projects.projects-tasks', 'editTask', ['id' => $row->id]),
+                ->dispatchTo('projects.projects-tasks-form', 'editTask', ['id' => $row->id]),
             Button::add('project-tasks-delete--button')
                 ->slot('<x-icons.delete />')
                 ->class('btn btn-sm btn-error')
                 ->tooltip('Delete Task')
-                ->dispatchTo('projects.projects-tasks', 'deleteTask', ['taskId' => $row->id, 'projectId' => $row->project_id]),
+                ->dispatchTo('projects.projects-tasks-form', 'deleteTask', ['taskId' => $row->id, 'projectId' => $row->project_id]),
         ];
     }
 }

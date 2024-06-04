@@ -45,8 +45,8 @@ final class IssuesTable extends PowerGridComponent
         return PowerGrid::fields()
             ->add('description')
             ->add('priority')
-            ->add('client')
-            ->add('project')
+            ->add('client', fn (Issue $model) => $model->client->name)
+            ->add('project', fn (Issue $model) => $model->project->name)
             ->add('created_at_formatted', fn (Issue $model) => $model->created_at->format('m/d/Y'));
     }
 
@@ -79,7 +79,11 @@ final class IssuesTable extends PowerGridComponent
     public function actions(Issue $row): array
     {
         return [
-            // @todo - Add view button/link. Remove labels and use icons only.
+            Button::add('issue-view--button')
+                ->slot('<x-icons.eye />')
+                ->route('issues.view', ['issue' => $row->id])
+                ->class('btn btn-accent btn-sm')
+                ->tooltip('View Issue'),
         ];
     }
 

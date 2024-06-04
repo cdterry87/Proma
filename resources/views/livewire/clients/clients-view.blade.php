@@ -64,7 +64,7 @@
             label="Add Contacts"
             icon="plus"
             class="btn-primary btn-sm"
-            wire:click="$dispatchTo('clients.clients-contacts', 'getClient', { id: {{ $client->id }}})"
+            wire:click="$dispatchTo('clients.clients-contacts-form', 'getClient', { id: {{ $client->id }}})"
         />
     </div>
 
@@ -80,7 +80,7 @@
             label="Upload Files"
             icon="file"
             class="btn-primary btn-sm"
-            wire:click="$dispatchTo('clients.clients-uploads', 'getClient', { id: {{ $client->id }}})"
+            wire:click="$dispatchTo('clients.clients-uploads-form', 'getClient', { id: {{ $client->id }}})"
         />
     </div>
 

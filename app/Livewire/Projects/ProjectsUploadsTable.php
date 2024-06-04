@@ -89,12 +89,12 @@ final class ProjectsUploadsTable extends PowerGridComponent
                 ->slot('<x-icons.download />')
                 ->class('btn btn-accent btn-sm')
                 ->tooltip('Download File')
-                ->dispatchTo('projects.projects-uploads', 'downloadFile', ['fileId' => $row->id, 'projectId' => $row->project_id]),
+                ->dispatchTo('projects.projects-uploads-form', 'downloadFile', ['fileId' => $row->id, 'projectId' => $row->project_id]),
             Button::add('file-delete--button')
                 ->slot('<x-icons.delete />')
                 ->class('btn btn-error btn-sm')
                 ->tooltip('Delete File')
-                ->dispatchTo('projects.projects-uploads', 'deleteFile', ['fileId' => $row->id, 'projectId' => $row->project_id]),
+                ->dispatchTo('projects.projects-uploads-form', 'deleteFile', ['fileId' => $row->id, 'projectId' => $row->project_id]),
         ];
     }
 }

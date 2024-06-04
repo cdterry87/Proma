@@ -47,22 +47,17 @@ class ClientsContactsForm extends Component
             'phone_ext' => 'nullable|max:5',
         ]);
 
-        if ($this->contact_id) {
-            $clientContact = ClientContact::find($this->contact_id);
-        } else {
-            $clientContact = new ClientContact();
-            $clientContact->client_id = $this->client_id;
-            $clientContact->created_by = auth()->id();
-        }
-
-        $clientContact->name = $this->name;
-        $clientContact->title = $this->title;
-        $clientContact->email = $this->email;
-        $clientContact->phone = $this->phone;
-        $clientContact->phone_ext = $this->phone_ext;
-        $clientContact->active = $this->active;
-        $clientContact->updated_by = auth()->id();
-        $clientContact->save();
+        $clientContact = ClientContact::updateOrCreate([
+            'id' => $this->contact_id,
+            'client_id' => $this->client_id,
+        ], [
+            'name' => $this->name,
+            'title' => $this->title,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'phone_ext' => $this->phone_ext,
+            'active' => $this->active,
+        ]);
 
         $this->contact_id = $clientContact->id;
 

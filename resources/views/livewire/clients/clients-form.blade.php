@@ -1,6 +1,6 @@
 <x-modals.base
     id="clients_form__modal"
-    title="Clients Form"
+    title="Client Details"
 >
     <form wire:submit.prevent="save">
         <x-alerts.container />

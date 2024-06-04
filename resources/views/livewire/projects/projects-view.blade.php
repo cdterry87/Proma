@@ -69,7 +69,7 @@
             label="Add Tasks"
             icon="plus"
             class="btn-primary btn-sm"
-            wire:click="$dispatchTo('projects.projects-tasks', 'getProject', { id: {{ $project->id }}})"
+            wire:click="$dispatchTo('projects.projects-tasks-form', 'getProject', { id: {{ $project->id }}})"
         />
     </div>
 
@@ -85,7 +85,7 @@
             label="Upload Files"
             icon="file"
             class="btn-primary btn-sm"
-            wire:click="$dispatchTo('projects.projects-uploads', 'getProject', { id: {{ $project->id }}})"
+            wire:click="$dispatchTo('projects.projects-uploads-form', 'getProject', { id: {{ $project->id }}})"
         />
     </div>
 

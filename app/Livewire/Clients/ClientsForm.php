@@ -39,19 +39,13 @@ class ClientsForm extends Component
             'description' => 'required',
         ]);
 
-        $data = [
+        Client::updateOrCreate([
+            'id' => $this->model_id,
+        ], [
             'active' => $this->active,
             'name' => $this->name,
             'description' => $this->description,
-            'updated_by' => auth()->id(),
-        ];
-
-        if ($this->model_id) {
-            Client::where('id', $this->model_id)->update($data);
-        } else {
-            $data['created_by'] = auth()->id();
-            Client::create($data);
-        }
+        ]);
 
         // Refresh the data
         $this->dispatch('refreshData');

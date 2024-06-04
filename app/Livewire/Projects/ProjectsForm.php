@@ -17,17 +17,14 @@ class ProjectsForm extends Component
     public $model_id;
     public $client_id, $team_id;
     public $name, $description, $start_date, $due_date, $completed_date;
-    public $created_by, $updated_by;
 
     public function render()
     {
         $clients = Client::all();
-        $teams = Team::all();
         $users = User::all();
 
         return view('livewire.projects.projects-form', [
             'clients' => $clients,
-            'teams' => $teams,
             'users' => $users,
         ]);
     }
@@ -45,8 +42,6 @@ class ProjectsForm extends Component
             $this->start_date = $project->start_date;
             $this->due_date = $project->due_date;
             $this->completed_date = $project->completed_date;
-            $this->created_by = $project->created_by;
-            $this->updated_by = $project->updated_by;
         }
     }
 
@@ -62,23 +57,16 @@ class ProjectsForm extends Component
             'completed_date' => 'nullable|date',
         ]);
 
-        $data = [
+        Project::updateOrCreate([
+            'id' => $this->model_id,
+        ], [
             'name' => $this->name,
             'description' => $this->description,
             'client_id' => $this->client_id ? $this->client_id : null,
-            'team_id' => $this->team_id ? $this->client_id : null,
             'start_date' => $this->start_date,
             'due_date' => $this->due_date,
             'completed_date' => $this->completed_date,
-            'updated_by' => auth()->id(),
-        ];
-
-        if ($this->model_id) {
-            Project::where('id', $this->model_id)->update($data);
-        } else {
-            $data['created_by'] = auth()->id();
-            Project::create($data);
-        }
+        ]);
 
         // Refresh the data
         $this->dispatch('refreshData');

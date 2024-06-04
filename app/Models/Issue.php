@@ -13,4 +13,14 @@ class Issue extends Model
     protected $guarded = [];
 
     protected $table = 'issues';
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
 }

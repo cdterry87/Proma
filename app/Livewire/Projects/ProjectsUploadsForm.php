@@ -61,7 +61,6 @@ class ProjectsUploadsForm extends Component
                 'name' => $filename,
                 'type' => $file->extension(),
                 'size' => $file->getSize(),
-                'created_by' => auth()->id(),
                 'created_at' => now(),
                 'updated_at' => now(),
             ];

@@ -1,6 +1,6 @@
 <x-modals.base
     id="projects_form__modal"
-    title="Projects Form"
+    title="Project Details"
 >
     <form wire:submit.prevent="save">
         <x-alerts.container />

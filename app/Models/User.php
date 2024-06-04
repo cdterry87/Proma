@@ -46,29 +46,4 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-    public function hasPermission(string $permission)
-    {
-        return $this->permissions->contains('name', $permission);
-    }
-
-    public function isAdmin()
-    {
-        return $this->hasPermission('administrator');
-    }
-
-    public function permissions()
-    {
-        return $this->hasManyThrough(Permission::class, UserPermission::class, 'user_id', 'id', 'id', 'permission_id');
-    }
-
-    public function teams()
-    {
-        return $this->belongsToMany(Team::class, 'teams_users');
-    }
-
-    public function projects_assignments()
-    {
-        return $this->hasMany(ProjectAssignment::class, 'assigned_to');
-    }
 }

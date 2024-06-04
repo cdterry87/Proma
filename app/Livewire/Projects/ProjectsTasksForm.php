@@ -14,7 +14,7 @@ class ProjectsTasksForm extends Component
     use WithModal;
 
     public $project_id, $project_name, $project_team_id;
-    public $task_id, $title, $description, $start_date, $due_date, $completed_date, $assigned_to;
+    public $task_id, $title, $description, $start_date, $due_date, $completed_date;
 
     #[On('getProject')]
     public function getProject($id)
@@ -29,18 +29,7 @@ class ProjectsTasksForm extends Component
 
     public function render()
     {
-        $assignableUsers = User::query()
-            ->when($this->project_team_id, function ($query) {
-                $query->whereHas('teams', function ($query) {
-                    $query->where('team_id', $this->project_team_id);
-                });
-            })
-            ->orderBy('name')
-            ->get();
-
-        return view('livewire.projects.projects-tasks-form', [
-            'assignableUsers' => $assignableUsers
-        ]);
+        return view('livewire.projects.projects-tasks-form');
     }
 
     public function saveTask()
@@ -51,25 +40,18 @@ class ProjectsTasksForm extends Component
             'start_date' => 'nullable|date',
             'due_date' => 'nullable|date',
             'completed_date' => 'nullable|date',
-            'assigned_to' => 'nullable|exists:users,id'
         ]);
 
-        if ($this->task_id) {
-            $projectTask = ProjectTask::find($this->task_id);
-        } else {
-            $projectTask = new ProjectTask();
-            $projectTask->project_id = $this->project_id;
-            $projectTask->created_by = auth()->id();
-        }
-
-        $projectTask->title = $this->title;
-        $projectTask->description = $this->description;
-        $projectTask->assigned_to = $this->assigned_to;
-        $projectTask->start_date = $this->start_date;
-        $projectTask->due_date = $this->due_date;
-        $projectTask->completed_date = $this->completed_date;
-        $projectTask->updated_by = auth()->id();
-        $projectTask->save();
+        ProjectTask::updateOrCreate([
+            'id' => $this->task_id,
+        ], [
+            'project_id' => $this->project_id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'start_date' => $this->start_date,
+            'due_date' => $this->due_date,
+            'completed_date' => $this->completed_date,
+        ]);
 
         $this->dispatch('refreshData');
 
@@ -86,7 +68,6 @@ class ProjectsTasksForm extends Component
             $this->task_id = $projectTask->id;
             $this->title = $projectTask->title;
             $this->description = $projectTask->description;
-            $this->assigned_to = $projectTask->assigned_to;
             $this->start_date = $projectTask->start_date;
             $this->due_date = $projectTask->due_date;
             $this->completed_date = $projectTask->completed_date;

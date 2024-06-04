@@ -88,12 +88,12 @@ final class ClientsUploadsTable extends PowerGridComponent
                 ->slot('<x-icons.download />')
                 ->class('btn btn-accent btn-sm')
                 ->tooltip('Download File')
-                ->dispatchTo('clients.clients-uploads', 'downloadFile', ['fileId' => $row->id, 'clientId' => $row->client_id]),
+                ->dispatchTo('clients.clients-uploads-form', 'downloadFile', ['fileId' => $row->id, 'clientId' => $row->client_id]),
             Button::add('file-delete--button')
                 ->slot('<x-icons.delete />')
                 ->class('btn btn-error btn-sm')
                 ->tooltip('Delete File')
-                ->dispatchTo('clients.clients-uploads', 'deleteFile', ['fileId' => $row->id, 'clientId' => $row->client_id]),
+                ->dispatchTo('clients.clients-uploads-form', 'deleteFile', ['fileId' => $row->id, 'clientId' => $row->client_id]),
         ];
     }
 }

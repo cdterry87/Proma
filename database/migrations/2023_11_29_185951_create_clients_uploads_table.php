@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('path');
             $table->string('type');
             $table->string('size');
-            $table->foreignId('created_by')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }
