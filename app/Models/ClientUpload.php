@@ -11,7 +11,6 @@ class ClientUpload extends Model
     use HasFactory;
 
     protected $guarded = [];
-
     protected $table = 'clients_uploads';
 
     public function client()

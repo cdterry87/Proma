@@ -10,7 +10,6 @@ class Project extends Model
     use HasFactory;
 
     protected $guarded = [];
-
     protected $table = 'projects';
 
     public function client()

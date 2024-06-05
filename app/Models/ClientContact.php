@@ -12,7 +12,6 @@ class ClientContact extends Model
     use HasFactory;
 
     protected $guarded = [];
-
     protected $table = 'clients_contacts';
 
     public function client()

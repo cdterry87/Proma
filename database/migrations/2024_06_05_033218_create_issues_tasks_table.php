@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('issues_notes', function (Blueprint $table) {
+        Schema::create('issues_tasks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('issue_id')->constrained('issues')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('title')->index();
             $table->text('description')->nullable();
+            $table->date('completed_date')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('issues_notes');
+        Schema::dropIfExists('issues_tasks');
     }
 };

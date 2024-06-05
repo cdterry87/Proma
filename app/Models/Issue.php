@@ -11,7 +11,6 @@ class Issue extends Model
     use HasFactory;
 
     protected $guarded = [];
-
     protected $table = 'issues';
 
     public function client()
