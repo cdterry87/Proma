@@ -2,33 +2,37 @@
 
 namespace App\Livewire\Issues;
 
+use App\Models\IssueTask;
+use Livewire\Attributes\On;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
+use PowerComponents\LivewirePowerGrid\Detail;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
-use PowerComponents\LivewirePowerGrid\Exportable;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
+use PowerComponents\LivewirePowerGrid\Exportable;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
 final class IssuesTasksTable extends PowerGridComponent
 {
+    public $issueId;
+    public $orderBy = 'updated_at';
+    public $orderType = 'desc';
+
+    #[On('refreshData')]
     public function datasource(): ?Collection
     {
-        return collect([
-            ['id' => 1, 'name' => 'Name 1', 'price' => 1.58, 'created_at' => now(),],
-            ['id' => 2, 'name' => 'Name 2', 'price' => 1.68, 'created_at' => now(),],
-            ['id' => 3, 'name' => 'Name 3', 'price' => 1.78, 'created_at' => now(),],
-            ['id' => 4, 'name' => 'Name 4', 'price' => 1.88, 'created_at' => now(),],
-            ['id' => 5, 'name' => 'Name 5', 'price' => 1.98, 'created_at' => now(),],
-        ]);
+        return IssueTask::query()
+            ->where('issue_id', $this->issueId)
+            ->orderBy($this->orderBy, $this->orderType)
+            ->get();
     }
 
     public function setUp(): array
     {
-        $this->showCheckBox();
-
         return [
             Exportable::make('export')
                 ->striped()
@@ -37,37 +41,55 @@ final class IssuesTasksTable extends PowerGridComponent
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount(),
+            Detail::make()
+                ->view('livewire.issues.issues-tasks-details')
+                ->showCollapseIcon(),
         ];
     }
 
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('id')
-            ->add('name')
-            ->add('price')
-            ->add('created_at_formatted', function ($entry) {
-                return Carbon::parse($entry->created_at)->format('d/m/Y');
-            });
+            ->add('title')
+            ->add('description')
+            ->add('completed_date')
+            ->add('completed_date_formatted', fn (IssueTask $model) => $model->completed_date ? Carbon::parse($model->completed_date)->format('m/d/Y') : 'Incomplete')
+            ->add('updated_at')
+            ->add('updated_at_formatted', fn (IssueTask $model) => $model->updated_at->diffForHumans());
     }
 
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id')
+            Column::make('Title', 'title')
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Name', 'name')
-                ->searchable()
+            Column::add()
+                ->title('Completed')
+                ->field('completed_date_formatted', 'completed_date')
                 ->sortable(),
-
-            Column::make('Price', 'price')
-                ->sortable(),
-
-            Column::make('Created', 'created_at_formatted'),
 
             Column::action('Action')
+        ];
+    }
+
+    public function actions(IssueTask $row): array
+    {
+        return [
+            Button::add('issue-tasks--button')
+                ->slot('<x-modals.trigger
+                    id="issues_tasks_form__modal"
+                    icon="edit"
+                    class="btn-accent btn-sm"
+                    title="Edit Task"
+                />')
+                ->dispatchTo('issues.issues-tasks-form', 'editTask', ['id' => $row->id]),
+            Button::add('issue-tasks-delete--button')
+                ->slot('<x-icons.delete />')
+                ->class('btn btn-sm btn-error')
+                ->tooltip('Delete Task')
+                ->dispatchTo('issues.issues-tasks-form', 'deleteTask', ['taskId' => $row->id, 'issueId' => $row->issue_id]),
         ];
     }
 }

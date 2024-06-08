@@ -88,7 +88,7 @@ final class ProjectsTasksTable extends PowerGridComponent
         return [
             Button::add('project-tasks--button')
                 ->slot('<x-modals.trigger
-                    id="projects_tasks__modal"
+                    id="projects_tasks_form__modal"
                     icon="edit"
                     class="btn-accent btn-sm"
                     title="Edit Task"

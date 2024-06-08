@@ -3,7 +3,7 @@
     title="Project Uploads"
     :subtitle="$project_name ? 'For ' . $project_name : null"
 >
-    <form wire:submit.prevent="uploadFile">
+    <form wire:submit.prevent="uploadFiles">
         <x-alerts.container />
 
         <div class="flex flex-col gap-6">

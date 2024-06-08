@@ -2,12 +2,10 @@
 
 namespace App\Livewire\Projects;
 
-use App\Models\Team;
 use App\Models\Project;
 use App\Models\ProjectUpload;
 use Livewire\Component;
 use App\Traits\WithModal;
-use App\Models\TeamUpload;
 use Livewire\Attributes\On;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
@@ -45,7 +43,7 @@ class ProjectsUploadsForm extends Component
         return view('livewire.projects.projects-uploads-form');
     }
 
-    public function uploadFile()
+    public function uploadFiles()
     {
         $this->validate([
             'files.*' => 'required|max:10240|mimes:doc,docx,pdf,ppt,pptx,rtf,txt,csv,xls,xlsx,gif,jpg,jpeg,png,svg,zip,rar,7z'

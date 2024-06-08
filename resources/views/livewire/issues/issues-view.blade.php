@@ -72,7 +72,7 @@
             label="Add Tasks"
             icon="plus"
             class="btn-primary btn-sm"
-            wire:click="$dispatchTo('issues.issues-tasks-form', 'getissue', { id: {{ $issue->id }}})"
+            wire:click="$dispatchTo('issues.issues-tasks-form', 'getIssue', { id: {{ $issue->id }}})"
         />
     </div>
 
@@ -88,7 +88,7 @@
             label="Upload Files"
             icon="file"
             class="btn-primary btn-sm"
-            wire:click="$dispatchTo('issues.issues-uploads-form', 'getissue', { id: {{ $issue->id }}})"
+            wire:click="$dispatchTo('issues.issues-uploads-form', 'getIssue', { id: {{ $issue->id }}})"
         />
     </div>
 

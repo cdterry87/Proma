@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Projects;
 
-use App\Models\User;
 use App\Models\Project;
 use Livewire\Component;
 use App\Traits\WithModal;
@@ -13,7 +12,7 @@ class ProjectsTasksForm extends Component
 {
     use WithModal;
 
-    public $project_id, $project_name, $project_team_id;
+    public $project_id, $project_name;
     public $task_id, $title, $description, $start_date, $due_date, $completed_date;
 
     #[On('getProject')]
@@ -23,7 +22,6 @@ class ProjectsTasksForm extends Component
         if ($project) {
             $this->project_id = $project->id;
             $this->project_name = $project->name;
-            $this->project_team_id = $project->team_id;
         }
     }
 
@@ -44,8 +42,8 @@ class ProjectsTasksForm extends Component
 
         ProjectTask::updateOrCreate([
             'id' => $this->task_id,
-        ], [
             'project_id' => $this->project_id,
+        ], [
             'title' => $this->title,
             'description' => $this->description,
             'start_date' => $this->start_date,
@@ -75,7 +73,6 @@ class ProjectsTasksForm extends Component
             if ($projectTask->project) {
                 $this->project_id = $projectTask->project->id;
                 $this->project_name = $projectTask->project->name;
-                $this->project_team_id = $projectTask->project->team_id;
             }
         }
 

@@ -7,6 +7,7 @@ use Livewire\Attributes\On;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
+use PowerComponents\LivewirePowerGrid\Detail;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
@@ -31,6 +32,9 @@ final class IssuesTable extends PowerGridComponent
             Footer::make()
                 ->showPerPage()
                 ->showRecordCount(),
+            Detail::make()
+                ->view('livewire.issues.issues-details')
+                ->showCollapseIcon(),
         ];
     }
 
@@ -43,7 +47,7 @@ final class IssuesTable extends PowerGridComponent
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('description')
+            ->add('name')
             ->add('priority')
             ->add('client', fn (Issue $model) => $model->client->name)
             ->add('project', fn (Issue $model) => $model->project->name)
@@ -53,7 +57,7 @@ final class IssuesTable extends PowerGridComponent
     public function columns(): array
     {
         return [
-            Column::make('Description', 'description')
+            Column::make('Name', 'name')
                 ->searchable()
                 ->sortable(),
 
