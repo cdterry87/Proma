@@ -3,25 +3,26 @@
 namespace App\Livewire\Issues;
 
 use App\Models\IssueUpload;
-use Illuminate\Database\Eloquent\Builder;
+use Livewire\Attributes\On;
 use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
-use PowerComponents\LivewirePowerGrid\Exportable;
-use PowerComponents\LivewirePowerGrid\Facades\Filter;
-use PowerComponents\LivewirePowerGrid\Facades\Rule;
 use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
+use PowerComponents\LivewirePowerGrid\Exportable;
+use PowerComponents\LivewirePowerGrid\Facades\Rule;
+use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
 final class IssuesUploadsTable extends PowerGridComponent
 {
+    public $issueId;
+
     public function setUp(): array
     {
-        $this->showCheckBox();
-
         return [
             Exportable::make('export')
                 ->striped()
@@ -33,37 +34,42 @@ final class IssuesUploadsTable extends PowerGridComponent
         ];
     }
 
+    #[On('refreshData')]
     public function datasource(): Builder
     {
-        return IssueUpload::query();
+        return IssueUpload::query()
+            ->where('issue_id', $this->issueId);
     }
 
     public function fields(): PowerGridFields
     {
         return PowerGrid::fields()
-            ->add('id')
             ->add('name')
-            ->add('name_lower', fn (IssueUpload $model) => strtolower(e($model->name)))
-            ->add('created_at')
-            ->add('created_at_formatted', fn (IssueUpload $model) => Carbon::parse($model->created_at)->format('d/m/Y H:i:s'));
+            ->add('type')
+            ->add('size')
+            ->add('created_at_formatted', function ($entry) {
+                return $entry->created_at->diffForHumans();
+            });
     }
 
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id')
-                ->searchable()
-                ->sortable(),
-
             Column::make('Name', 'name')
                 ->searchable()
                 ->sortable(),
 
-            Column::make('Created at', 'created_at')
-                ->hidden(),
+            Column::make('Type', 'type')
+                ->searchable()
+                ->sortable(),
 
-            Column::make('Created at', 'created_at_formatted', 'created_at')
-                ->searchable(),
+            Column::make('Size', 'size')
+                ->sortable(),
+
+            Column::add()
+                ->title('Uploaded')
+                ->field('created_at_formatted', 'created_at')
+                ->sortable(),
 
             Column::action('Action')
         ];
@@ -72,37 +78,23 @@ final class IssuesUploadsTable extends PowerGridComponent
     public function filters(): array
     {
         return [
-            Filter::inputText('name'),
-            Filter::datepicker('created_at_formatted', 'created_at'),
+            //
         ];
-    }
-
-    #[\Livewire\Attributes\On('edit')]
-    public function edit($rowId): void
-    {
-        $this->js('alert('.$rowId.')');
     }
 
     public function actions(IssueUpload $row): array
     {
         return [
-            Button::add('edit')
-                ->slot('Edit: '.$row->id)
-                ->id()
-                ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
+            Button::add('file-download--button')
+                ->slot('<x-icons.download />')
+                ->class('btn btn-accent btn-sm')
+                ->tooltip('Download File')
+                ->dispatchTo('issues.issues-uploads-form', 'downloadFile', ['fileId' => $row->id, 'issueId' => $row->issue_id]),
+            Button::add('file-delete--button')
+                ->slot('<x-icons.delete />')
+                ->class('btn btn-error btn-sm')
+                ->tooltip('Delete File')
+                ->dispatchTo('issues.issues-uploads-form', 'deleteFile', ['fileId' => $row->id, 'issueId' => $row->issue_id]),
         ];
     }
-
-    /*
-    public function actionRules(IssueUpload $row): array
-    {
-       return [
-            // Hide button edit for ID 1
-            Rule::button('edit')
-                ->when(fn($row) => $row->id === 1)
-                ->hide(),
-        ];
-    }
-    */
 }

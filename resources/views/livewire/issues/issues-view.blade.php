@@ -37,25 +37,24 @@
             </x-layouts.card>
         </div>
         <div class="lg:col-span-2">
-            <x-layouts.card title="Issue Stats">
+            <x-layouts.card title="Client Stats">
                 <div class="stats stats-vertical shadow">
                     <div class="stat">
-                        <div class="stat-figure text-secondary">
-                            <x-icons.issues />
+                        <div class="stat-figure text-primary">
+                            <x-icons.tasks />
                         </div>
                         <div class="stat-title">Open Tasks</div>
-                        <div class="stat-value text-secondary">0</div>
-                        <div class="stat-desc text-accent"></div>
+                        <div class="stat-value text-primary">0</div>
+                        <div class="stat-desc text-accent">0 Tasks Complete</div>
                     </div>
-                </div>
-                <div class="stats stats-vertical shadow">
+
                     <div class="stat">
                         <div class="stat-figure text-secondary">
-                            <x-icons.issues />
+                            <x-icons.file />
                         </div>
                         <div class="stat-title">Files</div>
                         <div class="stat-value text-secondary">0</div>
-                        <div class="stat-desc text-accent"></div>
+                        <div class="stat-desc text-accent">Attached</div>
                     </div>
                 </div>
             </x-layouts.card>

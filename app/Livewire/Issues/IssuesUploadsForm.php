@@ -79,7 +79,7 @@ class IssuesUploadsForm extends Component
     {
         $issueUpload = IssueUpload::query()
             ->where('id', $fileId)
-            ->where('issueId', $issueId)
+            ->where('issue_id', $issueId)
             ->first();
 
         if ($issueUpload) {

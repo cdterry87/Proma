@@ -3,9 +3,7 @@
 namespace App\Livewire\Clients;
 
 use App\Models\ClientUpload;
-use App\Models\TeamUpload;
 use Livewire\Attributes\On;
-use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;

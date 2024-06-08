@@ -49,11 +49,27 @@
                         <div class="stat-figure text-secondary">
                             <x-icons.issues />
                         </div>
-                        <div class="stat-title">Active Issues</div>
+                        <div class="stat-title">Open Issues</div>
                         <div class="stat-value text-secondary">0</div>
                         <div class="stat-desc text-accent">0 Issues Closed</div>
                     </div>
+                    <div class="stat">
+                        <div class="stat-figure text-secondary">
+                            <x-icons.tasks />
+                        </div>
+                        <div class="stat-title">Open Tasks</div>
+                        <div class="stat-value text-secondary">0</div>
+                        <div class="stat-desc text-accent">0 Tasks Complete</div>
+                    </div>
 
+                    <div class="stat">
+                        <div class="stat-figure text-secondary">
+                            <x-icons.file />
+                        </div>
+                        <div class="stat-title">Files</div>
+                        <div class="stat-value text-secondary">0</div>
+                        <div class="stat-desc text-accent">Attached</div>
+                    </div>
                 </div>
             </x-layouts.card>
         </div>
