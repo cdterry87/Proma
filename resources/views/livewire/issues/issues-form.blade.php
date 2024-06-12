@@ -27,11 +27,9 @@
                 required
             >
                 <option value="">Select Priority</option>
-                <option value="1">Lowest</option>
-                <option value="2">Low</option>
-                <option value="3">Medium</option>
-                <option value="4">High</option>
-                <option value="5">Highest</option>
+                @foreach ($issuePriorities as $priority)
+                    <option value="{{ $priority['value'] }}">{{ $priority['label'] }}</option>
+                @endforeach
             </x-inputs.select>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <x-inputs.select

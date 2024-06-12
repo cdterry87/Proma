@@ -13,10 +13,17 @@
         <div class="lg:col-span-3">
             <x-layouts.card>
                 <div class="flex flex-col gap-4">
-                    <x-elements.badge
-                        label="{{ $issue->resolved_date ? 'Resolved ' . $issue->resolved_date : 'Unresolved' }}"
-                        class="{{ $issue->resolved_date ? 'badge-success' : 'badge-error' }}"
-                    />
+                    <div class="flex items-center gap-4">
+                        <x-elements.badge
+                            label="{{ $issue->resolved_date ? 'Resolved ' . $issue->resolved_date : 'Unresolved' }}"
+                            class="{{ $issue->resolved_date ? 'badge-success' : 'badge-error' }}"
+                        />
+                        <x-elements.badge
+                            label="{{ $issuePriorities->firstWhere('value', $issue->priority)['label'] }}"
+                            class="{{ $issuePriorities->firstWhere('value', $issue->priority)['class'] }}"
+                        />
+                    </div>
+
                     <x-inputs.display
                         label="Name"
                         value="{{ $issue->name }}"
@@ -37,24 +44,24 @@
             </x-layouts.card>
         </div>
         <div class="lg:col-span-2">
-            <x-layouts.card title="Client Stats">
+            <x-layouts.card title="Issue Stats">
                 <div class="stats stats-vertical shadow">
                     <div class="stat">
                         <div class="stat-figure text-primary">
                             <x-icons.tasks />
                         </div>
                         <div class="stat-title">Open Tasks</div>
-                        <div class="stat-value text-primary">0</div>
-                        <div class="stat-desc text-accent">0 Tasks Complete</div>
+                        <div class="stat-value text-primary">{{ $incompleteTasksCount }}</div>
+                        <div class="stat-desc text-accent">{{ $completeTasksCount }} Tasks Complete</div>
                     </div>
 
                     <div class="stat">
                         <div class="stat-figure text-secondary">
                             <x-icons.file />
                         </div>
-                        <div class="stat-title">Files</div>
-                        <div class="stat-value text-secondary">0</div>
-                        <div class="stat-desc text-accent">Attached</div>
+                        <div class="stat-title">Attached Files</div>
+                        <div class="stat-value text-secondary">{{ $uploadsTotalCount }}</div>
+                        <div class="stat-desc text-accent">{{ $uploadsTotalSize }}</div>
                     </div>
                 </div>
             </x-layouts.card>

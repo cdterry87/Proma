@@ -32,11 +32,11 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <x-inputs.display
                             label="Start Date"
-                            value="{{ $project->start_date }}"
+                            value="{{ $project->start_date ?? 'N/A' }}"
                         />
                         <x-inputs.display
                             label="Due Date"
-                            value="{{ $project->due_date }}"
+                            value="{{ $project->due_date ?? 'N/A' }}"
                         />
                     </div>
                 </div>
@@ -46,20 +46,20 @@
             <x-layouts.card title="Project Stats">
                 <div class="stats stats-vertical shadow">
                     <div class="stat">
-                        <div class="stat-figure text-secondary">
+                        <div class="stat-figure text-primary">
                             <x-icons.issues />
                         </div>
                         <div class="stat-title">Open Issues</div>
-                        <div class="stat-value text-secondary">0</div>
-                        <div class="stat-desc text-accent">0 Issues Closed</div>
+                        <div class="stat-value text-primary">{{ $incompleteIssuesCount }}</div>
+                        <div class="stat-desc text-accent">{{ $completeIssuesCount }} Issues Closed</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-figure text-secondary">
+                        <div class="stat-figure text-primary">
                             <x-icons.tasks />
                         </div>
                         <div class="stat-title">Open Tasks</div>
-                        <div class="stat-value text-secondary">0</div>
-                        <div class="stat-desc text-accent">0 Tasks Complete</div>
+                        <div class="stat-value text-primary">{{ $incompleteTasksCount }}</div>
+                        <div class="stat-desc text-accent">{{ $completeTasksCount }} Tasks Complete</div>
                     </div>
 
                     <div class="stat">
@@ -67,8 +67,8 @@
                             <x-icons.file />
                         </div>
                         <div class="stat-title">Files</div>
-                        <div class="stat-value text-secondary">0</div>
-                        <div class="stat-desc text-accent">Attached</div>
+                        <div class="stat-value text-secondary">{{ $uploadsTotalCount }}</div>
+                        <div class="stat-desc text-accent">{{ $uploadsTotalSize }}</div>
                     </div>
                 </div>
             </x-layouts.card>

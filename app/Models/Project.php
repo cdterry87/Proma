@@ -22,9 +22,29 @@ class Project extends Model
         return $this->hasMany(Issue::class);
     }
 
+    public function getIncompleteIssues()
+    {
+        return $this->issues()->whereNull('completed_date');
+    }
+
+    public function getCompleteIssues()
+    {
+        return $this->issues()->whereNotNull('completed_date');
+    }
+
     public function tasks()
     {
         return $this->hasMany(ProjectTask::class);
+    }
+
+    public function getIncompleteTasks()
+    {
+        return $this->tasks()->whereNull('completed_date');
+    }
+
+    public function getCompleteTasks()
+    {
+        return $this->tasks()->whereNotNull('completed_date');
     }
 
     public function uploads()
