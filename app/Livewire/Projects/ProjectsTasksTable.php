@@ -6,6 +6,7 @@ use App\Models\ProjectTask;
 use Livewire\Attributes\On;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Query\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Detail;
@@ -13,6 +14,7 @@ use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
 use PowerComponents\LivewirePowerGrid\Exportable;
+use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
@@ -70,6 +72,11 @@ final class ProjectsTasksTable extends PowerGridComponent
                 ->sortable(),
 
             Column::add()
+                ->title('Start Date')
+                ->field('start_date_formatted', 'start_date')
+                ->sortable(),
+
+            Column::add()
                 ->title('Due')
                 ->field('due_date_formatted', 'due_date')
                 ->sortable(),
@@ -99,6 +106,33 @@ final class ProjectsTasksTable extends PowerGridComponent
                 ->class('btn btn-sm btn-error')
                 ->tooltip('Delete Task')
                 ->dispatchTo('projects.projects-tasks-form', 'deleteTask', ['taskId' => $row->id, 'projectId' => $row->project_id]),
+        ];
+    }
+
+    public function filters(): array
+    {
+        return [
+            Filter::boolean('start_date')
+                ->label('Started', 'Not Started')
+                ->builder(function (Builder $query, string $value) {
+                    return $value === 'true'
+                        ? $query->whereNotNull('start_date')->where('start_date', '<=', now())
+                        : $query->whereNull('start_date')->orWhere('start_date', '>', now());
+                }),
+            Filter::boolean('due_date')
+                ->label('Past Due', 'Not Due')
+                ->builder(function (Builder $query, string $value) {
+                    return $value === 'true'
+                        ? $query->whereNotNull('due_date')->where('due_date', '<', now())
+                        : $query->whereNull('due_date')->orWhere('due_date', '>=', now());
+                }),
+            Filter::boolean('completed_date')
+                ->label('Completed', 'Incomplete')
+                ->builder(function (Builder $query, string $value) {
+                    return $value === 'true'
+                        ? $query->whereNotNull('completed_date')
+                        : $query->whereNull('completed_date');
+                }),
         ];
     }
 }

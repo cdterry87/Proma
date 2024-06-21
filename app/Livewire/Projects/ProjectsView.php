@@ -10,12 +10,10 @@ class ProjectsView extends Component
 {
     public $project;
 
-    public $incompleteIssuesCount = 0;
-    public $completeIssuesCount = 0;
+    public $unresolvedIssuesCount = 0;
+    public $resolvedIssuesCount = 0;
     public $incompleteTasksCount = 0;
     public $completeTasksCount = 0;
-    public $uploadsTotalCount = 0;
-    public $uploadsTotalSize = 0;
 
     public function mount(Project $project)
     {
@@ -40,11 +38,9 @@ class ProjectsView extends Component
     {
         if (!$this->project) return;
 
-        $this->incompleteIssuesCount = $this->project->getIncompleteTasks()->count();
-        $this->completeIssuesCount = $this->project->getCompleteTasks()->count();
-        $this->incompleteTasksCount = $this->project->getIncompleteTasks()->count();
-        $this->completeTasksCount = $this->project->getCompleteTasks()->count();
-        $this->uploadsTotalCount = $this->project->uploads()->count();
-        $this->uploadsTotalSize = $this->project->uploads()->sum('size');
+        $this->unresolvedIssuesCount = $this->project->unresolved_issues->count();
+        $this->resolvedIssuesCount = $this->project->resolved_issues->count();
+        $this->incompleteTasksCount = $this->project->incomplete_tasks->count();
+        $this->completeTasksCount = $this->project->complete_tasks->count();
     }
 }

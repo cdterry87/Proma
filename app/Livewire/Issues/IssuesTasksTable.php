@@ -6,6 +6,7 @@ use App\Models\IssueTask;
 use Livewire\Attributes\On;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
 use PowerComponents\LivewirePowerGrid\Detail;
@@ -13,6 +14,7 @@ use PowerComponents\LivewirePowerGrid\Footer;
 use PowerComponents\LivewirePowerGrid\Header;
 use PowerComponents\LivewirePowerGrid\PowerGrid;
 use PowerComponents\LivewirePowerGrid\Exportable;
+use PowerComponents\LivewirePowerGrid\Facades\Filter;
 use PowerComponents\LivewirePowerGrid\PowerGridFields;
 use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
@@ -90,6 +92,19 @@ final class IssuesTasksTable extends PowerGridComponent
                 ->class('btn btn-sm btn-error')
                 ->tooltip('Delete Task')
                 ->dispatchTo('issues.issues-tasks-form', 'deleteTask', ['taskId' => $row->id, 'issueId' => $row->issue_id]),
+        ];
+    }
+
+    public function filters(): array
+    {
+        return [
+            Filter::boolean('completed_date')
+                ->label('Completed', 'Incomplete')
+                ->builder(function (Builder $query, string $value) {
+                    return $value === 'true'
+                        ? $query->whereNotNull('completed_date')
+                        : $query->whereNull('completed_date');
+                }),
         ];
     }
 }

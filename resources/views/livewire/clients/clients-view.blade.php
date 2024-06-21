@@ -35,7 +35,7 @@
                         <div class="stat-figure text-primary">
                             <x-icons.projects />
                         </div>
-                        <div class="stat-title">Active Projects</div>
+                        <div class="stat-title">Incomplete Projects</div>
                         <div class="stat-value text-primary">{{ $incompleteProjectsCount }}</div>
                         <div class="stat-desc text-accent">{{ $completeProjectsCount }} Projects Complete</div>
                     </div>
@@ -44,9 +44,9 @@
                         <div class="stat-figure text-secondary">
                             <x-icons.issues />
                         </div>
-                        <div class="stat-title">Active Issues</div>
-                        <div class="stat-value text-secondary">{{ $incompleteIssuesCount }}</div>
-                        <div class="stat-desc text-accent">{{ $completeIssuesCount }} Issues Closed</div>
+                        <div class="stat-title">Unresolved Issues</div>
+                        <div class="stat-value text-secondary">{{ $unresolvedIssuesCount }}</div>
+                        <div class="stat-desc text-accent">{{ $resolvedIssuesCount }} Issues Resolved</div>
                     </div>
 
                 </div>

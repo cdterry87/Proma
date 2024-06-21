@@ -19,8 +19,8 @@
                             class="{{ $issue->resolved_date ? 'badge-success' : 'badge-error' }}"
                         />
                         <x-elements.badge
-                            label="{{ $issuePriorities->firstWhere('value', $issue->priority)['label'] }}"
-                            class="{{ $issuePriorities->firstWhere('value', $issue->priority)['class'] }}"
+                            label="{{ $priorityCodes->firstWhere('value', $issue->priority)['label'] }}"
+                            class="{{ $priorityCodes->firstWhere('value', $issue->priority)['class'] }}"
                         />
                     </div>
 
@@ -50,18 +50,9 @@
                         <div class="stat-figure text-primary">
                             <x-icons.tasks />
                         </div>
-                        <div class="stat-title">Open Tasks</div>
+                        <div class="stat-title">Incomplete Tasks</div>
                         <div class="stat-value text-primary">{{ $incompleteTasksCount }}</div>
                         <div class="stat-desc text-accent">{{ $completeTasksCount }} Tasks Complete</div>
-                    </div>
-
-                    <div class="stat">
-                        <div class="stat-figure text-secondary">
-                            <x-icons.file />
-                        </div>
-                        <div class="stat-title">Attached Files</div>
-                        <div class="stat-value text-secondary">{{ $uploadsTotalCount }}</div>
-                        <div class="stat-desc text-accent">{{ $uploadsTotalSize }}</div>
                     </div>
                 </div>
             </x-layouts.card>

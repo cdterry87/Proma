@@ -12,8 +12,8 @@ class ClientsView extends Component
 
     public $incompleteProjectsCount = 0;
     public $completeProjectsCount = 0;
-    public $incompleteIssuesCount = 0;
-    public $completeIssuesCount = 0;
+    public $unresolvedIssuesCount = 0;
+    public $resolvedIssuesCount = 0;
 
     public function mount(Client $client)
     {
@@ -38,9 +38,9 @@ class ClientsView extends Component
     {
         if (!$this->client) return;
 
-        $this->incompleteProjectsCount = $this->client->projects()->whereNull('completed_date')->count();
-        $this->completeProjectsCount = $this->client->projects()->whereNotNull('completed_date')->count();
-        $this->incompleteIssuesCount = $this->client->issues()->whereNull('completed_date')->count();
-        $this->completeIssuesCount = $this->client->issues()->whereNotNull('completed_date')->count();
+        $this->incompleteProjectsCount = $this->client->incomplete_projects->count();
+        $this->completeProjectsCount = $this->client->complete_projects->count();
+        $this->unresolvedIssuesCount = $this->client->unresolved_issues->count();
+        $this->resolvedIssuesCount = $this->client->resolved_issues->count();
     }
 }

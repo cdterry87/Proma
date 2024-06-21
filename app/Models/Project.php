@@ -22,14 +22,14 @@ class Project extends Model
         return $this->hasMany(Issue::class);
     }
 
-    public function getIncompleteIssues()
+    public function unresolved_issues()
     {
-        return $this->issues()->whereNull('completed_date');
+        return $this->issues()->whereNull('resolved_date');
     }
 
-    public function getCompleteIssues()
+    public function resolved_issues()
     {
-        return $this->issues()->whereNotNull('completed_date');
+        return $this->issues()->whereNotNull('resolved_date');
     }
 
     public function tasks()
@@ -37,12 +37,12 @@ class Project extends Model
         return $this->hasMany(ProjectTask::class);
     }
 
-    public function getIncompleteTasks()
+    public function incomplete_tasks()
     {
         return $this->tasks()->whereNull('completed_date');
     }
 
-    public function getCompleteTasks()
+    public function complete_tasks()
     {
         return $this->tasks()->whereNotNull('completed_date');
     }

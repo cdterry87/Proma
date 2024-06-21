@@ -26,7 +26,7 @@ final class ClientsTable extends PowerGridComponent
     public function datasource(): ?Collection
     {
         return Client::query()
-            ->withCount(['contacts', 'uploads'])
+            ->withCount(['contacts', 'uploads', 'incomplete_projects', 'unresolved_issues'])
             ->get();
     }
 
@@ -50,6 +50,8 @@ final class ClientsTable extends PowerGridComponent
     {
         return PowerGrid::fields()
             ->add('name')
+            ->add('incomplete_projects_count')
+            ->add('unresolved_issues_count')
             ->add('contacts_count')
             ->add('uploads_count')
             ->add('active', function ($entry) {
@@ -65,6 +67,12 @@ final class ClientsTable extends PowerGridComponent
         return [
             Column::make('Name', 'name')
                 ->searchable()
+                ->sortable(),
+
+            Column::make('Projects', 'incomplete_projects_count')
+                ->sortable(),
+
+            Column::make('Issues', 'unresolved_issues_count')
                 ->sortable(),
 
             Column::make('Contacts', 'contacts_count')

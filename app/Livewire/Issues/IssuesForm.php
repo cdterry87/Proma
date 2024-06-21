@@ -8,11 +8,9 @@ use App\Models\Project;
 use Livewire\Component;
 use App\Traits\WithModal;
 use Livewire\Attributes\On;
-use App\Traits\WithReferences;
 
 class IssuesForm extends Component
 {
-    use WithReferences;
     use WithModal;
 
     public $model_id;
@@ -30,7 +28,7 @@ class IssuesForm extends Component
         return view('livewire.issues.issues-form', [
             'clients' => $clients,
             'projects' => $projects,
-            'issuePriorities' => $this->getIssuePriorities(),
+            'priorityCodes' => Issue::getPriorityCodes(),
         ]);
     }
 

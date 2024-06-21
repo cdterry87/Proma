@@ -27,7 +27,7 @@
                 required
             >
                 <option value="">Select Priority</option>
-                @foreach ($issuePriorities as $priority)
+                @foreach ($priorityCodes as $priority)
                     <option value="{{ $priority['value'] }}">{{ $priority['label'] }}</option>
                 @endforeach
             </x-inputs.select>

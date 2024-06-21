@@ -81,13 +81,6 @@ final class ClientsContactsTable extends PowerGridComponent
         ];
     }
 
-    public function filters(): array
-    {
-        return [
-            //
-        ];
-    }
-
     public function actions(ClientContact $row): array
     {
         return [
@@ -104,6 +97,16 @@ final class ClientsContactsTable extends PowerGridComponent
                 ->class('btn btn-sm btn-error')
                 ->tooltip('Delete Contact')
                 ->dispatchTo('clients.clients-contacts-form', 'deleteContact', ['contactId' => $row->id, 'clientId' => $row->client_id]),
+        ];
+    }
+
+    public function filters(): array
+    {
+        return [
+            Filter::select('active', 'active')
+                ->dataSource(ClientContact::getActiveCodes())
+                ->optionValue('value')
+                ->optionLabel('label'),
         ];
     }
 }

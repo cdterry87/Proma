@@ -49,26 +49,17 @@
                         <div class="stat-figure text-primary">
                             <x-icons.issues />
                         </div>
-                        <div class="stat-title">Open Issues</div>
-                        <div class="stat-value text-primary">{{ $incompleteIssuesCount }}</div>
-                        <div class="stat-desc text-accent">{{ $completeIssuesCount }} Issues Closed</div>
+                        <div class="stat-title">Unresolved Issues</div>
+                        <div class="stat-value text-primary">{{ $unresolvedIssuesCount }}</div>
+                        <div class="stat-desc text-accent">{{ $resolvedIssuesCount }} Issues Resolved</div>
                     </div>
-                    <div class="stat">
-                        <div class="stat-figure text-primary">
-                            <x-icons.tasks />
-                        </div>
-                        <div class="stat-title">Open Tasks</div>
-                        <div class="stat-value text-primary">{{ $incompleteTasksCount }}</div>
-                        <div class="stat-desc text-accent">{{ $completeTasksCount }} Tasks Complete</div>
-                    </div>
-
                     <div class="stat">
                         <div class="stat-figure text-secondary">
-                            <x-icons.file />
+                            <x-icons.tasks />
                         </div>
-                        <div class="stat-title">Files</div>
-                        <div class="stat-value text-secondary">{{ $uploadsTotalCount }}</div>
-                        <div class="stat-desc text-accent">{{ $uploadsTotalSize }}</div>
+                        <div class="stat-title">Incomplete Tasks</div>
+                        <div class="stat-value text-secondary">{{ $incompleteTasksCount }}</div>
+                        <div class="stat-desc text-accent">{{ $completeTasksCount }} Tasks Complete</div>
                     </div>
                 </div>
             </x-layouts.card>

@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Traits\HasActiveToggle;
+use App\Traits\WithActiveToggle;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Client extends Model
 {
-    use HasActiveToggle;
+    use WithActiveToggle;
     use HasFactory;
 
     protected $guarded = [];
@@ -34,22 +34,22 @@ class Client extends Model
         return $this->hasMany(Issue::class);
     }
 
-    public function getIncompleteProjects()
+    public function incomplete_projects()
     {
         return $this->projects()->whereNull('completed_date');
     }
 
-    public function getCompleteProjects()
+    public function complete_projects()
     {
         return $this->projects()->whereNotNull('completed_date');
     }
 
-    public function getIncompleteIssues()
+    public function unresolved_issues()
     {
         return $this->issues()->whereNull('resolved_date');
     }
 
-    public function getCompleteIssues()
+    public function resolved_issues()
     {
         return $this->issues()->whereNotNull('resolved_date');
     }

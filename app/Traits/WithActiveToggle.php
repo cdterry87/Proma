@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-trait HasActiveToggle
+trait WithActiveToggle
 {
     public static function getActiveCodes()
     {

@@ -241,15 +241,5 @@
                 </div>
             </div>
         </div>
-
-        {{-- My Teams --}}
-        <div class=" card card-compact bg-base-200">
-            <div class="card-body flex flex-col gap-2">
-                <h2 class="font-bold text-2xl text-accent">My Teams</h2>
-                <div class="flex items-center justify-between gap-4">
-                    {{--  --}}
-                </div>
-            </div>
-        </div>
     </div>
 </div>

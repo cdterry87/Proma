@@ -3,7 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Traits\HasActiveToggle;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +10,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasActiveToggle;
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -24,7 +22,6 @@ class User extends Authenticatable
         'email',
         'title',
         'password',
-        'active'
     ];
 
     /**
