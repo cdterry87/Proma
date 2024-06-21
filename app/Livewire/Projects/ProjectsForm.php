@@ -73,4 +73,20 @@ class ProjectsForm extends Component
 
         session()->flash('success', 'Project saved successfully.');
     }
+
+    public function toggleCompleteProject()
+    {
+        $project = Project::findOrFail($this->model_id);
+        if ($project->completed_date) {
+            $project->completed_date = null;
+            session()->flash('success', 'Project is now incomplete.');
+        } else {
+            $project->completed_date = now();
+            session()->flash('success', 'Project completed successfully.');
+        }
+        $project->save();
+
+        // Reset completed date
+        $this->completed_date = $project->completed_date;
+    }
 }

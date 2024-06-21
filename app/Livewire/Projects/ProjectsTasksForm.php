@@ -93,4 +93,22 @@ class ProjectsTasksForm extends Component
 
         $this->dispatch('refreshData');
     }
+
+    public function toggleCompleteTask()
+    {
+        $projectTask = ProjectTask::findOrFail($this->task_id);
+
+        if ($projectTask->completed_date) {
+            $projectTask->completed_date = null;
+            session()->flash('success', 'Task is now incomplete.');
+        } else {
+            $projectTask->completed_date = now();
+            session()->flash('success', 'Task completed successfully.');
+        }
+        $projectTask->save();
+
+        $this->completed_date = $projectTask->completed_date;
+
+        $this->dispatch('refreshData');
+    }
 }

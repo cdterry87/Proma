@@ -55,11 +55,32 @@
                     @endforeach
                 </x-inputs.select>
             </div>
-            <div class="mt-4">
-                <x-inputs.button
-                    class="btn-primary btn-block"
-                    label="Save"
-                />
+            <div class="mt-4 flex items-center gap-4">
+                <div class="w-full">
+                    <x-inputs.button
+                        class="btn-primary btn-block"
+                        label="Save"
+                    />
+                </div>
+                @if ($model_id)
+                    <div class="w-full">
+                        @if ($resolved_date)
+                            <x-inputs.button
+                                class="btn-error btn-block"
+                                label="Unresolve"
+                                icon="error"
+                                wire:click.prevent="toggleResolveIssue"
+                            />
+                        @else
+                            <x-inputs.button
+                                class="btn-success btn-block"
+                                label="Resolve"
+                                icon="success"
+                                wire:click.prevent="toggleResolveIssue"
+                            />
+                        @endif
+                    </div>
+                @endif
             </div>
         </div>
     </form>

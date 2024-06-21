@@ -35,10 +35,33 @@
                         type="date"
                     />
                 </div>
-                <x-inputs.button
-                    class="btn-primary btn-block"
-                    label="Save Task"
-                />
+                <div class="flex items-center gap-4">
+                    <div class="w-full">
+                        <x-inputs.button
+                            class="btn-primary btn-block"
+                            label="Save Task"
+                        />
+                    </div>
+                    @if ($task_id)
+                        <div class="w-full">
+                            @if ($completed_date)
+                                <x-inputs.button
+                                    class="btn-error btn-block"
+                                    label="Incomplete"
+                                    icon="error"
+                                    wire:click.prevent="toggleCompleteTask"
+                                />
+                            @else
+                                <x-inputs.button
+                                    class="btn-success btn-block"
+                                    label="Complete"
+                                    icon="success"
+                                    wire:click.prevent="toggleCompleteTask"
+                                />
+                            @endif
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
     </form>

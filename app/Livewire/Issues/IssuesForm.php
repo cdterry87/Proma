@@ -76,4 +76,20 @@ class IssuesForm extends Component
 
         session()->flash('success', 'Issue saved successfully.');
     }
+
+    public function toggleResolveIssue()
+    {
+        $issue = Issue::findOrFail($this->model_id);
+        if ($issue->resolved_date) {
+            $issue->resolved_date = null;
+            session()->flash('success', 'Issue unresolved successfully.');
+        } else {
+            $issue->resolved_date = now();
+            session()->flash('success', 'Issue resolved successfully.');
+        }
+        $issue->save();
+
+        // Reset resolved date
+        $this->resolved_date = $issue->resolved_date;
+    }
 }

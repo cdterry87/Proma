@@ -87,4 +87,22 @@ class IssuesTasksForm extends Component
 
         $this->dispatch('refreshData');
     }
+
+    public function toggleCompleteTask()
+    {
+        $issueTask = IssueTask::findOrFail($this->task_id);
+
+        if ($issueTask->completed_date) {
+            $issueTask->completed_date = null;
+            session()->flash('success', 'Task is now incomplete.');
+        } else {
+            $issueTask->completed_date = now();
+            session()->flash('success', 'Task completed successfully.');
+        }
+        $issueTask->save();
+
+        $this->completed_date = $issueTask->completed_date;
+
+        $this->dispatch('refreshData');
+    }
 }

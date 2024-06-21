@@ -41,11 +41,32 @@
                     type="date"
                 />
             </div>
-            <div class="mt-4">
-                <x-inputs.button
-                    class="btn-primary btn-block"
-                    label="Save"
-                />
+            <div class="mt-4 flex items-center gap-4">
+                <div class="w-full">
+                    <x-inputs.button
+                        class="btn-primary btn-block"
+                        label="Save"
+                    />
+                </div>
+                @if ($model_id)
+                    <div class="w-full">
+                        @if ($completed_date)
+                            <x-inputs.button
+                                class="btn-error btn-block"
+                                label="Incomplete"
+                                icon="error"
+                                wire:click.prevent="toggleCompleteProject"
+                            />
+                        @else
+                            <x-inputs.button
+                                class="btn-success btn-block"
+                                label="Complete"
+                                icon="success"
+                                wire:click.prevent="toggleCompleteProject"
+                            />
+                        @endif
+                    </div>
+                @endif
             </div>
         </div>
     </form>
