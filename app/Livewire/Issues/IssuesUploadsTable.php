@@ -87,7 +87,7 @@ final class IssuesUploadsTable extends PowerGridComponent
         return [
             Button::add('file-download--button')
                 ->slot('<x-icons.download />')
-                ->class('btn btn-accent btn-sm')
+                ->class('btn btn-secondary btn-sm')
                 ->tooltip('Download File')
                 ->dispatchTo('issues.issues-uploads-form', 'downloadFile', ['fileId' => $row->id, 'issueId' => $row->issue_id]),
             Button::add('file-delete--button')

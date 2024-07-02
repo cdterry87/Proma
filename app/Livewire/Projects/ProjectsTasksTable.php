@@ -97,7 +97,7 @@ final class ProjectsTasksTable extends PowerGridComponent
                 ->slot('<x-modals.trigger
                     id="projects_tasks_form__modal"
                     icon="edit"
-                    class="btn-accent btn-sm"
+                    class="btn-secondary btn-sm"
                     title="Edit Task"
                 />')
                 ->dispatchTo('projects.projects-tasks-form', 'editTask', ['id' => $row->id]),

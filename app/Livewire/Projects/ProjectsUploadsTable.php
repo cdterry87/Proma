@@ -87,7 +87,7 @@ final class ProjectsUploadsTable extends PowerGridComponent
         return [
             Button::add('file-download--button')
                 ->slot('<x-icons.download />')
-                ->class('btn btn-accent btn-sm')
+                ->class('btn btn-secondary btn-sm')
                 ->tooltip('Download File')
                 ->dispatchTo('projects.projects-uploads-form', 'downloadFile', ['fileId' => $row->id, 'projectId' => $row->project_id]),
             Button::add('file-delete--button')

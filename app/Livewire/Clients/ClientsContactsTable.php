@@ -88,7 +88,7 @@ final class ClientsContactsTable extends PowerGridComponent
                 ->slot('<x-modals.trigger
                     id="clients_contacts_form__modal"
                     icon="edit"
-                    class="btn-accent btn-sm"
+                    class="btn-secondary btn-sm"
                     title="Edit Contact"
                 />')
                 ->dispatchTo('clients.clients-contacts-form', 'editContact', ['id' => $row->id]),

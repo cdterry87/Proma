@@ -6,16 +6,19 @@
     ></label>
     <ul class="menu p-4 w-80 min-h-full text-2xl bg-base-300">
         <div class="pb-4 flex flex-col gap-4">
-            <span class="logo text-4xl select-none px-2">
+            <div class="logo text-4xl select-none px-2">
                 {{ config('app.name') }}
-            </span>
+            </div>
             <div class="flex flex-col bg-base-100 p-2 rounded-lg px-4">
-                <span class="text-3xl text-gray-600 dark:text-gray-400">
+                <div class="text-sm text-neutral dark:text-gray-400 uppercase">
                     Welcome,
-                </span>
-                <span class="text-2xl text-info font-bold">
+                </div>
+                <div class="text-xl font-bold uppercase">
                     {{ auth()->user()->name }}!
-                </span>
+                </div>
+                <div class="text-sm font-semibold uppercase italic text-right">
+                    {{ auth()->user()->title }}
+                </div>
             </div>
         </div>
         <li>

@@ -1,7 +1,7 @@
 @props(['title' => null, 'top' => null, 'topActions' => null, 'bottomActions' => null])
 
 <div {{ $attributes->merge([
-    'class' => 'card bg-base-200 dark:bg-base-300 shadow-xl',
+    'class' => 'card bg-base-200 shadow-xl',
 ]) }}>
     <div class="card-body">
         @if ($title || $topActions)

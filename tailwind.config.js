@@ -16,6 +16,8 @@ export default {
         './vendor/power-components/livewire-powergrid/src/Themes/Tailwind.php'
     ],
     safelist: [
+        'btn-primary',
+        'btn-secondary',
         'btn-accent',
         'btn-error'
     ],
@@ -33,7 +35,36 @@ export default {
     darkMode: 'class',
     plugins: [require("daisyui")],
     daisyui: {
-        themes: ["light", "dark"],
+        themes: [
+            {
+                light: {
+                    "primary": "#4338ca",
+                    "secondary": "#0e7490",
+                    "accent": "#374151",
+                    "neutral": "#344052",
+                    "base-100": "#ffffff",
+                    "base-200": "#e5e7eb",
+                    "base-300": "#d5d9e0",
+                    "info": "#1d4ed8",
+                    "success": "#047857",
+                    "warning": "#6d28d9",
+                    "error": "#be123c",
+                },
+                dark: {
+                    "primary": "#8b86eb",
+                    "secondary": "#74d6c2",
+                    "accent": "#e1e8e7",
+                    "neutral": "#111827",
+                    "base-100": "#29374a",
+                    "base-200": "#1f2937",
+                    "base-300": "#1b2431",
+                    "info": "#1d4ed8",
+                    "success": "#047857",
+                    "warning": "#6d28d9",
+                    "error": "#be123c",
+                },
+            },
+        ],
     },
 }
 
