@@ -13,10 +13,10 @@
                 <div class="text-sm text-neutral dark:text-gray-400 uppercase">
                     Welcome,
                 </div>
-                <div class="text-xl font-bold uppercase">
+                <div class="text-xl text-primary font-bold uppercase">
                     {{ auth()->user()->name }}!
                 </div>
-                <div class="text-sm font-semibold uppercase italic text-right">
+                <div class="text-sm text-secondary font-semibold uppercase italic text-right">
                     {{ auth()->user()->title }}
                 </div>
             </div>
