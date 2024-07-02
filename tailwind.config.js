@@ -24,7 +24,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Afacad', ...defaultTheme.fontFamily.sans],
+                sans: ['Futura', ...defaultTheme.fontFamily.sans],
             },
             colors: {
                 "pg-primary": colors.gray,
