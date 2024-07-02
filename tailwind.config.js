@@ -38,8 +38,8 @@ export default {
         themes: [
             {
                 light: {
-                    "primary": "#4338ca",
-                    "secondary": "#0e7490",
+                    "primary": "#524db0",
+                    "secondary": "#30616b",
                     "accent": "#374151",
                     "neutral": "#344052",
                     "base-100": "#ffffff",
@@ -52,7 +52,7 @@ export default {
                 },
                 dark: {
                     "primary": "#8b86eb",
-                    "secondary": "#74d6c2",
+                    "secondary": "#63c2af",
                     "accent": "#e1e8e7",
                     "neutral": "#111827",
                     "base-100": "#29374a",
