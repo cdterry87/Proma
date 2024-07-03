@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('issues', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('name')->index();
             $table->text('description');
             $table->smallInteger('priority');
