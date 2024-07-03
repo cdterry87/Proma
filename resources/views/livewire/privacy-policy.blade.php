@@ -7,7 +7,7 @@
         Back to Home
     </a>
 
-    <div class="bg-neutral text-neutral-content card">
+    <div class="bg-base-300 card">
         <div class="card-body flex flex-col gap-6">
             <h1 class="text-4xl font-bold">Privacy Policy</h1>
 
