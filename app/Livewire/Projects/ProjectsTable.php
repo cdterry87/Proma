@@ -43,6 +43,7 @@ final class ProjectsTable extends PowerGridComponent
     public function datasource(): Collection
     {
         return Project::query()
+            ->where('user_id', auth()->id())
             ->get();
     }
 

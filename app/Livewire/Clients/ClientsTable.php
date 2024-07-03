@@ -26,6 +26,7 @@ final class ClientsTable extends PowerGridComponent
     public function datasource(): ?Collection
     {
         return Client::query()
+            ->where('user_id', auth()->id())
             ->withCount(['contacts', 'uploads', 'incomplete_projects', 'unresolved_issues'])
             ->get();
     }

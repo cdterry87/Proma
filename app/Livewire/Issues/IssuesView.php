@@ -17,6 +17,8 @@ class IssuesView extends Component
     {
         $this->issue = $issue;
 
+        if ($this->issue->user_id !== auth()->id()) abort(403);
+
         $this->getIssueStats();
     }
 

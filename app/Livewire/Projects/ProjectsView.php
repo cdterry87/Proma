@@ -19,6 +19,8 @@ class ProjectsView extends Component
     {
         $this->project = $project;
 
+        if ($this->project->user_id !== auth()->id()) abort(403);
+
         $this->getProjectStats();
     }
 

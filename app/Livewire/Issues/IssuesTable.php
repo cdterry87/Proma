@@ -42,7 +42,8 @@ final class IssuesTable extends PowerGridComponent
     #[On('refreshData')]
     public function datasource(): Builder
     {
-        return Issue::query();
+        return Issue::query()
+            ->where('user_id', auth()->id());
     }
 
     public function fields(): PowerGridFields

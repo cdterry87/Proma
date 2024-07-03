@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Projects;
 
-use App\Models\Team;
 use App\Models\User;
 use App\Models\Client;
 use App\Models\Project;
@@ -14,27 +13,32 @@ class ProjectsForm extends Component
 {
     use WithModal;
 
-    public $model_id;
+    public $model_id, $user_id;
     public $client_id, $team_id;
     public $name, $description, $start_date, $due_date, $completed_date;
 
     public function render()
     {
-        $clients = Client::all();
-        $users = User::all();
+        $clients = Client::query()
+            ->where('user_id', auth()->id())
+            ->where('active', true)
+            ->get();
 
         return view('livewire.projects.projects-form', [
             'clients' => $clients,
-            'users' => $users,
         ]);
     }
 
     #[On('edit')]
     public function edit($id)
     {
-        $project = Project::find($id);
+        $project = Project::query()
+            ->where('id', $id)
+            ->where('user_id', auth()->id())
+            ->first();
         if ($project) {
             $this->model_id = $id;
+            $this->user_id = $project->user_id;
             $this->name = $project->name;
             $this->description = $project->description;
             $this->client_id = $project->client_id;
@@ -60,6 +64,7 @@ class ProjectsForm extends Component
         Project::updateOrCreate([
             'id' => $this->model_id,
         ], [
+            'user_id' => auth()->id(),
             'name' => $this->name,
             'description' => $this->description,
             'client_id' => $this->client_id ? $this->client_id : null,

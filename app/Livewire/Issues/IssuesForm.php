@@ -13,15 +13,19 @@ class IssuesForm extends Component
 {
     use WithModal;
 
-    public $model_id;
+    public $model_id, $user_id;
     public $name, $description, $priority, $resolved_date;
     public $client_id, $team_id, $project_id;
     public $created_at, $updated_at;
 
     public function render()
     {
-        $clients = Client::where('active', true)->get();
+        $clients = Client::query()
+            ->where('user_id', auth()->id())
+            ->where('active', true)
+            ->get();
         $projects = Project::query()
+            ->where('user_id', auth()->id())
             ->whereNull('completed_date')
             ->get();
 
@@ -35,9 +39,13 @@ class IssuesForm extends Component
     #[On('edit')]
     public function edit($id)
     {
-        $issue = Issue::find($id);
+        $issue = Issue::query()
+            ->where('id', $id)
+            ->where('user_id', auth()->id())
+            ->first();
         if ($issue) {
             $this->model_id = $id;
+            $this->user_id = $issue->user_id;
             $this->name = $issue->name;
             $this->description = $issue->description;
             $this->priority = $issue->priority;
@@ -63,6 +71,7 @@ class IssuesForm extends Component
         Issue::updateOrCreate([
             'id' => $this->model_id,
         ], [
+            'user_id' => auth()->id(),
             'name' => $this->name,
             'description' => $this->description,
             'priority' => $this->priority,

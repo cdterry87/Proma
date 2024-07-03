@@ -19,6 +19,8 @@ class ClientsView extends Component
     {
         $this->client = $client;
 
+        if ($this->client->user_id !== auth()->id()) abort(403);
+
         $this->getClientStats();
     }
 
