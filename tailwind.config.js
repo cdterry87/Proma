@@ -39,7 +39,7 @@ export default {
             {
                 light: {
                     "primary": "#524db0",
-                    "secondary": "#30616b",
+                    "secondary": "#409483",
                     "accent": "#374151",
                     "neutral": "#344052",
                     "base-100": "#ffffff",

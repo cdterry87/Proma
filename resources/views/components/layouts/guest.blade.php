@@ -2,6 +2,7 @@
 <html
     lang="{{ str_replace('_', '-', app()->getLocale()) }}"
     data-theme="dark"
+    class="dark"
 >
 
 <head>
