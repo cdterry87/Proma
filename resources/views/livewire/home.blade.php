@@ -115,13 +115,25 @@
         </x-layouts.card>
     </div>
 
-    <div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-y-4 xl:gap-x-4">
         <div class="col-span-2">
             <x-layouts.card>
+                <div class="h-80">
+                    <livewire:livewire-line-chart
+                        :key="$projectsVsIssuesChart->reactiveKey()"
+                        :line-chart-model="$projectsVsIssuesChart"
+                    />
+                </div>
             </x-layouts.card>
         </div>
         <div class="col-span-1">
             <x-layouts.card>
+                <div class="h-80">
+                    <livewire:livewire-pie-chart
+                        :key="$issuesPrioritiesChart->reactiveKey()"
+                        :pie-chart-model="$issuesPrioritiesChart"
+                    />
+                </div>
             </x-layouts.card>
         </div>
     </div>

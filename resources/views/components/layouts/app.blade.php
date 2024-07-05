@@ -88,6 +88,7 @@
     </div>
 
     @livewireScripts
+    @livewireChartsScripts
 
     {{-- Prevent flash of unstyled content (FOUC) --}}
     <script>

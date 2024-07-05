@@ -4,11 +4,48 @@ namespace App\Livewire;
 
 use App\Models\Issue;
 use App\Models\Project;
+use Asantibanez\LivewireCharts\Models\LineChartModel;
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
+use Asantibanez\LivewireCharts\Models\PieChartModel;
 
 class Home extends Component
 {
     public $days = 30;
+
+    private $chartJsonConfig = [
+        'title' => [
+            'style' => [
+                'fontSize' => '16px',
+                'color' => '#898989'
+            ]
+        ],
+        'legend' => [
+            'fontSize' => '14px',
+            'fontWeight' => 'bold',
+            'labels' => [
+                'colors' => [
+                    '#898989'
+                ]
+            ]
+        ],
+        'xaxis' => [
+            'labels' => [
+                'style' => [
+                    'fontSize' => '12px',
+                    'colors' => '#898989'
+                ]
+            ]
+        ],
+        'yaxis' => [
+            'labels' => [
+                'style' => [
+                    'fontSize' => '12px',
+                    'colors' => '#898989'
+                ]
+            ]
+        ]
+    ];
 
     public function render()
     {
@@ -86,6 +123,12 @@ class Home extends Component
         // Get last 5 unresolved issues
         $issues_unresolved = Issue::where('user_id', auth()->id())->whereNull('resolved_date')->orderBy('created_at', 'desc')->limit(5)->get();
 
+        // Get issue priorities chart
+        $issuesPrioritiesChart = $this->getIssuesPrioritiesChart();
+
+        // Get projects vs issues chart
+        $projectsVsIssuesChart = $this->getProjectsVsIssuesChart();
+
         return view('livewire.home', [
             'projects' => $projects,
             'projects_completed' => $projects_completed,
@@ -97,6 +140,86 @@ class Home extends Component
             'issues_resolved_change' => $issues_resolved_change,
             'projects_incomplete' => $projects_incomplete,
             'issues_unresolved' => $issues_unresolved,
+            'issuesPrioritiesChart' => $issuesPrioritiesChart,
+            'projectsVsIssuesChart' => $projectsVsIssuesChart
         ]);
+    }
+
+    private function getIssuesPrioritiesChart()
+    {
+        $issues = Issue::query()
+            ->where('user_id', auth()->id())
+            ->where('created_at', '>=', now()->subDays($this->days))
+            ->groupBy('priority')
+            ->orderBy('priority')
+            ->select('priority', DB::raw('count(*) as total'))
+            ->get()
+            ->mapWithKeys(fn ($issue) => [$issue->priority => $issue->total])
+            ->toArray();
+
+        $lowCount = $issues[1] ?? 0;
+        $mediumCount = $issues[2] ?? 0;
+        $highCount = $issues[3] ?? 0;
+        $criticalCount = $issues[4] ?? 0;
+
+        return (new PieChartModel())
+            ->setTitle('Issue Priorities (Last ' . $this->days . ' Days)')
+            ->withDataLabels()
+            ->addSlice('Low', $lowCount, '#047857')
+            ->addSlice('Medium', $mediumCount, '#1d4ed8')
+            ->addSlice('High', $highCount, '#6d28d9')
+            ->addSlice('Critical', $criticalCount, '#be123c')
+            ->setJsonConfig($this->chartJsonConfig);
+    }
+
+    private function getProjectsVsIssuesChart()
+    {
+        // Get projects created in the last 30 days grouped by date
+        $projects = Project::query()
+            ->selectRaw("
+                count(id) AS count,
+                DATE_FORMAT(created_at, '%M %Y') AS full_date,
+                DATE_FORMAT(created_at, '%y%m') AS order_by_date
+            ")
+            ->groupBy('full_date', 'order_by_date')
+            ->orderBy('order_by_date')
+            ->where('user_id', auth()->id())
+            ->where('created_at', '>=', now()->subDays($this->days))
+            ->get()
+            ->mapWithKeys(fn ($project) => [$project->full_date => $project->count])
+            ->toArray();
+
+        $issues = Issue::query()
+            ->selectRaw("
+                count(id) AS count,
+                DATE_FORMAT(created_at, '%M %Y') AS full_date,
+                DATE_FORMAT(created_at, '%y%m') AS order_by_date
+            ")
+            ->groupBy('full_date', 'order_by_date')
+            ->orderBy('order_by_date')
+            ->where('user_id', auth()->id())
+            ->where('created_at', '>=', now()->subDays($this->days))
+            ->get()
+            ->mapWithKeys(fn ($issue) => [$issue->full_date => $issue->count])
+            ->toArray();
+
+        // Merge array keys to get x axis labels
+        $labels = array_unique(array_merge(array_keys($projects), array_keys($issues)));
+
+        $chart = (new LineChartModel())
+            ->setTitle('Projects vs Issues (Last ' . $this->days . ' Days)')
+            ->withDataLabels()
+            ->multiLine()
+            ->setJsonConfig($this->chartJsonConfig);
+
+        foreach ($projects as $label => $value) {
+            $chart->addSeriesPoint('Projects', $label, $value);
+        }
+
+        foreach ($issues as $label => $value) {
+            $chart->addSeriesPoint('Issues', $label, $value);
+        }
+
+        return $chart;
     }
 }
