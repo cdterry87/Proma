@@ -96,7 +96,7 @@ class Home extends Component
             'issues_change' => $issues_change,
             'issues_resolved_change' => $issues_resolved_change,
             'projects_incomplete' => $projects_incomplete,
-            'issues_unresolved' => $issues_unresolved
+            'issues_unresolved' => $issues_unresolved,
         ]);
     }
 }

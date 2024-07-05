@@ -114,4 +114,15 @@
             @endif
         </x-layouts.card>
     </div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+        <div class="col-span-2">
+            <x-layouts.card>
+            </x-layouts.card>
+        </div>
+        <div class="col-span-1">
+            <x-layouts.card>
+            </x-layouts.card>
+        </div>
+    </div>
 </div>
