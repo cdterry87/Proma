@@ -6,7 +6,7 @@
                 name="days"
                 label="Select Timeframe"
                 hide-label
-                wire:model="days"
+                wire:model.live="days"
             >
                 <option value="30">Last 30 days</option>
                 <option value="90">Last 90 days</option>
@@ -15,15 +15,15 @@
             </x-inputs.select>
         </div>
     </div>
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
         <div class="stats stats-vertical sm:stats-horizontal xl:stats-horizontal shadow bg-base-200 w-full">
             <div class="stat">
                 <div class="stat-figure text-primary">
                     <x-icons.projects />
                 </div>
-                <div class="stat-title">Projects Started</div>
+                <div class="stat-title">Projects Created</div>
                 <div class="stat-value">{{ $projects }}</div>
-                <div class="stat-desc">{{ $projects_change }}% Increased/Decreased</div>
+                <div class="stat-desc">{{ $projects_change }}</div>
             </div>
             <div class="stat">
                 <div class="stat-figure text-success">
@@ -31,7 +31,7 @@
                 </div>
                 <div class="stat-title">Projects Completed</div>
                 <div class="stat-value">{{ $projects_completed }}</div>
-                <div class="stat-desc">{{ $projects_completed_change }}% Increased/Decreased</div>
+                <div class="stat-desc">{{ $projects_completed_change }}</div>
             </div>
         </div>
         <div class="stats stats-vertical sm:stats-horizontal xl:stats-horizontal shadow bg-base-200 w-full">
@@ -41,7 +41,7 @@
                 </div>
                 <div class="stat-title">Issues Opened</div>
                 <div class="stat-value">{{ $issues }}</div>
-                <div class="stat-desc">{{ $issues_change }}% Increased/Decreased</div>
+                <div class="stat-desc">{{ $issues_change }}</div>
             </div>
             <div class="stat">
                 <div class="stat-figure text-success">
@@ -49,11 +49,11 @@
                 </div>
                 <div class="stat-title">Issues Resolved</div>
                 <div class="stat-value">{{ $issues_resolved }}</div>
-                <div class="stat-desc">{{ $issues_resolved_change }}% Increased/Decreased</div>
+                <div class="stat-desc">{{ $issues_resolved_change }}</div>
             </div>
         </div>
 
-        <x-layouts.card title="Latest Incomplete Projects">
+        <x-layouts.card title="Incomplete Projects">
             @if ($projects_incomplete && $projects_incomplete->isNotEmpty())
                 <div class="overflow-x-auto bg-base-100 rounded">
                     <table class="table table-sm">
@@ -70,9 +70,10 @@
                                         <a
                                             href="{{ route('projects.view', $project->id) }}"
                                             class="text-primary font-bold hover:brightness-125"
-                                        >{{ $project->name }}</a>
+                                            title="{{ $project->name }}"
+                                        >{{ Str::limit($project->name, 25) }}</a>
                                     </td>
-                                    <td>{{ $project->due_date ?? 'N/A' }}</td>
+                                    <td>{{ $project->due_date->format('m/d/Y') ?? 'N/A' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -82,7 +83,7 @@
                 <p>No incomplete projects found.</p>
             @endif
         </x-layouts.card>
-        <x-layouts.card title="Latest Issues">
+        <x-layouts.card title="Unresolved Issues">
             @if ($issues_unresolved && $issues_unresolved->isNotEmpty())
                 <div class="overflow-x-auto bg-base-100 rounded">
                     <table class="table table-sm">
@@ -99,7 +100,8 @@
                                         <a
                                             href="{{ route('issues.view', $issue->id) }}"
                                             class="text-primary font-bold hover:brightness-125"
-                                        >{{ $issue->name }}</a>
+                                            title="{{ $issue->name }}"
+                                        >{{ Str::limit($issue->name, 25) }}</a>
                                     </td>
                                     <td>{{ $issue->created_at->format('m/d/Y') }}</td>
                                 </tr>

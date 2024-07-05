@@ -12,6 +12,10 @@ class IssueTask extends Model
     protected $guarded = [];
     protected $table = 'issues_tasks';
 
+    protected $casts = [
+        'completed_date' => 'datetime',
+    ];
+
     public function issue()
     {
         return $this->belongsTo(Issue::class);

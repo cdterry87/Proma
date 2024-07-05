@@ -31,5 +31,8 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password1'),
             'guest' => true
         ]);
+
+        // Run the guest user seeder
+        $this->call(GuestUserSeeder::class);
     }
 }
