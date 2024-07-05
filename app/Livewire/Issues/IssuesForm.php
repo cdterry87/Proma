@@ -26,6 +26,9 @@ class IssuesForm extends Component
             ->get();
         $projects = Project::query()
             ->where('user_id', auth()->id())
+            ->when($this->client_id, function ($query) {
+                $query->where('client_id', $this->client_id);
+            })
             ->whereNull('completed_date')
             ->get();
 

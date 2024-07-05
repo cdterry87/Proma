@@ -31,18 +31,18 @@
                     <option value="{{ $priority['value'] }}">{{ $priority['label'] }}</option>
                 @endforeach
             </x-inputs.select>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <x-inputs.select
-                    label="Client"
-                    name="client_id"
-                    wire:model="client_id"
-                    required
-                >
-                    <option value="">Select Client</option>
-                    @foreach ($clients as $client)
-                        <option value="{{ $client->id }}">{{ $client->name }}</option>
-                    @endforeach
-                </x-inputs.select>
+            <x-inputs.select
+                label="Client"
+                name="client_id"
+                wire:model.live="client_id"
+                required
+            >
+                <option value="">Select Client</option>
+                @foreach ($clients as $client)
+                    <option value="{{ $client->id }}">{{ $client->name }}</option>
+                @endforeach
+            </x-inputs.select>
+            @if ($client_id)
                 <x-inputs.select
                     label="Project"
                     name="project_id"
@@ -54,7 +54,7 @@
                         <option value="{{ $project->id }}">{{ $project->name }}</option>
                     @endforeach
                 </x-inputs.select>
-            </div>
+            @endif
             <div class="mt-4 flex items-center gap-4">
                 <div class="w-full">
                     <x-inputs.button
