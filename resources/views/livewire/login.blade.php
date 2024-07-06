@@ -24,15 +24,32 @@
             <p>Simplify your project management.</p>
         </div>
 
-        <div class="card w-full sm:w-96">
+        <div class="card w-full sm:w-120">
             <form wire:submit.prevent="login">
                 <div
-                    class="card-body items-center text-center flex flex-col gap-4 rounded-3xl"
+                    class="card-body items-center text-center flex flex-col gap-3 rounded-3xl"
                     data-theme="light"
                 >
                     <h2 class="card-title">Sign In</h2>
 
                     <x-alerts.container />
+
+                    <div class="alert alert-sm alert-info">
+                        <div class="flex flex-col gap-2">
+                            <p class="text-sm">
+                                To demo the application, please use the following credentials to login:
+                            </p>
+                            <div class="flex flex-col gap-1">
+                                <p class="text-sm">
+                                    Email: <strong class="underline">guest@example.com</strong>
+                                </p>
+                                <p class="text-sm">
+                                    Password: <strong class="underline">password1</strong>
+                                </p>
+                            </div>
+                            <p class="text-xs italic">NOTE: All user settings and data are reset daily.</p>
+                        </div>
+                    </div>
 
                     <div class="flex flex-col gap-2 w-full">
                         <x-inputs.text

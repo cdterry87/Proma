@@ -30,6 +30,10 @@ export default {
                 "pg-primary": colors.gray,
                 "pg-secondary": colors.red,
             },
+            spacing: {
+                '120': '30rem',
+                '144': '36rem',
+            },
         },
     },
     darkMode: 'class',
