@@ -35,4 +35,4 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
-          script: "cd /var/www/proma && ./server_deploy.sh && service php8.2-fpm reload"
+          script: "cd /var/www/proma && ./server_deploy.sh"
