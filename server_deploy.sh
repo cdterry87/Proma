@@ -21,6 +21,7 @@ php artisan migrate --force
 # echo "" | sudo -S service php8.2-fpm reload
 
 # Exit maintenance mode
+php artisan optimize:clear
 php artisan up
 
 echo "Application deployed!"
