@@ -68,7 +68,7 @@ class IssuesForm extends Component
             'priority' => 'required',
             'resolved_date' => 'nullable',
             'client_id' => 'required|exists:clients,id',
-            'project_id' => 'required|exists:projects,id',
+            'project_id' => 'nullable|exists:projects,id',
         ]);
 
         Issue::updateOrCreate([

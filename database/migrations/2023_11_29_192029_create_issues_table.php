@@ -18,8 +18,8 @@ return new class extends Migration
             $table->text('description');
             $table->smallInteger('priority');
             $table->date('resolved_date')->nullable();
-            $table->foreignId('client_id')->nullable()->constrained('clients')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('client_id')->constrained('clients')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('project_id')->nullable()->constrained('projects')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

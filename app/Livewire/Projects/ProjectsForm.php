@@ -52,7 +52,7 @@ class ProjectsForm extends Component
     public function save()
     {
         $this->validate([
-            'client_id' => 'nullable|exists:clients,id',
+            'client_id' => 'required|exists:clients,id',
             'team_id' => 'nullable|exists:teams,id',
             'name' => 'required|max:255',
             'description' => 'required',

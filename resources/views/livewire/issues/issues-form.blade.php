@@ -47,7 +47,6 @@
                     label="Project"
                     name="project_id"
                     wire:model="project_id"
-                    required
                 >
                     <option value="">Select Project</option>
                     @foreach ($projects as $project)

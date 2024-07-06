@@ -13,7 +13,10 @@
         title="{{ $label }}"
     >
         <div class="flex flex-col gap-6">
-            <h3 class="font-bold text-xl">Are you sure you want to delete this record?</h3>
+            <h3 class="font-bold text-xl">
+                Are you sure you want to delete this record? This action will delete this record and all of its attached
+                records.
+            </h3>
 
             <div class="flex items-center gap-4">
                 <x-inputs.button
