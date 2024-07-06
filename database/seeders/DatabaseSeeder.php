@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\Permission;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -20,19 +19,19 @@ class DatabaseSeeder extends Seeder
             'email' => 'chase@chaseterry.com',
             'title' => 'Developer',
             'password' => Hash::make('password1'),
-            'guest' => false
+            'demo' => false
         ]);
 
-        // Create guest user
+        // Create demo user
         User::factory()->create([
-            'name' => 'Guest User',
-            'email' => 'guest@example.com',
-            'title' => 'Guest',
+            'name' => 'Demo User',
+            'email' => 'demo@example.com',
+            'title' => 'Demo',
             'password' => Hash::make('password1'),
-            'guest' => true
+            'demo' => true
         ]);
 
-        // Run the guest user seeder
-        $this->call(GuestUserSeeder::class);
+        // Run the demo user seeder
+        $this->call(DemoUserSeeder::class);
     }
 }

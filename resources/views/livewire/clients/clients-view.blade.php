@@ -80,8 +80,8 @@
     <div class="flex items-center justify-between gap-4">
         <h2 class="font-bold text-3xl">Uploads</h2>
 
-        @if (auth()->user()->guest)
-            <p class="font-semibold text-xs text-error">Uploads are disabled for guests.</p>
+        @if (auth()->user()->demo)
+            <p class="font-semibold text-xs text-error">Uploads are disabled for demo users.</p>
         @else
             <x-modals.trigger
                 id="clients_uploads_form__modal"

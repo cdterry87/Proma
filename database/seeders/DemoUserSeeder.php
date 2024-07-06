@@ -7,9 +7,8 @@ use App\Models\Issue;
 use App\Models\Client;
 use App\Models\Project;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class GuestUserSeeder extends Seeder
+class DemoUserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -19,24 +18,24 @@ class GuestUserSeeder extends Seeder
         // Get faker instance
         $faker = \Faker\Factory::create();
 
-        // Get the guest user
-        $guest = User::where('guest', true)->orderBy('created_at', 'asc')->first();
+        // Get the demo user
+        $demo = User::where('demo', true)->orderBy('created_at', 'asc')->first();
 
         // Set random counts
         $clientCount = rand(10, 20);
         $projectCount = rand(5, 15);
         $issueCount = rand(1, 5);
 
-        if ($guest) {
+        if ($demo) {
             // Create clients for user
             $clients = Client::factory()->count($clientCount)->create([
-                'user_id' => $guest->id
+                'user_id' => $demo->id
             ]);
 
             // Create projects for user
             foreach ($clients as $client) {
                 $projects = Project::factory()->count($projectCount)->create([
-                    'user_id' => $guest->id,
+                    'user_id' => $demo->id,
                     'client_id' => $client->id,
                 ]);
 
@@ -44,7 +43,7 @@ class GuestUserSeeder extends Seeder
                 foreach ($projects as $project) {
                     Issue::factory()->count($issueCount)->create([
                         'client_id' => $client->id,
-                        'user_id' => $guest->id,
+                        'user_id' => $demo->id,
                         'project_id' => $project->id,
                     ]);
                 }

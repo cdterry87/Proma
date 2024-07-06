@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Issue;
 use App\Models\Client;
 use App\Models\Project;
-use Database\Seeders\GuestUserSeeder;
+use Database\Seeders\DemotUserSeeder;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -30,31 +30,31 @@ class RoutineCleanupJob implements ShouldQueue
      */
     public function handle(): void
     {
-        // Get all guest user ids
+        // Get all demo user ids
         $users = User::query()
             ->select('id')
-            ->where('guest', true)
+            ->where('demo', true)
             ->get()
             ->pluck('id')
             ->toArray();
 
-        // Delete all clients of guest users
+        // Delete all clients of demo users
         Client::query()
             ->whereIn('user_id', $users)
             ->delete();
 
-        // Delete all projects of guest users
+        // Delete all projects of demo users
         Project::query()
             ->whereIn('user_id', $users)
             ->delete();
 
-        // Delete all issues of guest users
+        // Delete all issues of demo users
         Issue::query()
             ->whereIn('user_id', $users)
             ->delete();
 
-        // Run GuestUserSeeder to repopulate data
-        $seeder = new GuestUserSeeder();
+        // Run DemoUserSeeder to repopulate data
+        $seeder = new DemoUserSeeder();
         $seeder->run();
     }
 }

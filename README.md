@@ -26,4 +26,4 @@ php artisan db:seed       # Seed the database with sample data
 php artisan serve         # Runs the application on a local web server
 ```
 
-3. In your browser, view the application and login ( Username: guest@example.com | Password: password1 )
+3. In your browser, view the application and login ( Username: demo@example.com | Password: password1 )

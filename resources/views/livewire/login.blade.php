@@ -41,7 +41,7 @@
                             </p>
                             <div class="flex flex-col gap-1">
                                 <p class="text-sm">
-                                    Email: <strong class="underline">guest@example.com</strong>
+                                    Email: <strong class="underline">demo@example.com</strong>
                                 </p>
                                 <p class="text-sm">
                                     Password: <strong class="underline">password1</strong>
