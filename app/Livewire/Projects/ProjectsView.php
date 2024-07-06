@@ -10,9 +10,18 @@ class ProjectsView extends Component
 {
     public $project;
 
+    public $unresolvedIssuesCount = 0;
+    public $resolvedIssuesCount = 0;
+    public $incompleteTasksCount = 0;
+    public $completeTasksCount = 0;
+
     public function mount(Project $project)
     {
         $this->project = $project;
+
+        if ($this->project->user_id !== auth()->id()) abort(403);
+
+        $this->getProjectStats();
     }
 
     public function render()
@@ -24,5 +33,23 @@ class ProjectsView extends Component
     public function getProject()
     {
         $this->project = Project::find($this->project->id);
+    }
+
+    #[On('refreshData')]
+    public function getProjectStats()
+    {
+        if (!$this->project) return;
+
+        $this->unresolvedIssuesCount = $this->project->unresolved_issues->count();
+        $this->resolvedIssuesCount = $this->project->resolved_issues->count();
+        $this->incompleteTasksCount = $this->project->incomplete_tasks->count();
+        $this->completeTasksCount = $this->project->complete_tasks->count();
+    }
+
+    public function deleteProject()
+    {
+        $this->project->delete();
+
+        return redirect()->route('projects');
     }
 }

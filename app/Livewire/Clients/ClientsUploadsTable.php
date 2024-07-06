@@ -3,9 +3,7 @@
 namespace App\Livewire\Clients;
 
 use App\Models\ClientUpload;
-use App\Models\TeamUpload;
 use Livewire\Attributes\On;
-use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use PowerComponents\LivewirePowerGrid\Button;
 use PowerComponents\LivewirePowerGrid\Column;
@@ -86,14 +84,14 @@ final class ClientsUploadsTable extends PowerGridComponent
         return [
             Button::add('file-download--button')
                 ->slot('<x-icons.download />')
-                ->class('btn btn-accent btn-sm')
+                ->class('btn btn-secondary btn-sm')
                 ->tooltip('Download File')
-                ->dispatchTo('clients.clients-uploads', 'downloadFile', ['fileId' => $row->id, 'clientId' => $row->client_id]),
+                ->dispatchTo('clients.clients-uploads-form', 'downloadFile', ['fileId' => $row->id, 'clientId' => $row->client_id]),
             Button::add('file-delete--button')
                 ->slot('<x-icons.delete />')
                 ->class('btn btn-error btn-sm')
                 ->tooltip('Delete File')
-                ->dispatchTo('clients.clients-uploads', 'deleteFile', ['fileId' => $row->id, 'clientId' => $row->client_id]),
+                ->dispatchTo('clients.clients-uploads-form', 'deleteFile', ['fileId' => $row->id, 'clientId' => $row->client_id]),
         ];
     }
 }

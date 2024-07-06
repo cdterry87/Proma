@@ -2,17 +2,16 @@
 
 namespace App\Models;
 
-use App\Traits\HasActiveToggle;
+use App\Traits\WithActiveToggle;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ClientContact extends Model
 {
-    use HasActiveToggle;
+    use WithActiveToggle;
     use HasFactory;
 
     protected $guarded = [];
-
     protected $table = 'clients_contacts';
 
     public function client()

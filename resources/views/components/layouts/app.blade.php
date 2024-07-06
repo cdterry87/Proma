@@ -29,7 +29,7 @@
         crossorigin
     >
     <link
-        href="https://fonts.googleapis.com/css2?family=Afacad&family=Hedvig+Letters+Serif:opsz@12..24&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Futura&family=Hedvig+Letters+Serif:opsz@12..24&display=swap"
         rel="stylesheet"
     >
 
@@ -62,24 +62,33 @@
     @livewireStyles
 </head>
 
-{{-- Hide body until page is fully loaded --}}
 
 <body
     class="font-sans antialiased"
     style="visibility: hidden;"
 >
-    <div class="flex flex-col gap-6 justify-between min-h-screen">
-        <div class="flex flex-col gap-6">
-            <x-layouts.header />
-            <main class="w-full max-w-6xl mx-auto px-6">
-                {{ $slot }}
-            </main>
+    <div class="drawer lg:drawer-open">
+        <input
+            id="drawer"
+            type="checkbox"
+            class="drawer-toggle"
+        />
+        <div class="drawer-content flex flex-col items-center justify-center">
+            <div class="w-full flex flex-col gap-6 justify-between min-h-screen">
+                <div class="flex flex-col gap-6">
+                    <x-layouts.header />
+                    <main class="w-full px-6">
+                        {{ $slot }}
+                    </main>
+                </div>
+                <x-layouts.footer />
+            </div>
         </div>
-        <x-layouts.footer />
+        <x-layouts.side-bar />
     </div>
 
-    <!-- Livewire Scripts -->
     @livewireScripts
+    @livewireChartsScripts
 
     {{-- Prevent flash of unstyled content (FOUC) --}}
     <script>

@@ -12,5 +12,11 @@
         <x-alerts.container />
 
         {{ $slot }}
+
+        @if ($sideForm ?? false)
+            <x-slot:side-form>
+                {!! $sideForm !!}
+            </x-slot:side-form>
+        @endif
     </div>
 </div>

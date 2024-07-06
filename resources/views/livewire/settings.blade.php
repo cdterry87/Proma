@@ -1,4 +1,4 @@
-<div class="w-full max-w-3xl mx-auto">
+<div class="w-full">
     <div class="flex flex-col gap-4">
         <h1 class="font-bold text-3xl">Account Settings</h1>
 
@@ -38,7 +38,7 @@
                         wire:model="name"
                         required
                     />
-                    <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2">
                         <div>
                             <x-inputs.button
                                 label="Save"
@@ -49,7 +49,7 @@
                         <div>
                             <x-inputs.button
                                 label="Cancel"
-                                class="btn-sm btn-secondary w-full"
+                                class="btn-sm btn-accent w-full"
                                 @click.prevent="isEditing = !isEditing"
                             />
                         </div>
@@ -93,7 +93,7 @@
                         wire:model="email"
                         required
                     />
-                    <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2">
                         <div>
                             <x-inputs.button
                                 label="Save"
@@ -104,7 +104,7 @@
                         <div>
                             <x-inputs.button
                                 label="Cancel"
-                                class="btn-sm btn-secondary w-full"
+                                class="btn-sm btn-accent w-full"
                                 @click.prevent="isEditing = !isEditing"
                             />
                         </div>
@@ -147,7 +147,7 @@
                         wire:model="title"
                         required
                     />
-                    <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2">
                         <div>
                             <x-inputs.button
                                 label="Save"
@@ -158,7 +158,7 @@
                         <div>
                             <x-inputs.button
                                 label="Cancel"
-                                class="btn-sm btn-secondary w-full"
+                                class="btn-sm btn-accent w-full"
                                 @click.prevent="isEditing = !isEditing"
                             />
                         </div>
@@ -212,7 +212,7 @@
                             required
                         />
                     </div>
-                    <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2">
                         <div>
                             <x-inputs.button
                                 label="Save"
@@ -223,7 +223,7 @@
                         <div>
                             <x-inputs.button
                                 label="Cancel"
-                                class="btn-sm btn-secondary w-full"
+                                class="btn-sm btn-accent w-full"
                                 @click.prevent="isEditing = !isEditing"
                             />
                         </div>
@@ -236,16 +236,6 @@
         <div class=" card card-compact bg-base-200">
             <div class="card-body flex flex-col gap-2">
                 <h2 class="font-bold text-2xl text-accent">Notification Settings</h2>
-                <div class="flex items-center justify-between gap-4">
-                    {{--  --}}
-                </div>
-            </div>
-        </div>
-
-        {{-- My Teams --}}
-        <div class=" card card-compact bg-base-200">
-            <div class="card-body flex flex-col gap-2">
-                <h2 class="font-bold text-2xl text-accent">My Teams</h2>
                 <div class="flex items-center justify-between gap-4">
                     {{--  --}}
                 </div>

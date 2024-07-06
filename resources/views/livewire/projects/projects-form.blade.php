@@ -1,6 +1,6 @@
 <x-modals.base
     id="projects_form__modal"
-    title="Projects Form"
+    title="Project Details"
 >
     <form wire:submit.prevent="save">
         <x-alerts.container />
@@ -20,22 +20,13 @@
                 wire:model="description"
                 required
             />
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <x-inputs.select
-                    label="Client"
-                    name="client_id"
-                    wire:model="client_id"
-                    :options="$clients"
-                    default-option="Select Client"
-                />
-                <x-inputs.select
-                    label="Team"
-                    name="team_id"
-                    wire:model="team_id"
-                    :options="$teams"
-                    default-option="Select Team"
-                />
-            </div>
+            <x-inputs.select
+                label="Client"
+                name="client_id"
+                wire:model="client_id"
+                :options="$clients"
+                default-option="Select Client"
+            />
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <x-inputs.text
                     label="Start Date"
@@ -50,11 +41,32 @@
                     type="date"
                 />
             </div>
-            <div class="mt-4">
-                <x-inputs.button
-                    class="btn-primary btn-block"
-                    label="Save"
-                />
+            <div class="mt-4 flex items-center gap-4">
+                <div class="w-full">
+                    <x-inputs.button
+                        class="btn-primary btn-block"
+                        label="Save"
+                    />
+                </div>
+                @if ($model_id)
+                    <div class="w-full">
+                        @if ($completed_date)
+                            <x-inputs.button
+                                class="btn-error btn-block"
+                                label="Incomplete"
+                                icon="error"
+                                wire:click.prevent="toggleCompleteProject"
+                            />
+                        @else
+                            <x-inputs.button
+                                class="btn-success btn-block"
+                                label="Complete"
+                                icon="success"
+                                wire:click.prevent="toggleCompleteProject"
+                            />
+                        @endif
+                    </div>
+                @endif
             </div>
         </div>
     </form>

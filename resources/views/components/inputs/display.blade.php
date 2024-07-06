@@ -13,7 +13,10 @@
         aria-label="{{ $label }}"
         aria-describedby="{{ $label }}"
     >
-        <x-inputs.label :label="$label" />
+        <x-inputs.label
+            :label="$label"
+            class="uppercase"
+        />
         <div {{ $attributes->merge([
             'class' => 'font-bold w-full px-1 text-2xl',
         ]) }}>

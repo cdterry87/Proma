@@ -11,7 +11,7 @@ class ClientsForm extends Component
 {
     use WithModal;
 
-    public $model_id;
+    public $model_id, $user_id;
     public $active = true;
     public $name, $description;
 
@@ -23,9 +23,13 @@ class ClientsForm extends Component
     #[On('edit')]
     public function edit($id)
     {
-        $client = Client::find($id);
+        $client = Client::query()
+            ->where('id', $id)
+            ->where('user_id', auth()->id())
+            ->first();
         if ($client) {
             $this->model_id = $id;
+            $this->user_id = $client->user_id;
             $this->active = !!$client->active;
             $this->name = $client->name;
             $this->description = $client->description;
@@ -39,19 +43,14 @@ class ClientsForm extends Component
             'description' => 'required',
         ]);
 
-        $data = [
+        Client::updateOrCreate([
+            'id' => $this->model_id,
+        ], [
+            'user_id' => auth()->id(),
             'active' => $this->active,
             'name' => $this->name,
             'description' => $this->description,
-            'updated_by' => auth()->id(),
-        ];
-
-        if ($this->model_id) {
-            Client::where('id', $this->model_id)->update($data);
-        } else {
-            $data['created_by'] = auth()->id();
-            Client::create($data);
-        }
+        ]);
 
         // Refresh the data
         $this->dispatch('refreshData');

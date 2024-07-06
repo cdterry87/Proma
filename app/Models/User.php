@@ -3,7 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Traits\HasActiveToggle;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +10,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasActiveToggle;
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -24,7 +22,6 @@ class User extends Authenticatable
         'email',
         'title',
         'password',
-        'active'
     ];
 
     /**
@@ -46,29 +43,4 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-    public function hasPermission(string $permission)
-    {
-        return $this->permissions->contains('name', $permission);
-    }
-
-    public function isAdmin()
-    {
-        return $this->hasPermission('administrator');
-    }
-
-    public function permissions()
-    {
-        return $this->hasManyThrough(Permission::class, UserPermission::class, 'user_id', 'id', 'id', 'permission_id');
-    }
-
-    public function teams()
-    {
-        return $this->belongsToMany(Team::class, 'teams_users');
-    }
-
-    public function projects_assignments()
-    {
-        return $this->hasMany(ProjectAssignment::class, 'assigned_to');
-    }
 }

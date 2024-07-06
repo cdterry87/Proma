@@ -1,3 +1,3 @@
-<div>
-    {{-- Do your work, then step back. --}}
-</div>
+<x-layouts.page title="Notifications">
+    <livewire:notifications-table />
+</x-layouts.page>

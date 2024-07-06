@@ -2,6 +2,7 @@
 <html
     lang="{{ str_replace('_', '-', app()->getLocale()) }}"
     data-theme="dark"
+    class="dark"
 >
 
 <head>
@@ -28,7 +29,7 @@
         crossorigin
     >
     <link
-        href="https://fonts.googleapis.com/css2?family=Afacad&family=Hedvig+Letters+Serif:opsz@12..24&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Futura&family=Hedvig+Letters+Serif:opsz@12..24&display=swap"
         rel="stylesheet"
     >
 

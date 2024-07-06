@@ -6,6 +6,13 @@
         <x-alerts.container />
 
         <div class="flex flex-col gap-2 w-full">
+            <x-inputs.text
+                label="Name"
+                name="name"
+                placeholder="Name"
+                wire:model="name"
+                required
+            />
             <x-inputs.textarea
                 label="Description"
                 name="description"
@@ -20,33 +27,22 @@
                 required
             >
                 <option value="">Select Priority</option>
-                <option value="1">Lowest</option>
-                <option value="2">Low</option>
-                <option value="3">Medium</option>
-                <option value="4">High</option>
-                <option value="5">Highest</option>
+                @foreach ($priorityCodes as $priority)
+                    <option value="{{ $priority['value'] }}">{{ $priority['label'] }}</option>
+                @endforeach
             </x-inputs.select>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <x-inputs.select
-                    label="Client"
-                    name="client_id"
-                    wire:model="client_id"
-                >
-                    <option value="">Select Client</option>
-                    @foreach ($clients as $client)
-                        <option value="{{ $client->id }}">{{ $client->name }}</option>
-                    @endforeach
-                </x-inputs.select>
-                <x-inputs.select
-                    label="Team"
-                    name="team_id"
-                    wire:model="team_id"
-                >
-                    <option value="">Select Team</option>
-                    @foreach ($teams as $team)
-                        <option value="{{ $team->id }}">{{ $team->name }}</option>
-                    @endforeach
-                </x-inputs.select>
+            <x-inputs.select
+                label="Client"
+                name="client_id"
+                wire:model.live="client_id"
+                required
+            >
+                <option value="">Select Client</option>
+                @foreach ($clients as $client)
+                    <option value="{{ $client->id }}">{{ $client->name }}</option>
+                @endforeach
+            </x-inputs.select>
+            @if ($client_id)
                 <x-inputs.select
                     label="Project"
                     name="project_id"
@@ -57,22 +53,33 @@
                         <option value="{{ $project->id }}">{{ $project->name }}</option>
                     @endforeach
                 </x-inputs.select>
-                <x-inputs.select
-                    label="Assigned To"
-                    name="assigned_to"
-                    wire:model="assigned_to"
-                >
-                    <option value="">Select Assigned To</option>
-                    @foreach ($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                    @endforeach
-                </x-inputs.select>
-            </div>
-            <div class="mt-4">
-                <x-inputs.button
-                    class="btn-primary btn-block"
-                    label="Save"
-                />
+            @endif
+            <div class="mt-4 flex items-center gap-4">
+                <div class="w-full">
+                    <x-inputs.button
+                        class="btn-primary btn-block"
+                        label="Save"
+                    />
+                </div>
+                @if ($model_id)
+                    <div class="w-full">
+                        @if ($resolved_date)
+                            <x-inputs.button
+                                class="btn-error btn-block"
+                                label="Unresolve"
+                                icon="error"
+                                wire:click.prevent="toggleResolveIssue"
+                            />
+                        @else
+                            <x-inputs.button
+                                class="btn-success btn-block"
+                                label="Resolve"
+                                icon="success"
+                                wire:click.prevent="toggleResolveIssue"
+                            />
+                        @endif
+                    </div>
+                @endif
             </div>
         </div>
     </form>
