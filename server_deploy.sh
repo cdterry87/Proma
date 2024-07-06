@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set -e
-
+# Start
 echo "Deploying application ..."
 
 # Enter maintenance mode
@@ -24,3 +24,4 @@ echo "" | sudo -S service php8.2-fpm reload
 php artisan up
 
 echo "Application deployed!"
+# Complete!
