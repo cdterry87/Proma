@@ -45,4 +45,11 @@ class ClientsView extends Component
         $this->unresolvedIssuesCount = $this->client->unresolved_issues->count();
         $this->resolvedIssuesCount = $this->client->resolved_issues->count();
     }
+
+    public function deleteClient()
+    {
+        $this->client->delete();
+
+        return redirect()->route('clients');
+    }
 }

@@ -40,6 +40,11 @@
                         label="Project"
                         value="{{ $issue->project->name ?? 'N/A' }}"
                     />
+
+                    <x-elements.timestamps
+                        :created-at="$issue->created_at"
+                        :updated-at="$issue->updated_at"
+                    />
                 </div>
             </x-layouts.card>
         </div>
@@ -90,6 +95,15 @@
     </div>
 
     <livewire:issues.issues-uploads-table :issue-id="$issue->id" />
+
+    {{-- Delete Confirmation --}}
+    <div class="w-full flex items-center justify-center mt-8">
+        <x-modals.delete-confirmation
+            id="delete_issue__modal"
+            label="Delete Issue"
+            action="deleteIssue"
+        />
+    </div>
 
     {{-- Modal Forms --}}
     <livewire:issues.issues-form />

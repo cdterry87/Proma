@@ -29,6 +29,9 @@ class Home extends Component
                 ]
             ]
         ],
+        'tooltip' => [
+            'theme' => 'dark',
+        ],
         'xaxis' => [
             'labels' => [
                 'style' => [

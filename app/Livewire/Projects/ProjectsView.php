@@ -45,4 +45,11 @@ class ProjectsView extends Component
         $this->incompleteTasksCount = $this->project->incomplete_tasks->count();
         $this->completeTasksCount = $this->project->complete_tasks->count();
     }
+
+    public function deleteProject()
+    {
+        $this->project->delete();
+
+        return redirect()->route('projects');
+    }
 }

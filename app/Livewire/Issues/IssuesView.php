@@ -43,4 +43,11 @@ class IssuesView extends Component
         $this->incompleteTasksCount = $this->issue->incomplete_tasks->count();
         $this->completeTasksCount = $this->issue->complete_tasks->count();
     }
+
+    public function deleteIssue()
+    {
+        $this->issue->delete();
+
+        return redirect()->route('issues');
+    }
 }

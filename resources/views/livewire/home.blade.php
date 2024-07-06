@@ -73,7 +73,7 @@
                                             title="{{ $project->name }}"
                                         >{{ Str::limit($project->name, 25) }}</a>
                                     </td>
-                                    <td>{{ $project->due_date->format('m/d/Y') ?? 'N/A' }}</td>
+                                    <td>{{ Carbon\Carbon::parse($project->due_date)->format('m/d/Y') ?? 'N/A' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

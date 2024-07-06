@@ -93,5 +93,7 @@ class ProjectsForm extends Component
 
         // Reset completed date
         $this->completed_date = $project->completed_date;
+
+        $this->dispatch('refreshData');
     }
 }

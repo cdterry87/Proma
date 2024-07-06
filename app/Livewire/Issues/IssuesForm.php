@@ -103,5 +103,8 @@ class IssuesForm extends Component
 
         // Reset resolved date
         $this->resolved_date = $issue->resolved_date;
+
+        // Refresh the data
+        $this->dispatch('refreshData');
     }
 }

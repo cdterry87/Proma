@@ -25,6 +25,11 @@
                         label="Description"
                         value="{{ $client->description }}"
                     />
+
+                    <x-elements.timestamps
+                        :created-at="$client->created_at"
+                        :updated-at="$client->updated_at"
+                    />
                 </div>
             </x-layouts.card>
         </div>
@@ -85,6 +90,15 @@
     </div>
 
     <livewire:clients.clients-uploads-table :client-id="$client->id" />
+
+    {{-- Delete Confirmation --}}
+    <div class="w-full flex items-center justify-center mt-8">
+        <x-modals.delete-confirmation
+            id="delete_client__modal"
+            label="Delete Client"
+            action="deleteClient"
+        />
+    </div>
 
     {{-- Modal Forms --}}
     <livewire:clients.clients-form />

@@ -14,7 +14,7 @@
             <x-layouts.card>
                 <div class="flex flex-col gap-4">
                     <x-elements.badge
-                        label="{{ $project->completed_date ? 'Completed ' . $project->completed_date : 'Incomplete' }}"
+                        label="{{ $project->completed_date ? 'Completed ' . Carbon\Carbon::parse($project->completed_date)->format('m/d/Y') : 'Incomplete' }}"
                         class="{{ $project->completed_date ? 'badge-success' : 'badge-error' }}"
                     />
                     <x-inputs.display
@@ -32,13 +32,17 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <x-inputs.display
                             label="Start Date"
-                            value="{{ $project->start_date ?? 'N/A' }}"
+                            value="{{ Carbon\Carbon::parse($project->start_date)->format('m/d/Y') ?? 'N/A' }}"
                         />
                         <x-inputs.display
                             label="Due Date"
-                            value="{{ $project->due_date ?? 'N/A' }}"
+                            value="{{ Carbon\Carbon::parse($project->due_date)->format('m/d/Y') ?? 'N/A' }}"
                         />
                     </div>
+                    <x-elements.timestamps
+                        :created-at="$project->created_at"
+                        :updated-at="$project->updated_at"
+                    />
                 </div>
             </x-layouts.card>
         </div>
@@ -97,6 +101,15 @@
     </div>
 
     <livewire:projects.projects-uploads-table :project-id="$project->id" />
+
+    {{-- Delete Confirmation --}}
+    <div class="w-full flex items-center justify-center mt-8">
+        <x-modals.delete-confirmation
+            id="delete_project__modal"
+            label="Delete Project"
+            action="deleteProject"
+        />
+    </div>
 
     {{-- Modal Forms --}}
     <livewire:projects.projects-form />

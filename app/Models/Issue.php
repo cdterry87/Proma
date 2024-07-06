@@ -12,10 +12,6 @@ class Issue extends Model
     protected $guarded = [];
     protected $table = 'issues';
 
-    protected $casts = [
-        'resolved_date' => 'datetime',
-    ];
-
     public function client()
     {
         return $this->belongsTo(Client::class);
