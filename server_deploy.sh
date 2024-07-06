@@ -18,7 +18,7 @@ composer install --no-interaction --prefer-dist --optimize-autoloader
 php artisan migrate --force
 
 # Reload PHP to update opcache
-echo "" | sudo -S service php8.2-fpm reload
+# echo "" | sudo -S service php8.2-fpm reload
 
 # Exit maintenance mode
 php artisan up
