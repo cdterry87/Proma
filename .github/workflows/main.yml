@@ -8,15 +8,13 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
       - name: Install Composer Dependencies
         run: composer require power-components/livewire-powergrid:5.* --no-interaction --no-progress --prefer-dist
-
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -34,7 +32,7 @@ jobs:
       - name: Deploy to production
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
+          host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
           script: "cd /var/www/proma && ./server_deploy.sh"
