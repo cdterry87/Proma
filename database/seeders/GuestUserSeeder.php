@@ -22,30 +22,30 @@ class GuestUserSeeder extends Seeder
         // Get the guest user
         $guest = User::where('guest', true)->orderBy('created_at', 'asc')->first();
 
+        // Set random counts
+        $clientCount = rand(10, 20);
+        $projectCount = rand(5, 15);
+        $issueCount = rand(1, 5);
+
         if ($guest) {
             // Create clients for user
-            $clients = Client::factory()->count(20)->create([
+            $clients = Client::factory()->count($clientCount)->create([
                 'user_id' => $guest->id
             ]);
 
             // Create projects for user
             foreach ($clients as $client) {
-                $projects = Project::factory()->count(20)->create([
+                $projects = Project::factory()->count($projectCount)->create([
                     'user_id' => $guest->id,
                     'client_id' => $client->id,
                 ]);
 
                 // Create issues for user
                 foreach ($projects as $project) {
-                    // Get a random date after the project start date to act as the created/updated date
-                    $issue_date = $faker->dateTimeBetween($project->start_date, '+1 year');
-
-                    Issue::factory()->count(5)->create([
+                    Issue::factory()->count($issueCount)->create([
                         'client_id' => $client->id,
                         'user_id' => $guest->id,
                         'project_id' => $project->id,
-                        'created_at' => $issue_date,
-                        'updated_at' => $issue_date
                     ]);
                 }
             }
