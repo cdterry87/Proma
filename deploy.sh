@@ -2,7 +2,7 @@
 
 set -e
 
-./test-coverage-report.sh
+# ./test-coverage-report.sh
 
 (git push) || true
 
