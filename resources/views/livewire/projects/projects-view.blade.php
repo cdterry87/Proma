@@ -91,13 +91,17 @@
     <div class="flex items-center justify-between gap-4">
         <h2 class="font-bold text-3xl">Uploads</h2>
 
-        <x-modals.trigger
-            id="projects_uploads_form__modal"
-            label="Upload Files"
-            icon="file"
-            class="btn-primary btn-sm"
-            wire:click="$dispatchTo('projects.projects-uploads-form', 'getProject', { id: {{ $project->id }}})"
-        />
+        @if (auth()->user()->guest)
+            <p class="font-semibold text-xs text-error">Uploads are disabled for guests.</p>
+        @else
+            <x-modals.trigger
+                id="projects_uploads_form__modal"
+                label="Upload Files"
+                icon="file"
+                class="btn-primary btn-sm"
+                wire:click="$dispatchTo('projects.projects-uploads-form', 'getProject', { id: {{ $project->id }}})"
+            />
+        @endif
     </div>
 
     <livewire:projects.projects-uploads-table :project-id="$project->id" />

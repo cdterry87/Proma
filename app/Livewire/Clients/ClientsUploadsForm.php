@@ -45,6 +45,9 @@ class ClientsUploadsForm extends Component
 
     public function uploadFile()
     {
+        // Guest users are not allowed to upload
+        if (auth()->guest()) return;
+
         $this->validate([
             'files.*' => 'required|max:10240|mimes:doc,docx,pdf,ppt,pptx,rtf,txt,csv,xls,xlsx,gif,jpg,jpeg,png,svg,zip,rar,7z'
         ]);
