@@ -16,4 +16,24 @@ class ProjectTask extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    public function dueNotificationSent()
+    {
+        return $this->hasOne(ProjectTaskNotificationSent::class)
+            ->where('due', true)
+            ->where('completed', false);
+    }
+
+    public function overdueNotificationSent()
+    {
+        return $this->hasOne(ProjectTaskNotificationSent::class)
+            ->where('overdue', true)
+            ->where('completed', false);
+    }
+
+    public function completeNotificationSent()
+    {
+        return $this->hasOne(ProjectTaskNotificationSent::class)
+            ->where('completed', true);
+    }
 }

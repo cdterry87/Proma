@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Project;
+use App\Models\ProjectNotificationSent;
 use Illuminate\Bus\Queueable;
 use App\Models\UserNotification;
 use Illuminate\Queue\SerializesModels;
@@ -35,8 +36,9 @@ class ProjectsNotificationsJob implements ShouldQueue
     protected function handleProjectDueReminderNotifications()
     {
         $projects = Project::query()
-            ->whereDate('due_date', now()->addDays(5)->toDateString())
+            ->whereDate('due_date', now()->addDays(10)->toDateString())
             ->whereNull('completed_date')
+            ->whereDoesntHave('dueNotificationSent')
             ->get();
 
         foreach ($projects as $project) {
@@ -44,6 +46,14 @@ class ProjectsNotificationsJob implements ShouldQueue
                 'user_id' => $project->user_id,
                 'subject' => 'Project Due Reminder',
                 'message' => 'Your project is due in 5 days: ' . $project->name,
+            ]);
+
+            ProjectNotificationSent::create([
+                'user_id' => $project->user_id,
+                'project_id' => $project->id,
+                'due' => true,
+                'overdue' => false,
+                'completed' => false,
             ]);
         }
     }
@@ -53,6 +63,7 @@ class ProjectsNotificationsJob implements ShouldQueue
         $projects = Project::query()
             ->whereDate('due_date', '<', now()->toDateString())
             ->whereNull('completed_date')
+            ->whereDoesntHave('overdueNotificationSent')
             ->get();
 
         foreach ($projects as $project) {
@@ -61,13 +72,22 @@ class ProjectsNotificationsJob implements ShouldQueue
                 'subject' => 'Project Overdue',
                 'message' => 'Your project is overdue: ' . $project->name,
             ]);
+
+            ProjectNotificationSent::create([
+                'user_id' => $project->user_id,
+                'project_id' => $project->id,
+                'due' => false,
+                'overdue' => true,
+                'completed' => false,
+            ]);
         }
     }
 
     protected function handleCompletedProjectNotifications()
     {
         $projects = Project::query()
-            ->whereDate('completed_date', now()->toDateString())
+            ->where('completed_date', '<=', now()->toDateString())
+            ->whereDoesntHave('completeNotificationSent')
             ->get();
 
         foreach ($projects as $project) {
@@ -75,6 +95,14 @@ class ProjectsNotificationsJob implements ShouldQueue
                 'user_id' => $project->user_id,
                 'subject' => 'Project Completed',
                 'message' => 'Your project has been completed: ' . $project->name,
+            ]);
+
+            ProjectNotificationSent::create([
+                'user_id' => $project->user_id,
+                'project_id' => $project->id,
+                'due' => false,
+                'overdue' => false,
+                'completed' => true,
             ]);
         }
     }

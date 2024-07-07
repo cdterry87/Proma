@@ -51,4 +51,24 @@ class Project extends Model
     {
         return $this->hasMany(ProjectUpload::class);
     }
+
+    public function dueNotificationSent()
+    {
+        return $this->hasOne(ProjectNotificationSent::class)
+            ->where('due', true)
+            ->where('completed', false);
+    }
+
+    public function overdueNotificationSent()
+    {
+        return $this->hasOne(ProjectNotificationSent::class)
+            ->where('overdue', true)
+            ->where('completed', false);
+    }
+
+    public function completeNotificationSent()
+    {
+        return $this->hasOne(ProjectNotificationSent::class)
+            ->where('completed', true);
+    }
 }

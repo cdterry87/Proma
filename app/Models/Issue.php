@@ -61,4 +61,38 @@ class Issue extends Model
             ['value' => 1,  'label' => 'Closed']
         ];
     }
+
+    public function resolvedNotificationSent()
+    {
+        return $this->hasOne(IssueNotificationSent::class)
+            ->where('resolved', true);
+    }
+
+    public function lowPriorityNotificationSent()
+    {
+        return $this->hasOne(IssueNotificationSent::class)
+            ->where('resolved', false)
+            ->where('priority', 1);
+    }
+
+    public function mediumPriorityNotificationSent()
+    {
+        return $this->hasOne(IssueNotificationSent::class)
+            ->where('resolved', false)
+            ->where('priority', 2);
+    }
+
+    public function highPriorityNotificationSent()
+    {
+        return $this->hasOne(IssueNotificationSent::class)
+            ->where('resolved', false)
+            ->where('priority', 3);
+    }
+
+    public function criticalPriorityNotificationSent()
+    {
+        return $this->hasOne(IssueNotificationSent::class)
+            ->where('resolved', false)
+            ->where('priority', 4);
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Issue;
+use App\Models\IssueNotificationSent;
 use Illuminate\Bus\Queueable;
 use App\Models\UserNotification;
 use Illuminate\Queue\SerializesModels;
@@ -27,17 +28,18 @@ class IssuesNotificationsJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $this->handleCompletedIssueNotifications();
+        $this->handleResolvedIssueNotifications();
         $this->handleCriticalPriorityIssueNotifications();
         $this->handleHighPriorityIssueNotifications();
         $this->handleMediumPriorityIssueNotifications();
         $this->handleLowPriorityIssueNotifications();
     }
 
-    protected function handleCompletedIssueNotifications()
+    protected function handleResolvedIssueNotifications()
     {
         $issues = Issue::query()
-            ->whereDate('resolved_date', now()->toDateString())
+            ->where('resolved_date', '<=', now()->toDateString())
+            ->whereDoesntHave('resolvedNotificationSent')
             ->get();
 
         foreach ($issues as $issue) {
@@ -45,6 +47,13 @@ class IssuesNotificationsJob implements ShouldQueue
                 'user_id' => $issue->user_id,
                 'subject' => 'Issue Resolved',
                 'message' => 'Your issue has been resolved: ' . $issue->name,
+            ]);
+
+            IssueNotificationSent::create([
+                'user_id' => $issue->user_id,
+                'issue_id' => $issue->id,
+                'priority' => $issue->priority,
+                'resolved' => $issue->resolved_date ? true : false,
             ]);
         }
     }
@@ -55,6 +64,7 @@ class IssuesNotificationsJob implements ShouldQueue
             ->where('priority', 4)
             ->whereNull('resolved_date')
             ->where('created_at', '<', now()->subDays(3))
+            ->whereDoesntHave('criticalPriorityNotificationSent')
             ->get();
 
         foreach ($issues as $issue) {
@@ -62,6 +72,13 @@ class IssuesNotificationsJob implements ShouldQueue
                 'user_id' => $issue->user_id,
                 'subject' => 'Critical Issue',
                 'message' => 'You have an unresolved critical priority issue that has been open for 3 days: ' . $issue->name,
+            ]);
+
+            IssueNotificationSent::create([
+                'user_id' => $issue->user_id,
+                'issue_id' => $issue->id,
+                'priority' => $issue->priority,
+                'resolved' => $issue->resolved_date ? true : false,
             ]);
         }
     }
@@ -72,6 +89,7 @@ class IssuesNotificationsJob implements ShouldQueue
             ->where('priority', 3)
             ->whereNull('resolved_date')
             ->where('created_at', '<', now()->subDays(7))
+            ->whereDoesntHave('highPriorityNotificationSent')
             ->get();
 
         foreach ($issues as $issue) {
@@ -79,6 +97,13 @@ class IssuesNotificationsJob implements ShouldQueue
                 'user_id' => $issue->user_id,
                 'subject' => 'High Issue',
                 'message' => 'You have an unresolved high priority issue that has been open for 7 days: ' . $issue->name,
+            ]);
+
+            IssueNotificationSent::create([
+                'user_id' => $issue->user_id,
+                'issue_id' => $issue->id,
+                'priority' => $issue->priority,
+                'resolved' => $issue->resolved_date ? true : false,
             ]);
         }
     }
@@ -89,6 +114,7 @@ class IssuesNotificationsJob implements ShouldQueue
             ->where('priority', 2)
             ->whereNull('resolved_date')
             ->where('created_at', '<', now()->subDays(14))
+            ->whereDoesntHave('mediumPriorityNotificationSent')
             ->get();
 
         foreach ($issues as $issue) {
@@ -96,6 +122,13 @@ class IssuesNotificationsJob implements ShouldQueue
                 'user_id' => $issue->user_id,
                 'subject' => 'Medium Issue',
                 'message' => 'You have an unresolved medium priority issue that has been open for 14 days: ' . $issue->name,
+            ]);
+
+            IssueNotificationSent::create([
+                'user_id' => $issue->user_id,
+                'issue_id' => $issue->id,
+                'priority' => $issue->priority,
+                'resolved' => $issue->resolved_date ? true : false,
             ]);
         }
     }
@@ -106,6 +139,7 @@ class IssuesNotificationsJob implements ShouldQueue
             ->where('priority', 1)
             ->whereNull('resolved_date')
             ->where('created_at', '<', now()->subDays(30))
+            ->whereDoesntHave('lowPriorityNotificationSent')
             ->get();
 
         foreach ($issues as $issue) {
@@ -113,6 +147,13 @@ class IssuesNotificationsJob implements ShouldQueue
                 'user_id' => $issue->user_id,
                 'subject' => 'Low Priority Issue',
                 'message' => 'You have an unresolved low priority issue that has been open for 30 days: ' . $issue->name,
+            ]);
+
+            IssueNotificationSent::create([
+                'user_id' => $issue->user_id,
+                'issue_id' => $issue->id,
+                'priority' => $issue->priority,
+                'resolved' => $issue->resolved_date ? true : false,
             ]);
         }
     }
