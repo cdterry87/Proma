@@ -206,9 +206,6 @@ class Home extends Component
             ->mapWithKeys(fn ($issue) => [$issue->full_date => $issue->count])
             ->toArray();
 
-        // Merge array keys to get x axis labels
-        $labels = array_unique(array_merge(array_keys($projects), array_keys($issues)));
-
         $chart = (new LineChartModel())
             ->setTitle('Projects vs Issues (Last ' . $this->days . ' Days)')
             ->withDataLabels()
