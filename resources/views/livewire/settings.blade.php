@@ -10,12 +10,12 @@
             class=" card card-compact bg-base-200"
         >
             <div class="card-body flex flex-col gap-2">
-                <h2 class="font-bold text-2xl text-accent">Name</h2>
+                <h2 class="font-bold text-lg text-gray-500 uppercase">Name</h2>
                 <div
                     x-show="!isEditing"
                     class="flex items-center justify-between gap-4"
                 >
-                    <span class="text-xl">
+                    <span class="text-2xl">
                         {{ $user->name }}
                     </span>
                     <span>
@@ -64,12 +64,12 @@
             class=" card card-compact bg-base-200"
         >
             <div class="card-body flex flex-col gap-2">
-                <h2 class="font-bold text-2xl text-accent">Email Address</h2>
+                <h2 class="font-bold text-lg text-gray-500 uppercase">Email Address</h2>
                 <div
                     x-show="!isEditing"
                     class="flex items-center justify-between gap-4"
                 >
-                    <span class="text-xl">
+                    <span class="text-2xl">
                         {{ $user->email }}
                     </span>
                     <span>
@@ -119,12 +119,12 @@
             class=" card card-compact bg-base-200"
         >
             <div class="card-body flex flex-col gap-2">
-                <h2 class="font-bold text-2xl text-accent">Title</h2>
+                <h2 class="font-bold text-lg text-gray-500 uppercase">Title</h2>
                 <div
                     x-show="!isEditing"
                     class="flex items-center justify-between gap-4"
                 >
-                    <span class="text-xl">
+                    <span class="text-2xl">
                         {{ $user->title }}
                     </span>
                     <span>
@@ -173,12 +173,12 @@
             class="card card-compact bg-base-200"
         >
             <div class="card-body flex flex-col gap-4">
-                <h2 class="font-bold text-2xl text-accent">Password</h2>
+                <h2 class="font-bold text-lg text-gray-500 uppercase">Password</h2>
                 <div
                     x-show="!isEditing"
                     class="flex items-center justify-between gap-4"
                 >
-                    <div class="text-xl">
+                    <div class="text-2xl">
                         ********
                     </div>
                     <x-inputs.button
@@ -228,16 +228,6 @@
                             />
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        {{-- Notification Settings --}}
-        <div class=" card card-compact bg-base-200">
-            <div class="card-body flex flex-col gap-2">
-                <h2 class="font-bold text-2xl text-accent">Notification Settings</h2>
-                <div class="flex items-center justify-between gap-4">
-                    {{--  --}}
                 </div>
             </div>
         </div>

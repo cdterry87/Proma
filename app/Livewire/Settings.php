@@ -7,20 +7,22 @@ use Illuminate\Support\Facades\Hash;
 
 class Settings extends Component
 {
+    public $user;
     public $name, $email, $title, $password, $password_confirmation;
+
+    public function mount()
+    {
+        $this->user = auth()->user();
+        if ($this->user) {
+            $this->name = $this->user->name;
+            $this->email = $this->user->email;
+            $this->title = $this->user->title;
+        }
+    }
 
     public function render()
     {
-        $user = auth()->user();
-        if ($user) {
-            $this->name = $user->name;
-            $this->email = $user->email;
-            $this->title = $user->title;
-        }
-
-        return view('livewire.settings', [
-            'user' => auth()->user()
-        ]);
+        return view('livewire.settings');
     }
 
     public function saveName()
@@ -34,6 +36,10 @@ class Settings extends Component
         ]);
 
         session()->flash('success', 'Name saved successfully.');
+
+        // Refresh user
+        $this->user = auth()->user();
+        $this->dispatch('refreshUser');
     }
 
     public function saveEmail()
@@ -47,6 +53,10 @@ class Settings extends Component
         ]);
 
         session()->flash('success', 'Email saved successfully.');
+
+        // Refresh user
+        $this->user = auth()->user();
+        $this->dispatch('refreshUser');
     }
 
     public function saveTitle()
@@ -60,6 +70,10 @@ class Settings extends Component
         ]);
 
         session()->flash('success', 'Title saved successfully.');
+
+        // Refresh user
+        $this->user = auth()->user();
+        $this->dispatch('refreshUser');
     }
 
     public function changePassword()
@@ -74,5 +88,9 @@ class Settings extends Component
         ]);
 
         session()->flash('success', 'Password changed successfully.');
+
+        // Refresh user
+        $this->user = auth()->user();
+        $this->dispatch('refreshUser');
     }
 }

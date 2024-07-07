@@ -24,14 +24,8 @@ class Login extends Component
     {
         $this->validate();
 
-        // Get the user
-        $user = User::where('email', $this->email)->first();
-
-        // Attempt login
         if (auth()->attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
             return redirect()->intended(route('home'));
         }
-
-        session()->flash('error', 'Email or password is incorrect.');
     }
 }
