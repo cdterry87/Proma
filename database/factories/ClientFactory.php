@@ -21,6 +21,7 @@ class ClientFactory extends Factory
             'user_id' => User::factory(),
             'name' => $this->faker->company,
             'description' => $this->faker->sentence,
+            'active' => true
         ];
     }
 }

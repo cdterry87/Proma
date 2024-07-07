@@ -52,5 +52,13 @@ class SettingsTest extends TestCase
             'email' => 'jdoe@example.com',
             'title' => 'Developer'
         ]);
+
+        // Can change password
+        Livewire::actingAs($user)
+            ->test(Settings::class)
+            ->set('password', 'password123')
+            ->set('password_confirmation', 'password123')
+            ->call('changePassword')
+            ->assertHasNoErrors();
     }
 }

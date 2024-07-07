@@ -24,13 +24,23 @@ class HomeTest extends TestCase
         $user = User::factory()->create();
 
         // Create projects
-        Project::factory(15)->create([
-            'user_id' => $user->id
+        Project::factory(5)->create([
+            'user_id' => $user->id,
+            'created_at' => now()->subDays(5)
+        ]);
+        Project::factory(5)->create([
+            'user_id' => $user->id,
+            'created_at' => now()->subDays(15)
         ]);
 
         // Create issues
-        Issue::factory(100)->create([
-            'user_id' => $user->id
+        Issue::factory(50)->create([
+            'user_id' => $user->id,
+            'created_at' => now()->subDays(5)
+        ]);
+        Issue::factory(50)->create([
+            'user_id' => $user->id,
+            'created_at' => now()->subDays(15)
         ]);
 
         $this->actingAs($user)

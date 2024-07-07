@@ -35,7 +35,6 @@ class IssuesTasksForm extends Component
         $this->validate([
             'title' => 'required|max:255',
             'description' => 'required',
-            'completed_date' => 'nullable|date',
         ]);
 
         IssueTask::updateOrCreate([
