@@ -14,7 +14,7 @@ class SettingsTest extends TestCase
 
     public function test_user_must_be_logged_in_to_see_settings_page()
     {
-        $this->get(route('home'))
+        $this->get(route('settings'))
             ->assertRedirect(route('login'));
     }
 

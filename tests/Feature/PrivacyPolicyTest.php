@@ -2,19 +2,28 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PrivacyPolicyTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
-    public function test_example(): void
-    {
-        $response = $this->get('/');
+    use RefreshDatabase;
 
-        $response->assertStatus(200);
+    public function test_privacy_policy_renders_correctly_while_not_logged_in()
+    {
+        $this->get(route('privacy-policy'))
+            ->assertStatus(200);
+    }
+
+    public function test_privacy_policy_renders_correctly_while_logged_in()
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
+
+        $this->get(route('privacy-policy'))
+            ->assertStatus(200);
     }
 }

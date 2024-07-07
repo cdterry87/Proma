@@ -19,6 +19,8 @@ use PowerComponents\LivewirePowerGrid\PowerGridComponent;
 
 final class NotificationsTable extends PowerGridComponent
 {
+    public string $tableName = 'NotificationsTable';
+
     public function setUp(): array
     {
         return [
