@@ -117,7 +117,10 @@
 
     <div class="grid grid-cols-1 xl:grid-cols-3 gap-y-4 xl:gap-x-4">
         <div class="col-span-2">
-            <x-layouts.card>
+            <x-layouts.card
+                title="Projects vs Issues"
+                subtitle="In the last {{ $days }} days"
+            >
                 <div class="h-80">
                     @if ($issues)
                         <livewire:livewire-line-chart
@@ -131,7 +134,10 @@
             </x-layouts.card>
         </div>
         <div class="col-span-1">
-            <x-layouts.card>
+            <x-layouts.card
+                title="Issue Priorities"
+                subtitle="In the last {{ $days }} days"
+            >
                 <div class="h-80">
                     @if ($projects || $issues)
                         <livewire:livewire-pie-chart

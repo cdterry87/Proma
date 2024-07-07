@@ -166,7 +166,6 @@ class Home extends Component
         $criticalCount = $issues[4] ?? 0;
 
         return (new PieChartModel())
-            ->setTitle('Issue Priorities (Last ' . $this->days . ' Days)')
             ->withDataLabels()
             ->addSlice('Low', $lowCount, '#047857')
             ->addSlice('Medium', $mediumCount, '#1d4ed8')
@@ -207,7 +206,6 @@ class Home extends Component
             ->toArray();
 
         $chart = (new LineChartModel())
-            ->setTitle('Projects vs Issues (Last ' . $this->days . ' Days)')
             ->withDataLabels()
             ->multiLine()
             ->setJsonConfig($this->chartJsonConfig);
