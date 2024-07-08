@@ -3,7 +3,7 @@
     title="Client Uploads"
     :subtitle="$client_name ? 'For ' . $client_name : null"
 >
-    <form wire:submit.prevent="uploadFile">
+    <form wire:submit.prevent="uploadFiles">
         <x-alerts.container />
 
         <div class="flex flex-col gap-6">

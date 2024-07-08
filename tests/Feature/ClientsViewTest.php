@@ -2,12 +2,13 @@
 
 namespace Tests\Feature;
 
-use App\Livewire\Clients\ClientsView;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Client;
-use App\Models\ClientContact;
 use Livewire\Livewire;
+use App\Models\ClientUpload;
+use App\Models\ClientContact;
+use App\Livewire\Clients\ClientsView;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ClientsViewTest extends TestCase
@@ -31,6 +32,10 @@ class ClientsViewTest extends TestCase
         ]);
 
         ClientContact::factory(5)->create([
+            'client_id' => $client->id
+        ]);
+
+        ClientUpload::factory(5)->create([
             'client_id' => $client->id
         ]);
 

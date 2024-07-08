@@ -8,6 +8,7 @@ use App\Models\Issue;
 use Livewire\Livewire;
 use App\Models\IssueTask;
 use App\Livewire\Issues\IssuesView;
+use App\Models\IssueUpload;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class IssuesViewTest extends TestCase
@@ -31,6 +32,10 @@ class IssuesViewTest extends TestCase
         ]);
 
         IssueTask::factory(5)->create([
+            'issue_id' => $issue->id
+        ]);
+
+        IssueUpload::factory(5)->create([
             'issue_id' => $issue->id
         ]);
 

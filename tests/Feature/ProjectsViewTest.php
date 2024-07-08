@@ -6,8 +6,9 @@ use Tests\TestCase;
 use App\Models\User;
 use Livewire\Livewire;
 use App\Models\Project;
-use App\Livewire\Projects\ProjectsView;
 use App\Models\ProjectTask;
+use App\Models\ProjectUpload;
+use App\Livewire\Projects\ProjectsView;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProjectsViewTest extends TestCase
@@ -31,6 +32,10 @@ class ProjectsViewTest extends TestCase
         ]);
 
         ProjectTask::factory(5)->create([
+            'project_id' => $project->id
+        ]);
+
+        ProjectUpload::factory(5)->create([
             'project_id' => $project->id
         ]);
 

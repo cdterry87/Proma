@@ -43,7 +43,7 @@ class ClientsUploadsForm extends Component
         return view('livewire.clients.clients-uploads-form');
     }
 
-    public function uploadFile()
+    public function uploadFiles()
     {
         // Demo users are not allowed to upload
         if (auth()->user()->demo) return;
@@ -78,7 +78,7 @@ class ClientsUploadsForm extends Component
     }
 
     #[On('deleteFile')]
-    public function deleteUpload($fileId, $clientId)
+    public function deleteFile($fileId, $clientId)
     {
         $clientUpload = ClientUpload::query()
             ->where('id', $fileId)
