@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Issue;
 use App\Models\Client;
 use App\Models\Project;
+use App\Models\ProjectTask;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ScheduledJobsTest extends TestCase
@@ -104,12 +105,107 @@ class ScheduledJobsTest extends TestCase
 
     public function test_projects_notifications_job()
     {
-        $this->assertTrue(true);
+        // Create a user
+        $user = User::factory()->create();
+
+        // Create a project with a due_date in 10 days
+        $dueProject = Project::factory()->create(['user_id' => $user->id, 'due_date' => now()->addDays(10)]);
+
+        // Create a project with a due_date of 2 days ago
+        $overdueProject = Project::factory()->create(['user_id' => $user->id, 'due_date' => now()->subDays(2)]);
+
+        // Create a project that was completed 2 days ago
+        $completedProject = Project::factory()->create(['user_id' => $user->id, 'completed_date' => now()->subDays(2)]);
+
+        // Create a project that is due in 30 days
+        $notDueProject = Project::factory()->create(['user_id' => $user->id, 'due_date' => now()->addDays(30)]);
+
+        // Run the job
+        $job = new \App\Jobs\ProjectsNotificationsJob();
+        $job->handle();
+
+        // Assert notifications were sent for due, overdue, and completled projects
+        $this->assertDatabaseHas('projects_notifications_sent', [
+            'user_id' => $user->id,
+            'project_id' => $dueProject->id,
+            'due' => true,
+            'overdue' => false,
+            'completed' => false
+        ]);
+        $this->assertDatabaseHas('projects_notifications_sent', [
+            'user_id' => $user->id,
+            'project_id' => $overdueProject->id,
+            'due' => false,
+            'overdue' => true,
+            'completed' => false
+        ]);
+        $this->assertDatabaseHas('projects_notifications_sent', [
+            'user_id' => $user->id,
+            'project_id' => $completedProject->id,
+            'due' => false,
+            'overdue' => false,
+            'completed' => true
+        ]);
+
+        // Assert notifications were not sent for projects that are not due
+        $this->assertDatabaseMissing('projects_notifications_sent', [
+            'user_id' => $user->id,
+            'project_id' => $notDueProject->id,
+        ]);
     }
 
     public function test_projects_tasks_notifications_job()
     {
-        $this->assertTrue(true);
+        // Create a user
+        $user = User::factory()->create();
+
+        // Create a project
+        $project = Project::factory()->create(['user_id' => $user->id]);
+
+        // Create a task with a due_date in 10 days
+        $dueTask = ProjectTask::factory()->create(['project_id' => $project->id, 'due_date' => now()->addDays(10)]);
+
+        // Create a task with a due_date of 2 days ago
+        $overdueTask = ProjectTask::factory()->create(['project_id' => $project->id, 'due_date' => now()->subDays(2)]);
+
+        // Create a task that was completed 2 days ago
+        $completedTask = ProjectTask::factory()->create(['project_id' => $project->id, 'completed_date' => now()->subDays(2)]);
+
+        // Create a task that is due in 30 days
+        $notDueTask = ProjectTask::factory()->create(['project_id' => $project->id, 'due_date' => now()->addDays(30)]);
+
+        // Run the job
+        $job = new \App\Jobs\ProjectsTasksNotificationsJob();
+        $job->handle();
+
+        // Assert notifications were sent for due, overdue, and completled projects
+        $this->assertDatabaseHas('projects_tasks_notifications_sent', [
+            'user_id' => $user->id,
+            'project_task_id' => $dueTask->id,
+            'due' => true,
+            'overdue' => false,
+            'completed' => false
+        ]);
+        $this->assertDatabaseHas('projects_tasks_notifications_sent', [
+            'user_id' => $user->id,
+            'project_task_id' => $overdueTask->id,
+            'due' => false,
+            'overdue' => true,
+            'completed' => false
+        ]);
+        $this->assertDatabaseHas('projects_tasks_notifications_sent', [
+            'user_id' => $user->id,
+            'project_task_id' => $completedTask->id,
+            'due' => false,
+            'overdue' => false,
+            'completed' => true
+        ]);
+
+        // Assert notifications were not sent for projects that are not due
+        $this->assertDatabaseMissing('projects_tasks_notifications_sent', [
+            'user_id' => $user->id,
+            'project_task_id' => $notDueTask->id,
+        ]);
     }
 
     public function test_routine_cleanup_job()
