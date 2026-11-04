@@ -1,20 +1,17 @@
 {
+    "$schema": "https://www.schemastore.org/package.json",
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "dev": "vite"
     },
     "devDependencies": {
-        "autoprefixer": "^10.4.17",
-        "axios": "^1.6.4",
-        "daisyui": "^4.6.0",
-        "laravel-vite-plugin": "^1.0.0",
-        "postcss": "^8.4.33",
-        "tailwindcss": "^3.4.1",
-        "vite": "^5.0.0"
+        "concurrently": "^10.0.3",
+        "laravel-vite-plugin": "^3.1",
+        "vite": "^8.0.0"
     },
-    "dependencies": {
-        "flatpickr": "^4.6.13"
+    "optionalDependencies": {
+        "@laravel/multiplex": "^0.4.1"
     }
 }
