@@ -10,6 +10,8 @@ Read `docs/spec.md` before making changes. It defines the architecture, conventi
 - Never use `{!! !!}` in views or `$guarded = []` in models.
 - Keep queries portable across SQLite and MySQL.
 - File uploads are out of scope.
+- The Content Security Policy forbids inline styles and `eval`. Register Alpine logic with `Alpine.data()`, and never write `style` attributes in server-rendered HTML.
+- Hard-coded colors belong only in `resources/css/base/tokens.css`. Add new tokens to the contrast test.
 
 ## Commands
 

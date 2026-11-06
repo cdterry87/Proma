@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name') }}</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body>
-    <main>
-        <h1>{{ config('app.name') }}</h1>
-    </main>
-</body>
-</html>
+<x-layouts::guest>
+    <x-card title="Rebuild in progress">
+        <p>{{ config('app.name') }} is being rebuilt.</p>
+    </x-card>
+</x-layouts::guest>

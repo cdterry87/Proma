@@ -1,0 +1,157 @@
+/*
+ * Design tokens. Hard-coded colors belong only in this file.
+ *
+ * Breakpoints cannot be custom properties inside media queries, so they are
+ * documented here and written literally: 40rem (small), 64rem (large).
+ *
+ * tests/Unit/DesignTokensTest.php checks WCAG AA contrast for these colors.
+ */
+
+:root {
+    --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-logo: 'Kaushan Script', var(--font-sans);
+
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-md: 1rem;
+    --text-lg: 1.25rem;
+    --text-xl: 1.625rem;
+    --text-2xl: 2.25rem;
+
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.5rem;
+    --space-6: 2rem;
+    --space-7: 3rem;
+
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.875rem;
+    --radius-full: 999px;
+
+    --sidebar-width: 17rem;
+    --content-width: 76rem;
+
+    --motion-fast: 120ms ease;
+    --motion-medium: 220ms ease;
+
+    --z-sidebar: 20;
+    --z-toast: 40;
+}
+
+:root,
+[data-theme='light'] {
+    color-scheme: light;
+
+    --color-bg: #e5e7eb;
+    --color-surface: #ffffff;
+    --color-sunken: #d5d9e0;
+
+    --color-text: #1f2937;
+    --color-text-muted: #4b5563;
+    --color-link: #494694;
+
+    --color-border: #d1d5db;
+    --color-border-strong: #6b7280;
+    --color-focus: #494694;
+
+    --color-primary: #494694;
+    --color-primary-hover: #3a3877;
+    --color-on-primary: #ffffff;
+
+    --color-secondary: #336a6b;
+    --color-secondary-hover: #285556;
+    --color-on-secondary: #ffffff;
+
+    --color-neutral: #374151;
+    --color-neutral-hover: #1f2937;
+    --color-on-neutral: #ffffff;
+
+    --color-info: #1d4ed8;
+    --color-info-hover: #1e40af;
+    --color-on-info: #ffffff;
+    --color-info-text: #1e40af;
+    --color-info-surface: #dbeafe;
+
+    --color-success: #047857;
+    --color-success-hover: #065f46;
+    --color-on-success: #ffffff;
+    --color-success-text: #065f46;
+    --color-success-surface: #d1fae5;
+
+    --color-warning: #b45309;
+    --color-warning-hover: #92400e;
+    --color-on-warning: #ffffff;
+    --color-warning-text: #854d0e;
+    --color-warning-surface: #fef3c7;
+
+    --color-error: #be123c;
+    --color-error-hover: #9f1239;
+    --color-on-error: #ffffff;
+    --color-error-text: #9f1239;
+    --color-error-surface: #ffe4e6;
+
+    --shadow-sm: 0 1px 2px rgb(17 24 39 / 12%);
+    --shadow-md: 0 4px 12px rgb(17 24 39 / 14%);
+    --shadow-lg: 0 16px 40px rgb(17 24 39 / 24%);
+    --backdrop: rgb(17 24 39 / 55%);
+}
+
+[data-theme='dark'] {
+    color-scheme: dark;
+
+    --color-bg: #1f2937;
+    --color-surface: #29374a;
+    --color-sunken: #1b2431;
+
+    --color-text: #e1e8e7;
+    --color-text-muted: #b4bfcc;
+    --color-link: #b7b4f6;
+
+    --color-border: #3d4c62;
+    --color-border-strong: #8996a8;
+    --color-focus: #b7b4f6;
+
+    --color-primary: #8b86eb;
+    --color-primary-hover: #a5a1f0;
+    --color-on-primary: #111827;
+
+    --color-secondary: #63c2af;
+    --color-secondary-hover: #80d0c0;
+    --color-on-secondary: #111827;
+
+    --color-neutral: #e1e8e7;
+    --color-neutral-hover: #ffffff;
+    --color-on-neutral: #111827;
+
+    --color-info: #1d4ed8;
+    --color-info-hover: #1e40af;
+    --color-on-info: #ffffff;
+    --color-info-text: #a3c4fd;
+    --color-info-surface: #1b2f57;
+
+    --color-success: #047857;
+    --color-success-hover: #065f46;
+    --color-on-success: #ffffff;
+    --color-success-text: #7ee2bd;
+    --color-success-surface: #12372f;
+
+    --color-warning: #b45309;
+    --color-warning-hover: #92400e;
+    --color-on-warning: #ffffff;
+    --color-warning-text: #fcd27a;
+    --color-warning-surface: #40300f;
+
+    --color-error: #be123c;
+    --color-error-hover: #9f1239;
+    --color-on-error: #ffffff;
+    --color-error-text: #fda4b4;
+    --color-error-surface: #4a1524;
+
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 30%);
+    --shadow-md: 0 4px 12px rgb(0 0 0 / 35%);
+    --shadow-lg: 0 16px 40px rgb(0 0 0 / 50%);
+    --backdrop: rgb(0 0 0 / 60%);
+}

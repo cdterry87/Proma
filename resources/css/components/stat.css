@@ -1,0 +1,34 @@
+.stat {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-1) var(--space-3);
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.stat__label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-muted);
+}
+
+.stat__value {
+    grid-column: 1;
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.stat__hint {
+    grid-column: 1 / -1;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+}
+
+.stat__icon {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    color: var(--color-link);
+}

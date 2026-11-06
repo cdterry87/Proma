@@ -1,0 +1,20 @@
+.guest {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-5);
+    min-block-size: 100dvh;
+    padding: var(--space-5) var(--space-4);
+}
+
+.guest__logo {
+    font-size: var(--text-2xl);
+    color: var(--color-text);
+    text-decoration: none;
+}
+
+.guest__content {
+    inline-size: 100%;
+    max-inline-size: 30rem;
+}

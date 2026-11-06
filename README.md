@@ -6,7 +6,7 @@ The rebuild is in progress. See [docs/spec.md](docs/spec.md) for the specificati
 
 ## Requirements
 
-- PHP 8.4 or later
+- PHP 8.4.1 or later
 - Composer
 - Node 20.19 or later
 
@@ -23,6 +23,10 @@ This installs dependencies, creates `.env`, migrates a local SQLite database, an
 ```bash
 composer run dev
 ```
+
+## Style reference
+
+With the app running locally, open `/styleguide` to see every design system component. The page returns 404 outside the local and testing environments.
 
 ## Quality checks
 

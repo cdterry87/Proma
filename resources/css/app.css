@@ -1,7 +1,37 @@
 @layer tokens, reset, base, layout, components, pages, utilities;
 
-@layer base {
-    body {
-        font-family: system-ui, sans-serif;
+@import './base/tokens.css' layer(tokens);
+@import './base/reset.css' layer(reset);
+@import './base/typography.css' layer(base);
+
+@import './layout/shell.css' layer(layout);
+@import './layout/page.css' layer(layout);
+
+@import './components/button.css' layer(components);
+@import './components/card.css' layer(components);
+@import './components/stat.css' layer(components);
+@import './components/badge.css' layer(components);
+@import './components/alert.css' layer(components);
+@import './components/form.css' layer(components);
+@import './components/table.css' layer(components);
+@import './components/pagination.css' layer(components);
+@import './components/dialog.css' layer(components);
+@import './components/toast.css' layer(components);
+
+@import './pages/guest.css' layer(pages);
+@import './pages/styleguide.css' layer(pages);
+
+@layer utilities {
+    .visually-hidden {
+        position: absolute;
+        inline-size: 1px;
+        block-size: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+
+    [x-cloak] {
+        display: none !important;
     }
 }

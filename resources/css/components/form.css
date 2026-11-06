@@ -1,0 +1,126 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.form__row {
+    display: grid;
+    gap: var(--space-4);
+
+    @media (min-width: 40rem) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.form__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--space-2);
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    min-inline-size: 0;
+}
+
+.field__label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+}
+
+.field__required {
+    color: var(--color-error-text);
+}
+
+.field__hint {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+}
+
+.field__error {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-error-text);
+}
+
+.input {
+    inline-size: 100%;
+    min-block-size: 2.75rem;
+    padding: var(--space-2) var(--space-3);
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+
+    &::placeholder {
+        color: var(--color-text-muted);
+    }
+
+    &[aria-invalid='true'] {
+        border-color: var(--color-error-text);
+        border-width: 2px;
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+}
+
+textarea.input {
+    min-block-size: 7rem;
+    resize: vertical;
+}
+
+.choice {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-block-size: 2.75rem;
+    cursor: pointer;
+}
+
+.choice__input {
+    inline-size: 1.25rem;
+    block-size: 1.25rem;
+    accent-color: var(--color-primary);
+}
+
+.toggle {
+    position: relative;
+    flex-shrink: 0;
+    inline-size: 2.75rem;
+    block-size: 1.5rem;
+    background: var(--color-border-strong);
+    border-radius: var(--radius-full);
+    transition: background-color var(--motion-fast);
+
+    &::after {
+        content: '';
+        position: absolute;
+        inset-block-start: 0.1875rem;
+        inset-inline-start: 0.1875rem;
+        inline-size: 1.125rem;
+        block-size: 1.125rem;
+        background: var(--color-surface);
+        border-radius: var(--radius-full);
+        transition: transform var(--motion-fast);
+    }
+}
+
+.choice__input:checked + .toggle {
+    background: var(--color-primary);
+
+    &::after {
+        transform: translateX(1.25rem);
+    }
+}
+
+.choice__input:focus-visible + .toggle {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+}

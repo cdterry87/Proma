@@ -405,7 +405,7 @@ Versions were checked against Packagist and npm on 2026-11-04. At scaffold time,
 | Concern | Choice | Notes |
 |---|---|---|
 | Framework | Laravel 13 (v13.40.0) | Requires PHP `^8.3` |
-| PHP | 8.4 or later | Required by Pest 5. Local is 8.5.6. |
+| PHP | 8.4.1 or later | Required by Pest 5 and its Symfony dependencies. Local is 8.5.6. |
 | UI | Livewire 4 (v4.4.8) | |
 | Client behavior | Alpine 3, **bundled with Livewire** | Do not install it separately; a second copy causes conflicts |
 | Styling | Hand-written CSS through Vite | No Tailwind, Bootstrap, DaisyUI, or component libraries |
@@ -626,7 +626,11 @@ Interface additions: each notification links to its record when one exists, `rea
 - Password reset (new) uses Laravel's password broker with custom pages under `guest` middleware. Requests are throttled, the response never reveals whether an email exists, and demo accounts cannot reset.
 - The login page background is custom CSS or SVG using the palette. The video is removed.
 
-Baseline for any deployment: `APP_DEBUG=false`, secure session cookies, and security headers including a Content Security Policy compatible with Livewire and Alpine. Whether Livewire's CSP build is needed will be tested during Phase 1.
+Baseline for any deployment: `APP_DEBUG=false`, secure session cookies, and security headers including a Content Security Policy compatible with Livewire and Alpine. Phase 1 tested this in a browser: the application runs on Livewire's CSP-safe build (`csp_safe` in `config/livewire.php`) with a nonce-based policy and no `unsafe-inline` or `unsafe-eval`. This has three consequences:
+
+- Alpine logic lives in registered `Alpine.data()` components, with simple expressions in templates.
+- Server-rendered HTML must not use `style` attributes.
+- Livewire's navigation progress bar is disabled, because its styles have no nonce.
 
 ### 3.14 Routes
 

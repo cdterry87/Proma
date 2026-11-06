@@ -1,0 +1,27 @@
+.alert {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+}
+
+.alert--info {
+    color: var(--color-info-text);
+    background: var(--color-info-surface);
+}
+
+.alert--success {
+    color: var(--color-success-text);
+    background: var(--color-success-surface);
+}
+
+.alert--warning {
+    color: var(--color-warning-text);
+    background: var(--color-warning-surface);
+}
+
+.alert--error {
+    color: var(--color-error-text);
+    background: var(--color-error-surface);
+}
