@@ -48,6 +48,11 @@ a {
     outline-offset: 2px;
 }
 
+/* Scripts move focus to these so that it is not lost. They are not controls. */
+[tabindex='-1']:focus {
+    outline: none;
+}
+
 .logo {
     display: inline-flex;
     align-items: center;

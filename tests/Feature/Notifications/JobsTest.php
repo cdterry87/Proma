@@ -78,7 +78,7 @@ describe('stale issues', function () {
 });
 
 describe('due dates', function () {
-    it('reminds about a project anywhere inside the window, so a missed run cannot skip it', function (int $days, int $expected) {
+    it('reminds about a project anywhere inside the window, so a missed run cannot skip it [D-12]', function (int $days, int $expected) {
         Project::factory()->for($this->user)->create(['due_date' => today()->addDays($days)]);
 
         SendProjectNotifications::dispatchSync();
@@ -91,7 +91,7 @@ describe('due dates', function () {
         'past the window' => [11, 0],
     ]);
 
-    it('uses the configured window in the reminder text', function () {
+    it('uses the configured window in the reminder text [D-12]', function () {
         config(['proma.due_reminder_days' => 3]);
         $project = Project::factory()->for($this->user)->create(['name' => 'Apollo', 'due_date' => today()->addDays(3)]);
         Project::factory()->for($this->user)->create(['due_date' => today()->addDays(4)]);
@@ -133,7 +133,7 @@ describe('due dates', function () {
         expect(UserNotification::query()->count())->toBe(0);
     });
 
-    it('names a task by its title and notifies the project owner', function () {
+    it('names a task by its title and notifies the project owner [D-11]', function () {
         $project = Project::factory()->for($this->user)->create(['name' => 'Apollo']);
         $due = Task::factory()->forProject($project)->create(['title' => 'Write copy', 'due_date' => today()->addDays(2)]);
         $late = Task::factory()->forProject($project)->create(['title' => 'Fix footer', 'due_date' => today()->subDay()]);

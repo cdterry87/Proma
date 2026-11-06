@@ -61,9 +61,13 @@
         transform var(--motion-medium),
         visibility var(--motion-medium);
 
+    /* Visible at once, because a hidden link cannot take focus when the drawer opens. */
     &[data-open] {
         visibility: visible;
         transform: none;
+        transition:
+            transform var(--motion-medium),
+            visibility 0s;
     }
 
     @media (min-width: 64rem) {

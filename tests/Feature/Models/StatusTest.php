@@ -120,7 +120,7 @@ it('labels priorities and sets their stale windows', function (IssuePriority $pr
     [IssuePriority::Critical, 4, 'Critical', 3],
 ]);
 
-it('renders a missing date as the fallback rather than today', function () {
+it('renders a missing date as the fallback rather than today [D-16]', function () {
     $date = new DateTimeImmutable('2026-03-09');
 
     expect(DateFormatter::format($date))->toBe('Mar 9, 2026')

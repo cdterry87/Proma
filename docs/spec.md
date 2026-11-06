@@ -6,7 +6,7 @@ Proma is a simple project manager for tracking clients, projects, and issues. Th
 |---|---|
 | **Status** | Draft with decisions recorded |
 | **Analyzed** | `master` at `3a9412b` (last commit 2024-08-10) |
-| **Last updated** | 2026-11-04 |
+| **Last updated** | 2026-11-06 |
 
 **How to read this document**
 
@@ -16,6 +16,7 @@ Proma is a simple project manager for tracking clients, projects, and issues. Th
 - [Part 4](#part-4-migration-plan) covers the branch reset and build phases.
 - [Part 5](#part-5-decisions) records the decisions that shape the rebuild.
 - [Appendix A](#appendix-a-feature-parity-checklist) is the acceptance checklist.
+- [Appendix B](#appendix-b-defect-disposition) records what happened to each defect.
 
 **Basis of the analysis.** Everything in Parts 1 and 2 comes from reading the source. The application was not run, because `vendor/` and `node_modules/` are not installed and no local MySQL is available. Findings that depend on runtime behavior of a third-party package are marked *unverified*.
 
@@ -740,6 +741,9 @@ The target is WCAG 2.2 AA:
 - Icon-only buttons have accessible names.
 - `prefers-reduced-motion` is respected.
 - Status is never conveyed by color alone.
+- Focus is never lost. `resources/js/focus.js` moves it to the first invalid field after a failed submit, to `[data-focus-target]` or `main` when a response removes the focused element, and to the `h1` after `wire:navigate`.
+- Field errors use `role="alert"`, so they are announced when they appear.
+- Tables keep their sort controls at narrow widths, as a row above the stacked records.
 
 ### 3.16 Testing
 
@@ -863,82 +867,132 @@ Decided on 2026-11-04.
 
 ## Appendix A: Feature parity checklist
 
-Acceptance criteria for cutover.
+Acceptance criteria for cutover, last checked on 2026-11-06.
 
 **Authentication and account**
 
-- [ ] Login with remember-me and redirect to intended page
-- [ ] Password reset by email
-- [ ] Logout with confirmation message
-- [ ] Demo credentials displayed on login when demo is enabled
-- [ ] Edit name, email, title, and password separately
-- [ ] Sidebar reflects profile changes without a reload
+- [x] Login with remember-me and redirect to intended page
+- [x] Password reset by email
+- [x] Logout with confirmation message
+- [x] Demo credentials displayed on login when demo is enabled
+- [x] Edit name, email, title, and password separately
+- [x] Sidebar reflects profile changes without a reload
 
 **Dashboard**
 
-- [ ] Timeframe selector for 30, 90, 180, and 365 days
-- [ ] Four stat tiles with period-over-period change
-- [ ] Incomplete projects and unresolved issues lists, limited to five, linked
-- [ ] Projects vs Issues line chart
-- [ ] Issue Priorities chart
-- [ ] Empty states
+- [x] Timeframe selector for 30, 90, 180, and 365 days
+- [x] Four stat tiles with period-over-period change
+- [x] Incomplete projects and unresolved issues lists, limited to five, linked
+- [x] Projects vs Issues line chart
+- [x] Issue Priorities chart
+- [x] Empty states
 
 **Clients**
 
-- [ ] List with counts, search, sort, active filter, expandable description, export, pagination
-- [ ] Create, edit, and delete with cascade and confirmation
-- [ ] Detail page with status, details, stats, and contacts
-- [ ] Contacts: list, search, sort, filter, export, create, edit, delete, active flag
-- [ ] Related projects and issues listed on the detail page
+- [x] List with counts, search, sort, active filter, expandable description, export, pagination
+- [x] Create, edit, and delete with cascade and confirmation
+- [x] Detail page with status, details, stats, and contacts
+- [x] Contacts: list, search, sort, filter, export, create, edit, delete, active flag
+- [x] Related projects and issues listed on the detail page
 
 **Projects**
 
-- [ ] List with client, dates, filters, search, sort, expandable description, export, pagination
-- [ ] Create, edit, delete, and complete or reopen
-- [ ] Client select limited to active clients
-- [ ] Detail page with status, details, stats, and tasks
-- [ ] Tasks: list, filters, search, sort, export, create, edit, complete or reopen, delete
-- [ ] Related issues listed on the detail page
+- [x] List with client, dates, filters, search, sort, expandable description, export, pagination
+- [x] Create, edit, delete, and complete or reopen
+- [x] Client select limited to active clients
+- [x] Detail page with status, details, stats, and tasks
+- [x] Tasks: list, filters, search, sort, export, create, edit, complete or reopen, delete
+- [x] Related issues listed on the detail page
 
 **Issues**
 
-- [ ] List with priority, client, project, filters, search, sort, expandable description, export, pagination
-- [ ] Create, edit, delete, and resolve or reopen
-- [ ] Project select depends on selected client
-- [ ] Detail page with status and priority badges, details, stats, and tasks
-- [ ] Tasks: list, filter, search, sort, export, create, edit, complete or reopen, delete
+- [x] List with priority, client, project, filters, search, sort, expandable description, export, pagination
+- [x] Create, edit, delete, and resolve or reopen
+- [x] Project select depends on selected client
+- [x] Detail page with status and priority badges, details, stats, and tasks
+- [x] Tasks: list, filter, search, sort, export, create, edit, complete or reopen, delete
 
 **Notifications**
 
-- [ ] Stale issue, due, and overdue rules from section 1.6 generated once per record
-- [ ] Each notification also emailed, with a per-user opt-out
-- [ ] Unread count in the sidebar
-- [ ] List, search, sort, read filter, export
-- [ ] Expanding a notification marks it as read
-- [ ] Mark all as read
-- [ ] Scheduled at the documented times
+- [x] Stale issue, due, and overdue rules from section 1.6 generated once per record
+- [x] Each notification also emailed, with a per-user opt-out
+- [x] Unread count in the sidebar
+- [x] List, search, sort, read filter, export
+- [x] Expanding a notification marks it as read
+- [x] Mark all as read
+- [x] Scheduled at the documented times
 
 **Demo**
 
-- [ ] Nightly reset of demo users' data
-- [ ] Demo restrictions enforced
-- [ ] Real users' data never affected
+- [x] Nightly reset of demo users' data
+- [x] Demo restrictions enforced
+- [x] Real users' data never affected
 
 **Application shell**
 
-- [ ] Responsive sidebar with active state and drawer on mobile
-- [ ] Dark and light themes that persist without a flash
-- [ ] Flash and toast messages for all four severities
-- [ ] Show More and Show Less on long detail values
-- [ ] Confirmation before every delete
-- [ ] Custom 403, 404, and 503 pages
-- [ ] Privacy policy in both layouts
-- [ ] Favicons and web manifest
+- [x] Responsive sidebar with active state and drawer on mobile
+- [x] Dark and light themes that persist without a flash
+- [x] Flash and toast messages for all four severities
+- [x] Show More and Show Less on long detail values
+- [x] Confirmation before every delete
+- [x] Custom 403, 404, and 503 pages
+- [x] Privacy policy in both layouts
+- [x] Favicons and web manifest
 
 **Constraints**
 
-- [ ] No Tailwind, DaisyUI, Bootstrap, PowerGrid, or other UI library in `composer.lock` or `package-lock.json`
-- [ ] Alpine comes only from Livewire's bundle
-- [ ] Every defect in Part 2 is fixed or explicitly waived
-- [ ] CI passes with coverage at or above target
-- [ ] WCAG 2.2 AA review completed
+- [x] No Tailwind, DaisyUI, Bootstrap, PowerGrid, or other UI library in `composer.lock` or `package-lock.json`
+- [x] Alpine comes only from Livewire's bundle
+- [x] Every defect in Part 2 is fixed or explicitly waived
+- [x] Coverage is at or above target locally on SQLite and MySQL, and CI enforces it with `--min=90`
+- [ ] CI passes on GitHub, which needs the next push
+- [x] WCAG 2.2 AA automated review: axe on every page in both themes at 1280 and 320 pixels, including open dialogs and error states, with no violations
+- [x] WCAG 2.2 AA keyboard review: skip link, navigation, dialogs, tables, pagination, settings forms, and the mobile drawer
+- [ ] WCAG 2.2 AA screen reader review with VoiceOver or NVDA, which has to be done by hand
+
+---
+
+## Appendix B: Defect disposition
+
+Tests carry the defect's ID in their name, so `sail artisan test --filter="D-17"` runs the regression test for D-17.
+
+| ID | Outcome | Evidence |
+|---|---|---|
+| D-1 | Fixed | Policies on every action; test `[D-1]` |
+| D-2 | Fixed | `#[Locked]` identifiers and no `updateOrCreate`; test `[D-2]` |
+| D-3 | Fixed | Owner-scoped validation rules; test `[D-3]` |
+| D-4 | Fixed | No `{!!` in views; test `[D-4]` |
+| D-5 | Fixed | Login rate limit; test `[D-5]` |
+| D-6 | Fixed | Current password required; test `[D-6]` |
+| D-7 | Not applicable | Uploads removed by decision 18 |
+| D-8 | Fixed | Seeders create no real account; test `[D-8]`. Any old production password still has to be rotated separately |
+| D-9 | Fixed | `changeCredentials` policy; test `[D-9]` |
+| D-10 | Fixed | Test `[D-10]` |
+| D-11 | Fixed | Test `[D-11]` |
+| D-12 | Fixed | Test `[D-12]` |
+| D-13 | Fixed | `is_demo` defaults to false; test `[D-13]` |
+| D-14 | Fixed | Test `[D-14]` |
+| D-15 | Fixed | Faker in `require`; test `[D-15]` |
+| D-16 | Fixed | `DateFormatter`; test `[D-16]` |
+| D-17 | Fixed | Test `[D-17]` |
+| D-18 | Fixed | Test `[D-18]` |
+| D-19 | Fixed | Test `[D-19]` |
+| D-20 | Fixed | Test `[D-20]` |
+| D-21 | Not applicable | Uploads removed by decision 18 |
+| D-22 | Not applicable | Uploads removed by decision 18 |
+| D-23 | Fixed | `guest` middleware; test `[D-23]` |
+| D-24 | Fixed | Test `[D-24]` |
+| D-25 | Fixed | Test `[D-25]` |
+| D-26 | Fixed | Test `[D-26]` |
+| D-27 | Fixed | Query-builder tables with grouped filters; test `[D-27]` |
+| D-28 | Fixed | `WithDataTable` export on every table; test `[D-28]` |
+| D-29 | Fixed | One `Tasks\Manager`; uploads removed |
+| D-30 | Fixed | Policies, form objects, enums, and actions |
+| D-31 | Fixed | Paginated queries, eager loading, strict models; test `[D-31]` |
+| D-32 | Fixed | The suite runs on SQLite and MySQL |
+| D-33 | Fixed | Removed in the rebuild; test `[D-33]` |
+| D-34 | Fixed | Native `<dialog>` and named icon buttons; test `[D-34]` |
+| D-35 | Fixed | Inline theme script and a nonce-based policy with no inline styles; test `[D-35]` |
+| D-36 | Fixed | Self-hosted Inter; test `[D-36]` |
+| D-37 | Partly fixed | CI runs lint, tests, coverage, and the build on one PHP version. There is no deployment yet, by decision 2 |
+| D-38 | Fixed | No committed `.DS_Store` files, and `composer.json` is `cdterry87/proma` |

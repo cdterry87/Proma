@@ -14,7 +14,7 @@
             <p>Simplify your project management.</p>
         </header>
 
-        <main id="main" @class(['guest__content', 'guest__content--wide' => $wide ?? false])>
+        <main id="main" tabindex="-1" @class(['guest__content', 'guest__content--wide' => $wide ?? false])>
             {{ $slot }}
         </main>
 

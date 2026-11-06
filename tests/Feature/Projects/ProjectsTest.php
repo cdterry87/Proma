@@ -86,7 +86,7 @@ describe('list', function () {
         'incomplete' => ['completed', 'no', ['Future', 'Late', 'Started today', 'Undated']],
     ]);
 
-    it('keeps an OR filter inside the owner scope', function () {
+    it('keeps an OR filter inside the owner scope [D-27]', function () {
         Project::factory()->create(['name' => 'Theirs undated', 'start_date' => null, 'due_date' => null]);
         Project::factory()->forClient($this->client)->create(['name' => 'Mine', 'start_date' => null, 'due_date' => null]);
 
@@ -106,7 +106,7 @@ describe('list', function () {
             ->and(projectNames(Livewire::test(Index::class)->set('filters.client', $foreign->client->uuid)))->toBe(['A', 'B']);
     });
 
-    it('exports the filtered set', function () {
+    it('exports the filtered set [D-28]', function () {
         Project::factory()->forClient($this->client)->create(['name' => 'Done', 'completed_date' => '2026-06-10']);
         Project::factory()->forClient($this->client)->create(['name' => 'Open']);
 
@@ -149,7 +149,7 @@ describe('create', function () {
             ->due_date->toBeNull();
     });
 
-    it('validates fields', function (array $overrides, string $error) {
+    it('validates fields [D-20]', function (array $overrides, string $error) {
         Livewire::test(Index::class)
             ->set(validProject($this->client->id, $overrides))
             ->call('save')
@@ -165,7 +165,7 @@ describe('create', function () {
         'due before start' => [['form.due_date' => '2026-05-01'], 'form.due_date'],
     ]);
 
-    it('rejects another user\'s client', function () {
+    it('rejects another user\'s client [D-3]', function () {
         Livewire::test(Index::class)
             ->set(validProject(Client::factory()->create()->id))
             ->call('save')
@@ -259,7 +259,7 @@ describe('detail', function () {
             ->and($unrelated->fresh()->client_id)->toBe($this->client->id);
     });
 
-    it('keeps an inactive client available when editing', function () {
+    it('keeps an inactive client available when editing [D-18]', function () {
         $this->client->update(['active' => false]);
 
         Livewire::test(Show::class, ['project' => $this->project])
@@ -288,7 +288,7 @@ describe('detail', function () {
             ->and(Task::query()->count())->toBe(0);
     });
 
-    it('locks the record', function () {
+    it('locks the record [D-2]', function () {
         Livewire::test(Show::class, ['project' => $this->project])->set('project', Project::factory()->create());
     })->throws('Cannot update locked property');
 

@@ -23,15 +23,6 @@
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
 
-    &::before {
-        content: '';
-        flex-shrink: 0;
-        inline-size: 0.5rem;
-        block-size: 0.5rem;
-        background: var(--toast-color);
-        border-radius: var(--radius-full);
-    }
-
     > span {
         flex: 1;
     }
@@ -47,6 +38,19 @@
 
 .toast--error {
     --toast-color: var(--color-error);
+}
+
+.toast__icon {
+    display: none;
+    flex-shrink: 0;
+    color: var(--toast-color);
+}
+
+.toast--info .toast__icon--info,
+.toast--success .toast__icon--success,
+.toast--warning .toast__icon--warning,
+.toast--error .toast__icon--error {
+    display: block;
 }
 
 .toast__close {

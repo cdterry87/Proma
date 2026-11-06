@@ -33,7 +33,7 @@ function validIssue(int $clientId, array $overrides = []): array
 }
 
 describe('list', function () {
-    it('lists only the user\'s issues and handles a missing project', function () {
+    it('lists only the user\'s issues and handles a missing project [D-10]', function () {
         Issue::factory()->forClient($this->client)->create(['name' => 'Mine', 'priority' => IssuePriority::Critical]);
         Issue::factory()->create(['name' => 'Theirs']);
 
@@ -106,7 +106,7 @@ describe('create', function () {
         expect(Issue::query()->sole()->project_id)->toBeNull();
     });
 
-    it('validates fields', function (array $overrides, string $error) {
+    it('validates fields [D-19]', function (array $overrides, string $error) {
         Livewire::test(Index::class)
             ->set(validIssue($this->client->id, $overrides))
             ->call('save')
@@ -121,7 +121,7 @@ describe('create', function () {
         'missing client' => [['form.client_id' => ''], 'form.client_id'],
     ]);
 
-    it('rejects another user\'s client', function () {
+    it('rejects another user\'s client [D-3]', function () {
         Livewire::test(Index::class)
             ->set(validIssue(Client::factory()->create()->id))
             ->call('save')
@@ -207,7 +207,7 @@ describe('detail', function () {
         expect($this->issue->fresh()->resolved_date)->toBeNull();
     });
 
-    it('clears the project when the client changes and rejects a mismatch', function () {
+    it('clears the project when the client changes and rejects a mismatch [D-17]', function () {
         $this->issue->update(['project_id' => $this->project->id]);
         $otherClient = Client::factory()->for($this->user)->create();
 
@@ -223,7 +223,7 @@ describe('detail', function () {
         expect($this->issue->fresh()->client_id)->toBe($this->client->id);
     });
 
-    it('keeps a completed project and inactive client available when editing', function () {
+    it('keeps a completed project and inactive client available when editing [D-18]', function () {
         $this->project->update(['completed_date' => '2026-06-01']);
         $this->client->update(['active' => false]);
         $this->issue->update(['project_id' => $this->project->id]);

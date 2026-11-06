@@ -47,7 +47,7 @@ it('counts only incomplete projects and unresolved issues', function () {
         ->and($row->contacts_count)->toBe(3);
 });
 
-it('escapes stored values', function () {
+it('escapes stored values [D-4]', function () {
     Client::factory()->for($this->user)->create(['name' => '<b>Bold</b>', 'description' => '<script>x</script>']);
 
     Livewire::test(Index::class)

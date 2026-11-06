@@ -28,7 +28,7 @@ jobs:
       - run: composer install --no-interaction --no-progress --prefer-dist
       - run: cp .env.example .env
       - run: php artisan key:generate
-      - run: ./vendor/bin/pest --coverage
+      - run: ./vendor/bin/pest --coverage --min=90
 
   test-mysql:
     runs-on: ubuntu-latest

@@ -9,7 +9,7 @@ it('sends security headers', function () {
         ->assertHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
 });
 
-it('sends a nonce based content security policy without unsafe sources', function () {
+it('sends a nonce based content security policy without unsafe sources [D-35]', function () {
     $policy = $this->get('/login')->headers->get('Content-Security-Policy');
 
     expect($policy)

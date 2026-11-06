@@ -130,7 +130,7 @@ it('deletes the client and everything beneath it', function () {
         ->and(session('toast.type'))->toBe('success');
 });
 
-it('locks the record', function () {
+it('locks the record [D-2]', function () {
     Livewire::test(Show::class, ['client' => $this->client])->set('client', Client::factory()->create());
 })->throws('Cannot update locked property');
 

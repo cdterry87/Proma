@@ -28,7 +28,7 @@ it('renders the current values', function () {
         ->assertSee($this->user->email);
 });
 
-it('updates the name, closes the form, and refreshes the sidebar', function () {
+it('updates the name, closes the form, and refreshes the sidebar [D-24]', function () {
     Livewire::test(Settings::class)
         ->call('edit', 'name')
         ->assertSet('editing', 'name')
@@ -69,7 +69,7 @@ it('updates the email with the current password', function () {
     expect($this->user->fresh()->email)->toBe('new@example.com');
 });
 
-it('rejects an email change without the current password', function () {
+it('rejects an email change without the current password [D-6]', function () {
     $email = $this->user->email;
 
     Livewire::test(Settings::class)
@@ -118,7 +118,7 @@ it('signs out a session holding the old password hash', function () {
     $this->get('/settings')->assertRedirect('/login');
 });
 
-it('rejects a password change with bad input', function (array $input, string $error) {
+it('rejects a password change with bad input [D-6]', function (array $input, string $error) {
     Livewire::test(Settings::class)
         ->set($input)
         ->call('savePassword')
@@ -138,6 +138,19 @@ it('restores values on cancel', function () {
         ->call('cancel')
         ->assertSet('name', 'Ada')
         ->assertSet('editing', null);
+});
+
+it('moves focus into a form when it opens and back to its button when it closes', function () {
+    $component = Livewire::test(Settings::class)
+        ->assertDontSeeHtml('data-focus-target')
+        ->call('edit', 'title');
+
+    expect(substr_count($component->html(), 'data-focus-target='))->toBe(1);
+    $component->assertSeeHtml('data-focus-target="data-focus-target"');
+
+    $component->call('cancel')->assertSet('lastEdited', 'title');
+
+    expect(substr_count($component->html(), 'data-focus-target='))->toBe(1);
 });
 
 it('rejects an unknown field', function () {
@@ -162,7 +175,7 @@ describe('demo users', function () {
         Livewire::test(Settings::class)->call('edit', $field)->assertForbidden();
     })->with(['email', 'password']);
 
-    it('cannot change their email', function () {
+    it('cannot change their email [D-9]', function () {
         Livewire::test(Settings::class)
             ->set('email', 'new@example.com')
             ->set('current_password', 'password')
@@ -172,7 +185,7 @@ describe('demo users', function () {
         expect($this->user->fresh()->email)->toBe('demo@example.com');
     });
 
-    it('cannot change their password', function () {
+    it('cannot change their password [D-9]', function () {
         Livewire::test(Settings::class)
             ->set('current_password', 'password')
             ->set('password', 'a-new-password')

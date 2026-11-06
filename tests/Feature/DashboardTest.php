@@ -95,7 +95,7 @@ describe('stats', function () {
 });
 
 describe('lists', function () {
-    it('orders incomplete projects soonest first with undated last, limited to five', function () {
+    it('orders incomplete projects soonest first with undated last, limited to five [D-26]', function () {
         Project::factory()->forClient($this->client)->create(['name' => 'Undated', 'due_date' => null]);
         foreach ([9, 3, 7, 1, 5, 11] as $days) {
             Project::factory()->forClient($this->client)->create(['name' => "In {$days}", 'due_date' => today()->addDays($days)]);
@@ -122,7 +122,7 @@ describe('lists', function () {
 });
 
 describe('trend', function () {
-    it('uses weekly buckets ending today for short timeframes, filling gaps with zero', function () {
+    it('uses weekly buckets ending today for short timeframes, filling gaps with zero [D-25]', function () {
         createdProject($this->client, '2026-06-15 23:59:00');
         createdProject($this->client, '2026-06-09 00:00:00');
         createdProject($this->client, '2026-06-08 23:59:00');
@@ -246,7 +246,7 @@ describe('page', function () {
             ->assertDontSeeHtml('chart__svg');
     });
 
-    it('decides each chart on its own data', function () {
+    it('decides each chart on its own data [D-25]', function () {
         createdProject($this->client, '2026-06-10');
 
         // A project alone draws the trend but not the priorities.

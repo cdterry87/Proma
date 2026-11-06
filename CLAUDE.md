@@ -12,6 +12,8 @@ Read `docs/spec.md` before making changes. It defines the architecture, conventi
 - File uploads are out of scope.
 - The Content Security Policy forbids inline styles and `eval`. Register Alpine logic with `Alpine.data()`, and never write `style` attributes in server-rendered HTML.
 - Hard-coded colors belong only in `resources/css/base/tokens.css`. Add new tokens to the contrast test.
+- When a Livewire response removes the focused element, mark where focus should go with `data-focus-target`. `resources/js/focus.js` handles the rest.
+- A regression test for a defect in `docs/spec.md` carries its ID in its name, such as `[D-17]`.
 
 ## Commands
 

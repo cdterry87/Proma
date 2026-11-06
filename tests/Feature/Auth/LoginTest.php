@@ -64,7 +64,7 @@ it('validates the login form', function () {
         ->assertHasErrors(['email' => 'required', 'password' => 'required']);
 });
 
-it('blocks a sixth attempt even with the correct password', function () {
+it('blocks a sixth attempt even with the correct password [D-5]', function () {
     $user = User::factory()->create();
     $component = Livewire::test(Login::class)->set('email', $user->email);
 
@@ -94,7 +94,7 @@ it('clears the attempt count after a successful login', function () {
     expect(RateLimiter::attempts('login|'.$user->email.'|127.0.0.1'))->toBe(0);
 });
 
-it('redirects authenticated visitors away from guest pages', function (string $url) {
+it('redirects authenticated visitors away from guest pages [D-23]', function (string $url) {
     $this->actingAs(User::factory()->create())->get($url)->assertRedirect('/');
 })->with(['/login', '/forgot-password', '/reset-password/token']);
 

@@ -20,7 +20,7 @@
 @endphp
 
 @if ($href)
-    <a href="{{ $href }}" aria-label="{{ $label }}" {{ $attributes->class($classes) }}>
+    <a href="{{ $href }}" @if ($label) aria-label="{{ $label }}" @endif {{ $attributes->class($classes) }}>
         @if ($icon)
             <x-icon :name="$icon" :size="$size" />
         @endif
@@ -29,7 +29,7 @@
 @else
     <button
         type="{{ $type }}"
-        aria-label="{{ $label }}"
+        @if ($label) aria-label="{{ $label }}" @endif
         @if ($dialog) data-open-dialog="{{ $dialog }}" @endif
         {{ $attributes->class($classes) }}
     >

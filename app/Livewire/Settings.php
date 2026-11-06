@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
+use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
@@ -19,6 +20,12 @@ class Settings extends Component
     private const array EDITABLE = ['name', 'email', 'title', 'password'];
 
     public ?string $editing = null;
+
+    /**
+     * The field whose edit button takes focus back when its form closes.
+     */
+    #[Locked]
+    public ?string $lastEdited = null;
 
     public string $name = '';
 
@@ -55,6 +62,7 @@ class Settings extends Component
     {
         $this->resetValidation();
         $this->fillFromUser();
+        $this->lastEdited = $this->editing;
         $this->editing = null;
     }
 

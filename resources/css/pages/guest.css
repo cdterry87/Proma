@@ -17,7 +17,7 @@
         z-index: -1;
         background-image: radial-gradient(var(--color-border) 1px, transparent 1px);
         background-size: 1.25rem 1.25rem;
-        mask-image: radial-gradient(ellipse at center, #000 0%, transparent 70%);
+        mask-image: radial-gradient(ellipse at center, var(--color-text) 0%, transparent 70%);
     }
 }
 

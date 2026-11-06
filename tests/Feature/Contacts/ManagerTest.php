@@ -87,7 +87,7 @@ it('adds a contact, then closes and resets the form', function () {
         ->and($contact->phone_ext)->toBeNull();
 });
 
-it('does not duplicate or update when saving a new contact twice', function () {
+it('does not duplicate or update when saving a new contact twice [D-24]', function () {
     $component = ($this->manager)()->set(validContact())->call('save');
 
     $component->set(validContact(['form.name' => 'Second', 'form.email' => 'second@example.com']))->call('save');
@@ -194,7 +194,7 @@ describe('another user', function () {
         ($this->manager)()->assertNotFound();
     });
 
-    it('cannot act on a component they obtained', function (Closure $action) {
+    it('cannot act on a component they obtained [D-1]', function (Closure $action) {
         $component = ($this->manager)();
 
         $this->actingAs(User::factory()->create());

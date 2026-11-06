@@ -56,7 +56,7 @@ it('leaves real users untouched during the nightly job', function () {
         ->and($user->clients()->count())->toBe(1);
 });
 
-it('restores the profile and password', function () {
+it('restores the profile and password [D-14]', function () {
     $this->demo->update(['name' => 'Scribble', 'title' => 'Vandal', 'password' => 'changed', 'email_notifications' => true]);
 
     $this->reset->handle($this->demo);
@@ -125,7 +125,7 @@ it('gives every client a contact and every project tasks', function () {
         ->and($this->demo->projects()->doesntHave('tasks')->count())->toBe(0);
 });
 
-it('reseeds each demo user', function () {
+it('reseeds each demo user [D-14]', function () {
     $second = User::factory()->demo()->create();
 
     ResetDemoUsers::dispatchSync();
@@ -239,7 +239,7 @@ it('schedules the reset at midnight', function () {
         ->and($event->onOneServer)->toBeTrue();
 });
 
-it('keeps Faker available without dev dependencies', function () {
+it('keeps Faker available without dev dependencies [D-15]', function () {
     $composer = json_decode((string) file_get_contents(base_path('composer.json')), true);
 
     expect($composer['require'])->toHaveKey('fakerphp/faker');
@@ -280,7 +280,7 @@ describe('seeder', function () {
             ->and(Client::query()->count())->toBe(1);
     });
 
-    it('does nothing when the demo is not configured', function () {
+    it('does nothing when the demo is not configured [D-8]', function () {
         config(['proma.demo.email' => null]);
 
         $this->seed(DatabaseSeeder::class);

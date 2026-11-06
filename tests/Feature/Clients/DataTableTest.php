@@ -38,7 +38,7 @@ it('treats wildcards in a search as plain text', function (string $term, array $
     ['!', ['wow!']],
 ]);
 
-it('keeps a search and a filter inside the owner scope', function () {
+it('keeps a search and a filter inside the owner scope [D-27]', function () {
     Client::factory()->for($this->user)->create(['name' => 'Shared name']);
     Client::factory()->create(['name' => 'Shared name']);
     Client::factory()->inactive()->create(['name' => 'Shared name']);
@@ -159,7 +159,7 @@ describe('export', function () {
         $this->travelTo('2026-06-15 12:00:00');
     });
 
-    it('exports the filtered set as CSV', function () {
+    it('exports the filtered set as CSV [D-28]', function () {
         Client::factory()->for($this->user)->create(['name' => 'Match']);
         Client::factory()->for($this->user)->create(['name' => 'Other']);
         Client::factory()->create(['name' => 'Match elsewhere']);

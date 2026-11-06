@@ -245,7 +245,7 @@ describe('another user', function () {
         Livewire::test(Manager::class, ['taskable' => $model])->assertNotFound();
     })->with('parents');
 
-    it('cannot act on a component they obtained', function (Closure $action) {
+    it('cannot act on a component they obtained [D-1]', function (Closure $action) {
         $task = taskFor($this->project, ['title' => 'Safe']);
         $component = Livewire::test(Manager::class, ['taskable' => $this->project]);
 

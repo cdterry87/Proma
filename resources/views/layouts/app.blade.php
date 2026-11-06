@@ -16,6 +16,7 @@
                     icon="bars"
                     label="Toggle navigation"
                     class="topbar__menu"
+                    x-ref="menuButton"
                     aria-controls="sidebar"
                     x-bind:aria-expanded="open"
                     x-on:click="toggle"
@@ -23,7 +24,7 @@
                 <x-theme-toggle />
             </header>
 
-            <main id="main" class="shell__content">
+            <main id="main" class="shell__content" tabindex="-1">
                 {{ $slot }}
             </main>
 

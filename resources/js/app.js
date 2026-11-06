@@ -5,6 +5,7 @@ import shell from './alpine/shell';
 import themeToggle from './alpine/theme-toggle';
 import toasts from './alpine/toasts';
 import { registerDialogTriggers } from './dialog-triggers';
+import { registerFocusManagement } from './focus';
 
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('chart', chart);
@@ -16,6 +17,7 @@ document.addEventListener('alpine:init', () => {
 });
 
 registerDialogTriggers();
+registerFocusManagement();
 
 // Navigation replaces the html attributes with the server's, which has no theme.
 document.addEventListener('livewire:navigating', ({ detail }) => {

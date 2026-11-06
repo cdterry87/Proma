@@ -20,6 +20,6 @@ it('creates a real user with a prompted password', function () {
         ->and(Hash::check('a-new-password', $user->password))->toBeTrue();
 });
 
-it('defaults new users to not being demo accounts', function () {
+it('defaults new users to not being demo accounts [D-13]', function () {
     expect(User::factory()->create()->fresh()->is_demo)->toBeFalse();
 });
