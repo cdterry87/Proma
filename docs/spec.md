@@ -612,7 +612,7 @@ Interface additions: each notification links to its record when one exists, `rea
 - A `DemoDataset` class creates a realistic set: about 8 clients with contacts, about 15 projects with tasks, and about 30 issues with tasks. These counts are much lower than the current maximum of 1,500 issues per night.
 - Dates are spread around today, so the dashboard and notifications have meaningful content.
 - `fakerphp/faker` moves to `require` so production can run this with `--no-dev`.
-- A `DemoUserPolicy` rule blocks demo users from changing email or password.
+- `UserPolicy` blocks demo users from changing their email, password, or notification preference.
 - The demo login box appears only when `config('proma.demo.enabled')` is true, and shows credentials from configuration. This is how the demo stays optional.
 
 ### 3.13 Authentication (fixes D-5, D-6, D-23)
@@ -624,6 +624,8 @@ Interface additions: each notification links to its record when one exists, `rea
 - `php artisan proma:user:create` creates a real user with a prompted password, replacing the hardcoded seeder account (fixes D-8).
 - Seeders contain only demo data, and only run in non-production or on demand.
 - Password reset (new) uses Laravel's password broker with custom pages under `guest` middleware. Requests are throttled, the response never reveals whether an email exists, and demo accounts cannot reset.
+- The reset notification is queued, so response time does not reveal whether an email exists, and encrypted, because its payload holds the plain token. Sending it needs a queue worker.
+- Changing a password ends the user's other sessions through `AuthenticateSession` (`auth.session`).
 - The login page background is custom CSS or SVG using the palette. The video is removed.
 
 Baseline for any deployment: `APP_DEBUG=false`, secure session cookies, and security headers including a Content Security Policy compatible with Livewire and Alpine. Phase 1 tested this in a browser: the application runs on Livewire's CSP-safe build (`csp_safe` in `config/livewire.php`) with a nonce-based policy and no `unsafe-inline` or `unsafe-eval`. This has three consequences:
@@ -631,6 +633,8 @@ Baseline for any deployment: `APP_DEBUG=false`, secure session cookies, and secu
 - Alpine logic lives in registered `Alpine.data()` components, with simple expressions in templates.
 - Server-rendered HTML must not use `style` attributes.
 - Livewire's navigation progress bar is disabled, because its styles have no nonce.
+
+`AddSecurityHeaders` is global middleware, so responses produced outside the `web` group, such as route 404s and maintenance 503s, also carry these headers.
 
 ### 3.14 Routes
 

@@ -77,3 +77,12 @@
 .btn--block {
     inline-size: 100%;
 }
+
+/* Lives in the components layer so that it can override .btn's display. */
+.topbar__menu {
+    margin-inline-end: auto;
+
+    @media (min-width: 64rem) {
+        display: none;
+    }
+}

@@ -29,7 +29,7 @@
 
             <footer class="footer">
                 <span>&copy; {{ date('Y') }}. All rights reserved.</span>
-                <a href="{{ url('/privacy-policy') }}" wire:navigate>Privacy Policy</a>
+                <a href="{{ route('privacy') }}" wire:navigate>Privacy Policy</a>
             </footer>
         </div>
     </div>

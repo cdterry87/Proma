@@ -12,13 +12,13 @@ it('renders the application shell with its landmarks', function () {
 });
 
 it('renders the guest layout', function () {
-    $this->get('/')
+    $this->get('/login')
         ->assertOk()
         ->assertSeeHtml('class="logo guest__logo"');
 });
 
 it('shows a flashed toast after a redirect', function () {
     $this->withSession(['toast' => ['type' => 'success', 'message' => 'Saved.']])
-        ->get('/')
+        ->get('/login')
         ->assertSee('Saved.');
 });

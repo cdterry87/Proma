@@ -24,6 +24,18 @@ This installs dependencies, creates `.env`, migrates a local SQLite database, an
 composer run dev
 ```
 
+## Users
+
+Registration is closed. Create a user with a prompted password:
+
+```bash
+php artisan proma:user:create
+```
+
+## Email
+
+Password reset emails are queued, so a queue worker must be running. `composer run dev` starts one. Locally, `MAIL_MAILER=log` writes messages to `storage/logs/laravel.log`.
+
 ## Style reference
 
 With the app running locally, open `/styleguide` to see every design system component. The page returns 404 outside the local and testing environments.

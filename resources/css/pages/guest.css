@@ -1,11 +1,25 @@
 .guest {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: var(--space-5);
     min-block-size: 100dvh;
-    padding: var(--space-5) var(--space-4);
+    padding: var(--space-6) var(--space-4) var(--space-5);
+    background:
+        radial-gradient(60rem 40rem at 0% 0%, color-mix(in srgb, var(--color-primary) 22%, transparent), transparent 70%),
+        radial-gradient(50rem 36rem at 100% 100%, color-mix(in srgb, var(--color-secondary) 20%, transparent), transparent 70%);
+}
+
+.guest__theme {
+    position: absolute;
+    inset-block-start: var(--space-2);
+    inset-inline-end: var(--space-2);
+}
+
+.guest__brand {
+    text-align: center;
 }
 
 .guest__logo {
@@ -17,4 +31,96 @@
 .guest__content {
     inline-size: 100%;
     max-inline-size: 30rem;
+}
+
+.guest__content--wide {
+    max-inline-size: var(--content-width);
+}
+
+.guest__title {
+    font-size: var(--text-xl);
+}
+
+.guest__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+}
+
+.guest__footer {
+    font-size: var(--text-sm);
+    text-align: center;
+}
+
+.error-page {
+    align-items: center;
+    text-align: center;
+}
+
+.illustration {
+    inline-size: min(100%, 14rem);
+    block-size: auto;
+}
+
+.illustration__tint {
+    fill: color-mix(in srgb, var(--color-primary) 16%, transparent);
+}
+
+.illustration__stroke,
+.illustration__accent,
+.illustration__line {
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.illustration__stroke {
+    stroke: var(--color-primary);
+}
+
+.illustration__accent {
+    stroke: var(--color-secondary);
+}
+
+.illustration__line {
+    stroke: var(--color-text-muted);
+    stroke-width: 3;
+}
+
+.illustration__dot {
+    fill: var(--color-secondary);
+}
+
+.prose {
+    h2 {
+        margin-block-start: var(--space-2);
+        font-size: var(--text-lg);
+    }
+
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+        padding-inline-start: var(--space-5);
+        list-style: disc;
+    }
+
+    a {
+        overflow-wrap: anywhere;
+    }
+}
+
+.setting {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+}
+
+.setting__value {
+    min-inline-size: 0;
+    overflow-wrap: anywhere;
 }

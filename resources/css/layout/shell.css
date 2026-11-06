@@ -135,14 +135,6 @@
     }
 }
 
-.topbar__menu {
-    margin-inline-end: auto;
-
-    @media (min-width: 64rem) {
-        display: none;
-    }
-}
-
 .theme-toggle__icon--light {
     display: none;
 }
@@ -163,4 +155,38 @@
     padding: var(--space-3) var(--space-4);
     font-size: var(--text-sm);
     color: var(--color-text-muted);
+}
+
+.sidebar__user {
+    padding: var(--space-3);
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+}
+
+.sidebar__user-name {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.sidebar__user-title {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    overflow-wrap: anywhere;
+}
+
+.sidebar__logout {
+    margin-block-start: auto;
+
+    .nav__link {
+        inline-size: 100%;
+        font: inherit;
+        font-weight: 500;
+        cursor: pointer;
+        background: none;
+        border: 0;
+
+        &:hover {
+            background: var(--color-bg);
+        }
+    }
 }
