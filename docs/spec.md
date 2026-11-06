@@ -551,7 +551,7 @@ Deleting a project, issue, or task also removes its `notification_log` rows. Its
 | Pagination | Server-side, per-page selector of 10, 25, 50, 100, with a record count |
 | Expandable rows | `<details>`-style row with a proper `aria-expanded` button, rendered with escaped text and `white-space: pre-line` |
 | Row actions | Icon buttons with `aria-label` and a text tooltip |
-| Export | CSV and XLSX of the current filtered set, streamed through OpenSpout. Rows are read with `lazyById()`. Export columns are declared per table. |
+| Export | CSV and XLSX of the current filtered set, written through OpenSpout and sent through Livewire's download response. Rows are read with `lazyById()`, so files are in ID order rather than the on-screen sort. Export columns are declared per table. CSV cells that look like formulas are prefixed with an apostrophe. |
 | Empty state | A per-table message with an action where useful |
 | Loading | `wire:loading` with a subtle table state |
 | Responsive | Columns collapse to stacked rows below a breakpoint |

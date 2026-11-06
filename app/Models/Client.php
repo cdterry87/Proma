@@ -12,6 +12,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property-read int $incomplete_projects_count
+ * @property-read int $unresolved_issues_count
+ */
 #[Fillable(['name', 'description', 'active'])]
 class Client extends Model
 {

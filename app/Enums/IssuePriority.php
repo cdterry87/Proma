@@ -16,6 +16,16 @@ enum IssuePriority: int
         return $this->name;
     }
 
+    public function badgeVariant(): string
+    {
+        return match ($this) {
+            self::Low => 'success',
+            self::Medium => 'info',
+            self::High => 'warning',
+            self::Critical => 'error',
+        };
+    }
+
     public function staleAfterDays(): int
     {
         return match ($this) {

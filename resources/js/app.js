@@ -1,4 +1,5 @@
 import dialog from './alpine/dialog';
+import disclosure from './alpine/disclosure';
 import shell from './alpine/shell';
 import themeToggle from './alpine/theme-toggle';
 import toasts from './alpine/toasts';
@@ -6,6 +7,7 @@ import { registerDialogTriggers } from './dialog-triggers';
 
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('dialog', dialog);
+    window.Alpine.data('disclosure', disclosure);
     window.Alpine.data('shell', shell);
     window.Alpine.data('themeToggle', themeToggle);
     window.Alpine.data('toasts', toasts);

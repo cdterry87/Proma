@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\ResetPassword;
+use App\Livewire\Clients\Index as ClientsIndex;
+use App\Livewire\Clients\Show as ClientsShow;
 use App\Livewire\Dashboard;
 use App\Livewire\PrivacyPolicy;
 use App\Livewire\Settings;
@@ -20,6 +22,8 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware(['auth', 'auth.session'])->group(function () {
     Route::livewire('/', Dashboard::class)->name('dashboard');
+    Route::livewire('/clients', ClientsIndex::class)->name('clients.index');
+    Route::livewire('/clients/{client}', ClientsShow::class)->name('clients.show');
     Route::livewire('/settings', Settings::class)->name('settings');
     Route::post('/logout', LogoutController::class)->name('logout');
 });
