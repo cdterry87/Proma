@@ -42,6 +42,11 @@ class Issue extends Model
         ];
     }
 
+    public function url(): string
+    {
+        return route('issues.show', $this);
+    }
+
     /**
      * @return BelongsTo<Client, $this>
      */

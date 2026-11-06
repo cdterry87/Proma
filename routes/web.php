@@ -11,6 +11,7 @@ use App\Livewire\Clients\Show as ClientsShow;
 use App\Livewire\Dashboard;
 use App\Livewire\Issues\Index as IssuesIndex;
 use App\Livewire\Issues\Show as IssuesShow;
+use App\Livewire\Notifications\Index as NotificationsIndex;
 use App\Livewire\PrivacyPolicy;
 use App\Livewire\Projects\Index as ProjectsIndex;
 use App\Livewire\Projects\Show as ProjectsShow;
@@ -32,6 +33,7 @@ Route::middleware(['auth', 'auth.session'])->group(function () {
     Route::livewire('/projects/{project}', ProjectsShow::class)->name('projects.show');
     Route::livewire('/issues', IssuesIndex::class)->name('issues.index');
     Route::livewire('/issues/{issue}', IssuesShow::class)->name('issues.show');
+    Route::livewire('/notifications', NotificationsIndex::class)->name('notifications.index');
     Route::livewire('/settings', Settings::class)->name('settings');
     Route::post('/logout', LogoutController::class)->name('logout');
 });

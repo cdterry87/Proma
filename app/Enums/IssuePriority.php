@@ -35,4 +35,24 @@ enum IssuePriority: int
             self::Critical => 3,
         };
     }
+
+    public function staleEvent(): NotificationEvent
+    {
+        return match ($this) {
+            self::Low => NotificationEvent::IssueStaleLow,
+            self::Medium => NotificationEvent::IssueStaleMedium,
+            self::High => NotificationEvent::IssueStaleHigh,
+            self::Critical => NotificationEvent::IssueStaleCritical,
+        };
+    }
+
+    public function staleTitle(): string
+    {
+        return match ($this) {
+            self::Low => 'Low Priority Issue',
+            self::Medium => 'Medium Issue',
+            self::High => 'High Issue',
+            self::Critical => 'Critical Issue',
+        };
+    }
 }

@@ -582,7 +582,7 @@ The same sections as section 1.6, with these changes:
 
 ### 3.11 Notifications
 
-Jobs keep the current schedule. Add `withoutOverlapping()` and `onOneServer()`. Rows are processed with `chunkById()`.
+Jobs keep the current schedule. Add `withoutOverlapping()` and `onOneServer()`. Rows are processed with `chunkById()`. `SendIssueNotifications`, `SendProjectNotifications`, and `SendTaskNotifications` run inside the scheduler rather than on the queue, so the overlap lock covers the whole run and in-app notifications do not depend on a queue worker. Only the emails are queued.
 
 A shared `Notifier::once($subject, $event, $user, $title, $message)` writes the notification and the log row in a transaction. The unique index makes it safe to run repeatedly.
 
@@ -596,7 +596,7 @@ Task messages use `title` (fixes D-11). Strict mode prevents this class of bug.
 
 The Issue Resolved, Project Completed, and Project Task Completed notifications are dropped, since the user has just performed that action.
 
-Interface additions: each notification links to its record when one exists, `read_at` replaces the boolean, and the sidebar shows the unread count.
+Interface additions: each notification links to its record when one exists, `read_at` replaces the boolean, and the sidebar shows the unread count. Task notifications link to the parent project, since tasks have no page. A notification read while the page is open stays in the Unread filter until the page reloads, so that expanding one does not remove it from view.
 
 **Email (new):** each in-app notification also sends one email.
 

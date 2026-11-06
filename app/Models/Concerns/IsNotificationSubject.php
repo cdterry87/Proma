@@ -14,6 +14,11 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  */
 trait IsNotificationSubject
 {
+    /**
+     * The page a notification about this record links to.
+     */
+    abstract public function url(): string;
+
     protected static function bootIsNotificationSubject(): void
     {
         static::deleting(function (self $subject): void {

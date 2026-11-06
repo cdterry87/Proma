@@ -45,6 +45,11 @@ class Project extends Model
         ];
     }
 
+    public function url(): string
+    {
+        return route('projects.show', $this);
+    }
+
     /**
      * @return BelongsTo<Client, $this>
      */

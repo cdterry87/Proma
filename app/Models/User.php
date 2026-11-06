@@ -90,6 +90,14 @@ class User extends Authenticatable
         return $this->hasMany(UserNotification::class);
     }
 
+    /**
+     * Demo users never receive email, whatever the preference says.
+     */
+    public function wantsEmailNotifications(): bool
+    {
+        return $this->email_notifications && ! $this->is_demo;
+    }
+
     public function initials(): string
     {
         return Str::of($this->name)

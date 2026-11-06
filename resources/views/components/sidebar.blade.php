@@ -22,6 +22,11 @@
             >
                 <x-icon :name="$link['icon']" />
                 {{ $link['label'] }}
+                @if ($link['href'] === '/notifications')
+                    @auth
+                        <livewire:notification-badge />
+                    @endauth
+                @endif
             </a>
         @endforeach
     </nav>

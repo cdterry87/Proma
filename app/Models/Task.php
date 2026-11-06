@@ -41,6 +41,14 @@ class Task extends Model
         ];
     }
 
+    public function url(): string
+    {
+        /** @var Project|Issue $parent */
+        $parent = $this->taskable;
+
+        return $parent->url();
+    }
+
     /**
      * @return MorphTo<Model, $this>
      */

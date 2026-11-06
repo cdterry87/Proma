@@ -12,6 +12,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
+/**
+ * @property-read Project|Issue|Task|null $subject
+ */
 #[Fillable(['title', 'message', 'read_at'])]
 class UserNotification extends Model
 {
