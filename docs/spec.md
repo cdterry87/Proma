@@ -475,7 +475,7 @@ Migrations are fresh and follow Laravel naming. Foreign keys cascade as they do 
 | `projects` | Add indexes `(user_id, completed_date)` and `(user_id, due_date)` |
 | `issues` | Add index `(user_id, resolved_date)`. `priority` cast to `IssuePriority`. |
 | `tasks` | **New polymorphic table** replacing `projects_tasks` and `issues_tasks`: `taskable_type`, `taskable_id`, `title`, `description`, `start_date`, `due_date`, `completed_date`. Issue tasks do not use the date columns, and their forms do not show them. |
-| `user_notifications` | `read` boolean replaced by nullable `read_at`. Add nullable `subject_type`, `subject_id` so a notification can link to its record. |
+| `user_notifications` | `read` boolean replaced by nullable `read_at`. Add nullable `subject_type`, `subject_id` so a notification can link to its record. The old `subject` text column becomes `title`, so that it does not collide with the `subject` relation. |
 | `notification_log` | **New**, replacing three dedupe tables: `user_id`, `subject_type`, `subject_id`, `event`, `created_at`, with a unique index on `(subject_type, subject_id, event)` |
 
 Polymorphic relations use a `Relation::enforceMorphMap()` with short aliases (`client`, `project`, `issue`, `task`), so class renames never affect stored data. Database foreign keys cannot cover polymorphic columns, so deletion of children is handled in code (see 3.7).
@@ -497,7 +497,7 @@ enum IssuePriority: int
 
 `NotificationEvent` is a string enum: `issue_stale_low`, `issue_stale_medium`, `issue_stale_high`, `issue_stale_critical`, `project_due`, `project_overdue`, `task_due`, `task_overdue`.
 
-Status is derived from dates through accessors and scopes (`isCompleted`, `isOverdue`). Date columns are cast to immutable dates, and a small formatter renders missing dates as a caller-specified label (fixes D-16).
+Status is derived from dates through accessors and scopes (`isCompleted`, `isOverdue`). SQLite stores date casts with a time and MySQL does not, so date scopes compare with half-open ranges instead of `<=`. Date columns are cast to immutable dates, and a small formatter renders missing dates as a caller-specified label (fixes D-16).
 
 ### 3.6 Validation
 
@@ -535,6 +535,8 @@ Client and project selects list active clients and incomplete projects **plus th
 File uploads are removed from the application (see Part 5), so defects D-7, D-21, and D-22 no longer apply. No `uploads` table, storage disk, upload form, or download route exists in the rebuild.
 
 Parent deletes go through Actions (`DeleteClient`, `DeleteProject`, `DeleteIssue`) that run in a transaction and delete polymorphic tasks through Eloquent, since database foreign keys cannot cascade to them.
+
+Deleting a project, issue, or task also removes its `notification_log` rows. Its notifications stay in the user's list without a link.
 
 ### 3.8 Data tables (replaces PowerGrid)
 
