@@ -412,12 +412,12 @@ Versions were checked against Packagist and npm on 2026-11-04. At scaffold time,
 | Tables | Custom (see 3.8) | Replaces PowerGrid |
 | Charts | Custom inline SVG (see 3.9) | Replaces livewire-charts and ApexCharts |
 | Export | `openspout/openspout` | Not a UI dependency |
-| Database | MySQL 8 in production, SQLite in memory for tests | All queries must be portable |
+| Database | MySQL 8 locally and in production, SQLite in memory for tests | All queries must be portable |
 | Queue, cache, session | `database` driver | Avoids Redis; needs a queue worker for email |
 | Tests | Pest 5 | Requires PHP `^8.4` |
 | Code style | Laravel Pint | Enforced in CI |
 | Static analysis | Larastan | Enforced in CI |
-| Local environment | `php artisan serve` with `composer run dev` | Sail only if wanted |
+| Local environment | Laravel Sail with MySQL 8.4 and PHP 8.4 | Matches production and the CI MySQL job |
 
 Excluded: Sanctum, Breeze, Jetstream, and every package that ships its own CSS. Hand-written auth is about one component and is simpler than adapting a Tailwind-based starter kit.
 

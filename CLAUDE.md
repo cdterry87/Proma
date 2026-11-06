@@ -15,7 +15,10 @@ Read `docs/spec.md` before making changes. It defines the architecture, conventi
 
 ## Commands
 
-- `composer run test` runs Pest.
-- `composer run lint` runs Pint in test mode and Larastan.
-- `composer run format` applies Pint.
-- `composer run dev` starts the development processes.
+Local development runs on Laravel Sail with MySQL. The app is at `http://localhost:8001`. Prefix commands with `./vendor/bin/sail`, and always run Node commands through it, because `node_modules` holds Linux binaries.
+
+- `sail composer run test` runs Pest on in-memory SQLite.
+- `sail exec -e DB_CONNECTION=mysql -e DB_DATABASE=testing laravel.test php artisan test` runs Pest on MySQL.
+- `sail composer run lint` runs Pint in test mode and Larastan.
+- `sail composer run format` applies Pint.
+- `sail composer run dev` starts Vite, the queue worker, and the log viewer.
