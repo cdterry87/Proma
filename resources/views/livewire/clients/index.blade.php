@@ -21,7 +21,7 @@
             </tr>
         </thead>
         @forelse ($rows as $client)
-            <x-table.expandable-row colspan="8" :label="'Show description of '.$client->name" :detail="$client->description" wire:key="client-{{ $client->id }}">
+            <x-table.expandable-row colspan="8" :label="'Show description of '.$client->name" :detail="$client->description" wire:key="client-{{ $client->uuid }}">
                 <x-table.cell label="Name">
                     <a href="{{ route('clients.show', $client) }}" wire:navigate>{{ $client->name }}</a>
                 </x-table.cell>

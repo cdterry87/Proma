@@ -29,10 +29,10 @@ class Manager extends Component
     public Project|Issue $taskable;
 
     #[Locked]
-    public ?int $editingId = null;
+    public ?string $editingUuid = null;
 
     #[Locked]
-    public ?int $deletingId = null;
+    public ?string $deletingUuid = null;
 
     #[Locked]
     public string $deletingTitle = '';
@@ -60,26 +60,26 @@ class Manager extends Component
         $this->dispatch('open-dialog', name: 'task-form');
     }
 
-    public function edit(int $id): void
+    public function edit(string $uuid): void
     {
-        $task = $this->task($id);
+        $task = $this->task($uuid);
 
         $this->resetForm();
-        $this->editingId = $task->id;
+        $this->editingUuid = $task->uuid;
         $this->form->setTask($task);
         $this->dispatch('open-dialog', name: 'task-form');
     }
 
     public function save(): void
     {
-        if ($this->editingId === null) {
+        if ($this->editingUuid === null) {
             $this->taskable->tasks()->create($this->form->values($this->withDates()));
         } else {
-            $task = $this->task($this->editingId);
+            $task = $this->task($this->editingUuid);
             $task->update($this->form->values($this->withDates(), $task));
         }
 
-        $message = $this->editingId === null ? 'Task added.' : 'Task updated.';
+        $message = $this->editingUuid === null ? 'Task added.' : 'Task updated.';
 
         $this->resetForm();
         $this->dispatch('close-dialog', name: 'task-form');
@@ -95,23 +95,23 @@ class Manager extends Component
         }
     }
 
-    public function confirmDelete(int $id): void
+    public function confirmDelete(string $uuid): void
     {
-        $task = $this->task($id);
+        $task = $this->task($uuid);
 
-        $this->deletingId = $task->id;
+        $this->deletingUuid = $task->uuid;
         $this->deletingTitle = $task->title;
         $this->dispatch('open-dialog', name: 'task-delete');
     }
 
     public function delete(): void
     {
-        if ($this->deletingId === null) {
+        if ($this->deletingUuid === null) {
             return;
         }
 
-        $this->task($this->deletingId)->delete();
-        $this->reset('deletingId', 'deletingTitle');
+        $this->task($this->deletingUuid)->delete();
+        $this->reset('deletingUuid', 'deletingTitle');
         $this->dispatch('tasks-changed');
         $this->dispatch('toast', type: 'success', message: 'Task deleted.');
     }
@@ -189,15 +189,15 @@ class Manager extends Component
         return $this->taskable instanceof Project;
     }
 
-    private function task(int $id): Task
+    private function task(string $uuid): Task
     {
-        return $this->taskable->tasks()->findOrFail($id);
+        return $this->taskable->tasks()->where('uuid', $uuid)->firstOrFail();
     }
 
     private function resetForm(): void
     {
         $this->form->reset();
         $this->resetValidation();
-        $this->editingId = null;
+        $this->editingUuid = null;
     }
 }

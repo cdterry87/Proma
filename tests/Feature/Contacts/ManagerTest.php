@@ -6,6 +6,7 @@ use App\Livewire\Contacts\Manager;
 use App\Models\Client;
 use App\Models\ClientContact;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Livewire\Livewire;
 
 beforeEach(function () {
@@ -66,7 +67,7 @@ it('opens an empty form to add a contact', function () {
     ($this->manager)()
         ->call('create')
         ->assertDispatched('open-dialog', name: 'contact-form')
-        ->assertSet('editingId', null);
+        ->assertSet('editingUuid', null);
 });
 
 it('adds a contact, then closes and resets the form', function () {
@@ -115,15 +116,15 @@ it('edits a contact', function () {
     $contact = ClientContact::factory()->for($this->client)->create(['name' => 'Old', 'phone' => null]);
 
     ($this->manager)()
-        ->call('edit', $contact->id)
+        ->call('edit', $contact->uuid)
         ->assertDispatched('open-dialog', name: 'contact-form')
-        ->assertSet('editingId', $contact->id)
+        ->assertSet('editingUuid', $contact->uuid)
         ->assertSet('form.name', 'Old')
         ->assertSet('form.phone', '')
         ->set('form.name', 'New')
         ->call('save')
         ->assertHasNoErrors()
-        ->assertSet('editingId', null);
+        ->assertSet('editingUuid', null);
 
     expect($contact->fresh()->name)->toBe('New')
         ->and(ClientContact::query()->count())->toBe(1);
@@ -133,9 +134,9 @@ it('forgets the edit when the dialog closes', function () {
     $contact = ClientContact::factory()->for($this->client)->create();
 
     ($this->manager)()
-        ->call('edit', $contact->id)
+        ->call('edit', $contact->uuid)
         ->dispatch('dialog-closed', name: 'contact-form')
-        ->assertSet('editingId', null)
+        ->assertSet('editingUuid', null)
         ->assertSet('form.name', '');
 });
 
@@ -143,7 +144,7 @@ it('confirms before deleting', function () {
     $contact = ClientContact::factory()->for($this->client)->create(['name' => 'Ada']);
 
     $component = ($this->manager)()
-        ->call('confirmDelete', $contact->id)
+        ->call('confirmDelete', $contact->uuid)
         ->assertDispatched('open-dialog', name: 'contact-delete')
         ->assertSee('This permanently deletes Ada.');
 
@@ -164,7 +165,7 @@ it('does nothing when deleting without confirming', function () {
 
 it('locks record identifiers', function (string $property) {
     ($this->manager)()->set($property, 1);
-})->with(['editingId', 'deletingId'])->throws('Cannot update locked property');
+})->with(['editingUuid', 'deletingUuid'])->throws('Cannot update locked property');
 
 describe('another client\'s contact', function () {
     beforeEach(function () {
@@ -172,11 +173,11 @@ describe('another client\'s contact', function () {
     });
 
     it('cannot be edited', function () {
-        ($this->manager)()->call('edit', $this->foreign->id)->assertNotFound();
+        ($this->manager)()->call('edit', $this->foreign->uuid)->assertNotFound();
     });
 
     it('cannot be queued for deletion', function () {
-        ($this->manager)()->call('confirmDelete', $this->foreign->id)->assertNotFound();
+        ($this->manager)()->call('confirmDelete', $this->foreign->uuid)->assertNotFound();
 
         expect($this->foreign->fresh())->not->toBeNull();
     });
@@ -202,9 +203,9 @@ describe('another user', function () {
 
         expect($this->contact->fresh()->name)->toBe('Ada');
     })->with([
-        'edit' => fn ($component) => $component->call('edit', 1),
+        'edit' => fn ($component) => $component->call('edit', (string) Str::uuid7()),
         'save' => fn ($component) => $component->call('save'),
-        'confirm delete' => fn ($component) => $component->call('confirmDelete', 1),
+        'confirm delete' => fn ($component) => $component->call('confirmDelete', (string) Str::uuid7()),
         'delete' => fn ($component) => $component->call('delete'),
         'export' => fn ($component) => $component->call('export', 'csv'),
     ]);

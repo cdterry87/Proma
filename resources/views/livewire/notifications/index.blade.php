@@ -22,8 +22,8 @@
                 colspan="5"
                 :label="'Show message for '.$notification->title"
                 :detail="$notification->message"
-                :toggle-action="$notification->isRead() ? null : 'markRead('.$notification->id.')'"
-                wire:key="notification-{{ $notification->id }}"
+                :toggle-action="$notification->isRead() ? null : 'markRead(\''.$notification->uuid.'\')'"
+                wire:key="notification-{{ $notification->uuid }}"
             >
                 <x-table.cell label="Subject">{{ $notification->title }}</x-table.cell>
                 <x-table.cell label="Received" class="table__cell--nowrap">{{ $notification->created_at->diffForHumans() }}</x-table.cell>

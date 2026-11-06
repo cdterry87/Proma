@@ -29,7 +29,7 @@
             @else
                 <ul class="related-list" role="list">
                     @foreach ($projects as $project)
-                        <li wire:key="project-{{ $project->id }}">
+                        <li wire:key="project-{{ $project->uuid }}">
                             <a href="{{ route('projects.show', $project) }}" wire:navigate>{{ $project->name }}</a>
                             <span class="muted">{{ $project->due_date ? 'Due '.\App\Support\DateFormatter::format($project->due_date) : 'No due date' }}</span>
                         </li>
@@ -47,7 +47,7 @@
             @else
                 <ul class="related-list" role="list">
                     @foreach ($issues as $issue)
-                        <li wire:key="issue-{{ $issue->id }}">
+                        <li wire:key="issue-{{ $issue->uuid }}">
                             <a href="{{ route('issues.show', $issue) }}" wire:navigate>{{ $issue->name }}</a>
                             <x-badge :variant="$issue->priority->badgeVariant()">{{ $issue->priority->label() }}</x-badge>
                         </li>

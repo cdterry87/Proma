@@ -24,10 +24,10 @@ class Manager extends Component
     public Client $client;
 
     #[Locked]
-    public ?int $editingId = null;
+    public ?string $editingUuid = null;
 
     #[Locked]
-    public ?int $deletingId = null;
+    public ?string $deletingUuid = null;
 
     #[Locked]
     public string $deletingName = '';
@@ -55,12 +55,12 @@ class Manager extends Component
         $this->dispatch('open-dialog', name: 'contact-form');
     }
 
-    public function edit(int $id): void
+    public function edit(string $uuid): void
     {
-        $contact = $this->contact($id);
+        $contact = $this->contact($uuid);
 
         $this->resetForm();
-        $this->editingId = $contact->id;
+        $this->editingUuid = $contact->uuid;
         $this->form->setContact($contact);
         $this->dispatch('open-dialog', name: 'contact-form');
     }
@@ -69,13 +69,13 @@ class Manager extends Component
     {
         $values = $this->form->values();
 
-        if ($this->editingId === null) {
+        if ($this->editingUuid === null) {
             $this->client->contacts()->create($values);
         } else {
-            $this->contact($this->editingId)->update($values);
+            $this->contact($this->editingUuid)->update($values);
         }
 
-        $message = $this->editingId === null ? 'Contact added.' : 'Contact updated.';
+        $message = $this->editingUuid === null ? 'Contact added.' : 'Contact updated.';
 
         $this->resetForm();
         $this->dispatch('close-dialog', name: 'contact-form');
@@ -91,23 +91,23 @@ class Manager extends Component
         }
     }
 
-    public function confirmDelete(int $id): void
+    public function confirmDelete(string $uuid): void
     {
-        $contact = $this->contact($id);
+        $contact = $this->contact($uuid);
 
-        $this->deletingId = $contact->id;
+        $this->deletingUuid = $contact->uuid;
         $this->deletingName = $contact->name;
         $this->dispatch('open-dialog', name: 'contact-delete');
     }
 
     public function delete(): void
     {
-        if ($this->deletingId === null) {
+        if ($this->deletingUuid === null) {
             return;
         }
 
-        $this->contact($this->deletingId)->delete();
-        $this->reset('deletingId', 'deletingName');
+        $this->contact($this->deletingUuid)->delete();
+        $this->reset('deletingUuid', 'deletingName');
         $this->dispatch('contacts-changed');
         $this->dispatch('toast', type: 'success', message: 'Contact deleted.');
     }
@@ -171,15 +171,15 @@ class Manager extends Component
         return 'contacts';
     }
 
-    private function contact(int $id): ClientContact
+    private function contact(string $uuid): ClientContact
     {
-        return $this->client->contacts()->findOrFail($id);
+        return $this->client->contacts()->where('uuid', $uuid)->firstOrFail();
     }
 
     private function resetForm(): void
     {
         $this->form->reset();
         $this->resetValidation();
-        $this->editingId = null;
+        $this->editingUuid = null;
     }
 }

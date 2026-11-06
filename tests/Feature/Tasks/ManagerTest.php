@@ -154,7 +154,7 @@ it('edits and completes a task, keeping the first completion date', function () 
     $task = taskFor($this->project, ['title' => 'Old']);
 
     $component = Livewire::test(Manager::class, ['taskable' => $this->project])
-        ->call('edit', $task->id)
+        ->call('edit', $task->uuid)
         ->assertSet('form.title', 'Old')
         ->assertSeeHtml('id="task-completed"')
         ->set('form.title', 'New')
@@ -162,7 +162,7 @@ it('edits and completes a task, keeping the first completion date', function () 
         ->call('save')
         ->assertHasNoErrors()
         ->assertDispatched('tasks-changed')
-        ->assertSet('editingId', null);
+        ->assertSet('editingUuid', null);
 
     expect($task->fresh())
         ->title->toBe('New')
@@ -170,11 +170,11 @@ it('edits and completes a task, keeping the first completion date', function () 
 
     $this->travel(2)->days();
 
-    $component->call('edit', $task->id)->assertSet('form.completed', true)->call('save');
+    $component->call('edit', $task->uuid)->assertSet('form.completed', true)->call('save');
 
     expect($task->fresh()->completed_date->toDateString())->toBe('2026-06-15');
 
-    $component->call('edit', $task->id)->set('form.completed', false)->call('save');
+    $component->call('edit', $task->uuid)->set('form.completed', false)->call('save');
 
     expect($task->fresh()->completed_date)->toBeNull();
 });
@@ -183,7 +183,7 @@ it('confirms before deleting', function (string $parent) {
     $task = taskFor(taskParent($parent, $this->project, $this->issue), ['title' => 'Doomed']);
 
     $component = Livewire::test(Manager::class, ['taskable' => $task->taskable])
-        ->call('confirmDelete', $task->id)
+        ->call('confirmDelete', $task->uuid)
         ->assertDispatched('open-dialog', name: 'task-delete')
         ->assertSee('This permanently deletes Doomed.');
 
@@ -221,15 +221,15 @@ it('refreshes the parent page counts', function () {
 
 it('locks record identifiers', function (string $property) {
     Livewire::test(Manager::class, ['taskable' => $this->project])->set($property, 1);
-})->with(['taskable', 'editingId', 'deletingId'])->throws('Cannot update locked property');
+})->with(['taskable', 'editingUuid', 'deletingUuid'])->throws('Cannot update locked property');
 
 describe('someone else\'s task', function () {
     it('cannot be reached through this parent', function (Closure $task, string $method) {
-        $id = $task($this->issue)->id;
+        $record = $task($this->issue);
 
-        Livewire::test(Manager::class, ['taskable' => $this->project])->call($method, $id)->assertNotFound();
+        Livewire::test(Manager::class, ['taskable' => $this->project])->call($method, $record->uuid)->assertNotFound();
 
-        expect(Task::query()->find($id))->not->toBeNull();
+        expect($record->fresh())->not->toBeNull();
     })->with([
         'sibling parent' => fn (Issue $issue) => Task::factory()->forIssue($issue)->create(),
         'other user' => fn (Issue $issue) => Task::factory()->create(),
@@ -251,15 +251,15 @@ describe('another user', function () {
 
         $this->actingAs(User::factory()->create());
 
-        $action($component, $task->id)->assertForbidden();
+        $action($component, $task->uuid)->assertForbidden();
 
         expect($task->fresh()->title)->toBe('Safe');
     })->with([
-        'create' => fn ($component, int $id) => $component->call('create'),
-        'edit' => fn ($component, int $id) => $component->call('edit', $id),
-        'save' => fn ($component, int $id) => $component->call('save'),
-        'confirm delete' => fn ($component, int $id) => $component->call('confirmDelete', $id),
-        'delete' => fn ($component, int $id) => $component->call('delete'),
-        'export' => fn ($component, int $id) => $component->call('export', 'csv'),
+        'create' => fn ($component, string $uuid) => $component->call('create'),
+        'edit' => fn ($component, string $uuid) => $component->call('edit', $uuid),
+        'save' => fn ($component, string $uuid) => $component->call('save'),
+        'confirm delete' => fn ($component, string $uuid) => $component->call('confirmDelete', $uuid),
+        'delete' => fn ($component, string $uuid) => $component->call('delete'),
+        'export' => fn ($component, string $uuid) => $component->call('export', 'csv'),
     ]);
 });

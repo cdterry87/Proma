@@ -27,14 +27,14 @@ class Index extends Component
      * Notifications read while this page is open. They stay in the Unread
      * filter, so that expanding one does not remove it from under the reader.
      *
-     * @var list<int>
+     * @var list<string>
      */
     #[Locked]
     public array $readHere = [];
 
-    public function markRead(int $id): void
+    public function markRead(string $uuid): void
     {
-        $notification = UserNotification::query()->findOrFail($id);
+        $notification = UserNotification::query()->where('uuid', $uuid)->firstOrFail();
 
         Gate::authorize('update', $notification);
 
@@ -44,7 +44,7 @@ class Index extends Component
 
         $notification->update(['read_at' => now()]);
 
-        $this->readHere[] = $notification->id;
+        $this->readHere[] = $notification->uuid;
         $this->dispatch('notifications-read');
     }
 
@@ -106,7 +106,7 @@ class Index extends Component
                 ['no' => 'Unread', 'yes' => 'Read'],
                 fn (Builder $query, string $value) => $value === 'yes'
                     ? $query->whereNotNull('read_at')
-                    : $query->whereNull('read_at')->orWhereIn('id', $this->readHere),
+                    : $query->whereNull('read_at')->orWhereIn('uuid', $this->readHere),
             ),
         ];
     }

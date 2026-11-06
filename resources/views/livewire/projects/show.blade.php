@@ -48,7 +48,7 @@
         @else
             <ul class="related-list" role="list">
                 @foreach ($issues as $issue)
-                    <li wire:key="issue-{{ $issue->id }}">
+                    <li wire:key="issue-{{ $issue->uuid }}">
                         <a href="{{ route('issues.show', $issue) }}" wire:navigate>{{ $issue->name }}</a>
                         <x-badge :variant="$issue->priority->badgeVariant()">{{ $issue->priority->label() }}</x-badge>
                     </li>

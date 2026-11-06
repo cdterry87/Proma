@@ -61,7 +61,7 @@
             @else
                 <ul class="related-list" role="list">
                     @foreach ($incompleteProjects as $project)
-                        <li wire:key="project-{{ $project->id }}">
+                        <li wire:key="project-{{ $project->uuid }}">
                             <a href="{{ route('projects.show', $project) }}" wire:navigate>{{ $project->name }}</a>
                             @if ($project->isOverdue())
                                 <x-badge variant="error">Due {{ DateFormatter::format($project->due_date) }}</x-badge>
@@ -83,7 +83,7 @@
             @else
                 <ul class="related-list" role="list">
                     @foreach ($unresolvedIssues as $issue)
-                        <li wire:key="issue-{{ $issue->id }}">
+                        <li wire:key="issue-{{ $issue->uuid }}">
                             <a href="{{ route('issues.show', $issue) }}" wire:navigate>{{ $issue->name }}</a>
                             <span class="muted">Opened {{ DateFormatter::format($issue->created_at) }}</span>
                         </li>

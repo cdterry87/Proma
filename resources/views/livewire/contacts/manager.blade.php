@@ -21,7 +21,7 @@
         </thead>
         <tbody>
             @forelse ($rows as $contact)
-                <x-table.row wire:key="contact-{{ $contact->id }}">
+                <x-table.row wire:key="contact-{{ $contact->uuid }}">
                     <x-table.cell label="Name">{{ $contact->name }}</x-table.cell>
                     <x-table.cell label="Title">{{ $contact->title }}</x-table.cell>
                     <x-table.cell label="Email"><a href="mailto:{{ $contact->email }}">{{ $contact->email }}</a></x-table.cell>
@@ -32,8 +32,8 @@
                     </x-table.cell>
                     <x-table.cell>
                         <div class="table__actions">
-                            <x-button variant="ghost" size="sm" icon="edit" :label="'Edit '.$contact->name" wire:click="edit({{ $contact->id }})" />
-                            <x-button variant="danger-ghost" size="sm" icon="delete" :label="'Delete '.$contact->name" wire:click="confirmDelete({{ $contact->id }})" />
+                            <x-button variant="ghost" size="sm" icon="edit" :label="'Edit '.$contact->name" :wire:click="'edit(\''.$contact->uuid.'\')'" />
+                            <x-button variant="danger-ghost" size="sm" icon="delete" :label="'Delete '.$contact->name" :wire:click="'confirmDelete(\''.$contact->uuid.'\')'" />
                         </div>
                     </x-table.cell>
                 </x-table.row>
@@ -45,7 +45,7 @@
 
     <x-table.footer :rows="$rows" :per-page-options="$perPageOptions" id-prefix="contacts" />
 
-    <x-dialog name="contact-form" :title="$editingId ? 'Edit contact' : 'Add contact'">
+    <x-dialog name="contact-form" :title="$editingUuid ? 'Edit contact' : 'Add contact'">
         <form class="form" wire:submit="save">
             <x-input name="form.name" id="contact-name" label="Name" wire:model="form.name" required />
             <x-input name="form.title" id="contact-title" label="Title" wire:model="form.title" required />

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Livewire\Notifications\Index;
 use App\Models\Client;
 use App\Models\ClientContact;
 use App\Models\Issue;
@@ -11,6 +12,7 @@ use App\Models\User;
 use App\Models\UserNotification;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Support\Str;
+use Livewire\Livewire;
 
 it('generates a unique uuid when a record is created and keeps it on update', function (Closure $create) {
     $first = $create();
@@ -80,4 +82,26 @@ describe('record pages', function () {
         $this->get('/projects?filters[client]='.$client->id)->assertSee('Elsewhere');
         $this->get('/projects?filters[client]='.$client->uuid)->assertDontSee('Elsewhere');
     });
+});
+
+it('renders no integer ids in record actions', function () {
+    $user = User::factory()->create();
+    $client = Client::factory()->for($user)->create();
+    $contact = ClientContact::factory()->for($client)->create();
+
+    $this->actingAs($user)->get("/clients/{$client->uuid}")
+        ->assertSee("edit('{$contact->uuid}')")
+        ->assertDontSee("edit({$contact->id})")
+        ->assertDontSeeHtml("contact-{$contact->id}\"");
+});
+
+it('finds no record by an integer id through an action', function () {
+    $user = User::factory()->create();
+    $notification = UserNotification::factory()->for($user)->create();
+
+    Livewire::actingAs($user)->test(Index::class)
+        ->call('markRead', (string) $notification->id)
+        ->assertNotFound();
+
+    expect($notification->fresh()->isRead())->toBeFalse();
 });

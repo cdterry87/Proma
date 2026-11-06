@@ -23,7 +23,7 @@
             </tr>
         </thead>
         @forelse ($rows as $project)
-            <x-table.expandable-row colspan="8" :label="'Show description of '.$project->name" :detail="$project->description" wire:key="project-{{ $project->id }}">
+            <x-table.expandable-row colspan="8" :label="'Show description of '.$project->name" :detail="$project->description" wire:key="project-{{ $project->uuid }}">
                 <x-table.cell label="Name">
                     <a href="{{ route('projects.show', $project) }}" wire:navigate>{{ $project->name }}</a>
                 </x-table.cell>

@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 /**
  * Gives a record a generated uuid that stands in for its id in URLs. The id
  * stays the primary key, and foreign keys keep using it.
+ *
+ * @property string $uuid
  */
 trait HasPublicUuid
 {

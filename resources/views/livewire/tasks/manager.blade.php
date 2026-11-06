@@ -27,7 +27,7 @@
             </tr>
         </thead>
         @forelse ($rows as $task)
-            <x-table.expandable-row :colspan="$columns" :label="'Show description of '.$task->title" :detail="$task->description" wire:key="task-{{ $task->id }}">
+            <x-table.expandable-row :colspan="$columns" :label="'Show description of '.$task->title" :detail="$task->description" wire:key="task-{{ $task->uuid }}">
                 <x-table.cell label="Title">{{ $task->title }}</x-table.cell>
                 @if ($withDates)
                     <x-table.cell label="Start" class="table__cell--nowrap">{{ DateFormatter::format($task->start_date, 'Not started') }}</x-table.cell>
@@ -42,8 +42,8 @@
                 <x-table.cell label="Completed" class="table__cell--nowrap">{{ DateFormatter::format($task->completed_date, 'Incomplete') }}</x-table.cell>
                 <x-table.cell>
                     <div class="table__actions">
-                        <x-button variant="ghost" size="sm" icon="edit" :label="'Edit '.$task->title" wire:click="edit({{ $task->id }})" />
-                        <x-button variant="danger-ghost" size="sm" icon="delete" :label="'Delete '.$task->title" wire:click="confirmDelete({{ $task->id }})" />
+                        <x-button variant="ghost" size="sm" icon="edit" :label="'Edit '.$task->title" :wire:click="'edit(\''.$task->uuid.'\')'" />
+                        <x-button variant="danger-ghost" size="sm" icon="delete" :label="'Delete '.$task->title" :wire:click="'confirmDelete(\''.$task->uuid.'\')'" />
                     </div>
                 </x-table.cell>
             </x-table.expandable-row>
@@ -56,7 +56,7 @@
 
     <x-table.footer :rows="$rows" :per-page-options="$perPageOptions" id-prefix="tasks" />
 
-    <x-dialog name="task-form" :title="$editingId ? 'Edit task' : 'Add task'">
+    <x-dialog name="task-form" :title="$editingUuid ? 'Edit task' : 'Add task'">
         <form class="form" wire:submit="save">
             <x-input name="form.title" id="task-title" label="Title" wire:model="form.title" required />
             <x-textarea name="form.description" id="task-description" label="Description" wire:model="form.description" required />
@@ -66,7 +66,7 @@
                     <x-input name="form.due_date" id="task-due" label="Due date" type="date" wire:model="form.due_date" />
                 </div>
             @endif
-            @if ($editingId)
+            @if ($editingUuid)
                 <x-toggle name="form.completed" id="task-completed" label="Completed" wire:model="form.completed" />
             @endif
             <div class="form__actions">

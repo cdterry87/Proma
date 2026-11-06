@@ -66,10 +66,10 @@ it('marks a notification as read when it is expanded', function () {
     $notification = UserNotification::factory()->for($this->user)->create();
 
     Livewire::test(Index::class)
-        ->assertSeeHtml('wire:click="markRead('.$notification->id.')"')
-        ->call('markRead', $notification->id)
+        ->assertSee("markRead('{$notification->uuid}')")
+        ->call('markRead', $notification->uuid)
         ->assertDispatched('notifications-read')
-        ->assertDontSeeHtml('wire:click="markRead('.$notification->id.')"');
+        ->assertDontSee("markRead('{$notification->uuid}')");
 
     expect($notification->fresh()->isRead())->toBeTrue();
 });
@@ -79,7 +79,7 @@ it('keeps the first read time when a read notification is expanded again', funct
     $notification = UserNotification::factory()->for($this->user)->create(['read_at' => now()->subDay()]);
 
     Livewire::test(Index::class)
-        ->call('markRead', $notification->id)
+        ->call('markRead', $notification->uuid)
         ->assertNotDispatched('notifications-read');
 
     expect($notification->fresh()->read_at->toDateTimeString())->toBe(now()->subDay()->toDateTimeString());
@@ -91,7 +91,7 @@ it('keeps a notification read on this page in the unread filter', function () {
 
     $ids = Livewire::test(Index::class)
         ->set('filters.read', 'no')
-        ->call('markRead', $notification->id)
+        ->call('markRead', $notification->uuid)
         ->viewData('rows')->pluck('id')->all();
 
     expect($ids)->toBe([$notification->id])->not->toContain($other->id);
@@ -100,7 +100,7 @@ it('keeps a notification read on this page in the unread filter', function () {
 it('cannot mark another user\'s notification as read', function () {
     $notification = UserNotification::factory()->create();
 
-    Livewire::test(Index::class)->call('markRead', $notification->id)->assertForbidden();
+    Livewire::test(Index::class)->call('markRead', $notification->uuid)->assertForbidden();
 
     expect($notification->fresh()->isRead())->toBeFalse();
 });
