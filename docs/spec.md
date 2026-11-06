@@ -692,14 +692,14 @@ resources/css/
 
 #### Theming
 
-- Keep the palette from section 1.6, except that `warning` changes from purple to amber (starting from `#b45309`). Tokens are semantic (`--color-surface`, `--color-text`, `--color-primary`) and are redefined under `[data-theme="light"]` and `[data-theme="dark"]`.
+- The interface does not carry over the old DaisyUI look. It is neutral and dense: zinc grays, near-black primary actions (near-white in dark mode), indigo only for links and focus, 1px borders instead of shadows, small radii, 14px base text, and rectangular badges. Tokens are semantic (`--color-surface`, `--color-text`, `--color-primary`) and are redefined under `[data-theme="light"]` and `[data-theme="dark"]`.
 - A small inline script in `<head>` applies the stored theme before first paint, which replaces the hidden-body workaround (fixes D-35).
 - The default follows `prefers-color-scheme` when nothing is stored.
 - The status colors must be checked for WCAG AA contrast against every surface in both themes, and adjusted as needed.
 
 #### Fonts (fixes D-36)
 
-A system font stack for the interface, plus a self-hosted `woff2` of Kaushan Script for the logo. No requests go to Google Fonts, which also keeps the privacy policy simple.
+A self-hosted variable `woff2` of Inter for the interface, falling back to the system font stack. The logo is a small SVG mark with a text wordmark. No requests go to Google Fonts, which also keeps the privacy policy simple.
 
 #### Blade components
 
@@ -707,7 +707,7 @@ A system font stack for the interface, plus a self-hosted `woff2` of Kaushan Scr
 |---|---|
 | Layouts | `layouts.app`, `layouts.guest`, `layouts.error`, `page-header` |
 | Inputs | `input`, `textarea`, `select`, `checkbox`, `toggle`, `field-error` |
-| Elements | `button`, `badge`, `card`, `stat`, `alert`, `timestamps`, `icon` |
+| Elements | `button`, `badge`, `card`, `stat`, `alert`, `timestamps`, `icon`, `logo` |
 | Overlay | `dialog`, `confirm-dialog` |
 | Data | `table`, `table.head`, `table.row`, `pagination` |
 | Charts | `chart.line`, `chart.donut` |

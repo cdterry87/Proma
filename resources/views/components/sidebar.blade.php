@@ -10,11 +10,7 @@
 @endphp
 
 <aside id="sidebar" class="sidebar" x-bind:data-open="open">
-    <a href="{{ url('/') }}" class="logo sidebar__logo" wire:navigate>{{ config('app.name') }}</a>
-
-    @auth
-        <livewire:sidebar-user />
-    @endauth
+    <a href="{{ url('/') }}" class="logo sidebar__logo" wire:navigate><x-logo /></a>
 
     <nav class="nav" aria-label="Main">
         @foreach ($links as $link)
@@ -31,13 +27,13 @@
     </nav>
 
     @auth
-        <form method="POST" action="{{ route('logout') }}" class="sidebar__logout">
-            @csrf
-            <button type="submit" class="nav__link">
-                <x-icon name="logout" />
-                Log out
-            </button>
-        </form>
+        <div class="sidebar__footer">
+            <livewire:sidebar-user />
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <x-button type="submit" variant="ghost" size="sm" icon="logout" label="Log out" />
+            </form>
+        </div>
     @endauth
 </aside>
 

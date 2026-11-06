@@ -29,8 +29,8 @@
     </div>
 
     <div class="cluster">
-        <x-button size="sm" icon="download" wire:click="export('csv')">CSV</x-button>
-        <x-button size="sm" icon="download" wire:click="export('xlsx')">XLSX</x-button>
+        <x-button icon="download" wire:click="export('csv')">CSV</x-button>
+        <x-button icon="download" wire:click="export('xlsx')">XLSX</x-button>
         {{ $actions }}
     </div>
 </div>

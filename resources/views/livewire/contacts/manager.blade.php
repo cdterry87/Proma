@@ -3,7 +3,7 @@
 
     <x-table.toolbar placeholder="Search contacts" :filters="$tableFilters" id-prefix="contacts">
         <x-slot:actions>
-            <x-button variant="primary" size="sm" icon="plus" wire:click="create">Add contact</x-button>
+            <x-button variant="primary" icon="plus" wire:click="create">Add contact</x-button>
         </x-slot:actions>
     </x-table.toolbar>
 
@@ -25,15 +25,15 @@
                     <x-table.cell label="Name">{{ $contact->name }}</x-table.cell>
                     <x-table.cell label="Title">{{ $contact->title }}</x-table.cell>
                     <x-table.cell label="Email"><a href="mailto:{{ $contact->email }}">{{ $contact->email }}</a></x-table.cell>
-                    <x-table.cell label="Phone">{{ $contact->phone }}</x-table.cell>
+                    <x-table.cell label="Phone" class="table__cell--nowrap">{{ $contact->phone }}</x-table.cell>
                     <x-table.cell label="Ext.">{{ $contact->phone_ext }}</x-table.cell>
                     <x-table.cell label="Status">
                         <x-badge :variant="$contact->active ? 'success' : null">{{ $contact->active ? 'Active' : 'Inactive' }}</x-badge>
                     </x-table.cell>
                     <x-table.cell>
                         <div class="table__actions">
-                            <x-button size="sm" icon="edit" :label="'Edit '.$contact->name" wire:click="edit({{ $contact->id }})" />
-                            <x-button variant="danger" size="sm" icon="delete" :label="'Delete '.$contact->name" wire:click="confirmDelete({{ $contact->id }})" />
+                            <x-button variant="ghost" size="sm" icon="edit" :label="'Edit '.$contact->name" wire:click="edit({{ $contact->id }})" />
+                            <x-button variant="danger-ghost" size="sm" icon="delete" :label="'Delete '.$contact->name" wire:click="confirmDelete({{ $contact->id }})" />
                         </div>
                     </x-table.cell>
                 </x-table.row>

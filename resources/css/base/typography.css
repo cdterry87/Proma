@@ -1,7 +1,7 @@
 @font-face {
-    font-family: 'Kaushan Script';
-    src: url('../../fonts/kaushan-script.woff2') format('woff2');
-    font-weight: 400;
+    font-family: 'Inter';
+    src: url('../../fonts/inter-variable-latin.woff2') format('woff2');
+    font-weight: 100 900;
     font-style: normal;
     font-display: swap;
 }
@@ -9,34 +9,38 @@
 body {
     font-family: var(--font-sans);
     font-size: var(--text-md);
+    line-height: 1.5;
     color: var(--color-text);
     background: var(--color-bg);
+    font-feature-settings: 'cv11', 'ss03';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 h1,
 h2,
 h3,
 h4 {
-    line-height: 1.2;
-    font-weight: 700;
+    line-height: 1.25;
+    font-weight: 600;
+    letter-spacing: -0.011em;
     text-wrap: balance;
 }
 
 h1 {
     font-size: var(--text-xl);
+    letter-spacing: -0.017em;
 }
 
-h2 {
-    font-size: var(--text-lg);
-}
-
+h2,
 h3 {
     font-size: var(--text-md);
 }
 
 a {
     color: var(--color-link);
-    text-underline-offset: 0.15em;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
 }
 
 :focus-visible {
@@ -45,21 +49,37 @@ a {
 }
 
 .logo {
-    font-family: var(--font-logo);
-    font-weight: 400;
-    line-height: 1.1;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--color-text);
+    text-decoration: none;
     user-select: none;
+}
+
+.logo__mark {
+    flex-shrink: 0;
+    inline-size: 1.375rem;
+    block-size: 1.375rem;
+    color: var(--color-primary);
+}
+
+.logo__bars {
+    stroke: var(--color-on-primary);
 }
 
 .icon {
     flex-shrink: 0;
-    inline-size: 1.5rem;
-    block-size: 1.5rem;
+    inline-size: 1.125rem;
+    block-size: 1.125rem;
 }
 
 .icon--sm {
-    inline-size: 1.125rem;
-    block-size: 1.125rem;
+    inline-size: 1rem;
+    block-size: 1rem;
 }
 
 .muted {

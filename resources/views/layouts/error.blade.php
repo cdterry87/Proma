@@ -1,10 +1,10 @@
-@props(['title', 'message', 'illustration'])
+@props(['code', 'title', 'message'])
 
 <x-layouts::guest :title="$title">
     <x-card class="error-page">
-        <x-illustration :name="$illustration" />
-        <h1>{{ $title }}</h1>
-        <p>{{ $message }}</p>
+        <p class="error-page__code">{{ $code }}</p>
+        <h1 class="guest__title">{{ $title }}</h1>
+        <p class="muted">{{ $message }}</p>
         {{ $slot }}
     </x-card>
 </x-layouts::guest>

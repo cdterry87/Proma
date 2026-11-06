@@ -43,7 +43,7 @@ dataset('themes', ['light', 'dark']);
 it('meets AA contrast for text on every surface', function (string $theme) {
     $tokens = themeTokens()[$theme];
 
-    $surfaces = ['bg', 'surface', 'sunken'];
+    $surfaces = ['bg', 'surface', 'sunken', 'hover'];
     $texts = ['text', 'text-muted', 'link', 'info-text', 'success-text', 'warning-text', 'error-text'];
 
     foreach ($surfaces as $surface) {
@@ -57,7 +57,7 @@ it('meets AA contrast for text on every surface', function (string $theme) {
 it('meets AA contrast on filled and tinted components', function (string $theme) {
     $tokens = themeTokens()[$theme];
 
-    foreach (['primary', 'secondary', 'neutral', 'info', 'success', 'warning', 'error'] as $name) {
+    foreach (['primary', 'info', 'success', 'warning', 'error'] as $name) {
         foreach ([$name, "{$name}-hover"] as $fill) {
             expect(contrastRatio($tokens["on-{$name}"], $tokens[$fill]))
                 ->toBeGreaterThanOrEqual(4.5, "{$theme}: on-{$name} on {$fill}");

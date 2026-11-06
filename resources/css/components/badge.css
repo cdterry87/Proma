@@ -1,15 +1,24 @@
 .badge {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-1);
+    gap: 0.375rem;
     inline-size: fit-content;
-    padding: 0.125rem var(--space-3);
-    font-size: var(--text-sm);
-    font-weight: 600;
-    color: var(--color-text);
+    padding: 0.0625rem 0.4375rem;
+    font-size: var(--text-xs);
+    font-weight: 500;
+    line-height: 1.25rem;
+    color: var(--color-text-muted);
     white-space: nowrap;
-    background: var(--color-bg);
-    border-radius: var(--radius-full);
+    background: var(--color-sunken);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+}
+
+.badge--info,
+.badge--success,
+.badge--warning,
+.badge--error {
+    border-color: color-mix(in srgb, currentcolor 22%, transparent);
 }
 
 .badge--info {

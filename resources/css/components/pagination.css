@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--space-3);
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
 }
 
 .pagination__pages {
@@ -17,26 +17,30 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-inline-size: 2.25rem;
-    min-block-size: 2.25rem;
+    min-inline-size: var(--control-height-sm);
+    min-block-size: var(--control-height-sm);
     padding-inline: var(--space-2);
-    font-weight: 600;
-    color: var(--color-text);
-    background: var(--color-surface);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-muted);
+    border: 1px solid transparent;
     border-radius: var(--radius-md);
 
     &:hover:not(:disabled, [aria-current='page']) {
-        background: var(--color-sunken);
+        color: var(--color-text);
+        background: var(--color-hover);
     }
 
     &:disabled {
         cursor: not-allowed;
-        opacity: 0.5;
+        opacity: 0.4;
     }
 
     &[aria-current='page'] {
-        color: var(--color-on-primary);
-        background: var(--color-primary);
+        color: var(--color-text);
+        background: var(--color-surface);
+        border-color: var(--color-border);
     }
 }
 

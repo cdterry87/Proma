@@ -29,7 +29,7 @@
 
 .field__label {
     font-size: var(--text-sm);
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .field__required {
@@ -37,24 +37,40 @@
 }
 
 .field__hint {
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
     color: var(--color-text-muted);
 }
 
 .field__error {
-    font-size: var(--text-sm);
-    font-weight: 600;
+    font-size: var(--text-xs);
+    font-weight: 500;
     color: var(--color-error-text);
 }
 
 .input {
     inline-size: 100%;
-    min-block-size: 2.75rem;
-    padding: var(--space-2) var(--space-3);
+    min-block-size: var(--control-height);
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--text-md);
     color: var(--color-text);
     background: var(--color-surface);
     border: 1px solid var(--color-border-strong);
     border-radius: var(--radius-md);
+    transition: border-color var(--motion-fast);
+
+    /* iOS zooms the page when it focuses text smaller than 16px. */
+    @media (max-width: 40rem) {
+        font-size: 1rem;
+    }
+
+    &:hover:not(:disabled) {
+        border-color: var(--color-text-muted);
+    }
+
+    &:focus-visible {
+        border-color: var(--color-focus);
+        outline-offset: 0;
+    }
 
     &::placeholder {
         color: var(--color-text-muted);
@@ -62,7 +78,6 @@
 
     &[aria-invalid='true'] {
         border-color: var(--color-error-text);
-        border-width: 2px;
     }
 
     &:disabled {
@@ -72,7 +87,8 @@
 }
 
 textarea.input {
-    min-block-size: 7rem;
+    padding-block: var(--space-2);
+    min-block-size: 6rem;
     resize: vertical;
 }
 
@@ -80,21 +96,22 @@ textarea.input {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    min-block-size: 2.75rem;
+    min-block-size: 1.5rem;
+    font-size: var(--text-md);
     cursor: pointer;
 }
 
 .choice__input {
-    inline-size: 1.25rem;
-    block-size: 1.25rem;
+    inline-size: 1rem;
+    block-size: 1rem;
     accent-color: var(--color-primary);
 }
 
 .toggle {
     position: relative;
     flex-shrink: 0;
-    inline-size: 2.75rem;
-    block-size: 1.5rem;
+    inline-size: 2rem;
+    block-size: 1.125rem;
     background: var(--color-border-strong);
     border-radius: var(--radius-full);
     transition: background-color var(--motion-fast);
@@ -102,10 +119,10 @@ textarea.input {
     &::after {
         content: '';
         position: absolute;
-        inset-block-start: 0.1875rem;
-        inset-inline-start: 0.1875rem;
-        inline-size: 1.125rem;
-        block-size: 1.125rem;
+        inset-block-start: 0.125rem;
+        inset-inline-start: 0.125rem;
+        inline-size: 0.875rem;
+        block-size: 0.875rem;
         background: var(--color-surface);
         border-radius: var(--radius-full);
         transition: transform var(--motion-fast);
@@ -116,7 +133,7 @@ textarea.input {
     background: var(--color-primary);
 
     &::after {
-        transform: translateX(1.25rem);
+        transform: translateX(0.875rem);
     }
 }
 

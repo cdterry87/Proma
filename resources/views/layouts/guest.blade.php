@@ -10,7 +10,7 @@
         </div>
 
         <header class="guest__brand">
-            <a href="{{ url('/') }}" class="logo guest__logo">{{ config('app.name') }}</a>
+            <a href="{{ url('/') }}" class="logo guest__logo"><x-logo /></a>
             <p>Simplify your project management.</p>
         </header>
 

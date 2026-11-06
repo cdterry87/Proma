@@ -12,7 +12,7 @@ it('renders custom error pages with a security policy', function (int $status, s
 
     $response->assertStatus($status)
         ->assertSee($title)
-        ->assertSeeHtml('class="illustration"')
+        ->assertSeeHtml('class="error-page__code">'.$status)
         ->assertDontSeeHtml(' style=');
 
     expect($response->headers->get('Content-Security-Policy'))->toContain("default-src 'self'");

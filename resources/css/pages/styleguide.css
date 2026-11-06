@@ -16,8 +16,6 @@
 .swatch--surface { background: var(--color-surface); }
 .swatch--sunken { background: var(--color-sunken); }
 .swatch--primary { color: var(--color-on-primary); background: var(--color-primary); }
-.swatch--secondary { color: var(--color-on-secondary); background: var(--color-secondary); }
-.swatch--neutral { color: var(--color-on-neutral); background: var(--color-neutral); }
 .swatch--info { color: var(--color-on-info); background: var(--color-info); }
 .swatch--success { color: var(--color-on-success); background: var(--color-success); }
 .swatch--warning { color: var(--color-on-warning); background: var(--color-warning); }

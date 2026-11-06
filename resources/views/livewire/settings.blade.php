@@ -17,7 +17,7 @@
         @else
             <div class="setting">
                 <p class="setting__value">{{ $user->name }}</p>
-                <x-button size="sm" icon="edit" wire:click="edit('name')">Edit</x-button>
+                <x-button icon="edit" wire:click="edit('name')">Edit</x-button>
             </div>
         @endif
     </x-card>
@@ -34,7 +34,7 @@
         @else
             <div class="setting">
                 <p class="setting__value">{{ $user->title ?: 'Not set' }}</p>
-                <x-button size="sm" icon="edit" wire:click="edit('title')">Edit</x-button>
+                <x-button icon="edit" wire:click="edit('title')">Edit</x-button>
             </div>
         @endif
     </x-card>
@@ -53,7 +53,7 @@
             <div class="setting">
                 <p class="setting__value">{{ $user->email }}</p>
                 @can('changeCredentials', $user)
-                    <x-button size="sm" icon="edit" wire:click="edit('email')">Edit</x-button>
+                    <x-button icon="edit" wire:click="edit('email')">Edit</x-button>
                 @endcan
             </div>
         @endif
@@ -74,7 +74,7 @@
             <div class="setting">
                 <p class="setting__value">Changing your password signs out your other devices.</p>
                 @can('changeCredentials', $user)
-                    <x-button size="sm" icon="edit" wire:click="edit('password')">Edit</x-button>
+                    <x-button icon="edit" wire:click="edit('password')">Edit</x-button>
                 @endcan
             </div>
         @endif

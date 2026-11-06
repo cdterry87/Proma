@@ -5,7 +5,7 @@
 
     <div class="form__actions">
         <x-button variant="ghost" data-close-dialog>Cancel</x-button>
-        <x-button variant="danger" icon="delete" wire:click="{{ $action }}" data-close-dialog>
+        <x-button variant="danger-solid" wire:click="{{ $action }}" data-close-dialog>
             {{ $confirmLabel }}
         </x-button>
     </div>

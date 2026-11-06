@@ -31,10 +31,10 @@
                 <x-table.cell label="Status">
                     <x-badge :variant="$client->active ? 'success' : null">{{ $client->active ? 'Active' : 'Inactive' }}</x-badge>
                 </x-table.cell>
-                <x-table.cell label="Updated">{{ $client->updated_at->diffForHumans() }}</x-table.cell>
+                <x-table.cell label="Updated" class="table__cell--nowrap">{{ $client->updated_at->diffForHumans() }}</x-table.cell>
                 <x-table.cell>
                     <div class="table__actions">
-                        <x-button size="sm" icon="eye" :label="'View '.$client->name" :href="route('clients.show', $client)" wire:navigate />
+                        <x-button variant="ghost" size="sm" icon="eye" :label="'View '.$client->name" :href="route('clients.show', $client)" wire:navigate />
                     </div>
                 </x-table.cell>
             </x-table.expandable-row>

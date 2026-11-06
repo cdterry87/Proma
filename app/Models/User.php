@@ -90,6 +90,16 @@ class User extends Authenticatable
         return $this->hasMany(UserNotification::class);
     }
 
+    public function initials(): string
+    {
+        return Str::of($this->name)
+            ->explode(' ')
+            ->filter()
+            ->take(2)
+            ->map(fn (string $word): string => Str::upper(mb_substr($word, 0, 1)))
+            ->implode('');
+    }
+
     public static function normalizeEmail(string $email): string
     {
         return Str::lower(trim($email));

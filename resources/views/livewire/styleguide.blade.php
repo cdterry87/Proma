@@ -7,7 +7,7 @@
 
     <x-card title="Color" subtitle="Semantic tokens for the current theme">
         <div class="swatches">
-            @foreach (['bg', 'surface', 'sunken', 'primary', 'secondary', 'neutral', 'info', 'success', 'warning', 'error'] as $token)
+            @foreach (['bg', 'surface', 'sunken', 'primary', 'info', 'success', 'warning', 'error'] as $token)
                 <div class="swatch swatch--{{ $token }}">{{ $token }}</div>
             @endforeach
         </div>
@@ -27,7 +27,7 @@
     <x-card title="Buttons">
         <div class="cluster">
             <x-button variant="primary" icon="plus">Primary</x-button>
-            <x-button variant="secondary">Secondary</x-button>
+            <x-button>Default</x-button>
             <x-button>Neutral</x-button>
             <x-button variant="success" icon="success">Success</x-button>
             <x-button variant="danger" icon="delete">Danger</x-button>
@@ -36,7 +36,7 @@
         </div>
         <div class="cluster">
             <x-button variant="primary" size="sm" icon="edit">Small</x-button>
-            <x-button variant="secondary" size="sm" icon="eye" label="View" />
+            <x-button variant="ghost" size="sm" icon="eye" label="View" />
             <x-button variant="danger" size="sm" icon="delete" label="Delete" />
             <x-button variant="ghost" icon="search" label="Search" />
             <x-button variant="primary" href="#main">Link button</x-button>
@@ -113,8 +113,8 @@
                         </x-table.cell>
                         <x-table.cell>
                             <div class="table__actions">
-                                <x-button variant="secondary" size="sm" icon="eye" label="View" />
-                                <x-button variant="danger" size="sm" icon="delete" label="Delete" dialog="sample-delete" />
+                                <x-button variant="ghost" size="sm" icon="eye" label="View" />
+                                <x-button variant="danger-ghost" size="sm" icon="delete" label="Delete" dialog="sample-delete" />
                             </div>
                         </x-table.cell>
                     </x-table.row>
