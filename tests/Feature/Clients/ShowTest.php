@@ -19,7 +19,7 @@ beforeEach(function () {
 });
 
 it('renders the client with its contacts manager', function () {
-    $this->get("/clients/{$this->client->id}")
+    $this->get("/clients/{$this->client->uuid}")
         ->assertOk()
         ->assertSeeLivewire(Show::class)
         ->assertSeeLivewire(Manager::class)
@@ -30,11 +30,11 @@ it('renders the client with its contacts manager', function () {
 it('returns 404 for another user\'s client and for guests a redirect', function () {
     $other = Client::factory()->create();
 
-    $this->get("/clients/{$other->id}")->assertNotFound();
+    $this->get("/clients/{$other->uuid}")->assertNotFound();
 
     auth()->logout();
 
-    $this->get("/clients/{$other->id}")->assertRedirect('/login');
+    $this->get("/clients/{$other->uuid}")->assertRedirect('/login');
 });
 
 it('shows counts and related records', function () {

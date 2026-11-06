@@ -58,7 +58,7 @@ describe('list', function () {
         expect($names(Livewire::test(Index::class)->set('filters.priority', '3')))->toBe(['High'])
             ->and($names(Livewire::test(Index::class)->set('filters.resolved', 'yes')))->toBe(['Low done'])
             ->and($names(Livewire::test(Index::class)->set('filters.resolved', 'no')))->toBe(['Elsewhere', 'High'])
-            ->and($names(Livewire::test(Index::class)->set('filters.client', (string) $otherClient->id)))->toBe(['Elsewhere'])
+            ->and($names(Livewire::test(Index::class)->set('filters.client', $otherClient->uuid)))->toBe(['Elsewhere'])
             ->and($names(Livewire::test(Index::class)->set('filters.priority', '9')))->toBe(['Elsewhere', 'High', 'Low done']);
     });
 
@@ -178,7 +178,7 @@ describe('detail', function () {
     });
 
     it('renders with its tasks manager and a missing project', function () {
-        $this->get("/issues/{$this->issue->id}")
+        $this->get("/issues/{$this->issue->uuid}")
             ->assertOk()
             ->assertSeeLivewire(Show::class)
             ->assertSeeLivewire(Manager::class)
@@ -188,7 +188,7 @@ describe('detail', function () {
     });
 
     it('returns 404 for another user\'s issue', function () {
-        $this->get('/issues/'.Issue::factory()->create()->id)->assertNotFound();
+        $this->get('/issues/'.Issue::factory()->create()->uuid)->assertNotFound();
     });
 
     it('resolves and unresolves', function () {

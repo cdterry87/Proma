@@ -478,6 +478,8 @@ Migrations are fresh and follow Laravel naming. Foreign keys cascade as they do 
 | `user_notifications` | `read` boolean replaced by nullable `read_at`. Add nullable `subject_type`, `subject_id` so a notification can link to its record. The old `subject` text column becomes `title`, so that it does not collide with the `subject` relation. |
 | `notification_log` | **New**, replacing three dedupe tables: `user_id`, `subject_type`, `subject_id`, `event`, `created_at`, with a unique index on `(subject_type, subject_id, event)` |
 
+`clients`, `client_contacts`, `projects`, `issues`, `tasks`, and `user_notifications` each have a unique `uuid` column, generated when a record is created. Record URLs and URL filters use the uuid in place of the id, so `/clients/{client}` resolves by uuid and a numeric id returns a 404. The integer `id` stays the primary key, and foreign keys keep using it.
+
 Polymorphic relations use a `Relation::enforceMorphMap()` with short aliases (`client`, `project`, `issue`, `task`), so class renames never affect stored data. Database foreign keys cannot cover polymorphic columns, so deletion of children is handled in code (see 3.7).
 
 **Enums**

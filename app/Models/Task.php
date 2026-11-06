@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Concerns\HasPublicUuid;
 use App\Models\Concerns\IsNotificationSubject;
 use App\Models\Concerns\TracksCompletion;
 use Carbon\CarbonImmutable;
@@ -26,6 +27,7 @@ class Task extends Model
     /** @use HasFactory<TaskFactory> */
     use HasFactory;
 
+    use HasPublicUuid;
     use IsNotificationSubject;
     use TracksCompletion;
 

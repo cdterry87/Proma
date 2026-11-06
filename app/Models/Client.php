@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Concerns\BelongsToUser;
+use App\Models\Concerns\HasPublicUuid;
 use Database\Factories\ClientFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,6 +24,8 @@ class Client extends Model
 
     /** @use HasFactory<ClientFactory> */
     use HasFactory;
+
+    use HasPublicUuid;
 
     /**
      * @var array<string, bool>

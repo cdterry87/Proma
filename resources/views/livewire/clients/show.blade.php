@@ -22,7 +22,7 @@
     <div class="split">
         <x-card title="Incomplete projects" :subtitle="$incompleteProjectCount > $relatedLimit ? 'Nearest '.$relatedLimit.' by due date' : null">
             <x-slot:actions>
-                <a href="{{ route('projects.index', ['filters' => ['client' => $client->id]]) }}" wire:navigate>View all</a>
+                <a href="{{ route('projects.index', ['filters' => ['client' => $client->uuid]]) }}" wire:navigate>View all</a>
             </x-slot:actions>
             @if ($projects->isEmpty())
                 <p class="muted">No incomplete projects.</p>
@@ -40,7 +40,7 @@
 
         <x-card title="Unresolved issues" :subtitle="$unresolvedIssueCount > $relatedLimit ? 'Highest '.$relatedLimit.' by priority' : null">
             <x-slot:actions>
-                <a href="{{ route('issues.index', ['filters' => ['client' => $client->id]]) }}" wire:navigate>View all</a>
+                <a href="{{ route('issues.index', ['filters' => ['client' => $client->uuid]]) }}" wire:navigate>View all</a>
             </x-slot:actions>
             @if ($issues->isEmpty())
                 <p class="muted">No unresolved issues.</p>

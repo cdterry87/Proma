@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\IssuePriority;
 use App\Models\Concerns\BelongsToUser;
+use App\Models\Concerns\HasPublicUuid;
 use App\Models\Concerns\HasTasks;
 use App\Models\Concerns\IsNotificationSubject;
 use Carbon\CarbonImmutable;
@@ -28,6 +29,7 @@ class Issue extends Model
     /** @use HasFactory<IssueFactory> */
     use HasFactory;
 
+    use HasPublicUuid;
     use HasTasks;
     use IsNotificationSubject;
 

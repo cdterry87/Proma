@@ -93,11 +93,7 @@ class Index extends Component
             'started' => TableFilters::started(),
             'due' => TableFilters::pastDue(),
             'completed' => TableFilters::completed('completed_date', 'Status', 'Completed', 'Incomplete'),
-            'client' => new TableFilter(
-                'Client',
-                Client::query()->ownedBy($this->currentUser())->orderBy('name')->pluck('name', 'id')->all(),
-                fn (Builder $query, string $value) => $query->where('client_id', (int) $value),
-            ),
+            'client' => TableFilters::client($this->currentUser()),
         ];
     }
 

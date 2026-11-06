@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Concerns\BelongsToUser;
+use App\Models\Concerns\HasPublicUuid;
 use Database\Factories\UserNotificationFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
@@ -22,6 +23,8 @@ class UserNotification extends Model
 
     /** @use HasFactory<UserNotificationFactory> */
     use HasFactory;
+
+    use HasPublicUuid;
 
     /**
      * @return array<string, string>

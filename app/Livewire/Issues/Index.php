@@ -105,11 +105,7 @@ class Index extends Component
                 fn (Builder $query, string $value) => $query->where('priority', (int) $value),
             ),
             'resolved' => TableFilters::completed('resolved_date', 'Status', 'Resolved', 'Unresolved'),
-            'client' => new TableFilter(
-                'Client',
-                Client::query()->ownedBy($this->currentUser())->orderBy('name')->pluck('name', 'id')->all(),
-                fn (Builder $query, string $value) => $query->where('client_id', (int) $value),
-            ),
+            'client' => TableFilters::client($this->currentUser()),
         ];
     }
 

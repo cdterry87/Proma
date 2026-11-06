@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Support;
 
+use App\Models\Client;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -12,6 +14,18 @@ use Illuminate\Database\Eloquent\Builder;
  */
 final class TableFilters
 {
+    /**
+     * Keyed by uuid, because the chosen filter is kept in the URL.
+     */
+    public static function client(User $user): TableFilter
+    {
+        return new TableFilter(
+            'Client',
+            Client::query()->ownedBy($user)->orderBy('name')->pluck('name', 'uuid')->all(),
+            fn (Builder $query, string $value) => $query->whereRelation('client', 'uuid', $value),
+        );
+    }
+
     public static function started(): TableFilter
     {
         return new TableFilter(

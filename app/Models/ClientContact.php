@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Models\Concerns\HasPublicUuid;
 use Database\Factories\ClientContactFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,6 +16,8 @@ class ClientContact extends Model
 {
     /** @use HasFactory<ClientContactFactory> */
     use HasFactory;
+
+    use HasPublicUuid;
 
     /**
      * @var array<string, bool>

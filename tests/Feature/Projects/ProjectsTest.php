@@ -100,10 +100,10 @@ describe('list', function () {
         Project::factory()->forClient($otherClient)->create(['name' => 'B']);
         $foreign = Project::factory()->create(['name' => 'Foreign']);
 
-        $this->get('/projects?filters[client]='.$this->client->id)->assertSee('A')->assertDontSee('Foreign');
+        $this->get('/projects?filters[client]='.$this->client->uuid)->assertSee('A')->assertDontSee('Foreign');
 
-        expect(projectNames(Livewire::test(Index::class)->set('filters.client', (string) $this->client->id)))->toBe(['A'])
-            ->and(projectNames(Livewire::test(Index::class)->set('filters.client', (string) $foreign->client_id)))->toBe(['A', 'B']);
+        expect(projectNames(Livewire::test(Index::class)->set('filters.client', $this->client->uuid)))->toBe(['A'])
+            ->and(projectNames(Livewire::test(Index::class)->set('filters.client', $foreign->client->uuid)))->toBe(['A', 'B']);
     });
 
     it('exports the filtered set', function () {
@@ -200,7 +200,7 @@ describe('detail', function () {
         Issue::factory()->forProject($this->project)->resolved()->create(['name' => 'Fixed issue']);
         Task::factory()->forProject($this->project)->completed()->create();
 
-        $this->get("/projects/{$this->project->id}")
+        $this->get("/projects/{$this->project->uuid}")
             ->assertOk()
             ->assertSeeLivewire(Show::class)
             ->assertSeeLivewire(Manager::class)
@@ -216,7 +216,7 @@ describe('detail', function () {
     });
 
     it('returns 404 for another user\'s project', function () {
-        $this->get('/projects/'.Project::factory()->create()->id)->assertNotFound();
+        $this->get('/projects/'.Project::factory()->create()->uuid)->assertNotFound();
     });
 
     it('updates details and completes without moving the date later', function () {

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Models\Concerns\BelongsToUser;
+use App\Models\Concerns\HasPublicUuid;
 use App\Models\Concerns\HasTasks;
 use App\Models\Concerns\IsNotificationSubject;
 use App\Models\Concerns\TracksCompletion;
@@ -29,6 +30,7 @@ class Project extends Model
     /** @use HasFactory<ProjectFactory> */
     use HasFactory;
 
+    use HasPublicUuid;
     use HasTasks;
     use IsNotificationSubject;
     use TracksCompletion;
