@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Livewire\Clients;
 
+use App\Livewire\Concerns\HasCurrentUser;
 use App\Livewire\Concerns\WithDataTable;
 use App\Livewire\Forms\ClientForm;
 use App\Models\Client;
-use App\Models\User;
 use App\Support\TableFilter;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -19,13 +18,14 @@ use Livewire\Component;
 #[Title('Clients')]
 class Index extends Component
 {
+    use HasCurrentUser;
     use WithDataTable;
 
     public ClientForm $form;
 
     public function save(): void
     {
-        $this->user()->clients()->create($this->form->validate());
+        $this->currentUser()->clients()->create($this->form->validate());
 
         $this->form->reset();
         $this->dispatch('close-dialog', name: 'client-form');
@@ -52,7 +52,7 @@ class Index extends Component
     protected function query(): Builder
     {
         return Client::query()
-            ->ownedBy($this->user())
+            ->ownedBy($this->currentUser())
             ->withCount([
                 'contacts',
                 'projects as incomplete_projects_count' => fn (Builder $query) => $query->whereNull('completed_date'),
@@ -105,11 +105,5 @@ class Index extends Component
     protected function exportName(): string
     {
         return 'clients';
-    }
-
-    private function user(): User
-    {
-        /** @var User */
-        return Auth::user();
     }
 }

@@ -49,6 +49,12 @@ class Show extends Component
         }
     }
 
+    #[On('contacts-changed')]
+    public function contactsChanged(): void
+    {
+        // Receiving the event is enough to render the new counts.
+    }
+
     public function delete(DeleteClient $deleteClient): void
     {
         Gate::authorize('delete', $this->client);

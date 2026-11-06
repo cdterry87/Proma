@@ -8,6 +8,7 @@ use App\Enums\IssuePriority;
 use App\Models\Concerns\BelongsToUser;
 use App\Models\Concerns\HasTasks;
 use App\Models\Concerns\IsNotificationSubject;
+use Carbon\CarbonImmutable;
 use Database\Factories\IssueFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
@@ -15,6 +16,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property IssuePriority $priority
+ * @property CarbonImmutable|null $resolved_date
+ */
 #[Fillable(['client_id', 'project_id', 'name', 'description', 'priority', 'resolved_date'])]
 class Issue extends Model
 {

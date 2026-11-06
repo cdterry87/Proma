@@ -21,13 +21,16 @@
 
     <div class="split">
         <x-card title="Incomplete projects" :subtitle="$incompleteProjectCount > $relatedLimit ? 'Nearest '.$relatedLimit.' by due date' : null">
+            <x-slot:actions>
+                <a href="{{ route('projects.index', ['filters' => ['client' => $client->id]]) }}" wire:navigate>View all</a>
+            </x-slot:actions>
             @if ($projects->isEmpty())
                 <p class="muted">No incomplete projects.</p>
             @else
                 <ul class="related-list" role="list">
                     @foreach ($projects as $project)
                         <li wire:key="project-{{ $project->id }}">
-                            <a href="{{ url('/projects/'.$project->id) }}" wire:navigate>{{ $project->name }}</a>
+                            <a href="{{ route('projects.show', $project) }}" wire:navigate>{{ $project->name }}</a>
                             <span class="muted">{{ $project->due_date ? 'Due '.\App\Support\DateFormatter::format($project->due_date) : 'No due date' }}</span>
                         </li>
                     @endforeach
@@ -36,13 +39,16 @@
         </x-card>
 
         <x-card title="Unresolved issues" :subtitle="$unresolvedIssueCount > $relatedLimit ? 'Highest '.$relatedLimit.' by priority' : null">
+            <x-slot:actions>
+                <a href="{{ route('issues.index', ['filters' => ['client' => $client->id]]) }}" wire:navigate>View all</a>
+            </x-slot:actions>
             @if ($issues->isEmpty())
                 <p class="muted">No unresolved issues.</p>
             @else
                 <ul class="related-list" role="list">
                     @foreach ($issues as $issue)
                         <li wire:key="issue-{{ $issue->id }}">
-                            <a href="{{ url('/issues/'.$issue->id) }}" wire:navigate>{{ $issue->name }}</a>
+                            <a href="{{ route('issues.show', $issue) }}" wire:navigate>{{ $issue->name }}</a>
                             <x-badge :variant="$issue->priority->badgeVariant()">{{ $issue->priority->label() }}</x-badge>
                         </li>
                     @endforeach

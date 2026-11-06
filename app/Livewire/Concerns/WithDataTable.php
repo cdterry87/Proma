@@ -59,6 +59,11 @@ trait WithDataTable
 
     abstract protected function defaultSort(): string;
 
+    protected function defaultDirection(): string
+    {
+        return 'asc';
+    }
+
     /**
      * @return array<string, Closure(mixed): (string|int|float|bool|null)>
      */
@@ -174,6 +179,10 @@ trait WithDataTable
 
     private function activeDirection(): string
     {
+        if ($this->sort === '' || ! in_array($this->sort, $this->sortColumns(), true)) {
+            return $this->defaultDirection();
+        }
+
         return $this->direction === 'desc' ? 'desc' : 'asc';
     }
 

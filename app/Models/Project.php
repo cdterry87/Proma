@@ -8,6 +8,7 @@ use App\Models\Concerns\BelongsToUser;
 use App\Models\Concerns\HasTasks;
 use App\Models\Concerns\IsNotificationSubject;
 use App\Models\Concerns\TracksCompletion;
+use Carbon\CarbonImmutable;
 use Database\Factories\ProjectFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,6 +16,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property CarbonImmutable|null $start_date
+ * @property CarbonImmutable|null $due_date
+ * @property CarbonImmutable|null $completed_date
+ */
 #[Fillable(['client_id', 'name', 'description', 'start_date', 'due_date', 'completed_date'])]
 class Project extends Model
 {

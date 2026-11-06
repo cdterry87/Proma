@@ -79,6 +79,7 @@ class Manager extends Component
 
         $this->resetForm();
         $this->dispatch('close-dialog', name: 'contact-form');
+        $this->dispatch('contacts-changed');
         $this->dispatch('toast', type: 'success', message: $message);
     }
 
@@ -107,6 +108,7 @@ class Manager extends Component
 
         $this->contact($this->deletingId)->delete();
         $this->reset('deletingId', 'deletingName');
+        $this->dispatch('contacts-changed');
         $this->dispatch('toast', type: 'success', message: 'Contact deleted.');
     }
 
