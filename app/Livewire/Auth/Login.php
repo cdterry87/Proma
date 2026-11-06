@@ -48,6 +48,11 @@ class Login extends Component
         RateLimiter::clear($key);
         session()->regenerate();
 
+        // The nightly reset removes the records a demo visitor's old links point to.
+        if (Auth::user()?->is_demo) {
+            session()->forget('url.intended');
+        }
+
         $this->redirectIntended(route('dashboard'));
     }
 

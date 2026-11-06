@@ -7,6 +7,7 @@ namespace App\Jobs;
 use App\Enums\NotificationEvent;
 use App\Models\Project;
 use App\Models\Task;
+use App\Models\User;
 use App\Support\DateFormatter;
 use App\Support\Notifier;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,6 +20,11 @@ use Illuminate\Support\Collection;
 class SendTaskNotifications
 {
     use Dispatchable;
+
+    /**
+     * @param  User|null  $user  Limits the run to one user's records.
+     */
+    public function __construct(private readonly ?User $user = null) {}
 
     public function handle(Notifier $notifier): void
     {
@@ -66,6 +72,7 @@ class SendTaskNotifications
     {
         return Task::query()
             ->where('taskable_type', (new Project)->getMorphClass())
+            ->when($this->user, fn ($query, User $user) => $query->whereIn('taskable_id', $user->projects()->select('id')))
             ->whereDoesntHave('notificationLogs', fn ($query) => $query->where('event', $event))
             ->with('taskable.user');
     }

@@ -45,7 +45,7 @@ final class Notifier
             return true;
         });
 
-        if ($created) {
+        if ($created && $user->wantsEmailNotifications()) {
             rescue(fn () => $user->notify(new RecordNotification($title, $message, $subject->url())));
         }
 

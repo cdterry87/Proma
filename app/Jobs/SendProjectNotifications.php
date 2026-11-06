@@ -6,6 +6,7 @@ namespace App\Jobs;
 
 use App\Enums\NotificationEvent;
 use App\Models\Project;
+use App\Models\User;
 use App\Support\DateFormatter;
 use App\Support\Notifier;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -15,11 +16,17 @@ class SendProjectNotifications
 {
     use Dispatchable;
 
+    /**
+     * @param  User|null  $user  Limits the run to one user's records.
+     */
+    public function __construct(private readonly ?User $user = null) {}
+
     public function handle(Notifier $notifier): void
     {
         $days = (int) config('proma.due_reminder_days');
 
         Project::query()
+            ->when($this->user, fn ($query, User $user) => $query->ownedBy($user))
             ->dueWithin($days)
             ->whereDoesntHave('notificationLogs', fn ($query) => $query->where('event', NotificationEvent::ProjectDue))
             ->with('user')
@@ -36,6 +43,7 @@ class SendProjectNotifications
             });
 
         Project::query()
+            ->when($this->user, fn ($query, User $user) => $query->ownedBy($user))
             ->overdue()
             ->whereDoesntHave('notificationLogs', fn ($query) => $query->where('event', NotificationEvent::ProjectOverdue))
             ->with('user')

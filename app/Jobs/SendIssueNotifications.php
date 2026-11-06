@@ -6,6 +6,7 @@ namespace App\Jobs;
 
 use App\Enums\IssuePriority;
 use App\Models\Issue;
+use App\Models\User;
 use App\Support\Notifier;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Collection;
@@ -14,6 +15,11 @@ class SendIssueNotifications
 {
     use Dispatchable;
 
+    /**
+     * @param  User|null  $user  Limits the run to one user's records.
+     */
+    public function __construct(private readonly ?User $user = null) {}
+
     public function handle(Notifier $notifier): void
     {
         foreach (IssuePriority::cases() as $priority) {
@@ -21,6 +27,7 @@ class SendIssueNotifications
             $event = $priority->staleEvent();
 
             Issue::query()
+                ->when($this->user, fn ($query, User $user) => $query->ownedBy($user))
                 ->unresolved()
                 ->where('priority', $priority)
                 ->where('created_at', '<', now()->subDays($days))

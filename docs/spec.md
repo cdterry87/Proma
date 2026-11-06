@@ -612,7 +612,8 @@ Interface additions: each notification links to its record when one exists, `rea
 
 - `is_demo` defaults to `false`.
 - Demo users have `email_notifications` off.
-- `ResetDemoData` runs nightly in a transaction: it deletes demo data, resets the profile and password of each demo user to known values, and reseeds **each** demo user.
+- `ResetDemoData` runs nightly in a transaction: it deletes demo data, resets the profile and password of each demo user to known values, and reseeds **each** demo user. It then generates that user's notifications right away, so the account is complete before the nightly notification jobs run.
+- `DemoUserSeeder` creates the demo account from `PROMA_DEMO_EMAIL` and `PROMA_DEMO_PASSWORD`. It refuses to touch a real account with the same email. Run it on demand in production with `php artisan db:seed --class=DemoUserSeeder --force`.
 - It refuses to run on any user where `is_demo` is false, and a test proves real users' data survives.
 - A `DemoDataset` class creates a realistic set: about 8 clients with contacts, about 15 projects with tasks, and about 30 issues with tasks. These counts are much lower than the current maximum of 1,500 issues per night.
 - Dates are spread around today, so the dashboard and notifications have meaningful content.
