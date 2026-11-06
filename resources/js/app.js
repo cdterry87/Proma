@@ -1,3 +1,4 @@
+import chart from './alpine/chart';
 import dialog from './alpine/dialog';
 import disclosure from './alpine/disclosure';
 import shell from './alpine/shell';
@@ -6,6 +7,7 @@ import toasts from './alpine/toasts';
 import { registerDialogTriggers } from './dialog-triggers';
 
 document.addEventListener('alpine:init', () => {
+    window.Alpine.data('chart', chart);
     window.Alpine.data('dialog', dialog);
     window.Alpine.data('disclosure', disclosure);
     window.Alpine.data('shell', shell);

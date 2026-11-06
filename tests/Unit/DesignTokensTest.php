@@ -15,7 +15,7 @@ function themeTokens(): array
     ];
 
     return array_map(function (string $block): array {
-        preg_match_all('/--color-([a-z-]+):\s*(#[0-9a-f]{6});/', $block, $matches);
+        preg_match_all('/--color-([a-z0-9-]+):\s*(#[0-9a-f]{6});/', $block, $matches);
 
         return array_combine($matches[1], $matches[2]);
     }, $blocks);
@@ -74,7 +74,7 @@ it('meets 3:1 contrast for controls and focus indicators', function (string $the
     $tokens = themeTokens()[$theme];
 
     foreach (['bg', 'surface'] as $surface) {
-        foreach (['border-strong', 'focus'] as $control) {
+        foreach (['border-strong', 'focus', 'chart-1', 'chart-2'] as $control) {
             expect(contrastRatio($tokens[$control], $tokens[$surface]))
                 ->toBeGreaterThanOrEqual(3.0, "{$theme}: {$control} on {$surface}");
         }

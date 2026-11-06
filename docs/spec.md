@@ -565,10 +565,10 @@ Each table exists for: clients, contacts, projects, project tasks, issues, issue
 Blade components render server-side inline SVG and use Alpine only for tooltips. There is no chart library.
 
 - `<x-chart.line>` shows Projects vs Issues with two series.
-- `<x-chart.donut>` shows Issue Priorities.
+- `<x-chart.bars>` shows Issue Priorities. Horizontal bars replace the old pie, because close values are hard to compare as slices.
 - Both use design tokens, so they follow the theme automatically. They include a text alternative or data table for screen readers.
 
-**Grouping (fixes D-25, D-32):** Grouping happens in PHP or portable SQL. Bucket size follows the timeframe: weekly for 30 and 90 days, monthly for 180 and 365. Empty buckets are filled with zero so that lines stay continuous. Each chart shows its own empty state based on its own data.
+**Grouping (fixes D-25, D-32):** Grouping happens in PHP or portable SQL. Bucket size follows the timeframe: weekly for 30 and 90 days, monthly for 180 and 365. Empty buckets are filled with zero so that lines stay continuous. Each chart shows its own empty state based on its own data. Buckets are aligned to the end of the timeframe, and a partial first or last bucket shows its exact date range in the tooltip.
 
 ### 3.10 Dashboard
 
@@ -577,6 +577,7 @@ The same sections as section 1.6, with these changes:
 - All queries live in one `DashboardMetrics` class, tested on its own.
 - The timeframe is allowlisted to 30, 90, 180, and 365, and stored with `#[Url]`.
 - "Incomplete Projects" sorts by soonest due date first, with undated projects last (fixes D-26).
+- A stat tile with an empty prior period says "No prior data" instead of showing 0%, which would read as no change.
 - Percent change displays "No prior data" when the prior period is empty, rather than `0% Change`.
 
 ### 3.11 Notifications
@@ -710,7 +711,7 @@ A self-hosted variable `woff2` of Inter for the interface, falling back to the s
 | Elements | `button`, `badge`, `card`, `stat`, `alert`, `timestamps`, `icon`, `logo` |
 | Overlay | `dialog`, `confirm-dialog` |
 | Data | `table`, `table.head`, `table.row`, `pagination` |
-| Charts | `chart.line`, `chart.donut` |
+| Charts | `chart.line`, `chart.bars` |
 
 Icons are one `<x-icon name="…">` component backed by SVG files. Only icons in use are ported, which removes leftovers such as `teams`, `users`, and `admin`.
 

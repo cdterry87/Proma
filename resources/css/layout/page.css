@@ -28,6 +28,7 @@
 
 .split {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-5);
 
     @media (min-width: 64rem) {
@@ -48,9 +49,13 @@
     font-size: var(--text-sm);
 
     a {
+        min-inline-size: 0;
+        overflow: hidden;
         font-weight: 500;
         color: var(--color-text);
         text-decoration: none;
+        text-overflow: ellipsis;
+        white-space: nowrap;
 
         &:hover {
             text-decoration: underline;
@@ -59,10 +64,14 @@
 
     li {
         display: flex;
-        flex-wrap: wrap;
         align-items: center;
         justify-content: space-between;
-        gap: var(--space-1) var(--space-3);
+        gap: var(--space-3);
+    }
+
+    li > :not(a) {
+        flex-shrink: 0;
+        white-space: nowrap;
     }
 }
 
@@ -103,4 +112,16 @@
     a {
         color: inherit;
     }
+}
+
+.split--chart {
+    @media (min-width: 64rem) {
+        grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    }
+}
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+    gap: var(--space-4);
 }

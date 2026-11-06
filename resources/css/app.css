@@ -17,6 +17,7 @@
 @import './components/pagination.css' layer(components);
 @import './components/dialog.css' layer(components);
 @import './components/toast.css' layer(components);
+@import './components/chart.css' layer(components);
 
 @import './pages/guest.css' layer(pages);
 @import './pages/styleguide.css' layer(pages);
