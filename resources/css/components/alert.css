@@ -14,6 +14,11 @@
     }
 }
 
+.alert__body {
+    flex: 1;
+    min-inline-size: 0;
+}
+
 .alert--info {
     color: var(--color-info-text);
     background: var(--color-info-surface);

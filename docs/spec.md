@@ -6,7 +6,7 @@ Proma is a simple project manager for tracking clients, projects, and issues. Th
 |---|---|
 | **Status** | Draft with decisions recorded |
 | **Analyzed** | `master` at `3a9412b` (last commit 2024-08-10) |
-| **Last updated** | 2026-11-06 |
+| **Last updated** | 2026-11-07 |
 
 **How to read this document**
 
@@ -620,7 +620,7 @@ Interface additions: each notification links to its record when one exists, `rea
 - Dates are spread around today, so the dashboard and notifications have meaningful content.
 - `fakerphp/faker` moves to `require` so production can run this with `--no-dev`.
 - `UserPolicy` blocks demo users from changing their email, password, or notification preference.
-- The demo login box appears only when `config('proma.demo.enabled')` is true, and shows credentials from configuration. This is how the demo stays optional.
+- The demo login box appears only when `config('proma.demo.enabled')` is true and the demo credentials are set. This is how the demo stays optional. It notes that demo data resets daily and offers a button that signs in as the demo account, so the page never shows the credentials. The button only signs in a user with `is_demo` set, never a regular account that shares the email, and ignores the intended URL.
 
 ### 3.13 Authentication (fixes D-5, D-6, D-23)
 
@@ -874,7 +874,7 @@ Acceptance criteria for cutover, last checked on 2026-11-06.
 - [x] Login with remember-me and redirect to intended page
 - [x] Password reset by email
 - [x] Logout with confirmation message
-- [x] Demo credentials displayed on login when demo is enabled
+- [x] One-click demo sign in on login when demo is enabled (replaces displayed credentials)
 - [x] Edit name, email, title, and password separately
 - [x] Sidebar reflects profile changes without a reload
 

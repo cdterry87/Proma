@@ -1,10 +1,9 @@
 <div class="stack">
-    @if (config('proma.demo.enabled') && filled(config('proma.demo.email')) && filled(config('proma.demo.password')))
-        <x-alert variant="info">
-            <p>Try the demo with these credentials:</p>
-            <p>Email: <strong>{{ config('proma.demo.email') }}</strong></p>
-            <p>Password: <strong>{{ config('proma.demo.password') }}</strong></p>
-            <p><small>All demo settings and data reset daily.</small></p>
+    @if ($this->demo)
+        <x-alert variant="info" class="demo-notice">
+            <h2 class="demo-notice__title">Try the demo</h2>
+            <p>Note: the demo data resets daily.</p>
+            <x-button block wire:click="loginAsDemo" wire:loading.attr="disabled">Sign in as the demo user</x-button>
         </x-alert>
     @endif
 

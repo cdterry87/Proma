@@ -59,7 +59,7 @@ Password reset emails are queued, so a queue worker must be running. `sail compo
 
 ## Demo mode
 
-Demo mode shows sign-in details on the login page and creates an account whose data is rebuilt every night. Set these in `.env`:
+Demo mode creates an account whose data is rebuilt every night, and adds a "Try the demo" button to the login page that signs visitors in to it without showing the credentials. Set these in `.env`:
 
 ```dotenv
 PROMA_DEMO_ENABLED=true

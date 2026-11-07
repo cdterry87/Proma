@@ -9,5 +9,5 @@
     {{ $attributes->class(['alert', 'alert--'.$variant]) }}
 >
     <x-icon :name="$icons[$variant]" />
-    <div>{{ $slot }}</div>
+    <div class="alert__body">{{ $slot }}</div>
 </div>
