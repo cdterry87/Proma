@@ -630,7 +630,7 @@ Interface additions: each notification links to its record when one exists, `rea
 - Login is rate limited by email and IP to 5 attempts per minute, and by IP alone to 20 failed attempts per minute, with a generic failure message.
 - The session is regenerated on login and the session and CSRF token are invalidated on logout. Logout requires `auth`.
 - Application routes use `auth` only. `auth:sanctum` and `verified` are removed.
-- `php artisan proma:user:create` creates a real user with a prompted password, replacing the hardcoded seeder account (fixes D-8).
+- `php artisan user:create` creates a real user with a prompted password, replacing the hardcoded seeder account (fixes D-8).
 - Seeders contain only demo data, and only run in non-production or on demand.
 - Password reset (new) uses Laravel's password broker with custom pages under `guest` middleware. Requests are throttled, the response never reveals whether an email exists, and demo accounts cannot reset.
 - The reset notification is queued, so response time does not reveal whether an email exists, and encrypted, because its payload holds the plain token. Sending it needs a queue worker.

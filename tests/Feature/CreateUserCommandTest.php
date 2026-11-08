@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 it('creates a real user with a prompted password', function () {
-    $this->artisan('proma:user:create')
+    $this->artisan('user:create')
         ->expectsQuestion('Name', 'Ada')
         ->expectsQuestion('Email', 'Ada@Example.com')
         ->expectsQuestion('Password', 'a-new-password')

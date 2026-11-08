@@ -9,7 +9,7 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Seeders hold demo data only. Create real users with proma:user:create.
+     * Seeders hold demo data only. Create real users with user:create.
      */
     public function run(): void
     {

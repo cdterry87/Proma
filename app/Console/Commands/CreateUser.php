@@ -17,7 +17,7 @@ class CreateUser extends Command
     /**
      * @var string
      */
-    protected $signature = 'proma:user:create';
+    protected $signature = 'user:create';
 
     /**
      * @var string

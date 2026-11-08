@@ -50,7 +50,7 @@ This starts Vite with hot reloading, the queue worker, and a log viewer. Stop th
 Registration is closed. Create a user with a prompted password:
 
 ```bash
-./vendor/bin/sail artisan proma:user:create
+./vendor/bin/sail artisan user:create
 ```
 
 ## Email
