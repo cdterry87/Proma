@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Livewire\Tasks;
 
+use App\Enums\DemoRecord;
+use App\Livewire\Concerns\LimitsDemoRecords;
 use App\Livewire\Concerns\WithDataTable;
 use App\Livewire\Forms\TaskForm;
 use App\Models\Issue;
@@ -23,6 +25,7 @@ use Livewire\Component;
  */
 class Manager extends Component
 {
+    use LimitsDemoRecords;
     use WithDataTable;
 
     #[Locked]
@@ -72,6 +75,10 @@ class Manager extends Component
 
     public function save(): void
     {
+        if ($this->editingUuid === null && $this->demoLimitReached(DemoRecord::Task)) {
+            return;
+        }
+
         if ($this->editingUuid === null) {
             $this->taskable->tasks()->create($this->form->values($this->withDates()));
         } else {

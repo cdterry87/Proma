@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Livewire;
 
+use App\Livewire\Concerns\RateLimitsAttempts;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -17,6 +20,8 @@ use Livewire\Component;
 #[Title('Settings')]
 class Settings extends Component
 {
+    use RateLimitsAttempts;
+
     private const array EDITABLE = ['name', 'email', 'title', 'password'];
 
     public ?string $editing = null;
@@ -88,9 +93,8 @@ class Settings extends Component
 
         $this->email = User::normalizeEmail($this->email);
 
-        $validated = $this->validate([
+        $validated = $this->validateWithCurrentPassword([
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user)],
-            'current_password' => ['required', 'current_password'],
         ]);
 
         $this->saveProfile(['email' => $validated['email']], 'Email updated.');
@@ -102,8 +106,7 @@ class Settings extends Component
 
         Gate::authorize('changeCredentials', $user);
 
-        $validated = $this->validate([
-            'current_password' => ['required', 'current_password'],
+        $validated = $this->validateWithCurrentPassword([
             'password' => ['required', 'string', 'confirmed', Password::defaults()],
         ]);
 
@@ -133,6 +136,30 @@ class Settings extends Component
     public function render(): View
     {
         return view('livewire.settings', ['user' => $this->user()]);
+    }
+
+    /**
+     * Wrong guesses are limited, so a stolen session cannot be used to find
+     * the password and lock the owner out.
+     *
+     * @param  array<string, list<mixed>>  $rules
+     * @return array<string, mixed>
+     */
+    private function validateWithCurrentPassword(array $rules): array
+    {
+        $key = 'current-password|'.$this->user()->getAuthIdentifier();
+
+        $this->ensureIsNotRateLimited($key, 'current_password');
+
+        try {
+            return $this->validate([...$rules, 'current_password' => ['required', 'current_password']]);
+        } catch (ValidationException $exception) {
+            if (array_key_exists('current_password', $exception->errors()) && $this->current_password !== '') {
+                RateLimiter::hit($key);
+            }
+
+            throw $exception;
+        }
     }
 
     /**

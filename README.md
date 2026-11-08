@@ -67,6 +67,15 @@ PROMA_DEMO_EMAIL=demo@example.com
 PROMA_DEMO_PASSWORD=choose-a-password
 ```
 
+Demo accounts are capped at a fixed number of each record, set under `demo.limits` in `config/proma.php`, so visitors cannot fill the database before the nightly reset.
+
+Cloudflare Turnstile guards the demo button when both keys are set. `.env.example` has Cloudflare's test keys, which always pass. In production, create a widget in the Cloudflare dashboard for your domain and use its keys:
+
+```dotenv
+TURNSTILE_SITE_KEY=your-site-key
+TURNSTILE_SECRET_KEY=your-secret-key
+```
+
 Then create the account:
 
 ```bash
@@ -110,5 +119,7 @@ The project has no deployment pipeline yet. A server needs:
 - A supervised `php artisan queue:work`, which sends all email
 - Working SMTP settings, with `APP_ENV=production` and `APP_DEBUG=false`
 - `APP_TIMEZONE` set to the local timezone, because the nightly jobs and date comparisons use it
+- HTTPS, with `APP_URL` set to the public `https://` address. In production the session cookie is sent only over HTTPS, and requests for any other host get a 400.
+- Behind a load balancer or proxy, trusted proxies configured with `$middleware->trustProxies()` in `bootstrap/app.php`. Otherwise every visitor shares the proxy's IP address, and with it the sign in and password reset rate limits.
 
 On a production server, `db:seed` also needs `--force`.

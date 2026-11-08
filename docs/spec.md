@@ -620,19 +620,23 @@ Interface additions: each notification links to its record when one exists, `rea
 - Dates are spread around today, so the dashboard and notifications have meaningful content.
 - `fakerphp/faker` moves to `require` so production can run this with `--no-dev`.
 - `UserPolicy` blocks demo users from changing their email, password, or notification preference.
+- Anyone can sign in to the demo, so demo accounts are capped at 50 clients, 100 projects, 200 issues, 100 contacts, and 500 tasks (`proma.demo.limits`). At a cap, adding another record shows an error toast and saves nothing. Editing and deleting still work. Regular accounts have no caps.
 - The demo login box appears only when `config('proma.demo.enabled')` is true and the demo credentials are set. This is how the demo stays optional. It notes that demo data resets daily and offers a button that signs in as the demo account, so the page never shows the credentials. The button only signs in a user with `is_demo` set, never a regular account that shares the email, and ignores the intended URL.
+- When `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET_KEY` are set, a Cloudflare Turnstile widget sits above the demo button, and the button stays disabled until the widget passes. The server verifies the single-use token with Cloudflare before signing in, and refuses on a missing, rejected, or unverifiable token, so bots that find the button cannot get in. Without both keys, the button signs in directly. With Turnstile on, the Content Security Policy allows `https://challenges.cloudflare.com` in `script-src` and `frame-src` on every page, because `wire:navigate` keeps the first page's policy.
 
 ### 3.13 Authentication (fixes D-5, D-6, D-23)
 
 - A `Login` page under `guest` middleware; authenticated visitors are redirected home.
-- Login is rate limited by email and IP to 5 attempts per minute, with a generic failure message.
+- Login is rate limited by email and IP to 5 attempts per minute, and by IP alone to 20 failed attempts per minute, with a generic failure message.
 - The session is regenerated on login and the session and CSRF token are invalidated on logout. Logout requires `auth`.
 - Application routes use `auth` only. `auth:sanctum` and `verified` are removed.
 - `php artisan proma:user:create` creates a real user with a prompted password, replacing the hardcoded seeder account (fixes D-8).
 - Seeders contain only demo data, and only run in non-production or on demand.
 - Password reset (new) uses Laravel's password broker with custom pages under `guest` middleware. Requests are throttled, the response never reveals whether an email exists, and demo accounts cannot reset.
 - The reset notification is queued, so response time does not reveal whether an email exists, and encrypted, because its payload holds the plain token. Sending it needs a queue worker.
-- Changing a password ends the user's other sessions through `AuthenticateSession` (`auth.session`).
+- Changing a password ends the user's other sessions through `AuthenticateSession` (`auth.session`). Livewire registers it as persistent middleware, so an ended session cannot keep running Livewire actions without loading a page.
+- Settings limits wrong current-password guesses to 5 per minute per user.
+- The Livewire update endpoint is throttled to 180 requests per minute per user, or per IP for guests, and accepts at most 10 calls and 20 components per request.
 - The login page background is custom CSS or SVG using the palette. The video is removed.
 
 Baseline for any deployment: `APP_DEBUG=false`, secure session cookies, and security headers including a Content Security Policy compatible with Livewire and Alpine. Phase 1 tested this in a browser: the application runs on Livewire's CSP-safe build (`csp_safe` in `config/livewire.php`) with a nonce-based policy and no `unsafe-inline` or `unsafe-eval`. This has three consequences:
@@ -640,6 +644,8 @@ Baseline for any deployment: `APP_DEBUG=false`, secure session cookies, and secu
 - Alpine logic lives in registered `Alpine.data()` components, with simple expressions in templates.
 - Server-rendered HTML must not use `style` attributes.
 - Livewire's navigation progress bar is disabled, because its styles have no nonce.
+
+`AddSecurityHeaders` also sends `Permissions-Policy`, `Cross-Origin-Opener-Policy`, and HSTS on HTTPS requests, and removes `X-Powered-By`. In production, session cookies default to secure, and only the `APP_URL` host and its subdomains are trusted, so a forged `Host` header cannot shape generated links. The local disk does not serve files, because there are no uploads.
 
 `AddSecurityHeaders` is global middleware, so responses produced outside the `web` group, such as route 404s and maintenance 503s, also carry these headers.
 

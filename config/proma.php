@@ -31,7 +31,9 @@ return [
     | Demo
     |--------------------------------------------------------------------------
     |
-    | The login page only shows these credentials when the demo is enabled.
+    | The login page only offers the demo account when the demo is enabled.
+    | Limits cap how many of each record a demo account can hold, since
+    | anyone can sign in to it.
     |
     */
 
@@ -39,6 +41,13 @@ return [
         'enabled' => (bool) env('PROMA_DEMO_ENABLED', false),
         'email' => env('PROMA_DEMO_EMAIL'),
         'password' => env('PROMA_DEMO_PASSWORD'),
+        'limits' => [
+            'clients' => 50,
+            'projects' => 100,
+            'issues' => 200,
+            'contacts' => 100,
+            'tasks' => 500,
+        ],
     ],
 
 ];

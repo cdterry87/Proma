@@ -1,4 +1,5 @@
 import chart from './alpine/chart';
+import demoLogin from './alpine/demo-login';
 import dialog from './alpine/dialog';
 import disclosure from './alpine/disclosure';
 import shell from './alpine/shell';
@@ -9,6 +10,7 @@ import { registerFocusManagement } from './focus';
 
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('chart', chart);
+    window.Alpine.data('demoLogin', demoLogin);
     window.Alpine.data('dialog', dialog);
     window.Alpine.data('disclosure', disclosure);
     window.Alpine.data('shell', shell);

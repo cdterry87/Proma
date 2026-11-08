@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Livewire\Issues;
 
+use App\Enums\DemoRecord;
 use App\Enums\IssuePriority;
+use App\Livewire\Concerns\LimitsDemoRecords;
 use App\Livewire\Concerns\SelectsOwnedRecords;
 use App\Livewire\Concerns\WithDataTable;
 use App\Livewire\Forms\IssueForm;
@@ -22,6 +24,7 @@ use Livewire\Component;
 #[Title('Issues')]
 class Index extends Component
 {
+    use LimitsDemoRecords;
     use SelectsOwnedRecords;
     use WithDataTable;
 
@@ -34,6 +37,10 @@ class Index extends Component
 
     public function save(): void
     {
+        if ($this->demoLimitReached(DemoRecord::Issue)) {
+            return;
+        }
+
         $this->currentUser()->issues()->create($this->form->values());
 
         $this->form->reset();

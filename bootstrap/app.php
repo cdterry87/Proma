@@ -16,6 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->prepend(AddSecurityHeaders::class);
+
+        // Only the APP_URL host and its subdomains. Outside local development
+        // and tests, a forged Host header gets a 400 instead of links built on it.
+        $middleware->trustHosts();
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

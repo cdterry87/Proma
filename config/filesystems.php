@@ -35,7 +35,8 @@ return [
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
-            'serve' => true,
+            // File uploads are out of scope, so nothing is served from storage.
+            'serve' => false,
             'throw' => false,
             'report' => false,
         ],

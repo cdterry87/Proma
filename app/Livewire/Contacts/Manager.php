@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Livewire\Contacts;
 
+use App\Enums\DemoRecord;
+use App\Livewire\Concerns\LimitsDemoRecords;
 use App\Livewire\Concerns\WithDataTable;
 use App\Livewire\Forms\ContactForm;
 use App\Models\Client;
@@ -18,6 +20,7 @@ use Livewire\Component;
 
 class Manager extends Component
 {
+    use LimitsDemoRecords;
     use WithDataTable;
 
     #[Locked]
@@ -67,6 +70,10 @@ class Manager extends Component
 
     public function save(): void
     {
+        if ($this->editingUuid === null && $this->demoLimitReached(DemoRecord::Contact)) {
+            return;
+        }
+
         $values = $this->form->values();
 
         if ($this->editingUuid === null) {

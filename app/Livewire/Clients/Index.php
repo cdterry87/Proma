@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Livewire\Clients;
 
+use App\Enums\DemoRecord;
 use App\Livewire\Concerns\HasCurrentUser;
+use App\Livewire\Concerns\LimitsDemoRecords;
 use App\Livewire\Concerns\WithDataTable;
 use App\Livewire\Forms\ClientForm;
 use App\Models\Client;
@@ -19,12 +21,17 @@ use Livewire\Component;
 class Index extends Component
 {
     use HasCurrentUser;
+    use LimitsDemoRecords;
     use WithDataTable;
 
     public ClientForm $form;
 
     public function save(): void
     {
+        if ($this->demoLimitReached(DemoRecord::Client)) {
+            return;
+        }
+
         $this->currentUser()->clients()->create($this->form->validate());
 
         $this->form->reset();

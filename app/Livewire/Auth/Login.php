@@ -6,6 +6,7 @@ namespace App\Livewire\Auth;
 
 use App\Livewire\Concerns\RateLimitsAttempts;
 use App\Models\User;
+use App\Support\Turnstile;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
@@ -20,6 +21,8 @@ use Livewire\Component;
 class Login extends Component
 {
     use RateLimitsAttempts;
+
+    private const int MAX_ATTEMPTS_PER_IP = 20;
 
     public string $email = '';
 
@@ -39,11 +42,19 @@ class Login extends Component
     }
 
     /**
-     * Sign in as the demo account without typing its credentials.
+     * Sign in as the demo account without typing its credentials. With
+     * Turnstile on, the token from its widget must pass first, so bots that
+     * find the button cannot get in.
      */
-    public function loginAsDemo(): void
+    public function loginAsDemo(Turnstile $turnstile, string $token = ''): void
     {
         abort_unless($this->demo(), 404);
+
+        if (Turnstile::enabled() && ! $turnstile->verify($token, request()->ip())) {
+            $this->dispatch('toast', type: 'error', message: 'We could not verify that you are a person. Try again.');
+
+            return;
+        }
 
         $user = User::query()
             ->where('email', User::normalizeEmail((string) config('proma.demo.email')))
@@ -73,10 +84,15 @@ class Login extends Component
         $email = User::normalizeEmail($this->email);
         $key = 'login|'.$email.'|'.request()->ip();
 
+        // One address trying many accounts, whatever the email.
+        $ipKey = 'login|'.request()->ip();
+
         $this->ensureIsNotRateLimited($key, 'email');
+        $this->ensureIsNotRateLimited($ipKey, 'email', self::MAX_ATTEMPTS_PER_IP);
 
         if (! Auth::attempt(['email' => $email, 'password' => $this->password], $this->remember)) {
             RateLimiter::hit($key);
+            RateLimiter::hit($ipKey);
             $this->reset('password');
 
             throw ValidationException::withMessages(['email' => 'Email or password is incorrect.']);
@@ -95,6 +111,6 @@ class Login extends Component
 
     public function render(): View
     {
-        return view('livewire.auth.login');
+        return view('livewire.auth.login', ['turnstileSiteKey' => Turnstile::siteKey()]);
     }
 }

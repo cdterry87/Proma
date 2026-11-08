@@ -18,9 +18,9 @@ trait RateLimitsAttempts
     /**
      * @throws ValidationException
      */
-    private function ensureIsNotRateLimited(string $key, string $field): void
+    private function ensureIsNotRateLimited(string $key, string $field, int $maxAttempts = self::MAX_ATTEMPTS_PER_MINUTE): void
     {
-        if (! RateLimiter::tooManyAttempts($key, self::MAX_ATTEMPTS_PER_MINUTE)) {
+        if (! RateLimiter::tooManyAttempts($key, $maxAttempts)) {
             return;
         }
 

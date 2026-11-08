@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Livewire\Projects;
 
+use App\Enums\DemoRecord;
+use App\Livewire\Concerns\LimitsDemoRecords;
 use App\Livewire\Concerns\SelectsOwnedRecords;
 use App\Livewire\Concerns\WithDataTable;
 use App\Livewire\Forms\ProjectForm;
@@ -20,6 +22,7 @@ use Livewire\Component;
 #[Title('Projects')]
 class Index extends Component
 {
+    use LimitsDemoRecords;
     use SelectsOwnedRecords;
     use WithDataTable;
 
@@ -27,6 +30,10 @@ class Index extends Component
 
     public function save(): void
     {
+        if ($this->demoLimitReached(DemoRecord::Project)) {
+            return;
+        }
+
         $this->currentUser()->projects()->create($this->form->values());
 
         $this->form->reset();

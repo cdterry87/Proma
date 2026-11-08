@@ -3,7 +3,15 @@
         <x-alert variant="info" class="demo-notice">
             <h2 class="demo-notice__title">Try the demo</h2>
             <p>Note: the demo data resets daily.</p>
-            <x-button block wire:click="loginAsDemo" wire:loading.attr="disabled">Sign in as the demo user</x-button>
+            @if ($turnstileSiteKey)
+                <div class="demo-notice__verify" x-data="demoLogin" data-sitekey="{{ $turnstileSiteKey }}">
+                    <div class="demo-notice__challenge" x-ref="challenge" wire:ignore></div>
+                    <p class="demo-notice__error" role="status" x-show="failed" x-cloak>The check that you are a person did not load. Reload the page to try again.</p>
+                    <x-button block x-on:click="signIn" x-bind:disabled="waiting">Sign in as the demo user</x-button>
+                </div>
+            @else
+                <x-button block wire:click="loginAsDemo" wire:loading.attr="disabled">Sign in as the demo user</x-button>
+            @endif
         </x-alert>
     @endif
 

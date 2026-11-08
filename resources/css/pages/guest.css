@@ -126,3 +126,18 @@
 .demo-notice .btn {
     margin-block-start: var(--space-1);
 }
+
+.demo-notice__verify {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+/* Turnstile's widget is 65px tall. Holding the space stops the page jumping. */
+.demo-notice__challenge {
+    min-block-size: 65px;
+}
+
+.demo-notice__error {
+    font-weight: 500;
+}
